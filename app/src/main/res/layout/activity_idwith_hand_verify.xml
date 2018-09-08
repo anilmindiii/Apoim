@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/select_contact_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/bg_register_for_all_screens"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:orientation="vertical">
+
+
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_120sdp"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_gravity="center">
+
+                    <com.github.siyamed.shapeimageview.CircularImageView
+                        android:id="@+id/profileImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ico_user_placeholder"
+                        app:siRadius="@dimen/_10sdp"
+                        app:siBorderColor="@color/colorBlack"
+                        app:siBorderWidth="1dp"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/iv_status_icon"
+                        android:layout_width="@dimen/_26sdp"
+                        android:layout_height="@dimen/_26sdp"
+                        android:src="@drawable/ico_camera"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_10sdp" />
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Status"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:fontFamily="@font/nunito_regular"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_20sdp" />
+
+                    <TextView
+                        android:id="@+id/tv_statust_txt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Approved"
+                        android:textColor="@color/colorgreen"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:fontFamily="@font/nunito_regular"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_5sdp" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_submit_button"
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:background="@drawable/rounded_corner"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:fontFamily="@font/josefinsans_semibold"
+                    android:text="Submit"
+                    android:gravity="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_Large_Size"
+                    android:visibility="visible"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+</RelativeLayout>

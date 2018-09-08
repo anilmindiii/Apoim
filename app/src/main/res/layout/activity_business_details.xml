@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apoim.activity.business.BusinessDetailsActivity">
+
+
+    <ImageView
+        android:id="@+id/iv_buss_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_250sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder_chat_image" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_250sdp"
+        android:background="@drawable/transparent_shadow" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="false"
+            android:paddingTop="@dimen/_230sdp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:elevation="@dimen/_5sdp"
+                app:cardCornerRadius="@dimen/_8sdp"
+                app:cardElevation="@dimen/_5sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_buss_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_1sdp"
+                                android:layout_marginRight="@dimen/_1sdp"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/nunito_bold"
+                                android:gravity="left"
+                                android:maxLines="2"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/text_Medium_Size" />
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_240sdp"
+                                android:layout_margin="@dimen/_8sdp"
+                                android:elevation="@dimen/_8sdp"
+                                app:cardCornerRadius="@dimen/_8sdp"
+                                app:cardElevation="@dimen/_2sdp">
+
+                                <com.github.siyamed.shapeimageview.RoundedImageView
+                                    android:id="@+id/iv_map_img"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/placeholder_chat_image"
+                                    app:siRadius="@dimen/_5sdp" />
+
+                                <ImageView
+                                    android:layout_width="@dimen/_37sdp"
+                                    android:layout_height="@dimen/_37sdp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/business_map" />
+
+                            </android.support.v7.widget.CardView>
+
+                            <android.support.v7.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/_40sdp"
+                                android:layout_marginLeft="@dimen/_22sdp"
+                                android:layout_marginRight="@dimen/_22sdp"
+                                android:layout_marginTop="@dimen/_220sdp"
+                                android:elevation="@dimen/_2sdp"
+                                android:minHeight="@dimen/_65sdp"
+                                app:cardCornerRadius="@dimen/_8sdp"
+                                app:cardElevation="@dimen/_2sdp">
+
+                                <TextView
+                                    android:id="@+id/tv_buss_address"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/nunito_regular"
+                                    android:gravity="center"
+                                    android:padding="@dimen/_5sdp"
+                                    android:textColor="@color/colorBlack"
+                                    android:textSize="@dimen/text_Small_Size" />
+
+
+                            </android.support.v7.widget.CardView>
+
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+
+            </android.support.v7.widget.CardView>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_alignParentBottom="true"
+                android:elevation="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:background="@color/colorWhite" />
+
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/main_view"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:animateLayoutChanges="true">
+
+        <TextView
+            android:id="@+id/profile_action_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:gravity="center"
+            android:text="Bussiness Details"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_18ssp" />
+
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:src="@drawable/ico_back"
+            android:tint="@color/colorWhite" />
+
+
+    </RelativeLayout>
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:elevation="@dimen/_5sdp"
+        android:src="@drawable/app_icon"
+        android:visibility="gone" />
+
+
+</RelativeLayout>

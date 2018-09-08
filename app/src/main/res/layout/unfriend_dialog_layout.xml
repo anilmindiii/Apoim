@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="@dimen/_2sdp"
+        app:cardCornerRadius="@dimen/_5sdp"
+        android:layout_margin="@dimen/_10sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_180sdp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:src="@drawable/ico_alert_unfriend"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_70sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_dialog_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/are_you_sure_want_to_unfriend"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/text_Medium_Size"
+                    android:gravity="center"
+                    android:fontFamily="@font/nunito_regular"
+                    android:textColor="@color/colorBlack"/>
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="john smith"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/text_Medium_Size"
+                    android:fontFamily="@font/nunito_regular"
+                    android:textColor="@color/colorPrimary"/>
+
+
+            </LinearLayout>
+
+
+
+
+
+            <TextView
+                android:id="@+id/tv_yes"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="bottom"
+                android:textSize="@dimen/text_Medium_Size"
+                android:text="Yes"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/josefinsans_semibold"
+                android:background="@drawable/rounded_border_yellow_gb"
+                android:gravity="center"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+    <ImageView
+        android:id="@+id/iv_closeDialog"
+        android:layout_width="@dimen/_22sdp"
+        android:layout_height="@dimen/_22sdp"
+        android:scaleType="fitXY"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ico_close_popup_a_black"
+        android:elevation="@dimen/_3sdp"
+        android:background="@drawable/bg_circle"/>
+
+</RelativeLayout>

@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    tools:context="com.apoim.activity.SettingsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:animateLayoutChanges="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/header_bg">
+        <TextView
+            android:id="@+id/profile_action_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/settings_"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_18ssp" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_back"
+            android:tint="@color/colorPrimary"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"/>
+    </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Basic Settings"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorBlack"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"/>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ly_edit_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/edit"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/edit_profile"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorGray"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ico_set_next_arrow"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ly_change_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/padlock"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/change_password"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorGray"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ico_set_next_arrow"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/bell"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/notifications"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorGray"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_notification_toggle"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:src="@drawable/ico_set_toggle_on"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ly_business_page"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/suitcase"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/bussiness_page"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorGray"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ico_set_next_arrow"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ly_verification"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/verificcation_settings"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Verification"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorGray"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ico_set_next_arrow"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Payment Settings"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorBlack"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"/>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ly_payment"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_bank"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/bank_info"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorGray"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ico_set_next_arrow"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/ly_subscription"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/subscription_settings"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/subscription"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorGray"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ico_set_next_arrow"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="About"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorBlack"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"/>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ly_about_us"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_info"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/about_us"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorGray"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ico_set_next_arrow"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ly_tnc"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/terms_settings"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/terms_and_condition"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorGray"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ico_set_next_arrow"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ly_privacy_policy"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/policy_settings"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/privacy_policy"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorGray"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/ico_set_next_arrow"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ly_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/logout"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/logout"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorBlack"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+
+
+    </LinearLayout>
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+</RelativeLayout>

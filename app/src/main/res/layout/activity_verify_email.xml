@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/select_contact_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/bg_register_for_all_screens"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/josefinsans_regular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/select_email_welcome_text"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_XXLarge_Size" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:orientation="horizontal">
+
+
+                    <EditText
+                        android:id="@+id/enter_contact_no"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_light"
+                        android:hint="@string/hint_email"
+                        android:imeOptions="actionDone"
+                        android:maxLines="1"
+                        android:inputType="textEmailAddress"
+                        android:textColorHint="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorBlack" />
+
+                <TextView
+                    android:id="@+id/enter_contact_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_50sdp"
+                    android:background="@drawable/bg_login_btn"
+                    android:fontFamily="@font/josefinsans_semibold"
+                    android:text="@string/continue_button"
+                    android:gravity="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_Large_Size" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+</RelativeLayout>

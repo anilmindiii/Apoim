@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/_2sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@color/colorWhite">
+
+        <TextView
+            android:id="@+id/add_interest_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:fontFamily="@font/nunito_regular"
+            android:padding="@dimen/_8sdp"
+            android:text="Invite Friends"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_Large_Size" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_interest_title"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:id="@+id/rl_invite_all"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ico_invite_friends"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_22sdp"
+                        android:text="Invite all friends"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/nunito_regular"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:layout_marginLeft="@dimen/_40sdp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_is_checked_all"
+                        android:layout_width="@dimen/_14sdp"
+                        android:layout_height="@dimen/_14sdp"
+                        android:src="@drawable/ico_not_unchecked"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/colorGray"/>
+            </RelativeLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_225sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:minHeight="@dimen/_100sdp"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+            <LinearLayout
+                android:id="@+id/ly_no_friend_found"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_200sdp"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_centerInParent="true"
+                android:visibility="gone">
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/text_XXLarge_Size"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="You have no friends"/>
+
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/create_event"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:gravity="center"
+                android:background="@drawable/bg_login_btn"
+                android:fontFamily="@font/josefinsans_semibold"
+                android:text="Create"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_Large_Size" />
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/cancel_popup"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/_1sdp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ico_close_popup_a_black" />
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

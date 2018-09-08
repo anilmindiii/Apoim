@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_10sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_days_status"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bg_google_plus_btn"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="@dimen/_5sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:textColor="@color/colorWhite"
+        android:backgroundTint="@color/colorGray"
+        android:textSize="@dimen/text_Medium_Size"
+        android:visibility="gone"
+        />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/other_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:layout_gravity="center"
+                android:text="Hello Anil Chourasiya"
+                android:gravity="center|left"
+                android:padding="@dimen/_7sdp"
+                android:layout_marginRight="@dimen/_35sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:textSize="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/rounded_primary_left_chat_border"/>
+
+
+        <RelativeLayout
+            android:id="@+id/ly_other_image_view"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_160sdp"
+            android:layout_marginRight="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+          >
+
+            <View
+                android:layout_width="@dimen/_160sdp"
+                android:layout_height="@dimen/_160sdp"
+                android:background="@drawable/rounded_primary_left_chat_border"/>
+
+            <com.github.siyamed.shapeimageview.RoundedImageView
+                android:id="@+id/iv_other_side_img"
+                android:layout_width="@dimen/_159sdp"
+                android:layout_height="@dimen/_159sdp"
+                android:src="@drawable/ico_user_placeholder"
+                app:siRadius="@dimen/_5sdp"
+                app:siBorderWidth="@dimen/_3sdp"
+                app:siBorderColor="@color/chatGray"
+                app:siSquare="true" />
+
+
+        </RelativeLayout>
+
+
+
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/other_date_time_"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="25/12/2017 800 pm"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:fontFamily="@font/nunito_regular"
+        android:layout_marginRight="@dimen/_50sdp"
+        android:layout_marginLeft="@dimen/_5sdp"/>
+
+</LinearLayout>

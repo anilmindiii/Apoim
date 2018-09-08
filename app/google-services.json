@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "839320525088",
+    "firebase_url": "https://appointment-1518611631450.firebaseio.com",
+    "project_id": "appointment-1518611631450",
+    "storage_bucket": "appointment-1518611631450.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839320525088:android:fde9f653dbe8a999",
+        "android_client_info": {
+          "package_name": "com.apoim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839320525088-2r9fr0l3tlpbkffcnfojn2gmnouegn21.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apoim",
+            "certificate_hash": "3c0c52ad03d1a6a106b9b432327849a85489aca0"
+          }
+        },
+        {
+          "client_id": "839320525088-psjufcdo0jsr545d5h2td086dku2cjqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIRG_XDTRXRqg4li4-XvnWhXuL3eh_wbQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

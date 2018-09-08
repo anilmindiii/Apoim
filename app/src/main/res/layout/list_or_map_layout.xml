@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/header_bg">
+
+        <ImageView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:src="@drawable/home_logo"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/iv_filter"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_9sdp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ico_filter"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/list_map_togle"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_9sdp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ico_map"
+            android:gravity="center" />
+
+    </RelativeLayout>
+
+   <FrameLayout
+       android:id="@+id/fragment_place_fragment"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+   </FrameLayout>
+
+
+
+
+
+</LinearLayout>

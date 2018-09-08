@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_35sdp"
+    android:layout_marginLeft="@dimen/_20sdp"
+    android:layout_marginRight="@dimen/_20sdp"
+    android:background="@null"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_education_adapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/education_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:gravity="left"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_Medium_Size" />
+
+        <ImageView
+            android:id="@+id/education_check_box"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ico_checked"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/education_view"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:background="@color/colorGray" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

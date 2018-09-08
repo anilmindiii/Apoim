@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/create_account_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/bg_register_for_all_screens"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_gravity="center">
+
+                <com.github.siyamed.shapeimageview.CircularImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_90sdp"
+                    android:src="@drawable/ico_user_placeholder"
+                    app:siRadius="@dimen/_10sdp"
+                    app:siBorderColor="@color/colorBlack"
+                    app:siBorderWidth="1dp"
+                    android:layout_gravity="center"/>
+
+                <ImageView
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:src="@drawable/ico_camera"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:layout_marginRight="@dimen/_5sdp"/>
+
+
+            </RelativeLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/select_contact_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/account_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@null"
+                    android:fontFamily="@font/nunito_light"
+                    android:hint="@string/hint_name"
+                    android:maxLength="255"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorGray"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:background="@color/colorBlack" />
+
+                <LinearLayout
+                    android:id="@+id/ly_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp">
+
+                    <EditText
+                        android:id="@+id/account_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_light"
+                        android:hint="@string/hint_email"
+                        android:maxLength="255"
+                        android:imeOptions="actionNext"
+                        android:inputType="text"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/colorGray"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@color/colorBlack" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ly_account_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp">
+
+                    <EditText
+                        android:id="@+id/account_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_light"
+                        android:hint="@string/hint_password"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/colorGray"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@color/colorBlack" />
+
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:id="@+id/account_birthday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:fontFamily="@font/nunito_light"
+                    android:hint="@string/hint_birthday"
+                    android:maxLines="1"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorGray"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:background="@color/colorBlack" />
+
+
+
+                <TextView
+                    android:id="@+id/create_account_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    android:background="@drawable/bg_login_btn"
+                    android:fontFamily="@font/josefinsans_semibold"
+                    android:text="@string/create_account_button"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/accept_continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/accept_continue"
+                    android:textColor="@color/colorAcceptContinue"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/terms_and_conditions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:gravity="center"
+                        android:text="@string/terms_and_condition"
+                        android:textColor="@color/colorBgButton"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <View
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:background="@color/colorPrimary" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+</RelativeLayout>

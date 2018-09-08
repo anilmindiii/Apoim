@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginLeft="@dimen/_10sdp"
+    android:layout_marginRight="@dimen/_10sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                app:civ_border_color="@color/mdtp_dark_gray"
+                app:civ_border_width="0.5dp"
+                android:src="@drawable/ico_user_placeholder"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/nunito_regular"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/text_Small_Size"
+                    android:textColor="@color/colorGray"/>
+
+                <TextView
+                    android:id="@+id/time_ago"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_regular"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:textSize="@dimen/text_very_Small_Size"
+                    android:textColor="@color/colorGray"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_isRead"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="@dimen/_10sdp"
+            android:src="@drawable/ico_current_red"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_10sdp"/>
+
+    </RelativeLayout>
+
+
+
+
+
+</android.support.v7.widget.CardView>

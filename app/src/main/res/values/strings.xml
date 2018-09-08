@@ -1,0 +1,576 @@
+<resources>
+    <string name="app_name">Apoim</string>
+
+    // Facebook Integration
+    <!-- <string name="facebook_app_id">1637562566323333</string>-->
+    <string name="facebook_app_id">464296957352010</string>
+
+    // Check Network Connection
+    <string name="alert_network_check">No internet connection</string>
+    <string name="alert_play_services_check">This device is not supported to play services.</string>
+
+    <string name="alert_api_fail">Something went wrong, please check after some time.</string>
+
+    // SelectMaleFemaleActivity
+    // Select Male Female Layout
+    <string name="select_male_female_welcome_text">You\'re...</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="trasnsgender">Transgender</string>
+
+
+    // Select Chat Date Layout
+    <string name="select_chat_date_welcome_text">You\'re here to...</string>
+    <string name="new_friends">Make new friends</string>
+
+    <string name="date">Date</string>
+
+    // Select Girl Guys Layout
+    <string name="select_girl_guys_welcome_text">You\'re here to date with...</string>
+    <string name="girl">Girl</string>
+
+
+    // Select Public Private Layout
+    <string name="select_public_private_welcome_text">Admit to receive invitations for event...</string>
+    <string name="s_public">Public</string>
+    <string name="s_private">Private</string>
+    <string name="s_both">Both</string>
+
+    <string name="or_text">OR</string>
+    <string name="continue_text">continue with</string>
+    <string name="facebook">Facebook</string>
+    <string name="google_plus">Gmail</string>
+    <string name="register_sign_in">Sign in</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="already_have_an_account">Already have an account?</string>
+
+    // Cropper
+    <!--Picker text-->
+    <string name="crop_image_activity_title">Crop Image</string>
+    <string name="crop_image_menu_rotate_left">Rotate counter clockwise</string>
+    <string name="crop_image_menu_rotate_right">Rotate</string>
+    <string name="crop_image_menu_crop">Crop</string>
+    <string name="pick_image_intent_chooser_title">Select source</string>
+    <string name="result_image_desc">crop result</string>
+    <string name="pick_image_intent_text">Choose an image</string>
+
+    // Select Contact Number Activity
+    <string name="select_email_welcome_text">Enter your email address we will send you confirmation code to verify email address</string>
+    <string name="select_contact_welcome_text">Enter your phone number we will send you confirmation code to verify phone number</string>
+    <string name="continue_button">Continue</string>
+    <string name="hint_mobile">Mobile number</string>
+    <string name="alert_mobile_null">Please enter mobile number for verification.</string>
+    <string name="alert_invalid_contact">Please enter valid mobile number.</string>
+    <string name="alert_otp_send_on_mobile">A OTP has been sent to your mobile number.</string>
+    <string name="alert_contact_already_registred">This mobile number is already registered.</string>
+    <string name="alert_contact_not_verified">This mobile number is not verified.</string>
+
+    // Confirmation Code Activity
+    <string name="confirm_code_welcome_text">We have sent you a confirmation code to validate your email address</string>
+    <string name="confirm_edit_hint">Enter confirmation code</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="confirm_button">Confirm</string>
+    <string name="alert_confirm_code_null">Please enter confirmation code to verify your phone number.</string>
+    <string name="alert_invalid_confirm_code">Please enter valid confirmation code.</string>
+    <string name="alert_mobile_verified_successfully">Your mobile number verified successfully .</string>
+    <string name="alert_resend_code_successfully">Confirmation code sent successfully.</string>
+
+    // Create Account Activity
+    <string name="hint_email">Email</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_birthday">Birthday</string>
+    <string name="register_buisness">Register Your Business</string>
+    <string name="update_buisness">Update Your Business</string>
+    <string name="create_account_button">Create account</string>
+    <string name="accept_continue">By continuing you accept our</string>
+    <string name="terms_and_condition">Terms and Conditions</string>
+
+    <string name="alert_email_null">Please enter email.</string>
+    <string name="alert_invalid_email">Please enter valid email.</string>
+    <string name="alert_name_null">Please enter name.</string>
+    <string name="alert_business_name_null">Please enter business name.</string>
+    <string name="alert_birthday_null">Please select birth date.</string>
+    <string name="alert_name_alphabets">Name field only accept alphabets.</string>
+
+    <string name="alert_password_sentto_email">Password has been sent to your entered email id.</string>
+
+    // Sign In Activity
+    <string name="hint_sign_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="sign_in_button">Sign in</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="create_account">Create account</string>
+
+    <string name="alert_facebook_already_login">Already registered with Facebook</string>
+    <string name="alert_gmail_already_login">Already registered with Gmail</string>
+
+    <string name="alert_password_null">Please enter password </string>
+    <string name="alert_invalid_password">Enter valid password</string>
+    <string name="password_should_be_atleast">Password should be at least 8 characters long</string>
+
+    <string name="alert_invalid_email_password">Incorrect email or password.</string>
+
+    //Alert Dialog for Registration
+    <string name="alert_registration_questioniare">Your gmail/facebook verification has been done, please complete the process to access the app.</string>
+    <string name="alert_registration_questioniare_facebook">Your facebook verification has been done, please complete the process to access the app.</string>
+    <string name="alert_registration_questioniare_gmail">Your gmail verification has been done, please complete the process to access the app.</string>
+    <string name="alert_Ok">Ok</string>
+    <string name="alert_header">Alert!</string>
+
+    // Forgot Password
+    <string name="forgot_action_bar">Forgot password</string>
+    <string name="forgot_welcome_text">Enter the email you used to set up your account.</string>
+    <string name="hint_forgot_email">Email</string>
+    <string name="forgot_submit_button">Submit</string>
+
+    // Profile Activity
+    <string name="profile_action_bar">Profile</string>
+    <string name="profile_skip">Skip</string>
+    <string name="profile_welcome_text">You need to set up your profile</string>
+
+    <string name="basic_info_text">Basic info</string>
+    <string name="profile_hint_name">Name</string>
+    <string name="profile_hint_birthday">Birthday</string>
+    <string name="profile_male_radio">Male</string>
+    <string name="profile_female_radio">Female</string>
+
+    <string name="work_text">Work</string>
+    <string name="education_text">Education</string>
+    <string name="about_you_text">About You</string>
+    <string name="location_text">Location</string>
+    <string name="location_select_text">Please Select Location</string>
+    <string name="show_map_text">Show me on map</string>
+    <string name="profile_hint_select_work">Select work</string>
+    <string name="profile_hint_select_education">Select education</string>
+    <string name="profile_hint_select_about_you">Write something about you</string>
+    <string name="somthing_went_wrong">Something went wrong please try after some time.</string>
+    <string name="profile_hint_select_Location">Location</string>
+
+    <string name="profile_yes_radio">Yes</string>
+    <string name="profile_no_radio">No</string>
+    <string name="logout_button">Log out</string>
+
+    <string name="profile_select_work_dialog_heading">Select your work</string>
+    <string name="profile_select_education_dialog_heading">Select your education</string>
+
+    <string name="alert_profile_name_null">Please enter name.</string>
+    <string name="alert_profile_birthday_null">Please select birthday.</string>
+    <string name="alert_profile_work_null">Please select work.</string>
+    <string name="alert_profile_education_null">Please select education.</string>
+    <string name="all_details_are_filled">All details are filled.</string>
+    <string name="alert_business_image">Please select business image.</string>
+
+    <string name="heading_select_education_dialog">Select Education</string>
+    <string name="heading_select_work_dialog">Select Work</string>
+
+
+    // Profile Pick Image Dialog
+    <string name="pickImage_dialog_header">Add Photo!</string>
+    <string name="pickImage_camera">Camera</string>
+    <string name="pickImage_gallery">Gallery</string>
+    <string name="permission_denied">Permission Denied!</string>
+
+    // User Profile Activity
+    <string name="user_hint_select_about_you">Write something about you...</string>
+    <string name="user_about_you_text">About You</string>
+    <string name="max_char_hint">0-50 Char</string>
+    <string name="user_height_text">Height</string>
+    <string name="user_weight_text">Weight</string>
+    <string name="user_relationship_text">Relationship</string>
+    <string name="user_I_speak_text">I speak</string>
+    <string name="user_interests_text">Interests</string>
+    <string name="add_hint">Add</string>
+    <string name="user_profile_done_button">Done</string>
+
+    <string name="alert_about_you_null">Please enter about you.</string>
+    <string name="alert_height_null">Please select height.</string>
+    <string name="alert_weight_null">Please enter weight.</string>
+    <string name="alert_relation_null">Please select relationship.</string>
+    <string name="alert_I_speak_null">Please select language.</string>
+    <string name="alert_interest_null">Please add atleast one interest.</string>
+
+    <string name="heading_select_height_dialog">Select Height</string>
+    <string name="heading_select_weight_dialog">Enter Weight</string>
+    <string name="heading_select_relationship_dialog">Select Relation</string>
+    <string name="heading_select_I_speak_dialog">Select Language</string>
+
+
+    // Add Interest Dialog
+    <string name="add_interest_title">Add Interest</string>
+    <string name="hint_search_edit_text">Search interest</string>
+
+    // Custom Dialog For Profile Activity
+    <string name="dialog_heading">Select</string>
+    <string name="dialog_done_button">Done</string>
+
+    // Custom Dialog For Enter Weight Profile
+    <string name="hint_enter_weight">Enter weight</string>
+    <string name="enter_weight_units_spinner">Units</string>
+    <string name="image_selection_limite_msg">Maximum number of images selected</string>
+
+
+    <string name="google_maps_key">AIzaSyDQnn0A-w99bPd0Qryo8UHLcWLw-JoZ3Lo</string>
+    <string name="age_group">Age group</string>
+    <string name="both">Both</string>
+    <string name="guys">Guys</string>
+    <string name="filter_by">Filter by</string>
+    <string name="online">Online</string>
+    <string name="new_">New</string>
+    <string name="all">All</string>
+    <string name="girls">Girls</string>
+    <string name="show_me">Show me</string>
+    <string name="enter_location">Enter Location</string>
+    <string name="location">Location</string>
+    <string name="done">Done</string>
+    <string name="ohh_sorry_no_record_found">Ohh Sorry.. ! No record found.</string>
+    <string name="profile_update">Profile Updated Successfully</string>
+    <string name="appointment">Appointment</string>
+    <string name="not_available">NA</string>
+    <string name="send_request">Send Request</string>
+    <string name="enter_meeting_location">Meeting location</string>
+    <string name="meeting_date_and_time">Meeting date and time</string>
+    <string name="images">Images</string>
+    <string name="my_favorites">My Favorites</string>
+    <string name="logout">Logout</string>
+    <string name="settings">Settings</string>
+    <string name="notifications">Notifications</string>
+    <string name="subscription">Subscription</string>
+    <string name="delete_appointment_sure">Are you sure you want to delete appointment?</string>
+    <string name="my_profile">My Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="new_appointment_request">New Appointment Request</string>
+    <string name="fevorites">Favorites</string>
+    <string name="settings_">Settings</string>
+    <string name="change_password">Change password</string>
+    <string name="payment">Payment</string>
+    <string name="about_us">About Us</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="my_friends">My Friends</string>
+    <string name="event">Event</string>
+    <string name="friends">Friends</string>
+    <string name="visits">Visits</string>
+    <string name="likes">Likes</string>
+    <string name="reset">Reset</string>
+
+
+    // Change Password Activity
+    <string name="change_password_heading">Change Password</string>
+    <string name="change_password_text">New password are required to be a minimum of 8 characters in length.</string>
+    <string name="hint_old_password">Old Password</string>
+    <string name="hint_new_password">New Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="btn_password_submit">Submit</string>
+    <string name="event_request">Event Request</string>
+    <string name="no_event_found">No Event Found</string>
+    <string name="oops_">Oops!</string>
+    <string name="join_an_event_txt">Join an event that suits your interests, or host some fun of your own</string>
+    <string name="message">Messages</string>
+    <string name="no_messages_yet">No messages, yet.</string>
+    <string name="no_messages_txt">No messages in your inbox, yet! start chatting with people around you</string>
+    <string name="no_appointment_available">No appointment available</string>
+    <string name="so_easy_and_simple_to_create_appointment_txt">So easy and simple, to create appointment and see who created appointment with you.</string>
+    <string name="looks_like_you_haven_t_any_friend_find_nsome_and_make_connection_nwith_them">Looks like you haven\'t any friend, find some and make connection with them</string>
+    <string name="looks_like_you_haven_t_added_any_person_in_your_favorites">Looks like you haven\'t added any person in your favorites</string>
+    <string name="you_have_no_friend_request">You have no friend request</string>
+    <string name="no_one_send_you_friend_request_txt">No one send you friend request make \nyour profile more attractive to \nget friend request</string>
+    <string name="create_event">Create Event</string>
+    <string name="event_name">Event name</string>
+    <string name="select_event_location">Select event location</string>
+    <string name="event_start_date_and_time">Event start date and time</string>
+    <string name="select_date_and_time">Select date and time</string>
+    <string name="privacy">Privacy</string>
+    <string name="paid">Paid</string>
+    <string name="free">Free</string>
+    <string name="max_user_limite_to_join_event">Max. user limit to join event</string>
+    <string name="event_start_date_time"><![CDATA[Start Date & Time]]></string>
+    <string name="event_end_date_time"><![CDATA[End Date & Time]]></string>
+    <string name="chat">Chat</string>
+    <string name="you_don_t_have_any_notifications_nright_now">You don\'t have any notifications  right now!</string>
+    <string name="when_someone_added_">When someone added you favorites, likes, comments or create appointment, \nyou will see here.</string>
+    <string name="share">Share</string>
+    <string name="pay">Pay</string>
+    <string name="joined_members">Joined Members</string>
+    <string name="enter_event_name">Please enter event name</string>
+    <string name="event_invitaion">Select some of your friends for event invitation</string>
+    <string name="event_location">Please select event location</string>
+    <string name="start_event_date_time">Please select event start date and time</string>
+    <string name="end_event_date_time">Please select event end date and time</string>
+    <string name="max_user_limite">Please enter maximum user limit</string>
+    <string name="event_created">Event is created and invitation sent to your friends</string>
+    <string name="sorry_no_user_found">Sorry! no user found</string>
+    <string name="paid__">Paid</string>
+    <string name="share_event">Share event to join</string>
+    <string name="are_you_sure_want_to_unfriend">Are you sure want to unfriend</string>
+    <string name="sure_remove_friend">Are you sure want to remove</string>
+    <string name="invited_members">Invited members</string>
+    <string name="delete_event_msg">Do you want to delete this event ?</string>
+    <string name="share_event_dined">Please select any friend to share this event</string>
+    <string name="cant_remove_all">You cannot remove all event members</string>
+    <string name="it_is_a_long_established">it is a long established fact that a reader will be distracted by the readable contant of a page when looking at its layout. the point of using Lorem Ipsum is that it has a more-or-less naormal distribution of letters</string>
+    <string name="pay_for_appointment">Pay for appointment</string>
+    <string name="access_map_to_create_appointments">Through this payment you can access map to create appointments for lifetime \n(One time payment)</string>
+    <string name="Pay_to_be_on_top">Pay to be on top</string>
+    <string name="payment_you_will_be_on_top">Through this payment you will be on top of the user list for lifetime \n\n(One time payment)</string>
+    <string name="cancel_image">cancel image</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="no_friend_to_create_event">You have no friends to Create Event</string>
+    <string name="limit_over_to_join_event">Sorry, user limit for this event is exceeded.</string>
+    <string name="no_friend_found">No friend found</string>
+    <string name="share_text">Meet, chat with people around the world. Make friends, join events, schedule appointments and lot more fun with APOIM. Signup today!</string>
+    <string name="bank_info">Bank Info</string>
+    <string name="need_to_add_bank">First, you need to add your bank account to create a paid event.</string>
+    <string name="need_add_bank">First, you need to add your bank account.</string>
+    <string name="do_you_wanna_update_bank_info">Do you want to update bank account details?</string>
+    <string name="update_acc">Update Account</string>
+    <string name="audio_call">Audio Call</string>
+    <string name="video_call">Video Call</string>
+    <string name="block_user">Block user</string>
+    <string name="delete_chat">Delete chat</string>
+    <string name="term_and_condition">Term and condition</string>
+
+
+    //*******************VideoandAudioCall************//
+
+    <string name="current_version">0.9.1</string>
+    <string name="splash_app_title">Video &amp; Audio \nChat Sample</string>
+    <string name="splash_create_session_error">Create session errors:</string>
+
+
+    <!-- Dialogs strings. -->
+    <string name="dlg_signal_error">Disconnected… Please check your Internet connection!</string>
+    <string name="dlg_login">Login…</string>
+    <string name="dlg_sign_in">Sign In…</string>
+    <string name="dlg_updating_user">Updating user…</string>
+    <string name="dlg_creating_new_user">Creating new user…</string>
+    <string name="dlg_logout">Logout…</string>
+    <string name="dlg_loading_opponents">Loading opponents…</string>
+
+
+    <!-- Errors strings. -->
+    <string name="error_max_opponents_count">You can select up to %d opponents</string>
+    <string name="sign_up_error">Error creating new user, please try again</string>
+    <string name="sign_in_error_with_error">Sign In error. Error</string>
+    <string name="sign_in_error_without_error">Sign In error</string>
+    <string name="logout_user_with_error">Logout user error. Error</string>
+
+    <string name="error_empty_login">Login can not be empty</string>
+    <string name="error_empty_chat_room_name">Chat room name can not be empty</string>
+
+    <string name="login_chat_login_error">Login Chat error. Please relogin. Error</string>
+    <string name="update_user_error">Update user error. Error</string>
+    <string name="loading_users_error">Loading users error. Error</string>
+
+    <string name="permission_unavailable">%s is not available now!</string>
+
+    <string name="field_name_user_name">User name</string>
+    <string name="field_name_chat_room_name">Chat room name</string>
+
+    <string name="error_name_must_not_contain_special_characters_from_app">%1$s must contain 3 &#8212; %2$s alphanumeric Latin characters without space, the first char must be a letter</string>
+
+    <!--menu-->
+    <string name="action_start_login">Done</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_screen_share">Screen share</string>
+    <string name="action_update_opponens_list">Update opponents list</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_start_video_call">Video call</string>
+    <string name="action_start_audio_call">Audio call</string>
+
+
+    <!--action bar-->
+    <string name="actionbar_title_settings">Settings</string>
+    <string name="title_login_activity">Enter to chat</string>
+    <string name="subtitle_text_logged_in_as">Logged in as %s</string>
+    <string name="title_one_user_selected">%s user selected</string>
+    <string name="tile_many_users_selected">%s users selected</string>
+
+
+    <string name="incoming_call">Incoming Call</string>
+    <string name="also_on_call">Also on call:</string>
+    <string name="edit_opponents_list">Edit opponents list</string>
+    <string name="incoming_audio_call">Incoming Audio Call</string>
+    <string name="incoming_video_call">Incoming Video Call</string>
+    <string name="outgoing_audio_video_call_title">%s\n\nRinging</string>
+    <string name="user_list_on_call">User 1, User 2, User 3, User 4, User 5, User 6</string>
+
+
+    <string name="opponent_pending">Pending</string>
+    <string name="opponent_closed">Closed</string>
+    <string name="text_incoming_audio_call">Incoming Audio Call</string>
+    <string name="text_incoming_video_call">Incoming Video Call</string>
+    <string name="text_status_connect">Connect…</string>
+    <string name="text_status_checking">Checking…</string>
+    <string name="text_status_connected">Connected</string>
+    <string name="text_status_disconnected">Disconnected</string>
+
+    <string name="text_status_rejected">Rejected</string>
+    <string name="text_status_no_answer">No answer</string>
+    <string name="text_status_hang_up">Hung up</string>
+    <string name="text_status_closed">Closed</string>
+    <string name="text_status_time_out">Time Out</string>
+    <string name="text_status_failed">Failed</string>
+
+    <string name="text_welcoming_message">Please enter username and chat room name. \nYou can join existed chat room.</string>
+    <string name="hint_user_name">User name</string>
+    <string name="hint_chat_room_name">Chat room name</string>
+
+    <string name="text_select_user_to_call">Select users you want to call</string>
+
+    <string name="call_was_stopped_connection_lost">Call was stopped because connection was lost</string>
+    <string name="connection_lost">Connection lost</string>
+
+    <string name="text_push_notification_message">"%s is calling you"</string>
+
+
+    <!-- Settings strings. -->
+    <string name="title_video_category">Video</string>
+    <string name="title_call_settings_category">Call Settings</string>
+
+    <string name="pref_default_value">Default</string>
+    <integer name="pref_default_int_value">0</integer>
+
+    <string name="pref_default_camera_key">default_camera_preference</string>
+    <string name="pref_default_camera_title">Default Camera</string>
+    <string name="pref_default_camera_dlg">Select default camera</string>
+    <string name="pref_default_camera_default">0</string>
+
+    <string name="pref_frame_rate_key">frame_rate</string>
+    <string name="pref_frame_rate_title">Frame Rate (0&#8211;30)</string>
+    <string name="pref_frame_rate_default">0</string>
+    <integer name="pref_frame_rate_min_value">0</integer>
+    <integer name="pref_frame_rate_max_value">30</integer>
+    <integer name="pref_frame_rate_stepSize">5</integer>
+
+    <string name="pref_resolution_key">resolution_preference</string>
+    <string name="pref_resolution_title">Video Format</string>
+    <string name="pref_resolution_dlg">Enter RTC local video resolution</string>
+    <string name="pref_resolution_default">-1</string>
+
+    <string name="pref_startbitrate_key">startbitrate_preference</string>
+    <string name="pref_startbitrate_title">Start bitrate setting</string>
+    <string name="pref_startbitrate_dlg">Start bitrate setting</string>
+    <string name="pref_startbitrate_default">Default</string>
+
+    <string name="pref_startbitratevalue_key">startbitratevalue_preference</string>
+    <string name="pref_startbitratevalue_title">Bandwidth (0&#8211;2000)</string>
+    <string name="pref_startbitratevalue_default">0</string>
+    <integer name="pref_startbitratevalue_min_value">0</integer>
+    <integer name="pref_startbitratevalue_max_value">2000</integer>
+    <integer name="pref_startbitratevalue_step_size">100</integer>
+
+    <string name="pref_disable_built_in_aec_key">disable_built_in_aec_preference</string>
+    <string name="pref_disable_built_in_aec_title">Disable built-in AEC</string>
+    <string name="pref_disable_built_in_aec_dlg">Disable built-in AEC</string>
+    <string name="pref_disable_built_in_aec_default">false</string>
+    <string name="pref_built_in_aec_not_available">Built-in AEC is not available</string>
+
+    <string name="pref_opensles_key">opensles_preference</string>
+    <string name="pref_opensles_title">Use OpenSL ES for audio playback</string>
+    <string name="pref_opensles_dlg">Use OpenSL ES for audio playback</string>
+    <string name="pref_opensles_default">false</string>
+
+    <string name="pref_noaudioprocessing_key">audioprocessing_preference</string>
+    <string name="pref_noaudioprocessing_title">Disable audio processing</string>
+    <string name="pref_noaudioprocessing_dlg">Disable audio processing pipeline</string>
+    <string name="pref_noaudioprocessing_default">false</string>
+
+    <!--Call Settings-->
+
+    <string name="pref_answer_time_interval_key">answer_time_interval</string>
+    <string name="pref_answer_time_interval_title">Answer Time Interval (15&#8211;90s)</string>
+    <string name="pref_answer_time_interval_default_value">60</string>
+    <integer name="pref_answer_time_interval_min_value">15</integer>
+    <integer name="pref_answer_time_interval_max_value">90</integer>
+    <integer name="pref_answer_time_interval_step_size">5</integer>
+
+    <string name="pref_disconnect_time_interval_key">disconnect_time_interval</string>
+    <string name="pref_disconnect_time_interval_title">Disconnect Time Interval (10&#8211;90s)</string>
+    <string name="pref_disconnect_time_interval_default_value">10</string>
+    <integer name="pref_disconnect_time_interval_min_value">10</integer>
+    <integer name="pref_disconnect_time_interval_max_value">90</integer>
+    <integer name="pref_disconnect_time_interval_step_size">5</integer>
+
+    <string name="pref_dialing_time_interval_key">Dialing_time_interval</string>
+    <string name="pref_dialing_time_interval_title">Dialing Time Interval (3&#8211;10s)</string>
+    <string name="pref_dialing_time_interval_default_value">5</string>
+    <integer name="pref_dialing_time_interval_min_value">3</integer>
+    <integer name="pref_dialing_time_interval_max_value">10</integer>
+    <integer name="pref_dialing_time_interval_step_size">1</integer>
+
+    <string name="pref_videocodec_key">videocodec_preference</string>
+    <string name="pref_videocodec_title">Default video codec</string>
+    <string name="pref_videocodec_dlg">Select default video codec</string>
+    <string name="pref_videocodec_default">0</string>
+
+    <string name="pref_hwcodec_key">hwcodec_preference</string>
+    <string name="pref_hwcodec_title">Video codec hardware acceleration</string>
+    <string name="pref_hwcodec_default">true</string>
+
+    <string name="pref_value_enabled">Enabled</string>
+    <string name="pref_value_disabled">Disabled</string>
+
+    <string name="pref_room_server_url_key">room_server_url_preference</string>
+    <string name="pref_room_server_url_title">Room server URL.</string>
+    <string name="pref_room_server_url_dlg">Enter a room server URL.</string>
+    <string name="pref_room_server_url_default" translatable="false">https://apprtc.appspot.com</string>
+
+    <string name="pref_displayhud_key">displayhud_preference</string>
+    <string name="pref_displayhud_title">Display call statistics.</string>
+    <string name="pref_displayhud_dlg">Display call statistics.</string>
+    <string name="pref_displayhud_default" translatable="false">false</string>
+    <string name="pref_audiocodec_key">pref_audio_codec</string>
+    <string name="pref_audiocodec_title">Default audio codec</string>
+    <string name="pref_audiocodec_def">ISAC</string>
+    <string name="pref_audiocodec_dlg">Select default audio codec</string>
+    <string name="pref_version">QuickBlox WebRTC\nBuild version 1.12</string>
+    <string name="btn_screen_capture">screenShot</string>
+    <string name="accepted">Accepted</string>
+    <string name="connection_was_lost">Connection was lost</string>
+
+    <string name="opponents">and %s other</string>
+    <string name="opponent">and %s </string>
+    <string name="ringing">Ringing</string>
+    <string name="stop_share">Stop</string>
+    <string name="camera_swicth_failed">\"Failed switch camera\"</string>
+
+    <string name="sender_id">193788618323</string>
+    <!--<string name="sender_id">839320525088</string>-->
+
+    <string name="versionName">v1</string>
+
+    <string name="please_wait">Please wait…</string>
+
+    <string name="dlg_error">Error</string>
+    <string name="dlg_ok">OK</string>
+    <string name="dlg_cancel">Cancel</string>
+    <string name="dlg_loading">Loading…</string>
+    <string name="dlg_choose_image_from">Select photo from…</string>
+    <string name="dlg_retry">Retry</string>
+
+    <string name="init_configs_error">Initializing configs error</string>
+
+    <string name="no_internet_connection">No internet connection</string>
+
+    <string name="splash_app_version">v %s</string>
+
+    <string name="error_parsing_configs">Parsing sample\'s configs error</string>
+    <string name="business_name">Business Name</string>
+    <string name="add_location">Add Location</string>
+    <string name="sed_ut_perspiciatis_unde_omnis_iste_natus_error_sit_voluptatem_accusantium_dolorem">&quot;&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem&quot;</string>
+    <string name="Promote_your_business_and_users">&quot;Promote your business and users will get suggestion of your business when they create appointments and event&quot;</string>
+    <string name="appointment_type">Appointment Type</string>
+    <string name="face_detection">Face \nDetection</string>
+    <string name="id_with_hand">ID \nWith Hand</string>
+    <string name="mobile_verification">Mobile \nNumber</string>
+    <string name="bussiness_page">Bussiness Page</string>
+    <string name="verification">Verification</string>
+    <string name="search_by_location">Search By Location...</string>
+    <string name="register_your_business_to_get_maximum_no_of_customer">&quot;Register Your Business to get maximum no of customer&quot;</string>
+    <string name="update_your_business_to_get_maximum_no_of_customer">&quot;&quot;Update Your Business to get maximum no of customer&quot;</string>
+    <string name="apply">Apply</string>
+    <string name="recevied_appointment">Recevied Appointment</string>
+    <string name="sent_appointment">Sent Appointment</string>
+    <string name="finished_appointment">Finished Appointment</string>
+
+
+</resources>

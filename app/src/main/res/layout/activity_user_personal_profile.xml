@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/header_bg">
+
+        <ImageButton
+            android:id="@+id/user_profile_back"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_margin="@dimen/_15sdp"
+            android:background="@null"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ico_back"
+            android:tint="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/profile_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:gravity="center"
+            android:text="@string/profile_action_bar"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_18ssp" />
+    </RelativeLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <TextView
+                        android:id="@+id/user_about_you"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="@string/user_about_you_text"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_about_you"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/user_about_you"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <EditText
+                            android:id="@+id/user_select_about_you"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:fontFamily="@font/nunito_light"
+                            android:hint="@string/user_hint_select_about_you"
+                            android:imeOptions="actionDone"
+                            android:maxLength="50"
+                            android:singleLine="true"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_Medium_Size" />
+                    </RelativeLayout>
+
+                    <View
+                        android:id="@+id/view_about"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_below="@+id/rl_about_you"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@color/colorBlack" />
+
+                    <TextView
+                        android:id="@+id/max_char"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/view_about"
+                        android:fontFamily="@font/nunito_light"
+                        android:text="@string/max_char_hint"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Small_Size" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/user_height_heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="@string/user_height_text"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_select_height"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <TextView
+                            android:id="@+id/user_height"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_light"
+                            android:hint="@string/add_hint"
+                            android:maxLines="1"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_Medium_Size" />
+
+                        <ImageView
+                            android:id="@+id/user_height_arrow"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ico_left_arrow" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@color/colorBlack" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/user_weight_heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="@string/user_weight_text"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_select_weight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <TextView
+                            android:id="@+id/user_weight"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_light"
+                            android:hint="@string/add_hint"
+                            android:maxLines="1"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_Medium_Size" />
+
+                        <ImageView
+                            android:id="@+id/user_weight_arrow"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ico_left_arrow" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@color/colorBlack" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/user_relationship_heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="@string/user_relationship_text"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_select_relationship"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <TextView
+                            android:id="@+id/user_relationship"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_light"
+                            android:hint="@string/add_hint"
+                            android:maxLines="1"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_Medium_Size" />
+
+                        <ImageView
+                            android:id="@+id/user_relationship_arrow"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ico_left_arrow" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@color/colorBlack" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/user_I_speak_heading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="@string/user_I_speak_text"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_select_I_speak"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp">
+
+                        <TextView
+                            android:id="@+id/user_I_speak"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_light"
+                            android:hint="@string/add_hint"
+                            android:maxLines="1"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_Medium_Size" />
+
+                        <ImageView
+                            android:id="@+id/user_I_speak_arrow"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ico_left_arrow" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@color/colorBlack" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/appointment_type"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:fontFamily="@font/nunito_semibold"/>
+
+
+                    <RadioGroup
+                        android:id="@+id/rg_apoim_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_apoim_type_paid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/paid"
+                            android:theme="@style/MyRadioButton2"
+                            android:textSize="@dimen/text_Medium_Size"
+                            android:fontFamily="@font/nunito_light"
+                            android:checked="false" />
+
+                        <RadioButton
+                            android:id="@+id/rb_apoim_type_free"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/free"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:textSize="@dimen/text_Medium_Size"
+                            android:theme="@style/MyRadioButton2"
+                            android:fontFamily="@font/nunito_light"
+                            android:textColor="@color/colorBlack"
+                            android:checked="true" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Event Type"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:fontFamily="@font/nunito_semibold"/>
+
+
+                    <RadioGroup
+                        android:id="@+id/rg_event_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_event_type_paid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/paid"
+                            android:theme="@style/MyRadioButton2"
+                            android:textSize="@dimen/text_Medium_Size"
+                            android:fontFamily="@font/nunito_light"
+                            android:checked="false" />
+
+                        <RadioButton
+                            android:id="@+id/rb_event_type_free"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/free"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:textSize="@dimen/text_Medium_Size"
+                            android:theme="@style/MyRadioButton2"
+                            android:fontFamily="@font/nunito_light"
+                            android:textColor="@color/colorBlack"
+                            android:checked="true" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/user_interest_heading"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_semibold"
+                            android:text="@string/user_interests_text"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_Medium_Size" />
+
+                        <ImageView
+                            android:id="@+id/user_add_interest"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/ico_add" />
+                    </RelativeLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/user_selected_interest_list_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:nestedScrollingEnabled="false"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:scrollbars="none" />
+
+                    <TextView
+                        android:id="@+id/user_profile_button"
+                        android:layout_width="match_parent"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:background="@drawable/bg_login_btn"
+                        android:fontFamily="@font/josefinsans_semibold"
+                        android:text="@string/user_profile_done_button"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_Large_Size" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

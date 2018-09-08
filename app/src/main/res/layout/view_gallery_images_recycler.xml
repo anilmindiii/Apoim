@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/_75sdp"
+    android:layout_height="@dimen/_75sdp"
+    android:layout_margin="@dimen/_3sdp"
+    android:id="@+id/rl_images"
+    android:orientation="vertical">
+
+
+    <com.github.siyamed.shapeimageview.RoundedImageView
+        android:id="@+id/iv_user_image"
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/placeholder_chat_image"
+        app:siRadius="@dimen/_10sdp"
+        app:siBorderWidth="0.4dp"
+        app:siBorderColor="@color/black"
+        android:scaleType="centerCrop"
+        app:siSquare="true" />
+
+
+    <RelativeLayout
+        android:id="@+id/rl_select_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+
+
+        <com.github.siyamed.shapeimageview.RoundedImageView
+            android:id="@+id/iv_selected_user_image"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ico_user_placeholder"
+            app:siRadius="@dimen/_10sdp"
+            app:siBorderWidth="2dp"
+            app:siBorderColor="@color/colorPrimaryDark"
+            app:siSquare="true" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

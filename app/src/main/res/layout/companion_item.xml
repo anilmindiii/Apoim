@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/ly_comp_member_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_75sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_compan"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    app:civ_border_color="@color/colorGray"
+                    app:civ_border_width="0.5dp"
+                    android:src="@drawable/ico_user_placeholder"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/_6sdp"
+                    android:layout_marginRight="@dimen/_36sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_comp_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|start"
+                        android:layout_gravity="start"
+                        android:text="Vironica"
+                        android:fontFamily="@font/nunito_regular"
+                        android:maxLines="1"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size"/>
+
+                    <TextView
+                        android:id="@+id/tv_comp_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:maxLines="1"
+                        android:layout_gravity="bottom"
+                        android:gravity="bottom"
+                        android:textColor="@color/colorGray"
+                        android:textSize="@dimen/text_Small_Size"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_pay_compan"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_login_btn"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:text="@string/pay"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_Small_Size" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorLightGray"
+                android:layout_marginLeft="@dimen/_60sdp"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+
+
+
+
+
+</RelativeLayout>

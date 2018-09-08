@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.loopeer.shadow.ShadowView
+        android:id="@+id/shadow_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorLightGray"
+        android:elevation="3dp"
+        android:layout_margin="@dimen/_5sdp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cornerRadius="@dimen/_5sdp"
+        app:shadowMargin="3dp"
+        app:shadowColor="@color/colorPrimary"
+        app:shadowRadius="3dp">
+
+
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_150sdp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:background="@color/colorLightGray">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:gravity="right|center">
+
+             <!--   <ImageView
+                    android:id="@+id/iv_direction"
+                    android:layout_width="@dimen/_23sdp"
+                    android:layout_height="@dimen/_23sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:src="@drawable/ico_app_onmap"/>
+-->
+                <ImageView
+                    android:id="@+id/iv_accept"
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:src="@drawable/ico_app_accept" />
+
+                <ImageView
+                    android:id="@+id/iv_reject"
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:src="@drawable/ico_app_cancel"/>
+
+            </LinearLayout>
+
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:src="@drawable/app_icon"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                app:civ_border_width="1dp"
+                app:civ_border_color="@color/colorGray"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="john smith"
+                    android:textSize="@dimen/text_Medium_Size"
+                    android:maxLines="1"
+                    android:layout_marginRight="@dimen/_95sdp"
+                    android:layout_marginLeft="@dimen/_50sdp"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="@font/nunito_regular"/>
+
+                <TextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_Small_Size"
+                    android:maxLines="1"
+                    android:layout_marginRight="@dimen/_85sdp"
+                    android:layout_marginLeft="@dimen/_50sdp"
+                    android:textColor="@color/colorBlack"
+                    android:fontFamily="@font/nunito_regular"/>
+
+            </LinearLayout>
+
+
+
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ly_main_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:weightSum="2"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_14sdp"
+                        android:layout_height="@dimen/_14sdp"
+                        android:src="@drawable/ico_app_time"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/nunito_regular"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:text="Meeting Time"/>
+                </LinearLayout>
+
+
+                <TextView
+                        android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_Small_Size"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/nunito_regular"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:maxLines="1"
+                    android:text="Melborn Tisas  asas  "/>
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_Small_Size"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/nunito_regular"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:maxLines="1"
+                    android:text="Melborn   asas  "/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_14sdp"
+                        android:layout_height="@dimen/_14sdp"
+                        android:src="@drawable/ico_map_loc"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/nunito_regular"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:text="Meeting Location"/>
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_Small_Size"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="@font/nunito_regular"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:padding="2dp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="Meeting Te nndfn"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_time_date"
+            android:layout_below="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Waiting for approval"
+            android:layout_margin="@dimen/_5sdp"
+            android:maxLines="1"
+            android:gravity="center"
+            android:layout_gravity="bottom|center"
+            android:textSize="@dimen/text_very_Small_Size"
+            android:textColor="@color/colorBlack"
+            android:fontFamily="@font/nunito_regular"/>
+
+    </android.support.v7.widget.CardView>
+
+    </com.loopeer.shadow.ShadowView>
+
+</RelativeLayout>

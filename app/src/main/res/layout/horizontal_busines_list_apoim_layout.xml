@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/_120sdp"
+    android:layout_height="@dimen/_120sdp"
+    android:orientation="vertical">
+
+    <com.loopeer.shadow.ShadowView
+        android:id="@+id/shadow_view"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_120sdp"
+        android:background="@color/colorLightGray"
+        android:elevation="3dp"
+        android:layout_margin="@dimen/_5sdp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cornerRadius="@dimen/_5sdp"
+        app:shadowMargin="3dp"
+        app:shadowColor="@color/colorPrimary"
+        app:shadowRadius="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.github.siyamed.shapeimageview.RoundedImageView
+                android:id="@+id/buz_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:siRadius="@dimen/_5sdp"
+                android:src="@drawable/hotel"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/transparent_shadow"
+                android:alpha="0.5"
+                />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_buz_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:maxLength="16"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_Small_Size"
+                    android:text="Peters italian"
+                    android:gravity="center"
+                    android:fontFamily="@font/nunito_bold"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:id="@+id/tv_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_Small_Size"
+                    android:text="2.5 Km"
+                    android:gravity="center"
+                    android:fontFamily="@font/nunito_bold"/>
+
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+
+    </com.loopeer.shadow.ShadowView>
+
+</RelativeLayout>

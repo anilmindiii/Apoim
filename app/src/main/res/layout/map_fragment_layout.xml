@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cv.MapWrapperLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/parentView">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </fragment>
+
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_marginTop="@dimen/_150sdp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
+
+</cv.MapWrapperLayout>

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.apoim.activity.AppointmentDirectionActivity">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/header_bg">
+
+        <TextView
+            android:id="@+id/profile_action_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/appointment"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_18ssp" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_back"
+            android:tint="@color/colorPrimary"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/main_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:visibility="visible">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+        </fragment>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+
+
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/_5sdp"
+                app:cardElevation="@dimen/_4sdp"
+               android:layout_marginTop="@dimen/_3sdp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_crd"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_Small_Size"
+                            android:text="10 Feb 2018, 03:00 PM dttrtrtrtrtrtrttrtrttrtrtrtsdsdsdsd"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginLeft="@dimen/_35sdp"
+                            android:layout_marginRight="@dimen/_35sdp"
+                            android:maxLines="1"
+                            android:fontFamily="@font/nunito_regular"
+                            android:textColor="@color/colorBlack"/>
+
+                        <ImageView
+                            android:id="@+id/iv_delete_meeting"
+                            android:layout_width="@dimen/_22sdp"
+                            android:layout_height="@dimen/_22sdp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:src="@drawable/ico_trash_apoim"/>
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_Small_Size"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/appointment"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:textColor="@color/colorBlack"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_85sdp"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_weight="1">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/iv_by_profile"
+                                android:layout_width="@dimen/_60sdp"
+                                android:layout_height="@dimen/_60sdp"
+                                app:civ_border_width="1dp"
+                                android:src="@drawable/app_icon"
+                                app:civ_border_color="@color/mdtp_dark_gray"/>
+
+                            <TextView
+                                android:id="@+id/tv_by_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/appointment"
+                                android:gravity="center"
+                                android:fontFamily="@font/nunito_regular"
+                                android:textSize="@dimen/text_Small_Size"
+                                android:textColor="@color/colorBlack"/>
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="@dimen/_35sdp"
+                            android:layout_height="@dimen/_35sdp"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:src="@drawable/ico_route_map"/>
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_weight="1">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/iv_for_profile"
+                                android:layout_width="@dimen/_60sdp"
+                                android:layout_height="@dimen/_60sdp"
+                                app:civ_border_width="1dp"
+                                android:src="@drawable/app_icon"
+                                app:civ_border_color="@color/mdtp_dark_gray"/>
+
+                            <TextView
+                                android:id="@+id/tv_for_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/appointment"
+                                android:gravity="center"
+                                android:fontFamily="@font/nunito_regular"
+                                android:textSize="@dimen/text_Small_Size"
+                                android:textColor="@color/colorBlack"/>
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/finish_meeting_button"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/bg_login_btn"
+                        android:fontFamily="@font/josefinsans_semibold"
+                        android:text="Finish Meeting"
+                        android:gravity="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_Small_Size"
+                        />
+
+                </LinearLayout>
+
+
+
+            </android.support.v7.widget.CardView>
+
+
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loadingView___"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+</RelativeLayout>
+
+

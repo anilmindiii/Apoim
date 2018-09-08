@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_60sdp"
+    android:layout_height="@dimen/_60sdp"
+    android:layout_margin="@dimen/_5sdp"
+    android:orientation="vertical">
+
+    <com.github.siyamed.shapeimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/circular_profile_image"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/ico_user_placeholder"
+        app:siBorderColor="@color/white"
+        app:siBorderWidth="0.5dp"
+        app:siRadius="@dimen/_8sdp"
+       />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rectangular_shadow_border"
+        android:alpha="0.3"
+       />
+
+</RelativeLayout>

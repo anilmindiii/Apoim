@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context="com.apoim.activity.CreateEventActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/header_bg">
+
+        <TextView
+            android:id="@+id/profile_action_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/create_event"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_18ssp" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_back"
+            android:tint="@color/colorPrimary"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"/>
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?actionBarSize"
+        android:animateLayoutChanges="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="@string/event_name"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+                <EditText
+                    android:id="@+id/ed_event_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:background="@null"
+                    android:fontFamily="@font/nunito_light"
+                    android:hint="Event"
+                    android:imeOptions="actionNext"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:background="@color/colorBlack" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="@string/location"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_light"
+                        android:hint="@string/select_event_location"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/ly_place_completer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.0"
+                        android:layout_alignTop="@+id/tv_location"
+                        android:layout_alignBottom="@+id/tv_location"
+                       android:minHeight="@dimen/_30sdp">
+
+                        <fragment
+                            android:id="@+id/place_autocomplete_fragment"
+                            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            />
+                    </RelativeLayout>
+
+
+
+                </RelativeLayout>
+
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:background="@color/colorBlack" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly_event_start_date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/profile_about_you"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="@string/event_start_date_and_time"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_about_you"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <TextView
+                        android:id="@+id/tv_start_date_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_light"
+                        android:hint="@string/select_date_and_time"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <ImageView
+                        android:id="@+id/profile_select_about_you_arrow"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ico_event_date" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:background="@color/colorBlack" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ly_event_end_date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="Event end date and time"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <TextView
+                        android:id="@+id/tv_end_date_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_light"
+                        android:hint="@string/select_date_and_time"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ico_event_date" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:background="@color/colorBlack" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/profile_show_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="@string/privacy"
+                    android:textColor="@color/colorBlack"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+                <RadioGroup
+                    android:id="@+id/rg_privacy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:checkedButton="@id/profile_map_yes_radio"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_public"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/s_public"
+                        android:textColor="@color/colorPrimary"
+                        android:theme="@style/MyRadioButton2"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:checked="true"/>
+
+                    <RadioButton
+
+                        android:id="@+id/rb_private"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/s_private"
+                        android:theme="@style/MyRadioButton2"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size"
+                        />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="@string/payment"
+                    android:textColor="@color/colorBlack"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+                <RadioGroup
+                    android:id="@+id/rg_payment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:checkedButton="@id/profile_map_yes_radio"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_paid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/paid"
+                        android:theme="@style/MyRadioButton2"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <RadioButton
+                        android:id="@+id/rb_free"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/free"
+                        android:theme="@style/MyRadioButton2"
+                        android:checked="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/ly_paid_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical"
+                    android:animateLayoutChanges="true"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="Select Currency"
+                        android:textColor="@color/colorBlack"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <RelativeLayout
+                        android:id="@+id/ly_currency"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp">
+
+                        <TextView
+                            android:id="@+id/tv_currency_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_20sdp"
+                            android:layout_marginRight="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:maxLines="1"
+                            android:fontFamily="@font/nunito_light"
+                            android:hint="Currency"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_Medium_Size" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:src="@drawable/ico_down_arrow"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"/>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.8dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:background="@color/colorBlack" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_semibold"
+                        android:text="Amount"
+                        android:textColor="@color/colorBlack"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+
+                    <EditText
+                        android:id="@+id/ed_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@null"
+                        android:maxLines="1"
+                        android:inputType="numberDecimal"
+                        android:fontFamily="@font/nunito_light"
+                        android:hint="Enter amount"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@color/colorBlack" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:text="@string/max_user_limite_to_join_event"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+                <EditText
+                    android:id="@+id/ed_user_limite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:inputType="number"
+                    android:fontFamily="@font/nunito_light"
+                    android:hint="Enter user limit"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.8dp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:background="@color/colorBlack" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Who can join event"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/nunito_semibold"/>
+
+
+                <RadioGroup
+                    android:id="@+id/rg_join_event"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/male"
+                        android:theme="@style/MyRadioButton2"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:fontFamily="@font/nunito_light"
+                        android:checked="false"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/female"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:fontFamily="@font/nunito_light"
+                       android:theme="@style/MyRadioButton3"
+                        android:checked="false" />
+
+                    <RadioButton
+                        android:id="@+id/rb_both"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/both"
+                        android:theme="@style/MyRadioButton2"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/nunito_light"
+                        android:checked="true" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_invite_n_create_friend"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/bg_login_btn"
+                android:fontFamily="@font/josefinsans_semibold"
+                android:text="Invite Friends"
+                android:textAllCaps="false"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_Large_Size" />
+
+            <TextView
+                android:id="@+id/tv_update_event"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/bg_login_btn"
+                android:fontFamily="@font/josefinsans_semibold"
+                android:text="Update Event"
+                android:textAllCaps="false"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_Large_Size"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+
+
+</RelativeLayout>

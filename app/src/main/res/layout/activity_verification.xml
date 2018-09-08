@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/verification_color"
+    tools:context="com.apoim.activity.VerificationActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/header_bg">
+
+        <TextView
+            android:id="@+id/profile_action_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/verification"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_18ssp" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_back"
+            android:tint="@color/colorPrimary"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"/>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:layout_marginBottom="@dimen/_40sdp"
+        android:scrollbars="none"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/_20sdp"
+            android:orientation="vertical">
+
+            <com.medialablk.easygifview.EasyGifView
+                android:id="@+id/easyGifView"
+                android:layout_width="@dimen/_180sdp"
+                android:layout_height="@dimen/_180sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/mobile_verify" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="@dimen/_25sdp"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/verification_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="Mobile Verification"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/tv_msg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:maxLines="2"
+                    android:text="A user initiates SMS verification in your app. Your app might prompt "
+                    android:textColor="@color/colorGray"
+                    android:textSize="@dimen/text_Small_Size" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_115sdp"
+                    android:layout_gravity="top">
+
+                    <RelativeLayout
+                        android:id="@+id/ly_mobile_veri"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="@dimen/_60sdp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/rectangular_black_border_white_bg">
+
+                        <ImageView
+                            android:id="@+id/iv_mobile_veri"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/_15sdp"
+                            android:src="@drawable/inactive_sms"
+                            />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_mobile_veri_active"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/verified"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:id="@+id/tv_mobile_veri"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorGray"
+                        android:text="@string/mobile_verification"
+                        android:fontFamily="@font/nunito_regular"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_Small_Size"/>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_115sdp"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:layout_gravity="top">
+
+                    <RelativeLayout
+                        android:id="@+id/ly_id_hand_veri"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="@dimen/_60sdp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/rectangular_black_border_white_bg">
+
+                        <ImageView
+                            android:id="@+id/iv_id_hand_veri"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/_15sdp"
+                            android:src="@drawable/inactive_id" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_id_hand_veri_active"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/verified"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:id="@+id/tv_id_hand_veri"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorGray"
+                        android:text="@string/id_with_hand"
+                        android:fontFamily="@font/nunito_regular"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/text_Small_Size"/>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_115sdp"
+                    android:layout_gravity="top">
+
+                    <RelativeLayout
+                        android:id="@+id/ly_face_detection_veri"
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="@dimen/_60sdp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/rectangular_black_border_white_bg">
+
+                        <ImageView
+                            android:id="@+id/iv_face_detection_veri"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/_15sdp"
+                            android:src="@drawable/inactive_face" />
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_face_detection_veri_active"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/verified"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:id="@+id/tv_face_detection_veri"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorGray"
+                        android:text="@string/face_detection"
+                        android:fontFamily="@font/nunito_regular"
+                        android:gravity="center"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="@dimen/text_Small_Size"/>
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+    <TextView
+        android:id="@+id/btn_proceed"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/josefinsans_regular"
+        android:layout_alignParentBottom="true"
+        android:text="Proceed"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/text_Large_Size" />
+
+
+
+
+
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+
+
+</RelativeLayout>

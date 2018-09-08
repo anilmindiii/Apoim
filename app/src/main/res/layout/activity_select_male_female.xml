@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lending_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/bg_register_for_all_screens"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/select_male_female_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/josefinsans_regular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/select_male_female_welcome_text"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_XXLarge_Size" />
+
+                <TextView
+                    android:id="@+id/select_male_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/male"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/select_female_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/female"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/select_transgender_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/trasnsgender"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/select_chat_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/josefinsans_regular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/select_chat_date_welcome_text"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_XXLarge_Size" />
+
+                <TextView
+                    android:id="@+id/select_new_friends_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/new_friends"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/select_chat_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/chat"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/select_date_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/date"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/select_girl_guys_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/josefinsans_regular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/select_girl_guys_welcome_text"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_XXLarge_Size" />
+
+                <TextView
+                    android:id="@+id/select_girl_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/girl"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/select_guys_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/guys"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/select_txgender_for_date_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/trasnsgender"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+
+
+                <TextView
+                    android:id="@+id/select_girl_guy_both_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/all"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/select_public_private_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/josefinsans_regular"
+                    android:gravity="center_horizontal"
+                    android:text="@string/select_public_private_welcome_text"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_XXLarge_Size" />
+
+                <TextView
+                    android:id="@+id/select_public_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/s_public"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/select_private_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/s_private"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/select_public_private_both_button"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/bg_button"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="center"
+                    android:text="@string/s_both"
+                    android:textAllCaps="false"
+                    android:textColor="@drawable/register_btn_text_color"
+                    android:textSize="@dimen/text_Large_Size" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/register_signIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_gravity="center"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/josefinsans_regular"
+                    android:text="@string/already_have_an_account"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/_3sdp"
+                    android:fontFamily="@font/josefinsans_semibold"
+                    android:text="@string/register_sign_in"
+                    android:textColor="@color/colorBgButton"
+                    android:textSize="@dimen/text_Large_Size" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

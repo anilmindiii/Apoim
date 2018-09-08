@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_70sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_favorite_image"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:src="@drawable/ico_user_placeholder"
+            app:civ_border_color="@color/mdtp_dark_gray"
+            app:civ_border_width="0.5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_marginRight="@dimen/_34sdp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/_2sdp">
+
+            <TextView
+                android:id="@+id/tv_favorite_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:fontFamily="@font/nunito_regular"
+                android:gravity="center|start"
+                android:maxLines="1"
+                android:text="Vironica "
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_Medium_Size" />
+
+            <TextView
+                android:id="@+id/tv_favorite_work"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:fontFamily="@font/nunito_regular"
+                android:gravity="bottom"
+                android:maxLines="1"
+                android:text="student"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/text_Small_Size" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_favorite"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ico_favourite_active" />
+
+    <ImageView
+        android:id="@+id/iv_unread_msg"
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_10sdp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/active_dot"
+        android:visibility="gone"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/_60sdp"
+        android:background="@color/colorLightGray" />
+
+</RelativeLayout>

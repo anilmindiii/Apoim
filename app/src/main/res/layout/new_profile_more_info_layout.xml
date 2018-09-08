@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Verification"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_Large_Size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_gravity="top">
+
+                <RelativeLayout
+                    android:id="@+id/ly_mobile_veri"
+                    android:layout_width="@dimen/_65sdp"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/rectangular_gray_border">
+
+                    <ImageView
+                        android:id="@+id/iv_mobile_veri"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_15sdp"
+                        android:src="@drawable/inactive_sms"
+                        />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_mobile_veri_active"
+                    android:layout_width="@dimen/_28sdp"
+                    android:layout_height="@dimen/_28sdp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/verified"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tv_mobile_veri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorGray"
+                    android:text="@string/mobile_verification"
+                    android:fontFamily="@font/nunito_regular"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_Small_Size"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:layout_marginRight="@dimen/_7sdp"
+                android:layout_gravity="top">
+
+                <RelativeLayout
+                    android:id="@+id/ly_id_hand_veri"
+                    android:layout_width="@dimen/_65sdp"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/rectangular_gray_border">
+
+                    <ImageView
+                        android:id="@+id/iv_id_hand_veri"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_15sdp"
+                        android:src="@drawable/inactive_id" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_id_hand_veri_active"
+                    android:layout_width="@dimen/_28sdp"
+                    android:layout_height="@dimen/_28sdp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/verified"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tv_id_hand_veri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorGray"
+                    android:text="@string/id_with_hand"
+                    android:fontFamily="@font/nunito_regular"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/text_Small_Size"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_gravity="top">
+
+                <RelativeLayout
+                    android:id="@+id/ly_face_detection_veri"
+                    android:layout_width="@dimen/_65sdp"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/rectangular_gray_border">
+
+                    <ImageView
+                        android:id="@+id/iv_face_detection_veri"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_15sdp"
+                        android:src="@drawable/inactive_face" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_face_detection_veri_active"
+                    android:layout_width="@dimen/_28sdp"
+                    android:layout_height="@dimen/_28sdp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/verified"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tv_face_detection_veri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorGray"
+                    android:text="@string/face_detection"
+                    android:fontFamily="@font/nunito_regular"
+                    android:gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/text_Small_Size"/>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ly_business"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:gravity="start"
+                    android:text="Business Page"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size" />
+
+
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:src="@drawable/ico_left_arrow"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/colorGray" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="Work"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_Medium_Size" />
+
+
+            <TextView
+                android:id="@+id/tv_work"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="@dimen/text_Medium_Size"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/nunito_light"
+                android:text="@string/not_available"
+                android:layout_gravity="center"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/colorGray"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="Education"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_Medium_Size" />
+
+
+            <TextView
+                android:id="@+id/tv_education"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="@dimen/text_Medium_Size"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/nunito_light"
+                android:text="@string/not_available"
+                android:layout_gravity="center"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/colorGray"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="Height"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_Medium_Size" />
+
+
+            <TextView
+                android:id="@+id/tv_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="@dimen/text_Medium_Size"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/nunito_light"
+                android:text="@string/not_available"
+                android:layout_gravity="center"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/colorGray"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="Weight"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_Medium_Size" />
+
+
+            <TextView
+                android:id="@+id/tv_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="@dimen/text_Medium_Size"
+                android:textColor="@color/colorBlack"
+                android:fontFamily="@font/nunito_light"
+                android:text="@string/not_available"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

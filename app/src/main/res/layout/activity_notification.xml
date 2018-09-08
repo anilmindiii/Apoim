@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apoim.activity.NotificationActivity">
+
+    <RelativeLayout
+        android:id="@+id/main_view"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:animateLayoutChanges="true"
+        android:background="@drawable/header_bg">
+
+        <TextView
+            android:id="@+id/profile_action_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/notifications"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_18ssp" />
+
+        <ImageView
+            android:id="@+id/iv_filter"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_9sdp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ico_filter"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_back"
+            android:tint="@color/colorPrimary"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/_10sdp"/>
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:layout_marginTop="?actionBarSize"
+        />
+
+  <!--  <include
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_270sdp"
+        android:animateLayoutChanges="true"
+        android:layout_marginTop="?actionBarSize"
+        layout="@layout/notification_filter_layout"
+        android:visibility="gone"/>-->
+
+    <LinearLayout
+        android:id="@+id/ly_no_notification_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+       android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ico_notifi"
+            android:layout_gravity="center"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorGray"
+            android:textSize="@dimen/text_XXLarge_Size"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="@string/you_don_t_have_any_notifications_nright_now"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorGray"
+            android:textSize="@dimen/text_Medium_Size"
+           android:gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/nunito_regular"
+            android:text="@string/when_someone_added_"/>
+
+
+    </LinearLayout>
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+</RelativeLayout>

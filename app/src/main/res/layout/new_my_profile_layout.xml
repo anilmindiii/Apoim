@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.apoim.activity.OtherProfileActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/pager_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_210sdp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ico_user_placeholder"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBlack"
+            android:alpha="0.3"/>
+
+    </RelativeLayout>
+
+
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:behavior_peekHeight="@dimen/_350sdp"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true"
+        android:paddingTop="@dimen/_150sdp"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        android:scrollbars="none"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:nestedScrollingEnabled="false">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardElevation="@dimen/_3sdp"
+                android:elevation="@dimen/_3sdp"
+                android:nestedScrollingEnabled="false"
+                android:fitsSystemWindows="true"
+                android:layout_margin="@dimen/_8sdp"
+                app:cardCornerRadius="@dimen/_5sdp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:layout_marginLeft="@dimen/_10sdp">
+
+                        <TextView
+                            android:id="@+id/tv_fullName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:ellipsize="end"
+                            android:fontFamily="@font/josefinsans_semibold"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:text="Veronica"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_XLarge_Size" />
+                        <TextView
+                            android:id="@+id/tv_age"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:maxLines="1"
+                            android:maxLength="4"
+                            android:textSize="@dimen/text_Large_Size"
+                            android:textColor="@color/colorBlack"
+                            android:layout_marginRight="@dimen/_2sdp"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/josefinsans_semibold" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Small_Size"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:fontFamily="@font/nunito_regular"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_50sdp"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:id="@+id/ly_friends"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/tv_friend_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textSize="@dimen/text_Large_Size"
+                                android:fontFamily="@font/nunito_bold"
+                                android:textColor="@color/colorPrimaryDark" />
+
+                            <TextView
+                                android:id="@+id/tv_friendstxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textSize="@dimen/text_Small_Size"
+                                android:fontFamily="@font/nunito_regular"
+                                android:textColor="@color/colorGray"
+                                android:text="Friend"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0.7dp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center"
+                            android:background="@color/mdtp_line_background"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/tv_like_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/nunito_bold"
+                                android:textSize="@dimen/text_Large_Size"
+                                android:textColor="@color/colorPrimaryDark" />
+
+                            <TextView
+                                android:id="@+id/tv_likestxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textSize="@dimen/text_Small_Size"
+                                android:fontFamily="@font/nunito_regular"
+                                android:textColor="@color/colorGray"
+                                android:text="Like"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0.7dp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center"
+                            android:background="@color/mdtp_line_background"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:id="@+id/tv_visits_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textSize="@dimen/text_Large_Size"
+                                android:fontFamily="@font/nunito_bold"
+                                android:textColor="@color/colorPrimaryDark" />
+
+                            <TextView
+                                android:id="@+id/tv_visittxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textSize="@dimen/text_Small_Size"
+                                android:fontFamily="@font/nunito_regular"
+                                android:textColor="@color/colorGray"
+                                android:text="Visit"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.7dp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@color/mdtp_line_background"/>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="bottom"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/tv_basic_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/nunito_bold"
+                            android:gravity="center"
+                            android:text="Basic Info"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_Large_Size" />
+
+                        <View
+                            android:layout_width="0.7dp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_gravity="center"
+                            android:background="@color/mdtp_line_background" />
+
+                        <TextView
+                            android:id="@+id/tv_more_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/nunito_bold"
+                            android:gravity="center"
+                            android:text="More Info"
+                            android:textColor="@color/colorGray"
+                            android:textSize="@dimen/text_Large_Size" />
+
+                    </LinearLayout>
+
+
+                    <include
+                        android:id="@+id/ly_more_info"
+                        layout="@layout/new_profile_more_info_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginBottom="@dimen/_30sdp"
+                        android:visibility="gone" />
+
+                    <include
+                        android:id="@+id/ly_basic_info"
+                        layout="@layout/new_profile_basic_info_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginRight="@dimen/_13sdp"
+        android:layout_marginLeft="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_12sdp">
+
+        <ImageView
+            android:id="@+id/iv_settings"
+            android:layout_width="@dimen/_21sdp"
+            android:layout_height="@dimen/_21sdp"
+            android:src="@drawable/settings"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:src="@drawable/notification"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_197sdp"
+        android:layout_centerInParent="true"
+        android:elevation="@dimen/_6sdp"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.apoim.activity.OtherProfileActivity">
+
+
+
+        <RelativeLayout
+            android:id="@+id/pager_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_210sdp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_user_placeholder"
+                android:scaleType="centerCrop" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBlack"
+                android:alpha="0.3"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginRight="@dimen/_13sdp"
+                android:layout_marginLeft="@dimen/_13sdp"
+                android:layout_marginTop="@dimen/_25sdp">
+
+                <ImageView
+                    android:id="@+id/iv_settings"
+                    android:layout_width="@dimen/_21sdp"
+                    android:layout_height="@dimen/_21sdp"
+                    android:src="@drawable/settings"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:src="@drawable/notification"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:behavior_peekHeight="@dimen/_300sdp"
+            app:layout_behavior="@string/bottom_sheet_behavior"
+            android:scrollbars="none"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:cardElevation="@dimen/_3sdp"
+                    android:elevation="@dimen/_3sdp"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_marginRight="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    app:cardCornerRadius="@dimen/_5sdp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginLeft="@dimen/_10sdp">
+
+                            <TextView
+                                android:id="@+id/tv_fullName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/josefinsans_semibold"
+                                android:gravity="center"
+                                android:maxLines="1"
+                                android:text="Veronica"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/text_XLarge_Size" />
+                            <TextView
+                                android:id="@+id/tv_age"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:maxLines="1"
+                                android:maxLength="4"
+                                android:textSize="@dimen/text_Large_Size"
+                                android:textColor="@color/colorBlack"
+                                android:layout_marginRight="@dimen/_2sdp"
+                                android:layout_gravity="center"
+                                android:fontFamily="@font/josefinsans_semibold" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tv_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_Small_Size"
+                            android:layout_marginLeft="@dimen/_12sdp"
+                            android:fontFamily="@font/nunito_regular"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_50sdp"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <LinearLayout
+                                android:id="@+id/ly_friends"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:orientation="vertical"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:id="@+id/tv_friend_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textSize="@dimen/text_Large_Size"
+                                    android:fontFamily="@font/nunito_bold"
+                                    android:textColor="@color/colorPrimaryDark" />
+
+                                <TextView
+                                    android:id="@+id/tv_friendstxt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textSize="@dimen/text_Small_Size"
+                                    android:fontFamily="@font/nunito_regular"
+                                    android:textColor="@color/colorGray"
+                                    android:text="Friends"/>
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="0.7dp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_gravity="center"
+                                android:background="@color/mdtp_line_background"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:orientation="vertical"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:id="@+id/tv_like_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:fontFamily="@font/nunito_bold"
+                                    android:textSize="@dimen/text_Large_Size"
+                                    android:textColor="@color/colorPrimaryDark" />
+
+                                <TextView
+                                    android:id="@+id/tv_likestxt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textSize="@dimen/text_Small_Size"
+                                    android:fontFamily="@font/nunito_regular"
+                                    android:textColor="@color/colorGray"
+                                    android:text="Likes"/>
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="0.7dp"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_gravity="center"
+                                android:background="@color/mdtp_line_background"/>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                android:orientation="vertical"
+                                android:layout_weight="1">
+
+                                <TextView
+                                    android:id="@+id/tv_visits_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textSize="@dimen/text_Large_Size"
+                                    android:fontFamily="@font/nunito_bold"
+                                    android:textColor="@color/colorPrimaryDark" />
+
+                                <TextView
+                                    android:id="@+id/tv_visittxt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textSize="@dimen/text_Small_Size"
+                                    android:fontFamily="@font/nunito_regular"
+                                    android:textColor="@color/colorGray"
+                                    android:text="Visits"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.7dp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:background="@color/mdtp_line_background"/>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:gravity="bottom"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:id="@+id/tv_basic_info"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_bold"
+                                android:gravity="center"
+                                android:text="Basic Info"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/text_Large_Size" />
+
+                            <View
+                                android:layout_width="0.7dp"
+                                android:layout_height="@dimen/_25sdp"
+                                android:layout_gravity="center"
+                                android:background="@color/mdtp_line_background" />
+
+                            <TextView
+                                android:id="@+id/tv_more_info"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/nunito_bold"
+                                android:gravity="center"
+                                android:text="More Info"
+                                android:textColor="@color/colorGray"
+                                android:textSize="@dimen/text_Large_Size" />
+
+                        </LinearLayout>
+
+
+                        <include
+                            android:id="@+id/ly_more_info"
+                            layout="@layout/new_profile_more_info_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_30sdp"
+                            android:visibility="gone" />
+
+                        <include
+                            android:id="@+id/ly_more_info"
+                            layout="@layout/new_profile_basic_info_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="visible" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </RelativeLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+
+
+
+
+        <com.apoim.util.InsLoadingView
+            android:id="@+id/loading_view"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:src="@drawable/app_icon"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_197sdp"
+            android:elevation="@dimen/_6sdp"
+            android:visibility="gone"/>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+

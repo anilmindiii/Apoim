@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="?actionBarSize"
+            android:background="@drawable/header_bg">
+
+            <TextView
+                android:id="@+id/tv_filter_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recevied_appointment"
+                android:gravity="center"
+                android:fontFamily="@font/nunito_regular"
+                android:textSize="@dimen/text_Medium_Size"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorBlack"/>
+
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_marginTop="@dimen/_87sdp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            android:nestedScrollingEnabled="false" />
+
+        <LinearLayout
+            android:id="@+id/ly_no_appointment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_no_appointment"
+                android:layout_gravity="center"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/text_XXLarge_Size"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/nunito_semibold"
+                android:text="@string/no_appointment_available"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/text_Medium_Size"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_35sdp"
+                android:layout_marginLeft="@dimen/_35sdp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/nunito_regular"
+                android:text="@string/so_easy_and_simple_to_create_appointment_txt"/>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@drawable/header_bg">
+
+        <TextView
+            android:id="@+id/profile_action_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/appointment"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_18ssp" />
+
+        <ImageView
+            android:id="@+id/iv_filter"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_9sdp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ico_filter"
+            android:gravity="center" />
+
+
+    </RelativeLayout>
+
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_197sdp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

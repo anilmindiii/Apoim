@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_75sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/member_image"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                app:civ_border_color="@color/colorGray"
+                app:civ_border_width="0.5dp"
+                android:src="@drawable/ico_user_placeholder"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_6sdp"
+                android:layout_marginRight="@dimen/_36sdp"
+                android:padding="@dimen/_2sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/member_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start"
+                    android:layout_gravity="start"
+                    android:text="Vironica"
+                    android:fontFamily="@font/nunito_regular"
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size"/>
+
+                <TextView
+                    android:id="@+id/member_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_regular"
+                    android:maxLines="1"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:textColor="@color/colorgreen"
+                    android:textSize="@dimen/text_Small_Size"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_remove"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ico_app_cancel"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/_15sdp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLightGray"
+            android:layout_marginLeft="@dimen/_60sdp"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_70sdp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_40sdp"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/compan_image"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
+                app:civ_border_color="@color/colorGray"
+                app:civ_border_width="0.5dp"
+                android:src="@drawable/ico_user_placeholder"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_6sdp"
+                android:layout_marginRight="@dimen/_36sdp"
+                android:padding="@dimen/_2sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/compan_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start"
+                    android:layout_gravity="start"
+                    android:text="Vironica"
+                    android:fontFamily="@font/nunito_regular"
+                    android:maxLines="1"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Medium_Size"/>
+
+                <TextView
+                    android:id="@+id/compan_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_regular"
+                    android:maxLines="1"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:textColor="@color/colorgreen"
+                    android:textSize="@dimen/text_Small_Size"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_remove_friend"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ico_app_cancel"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:visibility="gone"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorLightGray"
+            android:layout_marginLeft="@dimen/_60sdp"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>
