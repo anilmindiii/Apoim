@@ -73,6 +73,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.apoim.activity.SubscriptionPayActivity.paymentType;
+
 public class AppointmentDirectionActivity extends AppCompatActivity implements OnMapReadyCallback
         , View.OnClickListener, LocationListener,
         GoogleApiClient.ConnectionCallbacks,
@@ -82,7 +84,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
     private GoogleDirection gd;
     private GoogleDirection gd1;
     private SingleAppointmentInfo listInfo;
-    private TextView tv_crd,tv_time, tv_address, tv_by_name, tv_for_name;
+    private TextView tv_crd, tv_time, tv_address, tv_by_name, tv_for_name;
     private ImageView iv_by_profile, iv_for_profile, iv_delete_meeting, iv_back;
     private TextView finish_meeting_button;
     private InsLoadingView loadingView;
@@ -106,14 +108,14 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
     String appId = "";
     Marker marker_start, marker_end;
     Marker marker_end1;
-    private LinearLayout ly_accept, ly_reject, ly_fill_counter_price,ly_counter;
-    private TextView tv_counter_price,tv_offer_price;
+    private LinearLayout ly_accept, ly_reject, ly_fill_counter_price, ly_counter;
+    private TextView tv_counter_price, tv_offer_price;
     private int count = -1;
-    RelativeLayout ly_accept_reject,ly_popup_menu,ly_update_apoim;
+    RelativeLayout ly_accept_reject, ly_popup_menu, ly_update_apoim;
     private ImageView iv_popup_menu;
     private LinearLayout ly_is_buz_added;
     private ImageView iv_buz_image;
-    private TextView tv_buz_name, tv_buz_location;
+    private TextView tv_buz_name, tv_buz_location, pay_button;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -178,6 +180,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         iv_buz_image = findViewById(R.id.iv_buz_image);
         tv_buz_name = findViewById(R.id.tv_buz_name);
         tv_buz_location = findViewById(R.id.tv_buz_location);
+        pay_button = findViewById(R.id.pay_button);
 
         finish_meeting_button.setOnClickListener(this);
         iv_delete_meeting.setOnClickListener(this);
@@ -188,6 +191,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         ly_fill_counter_price.setOnClickListener(this);
         iv_popup_menu.setOnClickListener(this);
         ly_update_apoim.setOnClickListener(this);
+        pay_button.setOnClickListener(this);
     }
 
 
@@ -220,22 +224,72 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 break;
             }
             case R.id.iv_popup_menu: {
-                if(ly_popup_menu.getVisibility() == View.VISIBLE){
+                if (ly_popup_menu.getVisibility() == View.VISIBLE) {
                     ly_popup_menu.setVisibility(View.GONE);
-                }
-                else ly_popup_menu.setVisibility(View.VISIBLE);
+                } else ly_popup_menu.setVisibility(View.VISIBLE);
 
                 break;
             }
             case R.id.ly_update_apoim: {
-                Intent intent = new Intent(AppointmentDirectionActivity.this,CreateAppointMentActivity.class);
-                intent.putExtra("SingleAppointmentInfo",listInfo.appoimData);
-                intent.putExtra("forEditApoim","forEditApoim");
-                startActivity(intent);
+
+                if (listInfo != null)
+
+                    if (listInfo.appoimData.appointById.equals(myUserId)) {
+                        if (listInfo.appoimData.appointmentStatus.equals("2") || listInfo.appoimData.appointmentStatus.equals("4")) {
+                            Utils.openAlertDialog(AppointmentDirectionActivity.this, "You can not edit apointment");
+                        } else {
+                            askEditApoimDialog(this, "Are you sure want to edit apointment");
+                        }
+                    }
+
+                break;
+            }
+            case R.id.pay_button: {
+                /*if (listInfo.appoimData.isCounterApply.equals("1")) {
+                    // send counter price
+                    Intent intent = new Intent(AppointmentDirectionActivity.this, SubscriptionPayActivity.class);
+                    intent.putExtra(paymentType, Constant.PayForMap);// 1 for pay for map
+                    startActivityForResult(intent, 1);
+
+                } else {
+                    // send offer price
+
+                    Intent intent = new Intent(AppointmentDirectionActivity.this, SubscriptionPayActivity.class);
+                    intent.putExtra(paymentType, Constant.PayForMap);// 1 for pay for map
+                    startActivityForResult(intent, 1);
+                }*/
+
                 break;
             }
         }
     }
+
+    public void askEditApoimDialog(Context context, String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Apoim");
+        builder.setCancelable(false);
+        builder.setMessage(message);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent intent = new Intent(AppointmentDirectionActivity.this, CreateAppointMentActivity.class);
+                intent.putExtra("SingleAppointmentInfo", listInfo.appoimData);
+                intent.putExtra("forEditApoim", "forEditApoim");
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 
     private void enterCounterPriceDialog(String offerPrice) {
         final Dialog dialog = new Dialog(AppointmentDirectionActivity.this);
@@ -538,8 +592,8 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 SimpleDateFormat formatShort = new SimpleDateFormat("hh:mm aa", Locale.US);
                 Log.v("timeLong", formatShort.format(formatLong.parse(timeLong)));
 
-                meetingAddress = date_after + ", " ;
-                meetingtime =  formatShort.format(formatLong.parse(timeLong));
+                meetingAddress = date_after + ", ";
+                meetingtime = formatShort.format(formatLong.parse(timeLong));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -560,15 +614,15 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
             tv_for_name.setText(listInfo.ForName);
 
             if (listInfo.appointById.equals(myUserId)) {
+
                 if (listInfo.appointByStatus.equals("1")) {
-                    //tv_status.setText("Waiting for approval");
                     finish_meeting_button.setVisibility(View.GONE);
                 } else if (listInfo.appointByStatus.equals("2")) {
-                    // tv_status.setText("Confirmed appointment");
                     finish_meeting_button.setVisibility(View.VISIBLE);
                 }
                 isById = true;
                 isForId = false;
+                ly_update_apoim.setVisibility(View.VISIBLE);
 
             } else if (listInfo.appointForId.equals(myUserId)) {
                 if (listInfo.appointForStatus.equals("1")) {
@@ -578,9 +632,9 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     //tv_status.setText("Confirmed appointment");
                     finish_meeting_button.setVisibility(View.VISIBLE);
                 }
-
                 isById = false;
                 isForId = true;
+                ly_update_apoim.setVisibility(View.GONE);
             }
         }
 
@@ -597,7 +651,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         if (mapFragment != null)
             mapFragment.getMapAsync(this);
 
-        if(!listInfo.business_id.equals("")){
+        if (!listInfo.businessId.equals("")) {
             ly_is_buz_added.setVisibility(View.VISIBLE);
             tv_address.setVisibility(View.GONE);
             tv_buz_name.setText(listInfo.businessName);
@@ -607,7 +661,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     .businessImage).apply(new RequestOptions()
                     .placeholder(R.drawable.placeholder_chat_image)).into(iv_buz_image);
 
-        }else {
+        } else {
             ly_is_buz_added.setVisibility(View.GONE);
             tv_address.setVisibility(View.VISIBLE);
         }
@@ -619,45 +673,53 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
         if (listInfo.offerPrice.equals("")) {
             tv_offer_price.setText("Free");
-        } else tv_offer_price.setText("$ "+listInfo.offerPrice);
+        } else tv_offer_price.setText("$ " + listInfo.offerPrice);
 
-        tv_counter_price.setText("$ "+ listInfo.counterPrice);
+        tv_counter_price.setText("$ " + listInfo.counterPrice);
 
         if (listInfo.appointById.equals(myUserId)) {
 
-            if (listInfo.isCounterApply.equals("1")) {
+            if (listInfo.isFinish.equals("1")) {
+                ly_accept.setVisibility(View.GONE);
+                ly_reject.setVisibility(View.GONE);
+            }
+            else if (listInfo.isCounterApply.equals("1")) {
 
                 if (listInfo.counterStatus.equals("0")) {
                     ly_accept_reject.setVisibility(View.VISIBLE);
-                } else {
-                    ly_accept_reject.setVisibility(View.GONE);
-
+                } else if (listInfo.counterStatus.equals("1")) {
+                    // pay button visible
+                    ly_counter.setVisibility(View.VISIBLE);
+                    pay_button.setVisibility(View.VISIBLE);
+                } else if (listInfo.counterStatus.equals("3")) {
+                    // finish button visible else all gone
+                    finish_meeting_button.setVisibility(View.VISIBLE);
                 }
 
-            } else if (listInfo.isFinish.equals("1")) {
-                ly_accept.setVisibility(View.GONE);
-                ly_reject.setVisibility(View.GONE);
-            } else if (listInfo.appointmentStatus.equals("1")) {
+            }
+            else if (listInfo.appointmentStatus.equals("1")) {
 
                 ly_accept_reject.setVisibility(View.GONE);
 
                 if (listInfo.counterPrice.equals("0")) {// empty mean free
                     ly_counter.setVisibility(View.GONE);
-                } else{
-                   ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
+                } else {
+                    ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
                 }
 
 
             } else if (listInfo.appointmentStatus.equals("2")) {
-
                 ly_accept_reject.setVisibility(View.GONE);
 
-                if (listInfo.counterPrice.equals("0")) {// empty mean free
+                if (listInfo.offerPrice.equals("")) {// empty mean free case
                     ly_counter.setVisibility(View.GONE);
-                } else{
-                    ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
+                    finish_meeting_button.setVisibility(View.VISIBLE);
+                } else {
+                    pay_button.setVisibility(View.VISIBLE);// if free then gone if paid then visible
                 }
 
+            } else if (listInfo.appointmentStatus.equals("4")) { // confirm for paid apointment
+                finish_meeting_button.setVisibility(View.VISIBLE);
 
             }
         }
@@ -666,12 +728,26 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         else if (listInfo.appointForId.equals(myUserId)) {
 
             if (listInfo.isFinish.equals("1")) {
-                ly_accept.setVisibility(View.GONE);
-                ly_reject.setVisibility(View.GONE);
+
+                if (listInfo.offerPrice.equals("")) { // free wala case
+                    tv_offer_price.setText("Free");
+                } else {
+                    if (listInfo.counterStatus.equals("3")) {
+                        ly_counter.setVisibility(View.VISIBLE);
+                    } else {
+                        ly_counter.setVisibility(View.GONE);
+                    }
+                }
+            } else if (listInfo.isCounterApply.equals("1")) {
+                if (listInfo.counterStatus.equals("0")) {
+                    ly_counter.setVisibility(View.VISIBLE);
+                } else if (listInfo.counterStatus.equals("3")) {
+                    finish_meeting_button.setVisibility(View.VISIBLE);
+                }
             } else if (listInfo.appointmentStatus.equals("1")) {
 
                 if (!listInfo.counterPrice.equals("0")) {
-                   ly_counter.setVisibility(View.VISIBLE);
+                    ly_counter.setVisibility(View.VISIBLE);
                     ly_accept_reject.setVisibility(View.GONE);
                 } else {
                     ly_counter.setVisibility(View.GONE);
@@ -696,12 +772,14 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
             } else if (listInfo.appointmentStatus.equals("2")) {
                 ly_accept_reject.setVisibility(View.GONE);
 
-                if (!listInfo.counterPrice.equals("0")) {
-                    ly_counter.setVisibility(View.VISIBLE);
-                } else {
+                if (listInfo.offerPrice.equals("")) {// empty mean free case
                     ly_counter.setVisibility(View.GONE);
+                    finish_meeting_button.setVisibility(View.VISIBLE);
                 }
 
+
+            } else if (listInfo.appointmentStatus.equals("4")) {
+                finish_meeting_button.setVisibility(View.VISIBLE);
             }
 
         }
@@ -760,7 +838,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
     private boolean checkIfLocationOpened() {
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             return true;
         }
         // otherwise return false
@@ -940,7 +1018,8 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
 
                     if (status.equals("success")) {
-                        appointmentDetails(appId);                    } else {
+                        appointmentDetails(appId);
+                    } else {
                         Utils.openAlertDialog(AppointmentDirectionActivity.this, message);
                     }
 

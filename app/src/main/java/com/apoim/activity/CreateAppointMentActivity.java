@@ -209,6 +209,9 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
         isMybusinessAdded = signInInfo.userDetail.isBusinessAdded;
         myUserId = signInInfo.userDetail.userId;
         MybizSubscriptionId = signInInfo.userDetail.bizSubscriptionId;
+        if(MybizSubscriptionId == null){
+            MybizSubscriptionId = "";
+        }
 
         gd = new GoogleDirection(this);
         now = Calendar.getInstance();
@@ -426,12 +429,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
             @Override
             public void onClick(View view) {
                 if (isValidData()) {
-                    if (sendRequestBtn.getText().equals("Update Request")) { // case of update appointment request
-
-                    } else {
-                        createAppointment();
-                    }
-
+                    createAppointment();
                 }
             }
         });
@@ -840,6 +838,9 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
         } else {
             param.put("businessId", "");
         }
+        if (sendRequestBtn.getText().equals("Update Request")) { // case of update appointment request
+            param.put("appointmentId", appointmentId);
+        }
 
         WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
 
@@ -856,7 +857,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
                         Intent intent = new Intent();
                         intent.putExtra("status", "AppointmentRequestSent");
                         setResult(RESULT_OK, intent);
-                        appointmentDoneDialog(CreateAppointMentActivity.this, "Appointment request has been sent");
+                        appointmentDoneDialog(CreateAppointMentActivity.this, message);
                     } else {
                         Utils.openAlertDialog(CreateAppointMentActivity.this, message);
                     }
@@ -875,7 +876,13 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
             }
         });
 
-        service.callSimpleVolley("appointment/makeAppointment", param);
+        if (sendRequestBtn.getText().equals("Update Request")) { // case of update appointment request
+            service.callSimpleVolley("appointment/updateAppointment", param);
+        } else {
+            service.callSimpleVolley("appointment/makeAppointment", param);
+        }
+
+
     }
 
     public void appointmentDoneDialog(final Activity context, String message) {

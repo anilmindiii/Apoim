@@ -59,7 +59,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
         myUserId = session.getUser().userDetail.userId;
     }
 
-    public void agoDate(String currentDate){
+    public void agoDate(String currentDate) {
         this.currentDate = currentDate;
     }
 
@@ -82,14 +82,14 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
         String date_before = bean.appointDate;
         String date_after = formateDateFromstring("yyyy-MM-dd", "dd, MMM yyyy", date_before);
 
-        holder.tv_time_ago.setText(TimeAgo.toRelative(bean.crd,currentDate));
+        holder.tv_time_ago.setText(TimeAgo.toRelative(bean.crd, currentDate));
 
 
-        holder.tv_date.setText(date_after+", ");
+        holder.tv_date.setText(date_after + ", ");
 
         if (apomList.get(position).offerPrice.equals("")) {
             holder.tv_offer_price.setText("Free");
-        } else holder.tv_offer_price.setText("$ "+bean.offerPrice);
+        } else holder.tv_offer_price.setText("$ " + bean.offerPrice);
 
         holder.tv_counter_price.setText("$ " + bean.counterPrice);
         holder.tv_counter_price1.setText("$ " + bean.counterPrice);
@@ -121,32 +121,33 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
 
         if (apomList.get(position).appointById.equals(myUserId)) {
 
-            if (bean.isCounterApply.equals("1")) {
+            if (apomList.get(position).isFinish.equals("1")) {
 
-                if(bean.counterStatus.equals("0")){
+                holder.tv_status.setText("Finished Appointment");
+                holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+                holder.ly_bottom_view.setVisibility(View.GONE);
+            }
+            else if (bean.isCounterApply.equals("1")) {
+
+                if (bean.counterStatus.equals("0")) {
                     holder.ly_status_counter.setVisibility(View.GONE);
                     holder.ly_accept_reject.setVisibility(View.VISIBLE);
-                }else {
+                } else if (bean.counterStatus.equals("1")) {
+                    holder.tv_status.setText("Payment is pending");
+                    holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.coloryellow));
+                    holder.ly_accept_reject.setVisibility(View.GONE);
+                    holder.ly_status_counter.setVisibility(View.VISIBLE);
+                } else if (bean.counterStatus.equals("3")) {
                     holder.ly_status_counter.setVisibility(View.VISIBLE);
                     holder.ly_accept_reject.setVisibility(View.GONE);
 
                     holder.tv_status.setText("Confirmed Appointment");
                     holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
                 }
-
-
-            } else if (apomList.get(position).isFinish.equals("1")) {
-
-                holder.tv_status.setText("Finished Appointment");
-                holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-                holder.ly_accept.setVisibility(View.GONE);
-                holder.ly_reject.setVisibility(View.GONE);
             } else if (apomList.get(position).appointmentStatus.equals("1")) {
 
                 holder.tv_status.setText("Waiting for approval");
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.coloryellow));
-              /*  holder.ly_accept.setVisibility(View.GONE);
-                holder.ly_reject.setVisibility(View.GONE);*/
 
                 holder.ly_accept_reject.setVisibility(View.GONE);
                 holder.ly_status_counter.setVisibility(View.VISIBLE);
@@ -158,10 +159,14 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
 
             } else if (apomList.get(position).appointmentStatus.equals("2")) {
 
-                holder.tv_status.setText("Confirmed Appointment");
-                holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
-               /* holder.ly_accept.setVisibility(View.GONE);
-                holder.ly_reject.setVisibility(View.GONE);*/
+
+                if (apomList.get(position).offerPrice.equals("")) {// empty mean free case
+                    holder.tv_status.setText("Confirmed Appointment");
+                    holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
+                } else {
+                    holder.tv_status.setText("Payment is pending");
+                    holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.coloryellow));// if free then gone if paid then visible
+                }
 
                 holder.ly_accept_reject.setVisibility(View.GONE);
                 holder.ly_status_counter.setVisibility(View.VISIBLE);
@@ -171,12 +176,20 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 } else
                     holder.ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
 
+            } else if (apomList.get(position).appointmentStatus.equals("4")) {
+
+                holder.tv_status.setText("Confirmed Appointment");
+                holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
+                holder.ly_accept_reject.setVisibility(View.GONE);
+                holder.ly_status_counter.setVisibility(View.VISIBLE);
             }
             holder.tv_name.setText(apomList.get(position).ForName);
 
             if (!apomList.get(position).byImage.equals(""))
                 Picasso.with(mContext).load(apomList.get(position).forImage).placeholder(R.drawable.ico_user_placeholder).into(holder.iv_profile);
 /*............................................................................................................................................*/
+
+
         } else if (apomList.get(position).appointForId.equals(myUserId)) {
 
             if (apomList.get(position).isFinish.equals("1")) {
@@ -184,12 +197,26 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
                 holder.ly_accept.setVisibility(View.GONE);
                 holder.ly_reject.setVisibility(View.GONE);
-            }
-            else if (apomList.get(position).appointmentStatus.equals("1")) {
-               /* holder.tv_status.setText("New Appointment request");
-                holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));*/
+            } else if (bean.isCounterApply.equals("1")) {
 
-                if(!bean.counterPrice.equals("0")){
+                if (bean.counterStatus.equals("0")) {
+                    holder.ly_status_counter.setVisibility(View.GONE);
+                    holder.ly_accept_reject.setVisibility(View.VISIBLE);
+                } else if (bean.counterStatus.equals("1")) {
+                    holder.tv_status.setText("Payment is pending");
+                    holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.coloryellow));
+                    holder.ly_accept_reject.setVisibility(View.GONE);
+                    holder.ly_status_counter.setVisibility(View.VISIBLE);
+                } else if (bean.counterStatus.equals("3")) {
+                    holder.ly_status_counter.setVisibility(View.VISIBLE);
+                    holder.ly_accept_reject.setVisibility(View.GONE);
+
+                    holder.tv_status.setText("Confirmed Appointment");
+                    holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
+                }
+            } else if (apomList.get(position).appointmentStatus.equals("1")) {
+
+                if (!bean.counterPrice.equals("0")) {
                     holder.ly_counter.setVisibility(View.VISIBLE);
                     holder.tv_counter_price1.setText(bean.counterPrice);
                     holder.tv_status.setText("Waiting for approval");
@@ -197,7 +224,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
 
                     holder.ly_accept_reject.setVisibility(View.GONE);
                     holder.ly_status_counter.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     holder.ly_counter.setVisibility(View.GONE);
                     holder.ly_accept_reject.setVisibility(View.VISIBLE);
                     holder.ly_status_counter.setVisibility(View.GONE);
@@ -211,36 +238,40 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                     holder.ly_fill_counter_price.setVisibility(View.VISIBLE); // if free then gone if paid then visible
 
 
-                /*if(!bean.counterPrice.equals("0")){
-                    holder.tv_counter_price.setText("$"+bean.counterPrice);
-                    holder.ly_fill_counter_price.setEnabled(false);
-
-                }else {
-                    holder.tv_counter_price.setText("Counter");
-                    holder.ly_fill_counter_price.setEnabled(true);
-                }*/
-
                 holder.ly_fill_counter_price.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         //Toast.makeText(mContext, "dbfjdbfjud", Toast.LENGTH_SHORT).show();
-                        enterCounterPriceDialog(position,bean.offerPrice);
+                        enterCounterPriceDialog(position, bean.offerPrice);
                     }
                 });
 
             } else if (apomList.get(position).appointmentStatus.equals("2")) {
+
+                if (apomList.get(position).offerPrice.equals("")) {// empty mean free case
+                    holder.tv_status.setText("Confirmed Appointment");
+                    holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
+                } else {
+                    holder.tv_status.setText("Payment is pending");
+                    holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.coloryellow));// if free then gone if paid then visible
+                }
+
+                holder.ly_accept_reject.setVisibility(View.GONE);
+                holder.ly_status_counter.setVisibility(View.VISIBLE);
+
+                if (!bean.counterPrice.equals("0")) {
+                    holder.ly_counter.setVisibility(View.VISIBLE);
+                    holder.tv_counter_price1.setText(bean.counterPrice);
+                } else {
+                    holder.ly_counter.setVisibility(View.GONE);
+                }
+
+
+            } else if (apomList.get(position).appointmentStatus.equals("4")) {
                 holder.tv_status.setText("Confirmed Appointment");
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
                 holder.ly_accept_reject.setVisibility(View.GONE);
                 holder.ly_status_counter.setVisibility(View.VISIBLE);
-
-                if(!bean.counterPrice.equals("0")){
-                    holder.ly_counter.setVisibility(View.VISIBLE);
-                    holder.tv_counter_price1.setText(bean.counterPrice);
-                }else {
-                    holder.ly_counter.setVisibility(View.GONE);
-                }
-
             }
             holder.tv_name.setText(apomList.get(position).ByName);
 
@@ -279,9 +310,9 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView iv_profile;
         TextView tv_time, tv_location, tv_time_date, tv_status, tv_name, tv_date,
-                tv_offer_price, tv_counter_price, tv_counter_price1,tv_time_ago;
-        LinearLayout ly_main_view, ly_accept, ly_reject, ly_counter,ly_fill_counter_price;
-        RelativeLayout ly_accept_reject, ly_status_counter,ly_bottom_view;
+                tv_offer_price, tv_counter_price, tv_counter_price1, tv_time_ago;
+        LinearLayout ly_main_view, ly_accept, ly_reject, ly_counter, ly_fill_counter_price;
+        RelativeLayout ly_accept_reject, ly_status_counter, ly_bottom_view;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -332,13 +363,13 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 case R.id.ly_reject: {
                    /* ly_accept.setVisibility(View.GONE);
                     ly_reject.setVisibility(View.GONE);*/
-                    reqStatus.rejectRequest(apomList.get(getAdapterPosition()).appId, getAdapterPosition(),apomList.get(getAdapterPosition()).isCounterApply,apomList.get(getAdapterPosition()).appointForId);
+                    reqStatus.rejectRequest(apomList.get(getAdapterPosition()).appId, getAdapterPosition(), apomList.get(getAdapterPosition()).isCounterApply, apomList.get(getAdapterPosition()).appointForId);
                     break;
                 }
                 case R.id.ly_accept: {
                    /* ly_accept.setVisibility(View.GONE);
                     ly_reject.setVisibility(View.GONE);*/
-                    reqStatus.acceptRequest(apomList.get(getAdapterPosition()).appId, getAdapterPosition(),apomList.get(getAdapterPosition()).isCounterApply,apomList.get(getAdapterPosition()).appointForId);
+                    reqStatus.acceptRequest(apomList.get(getAdapterPosition()).appId, getAdapterPosition(), apomList.get(getAdapterPosition()).isCounterApply, apomList.get(getAdapterPosition()).appointForId);
                     tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
                     // tv_status.setText("Confirmed Appointment");
 
@@ -367,17 +398,17 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
         TextView tv_offer_price = dialog.findViewById(R.id.tv_offer_price);
         ImageView iv_close_button = dialog.findViewById(R.id.iv_close_button);
 
-        tv_offer_price.setText("$"+offerPrice);
+        tv_offer_price.setText("$" + offerPrice);
 
         tv_apply_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String counter_price = ed_counter_price.getText().toString().trim();
-                if(!counter_price.equals("")){
-                    reqStatus.applyCounterTask(apomList.get(position).appId,counter_price,apomList.get(position).appointById,position);
+                if (!counter_price.equals("")) {
+                    reqStatus.applyCounterTask(apomList.get(position).appId, counter_price, apomList.get(position).appointById, position);
                     dialog.dismiss();
-                }else {
-                    Utils.openAlertDialog(mContext,"Please Enter Counter Price");
+                } else {
+                    Utils.openAlertDialog(mContext, "Please Enter Counter Price");
                 }
 
 
@@ -411,7 +442,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
             }
 
             public void afterTextChanged(Editable arg0) {
-                if (arg0.toString().length() == 1 && arg0.toString().startsWith("0") ||  arg0.toString().startsWith(".00")) {
+                if (arg0.toString().length() == 1 && arg0.toString().startsWith("0") || arg0.toString().startsWith(".00")) {
                     arg0.clear();
                 }
 

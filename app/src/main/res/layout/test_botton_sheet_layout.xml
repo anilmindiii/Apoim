@@ -19,7 +19,7 @@
             android:name="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"></fragment>
+            android:layout_weight="2"/>
 
     </RelativeLayout>
 
@@ -27,12 +27,15 @@
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/_10sdp"
         android:scrollbars="none"
         android:visibility="visible"
-        app:behavior_peekHeight="750dp"
+        app:behavior_peekHeight="160dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
         <LinearLayout
@@ -51,6 +54,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/_2sdp"
                 android:elevation="@dimen/_5sdp"
                 android:visibility="visible"
                 app:cardCornerRadius="@dimen/_8sdp"
@@ -98,7 +103,7 @@
                                 android:maxLines="1"
                                 android:text="03:00 PM"
                                 android:textColor="@color/colorGray"
-                                android:textSize="@dimen/text_Small_Size" />
+                                android:textSize="@dimen/text_very_Small_Size" />
 
                         </LinearLayout>
 
@@ -223,12 +228,12 @@
 
                         <RelativeLayout
                             android:layout_width="@dimen/_75sdp"
-                            android:layout_height="@dimen/_75sdp">
+                            android:layout_height="wrap_content">
 
                             <com.github.siyamed.shapeimageview.RoundedImageView
                                 android:id="@+id/iv_buz_image"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="@dimen/_75sdp"
                                 android:layout_margin="0.5dp"
                                 android:src="@drawable/hotel"
                                 app:siRadius="@dimen/_3sdp" />
@@ -237,8 +242,8 @@
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="clip_vertical"
                             android:layout_marginLeft="@dimen/_8sdp"
                             android:layout_marginRight="@dimen/_10sdp"
                             android:gravity="top"
@@ -249,7 +254,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/nunito_bold"
-                                android:maxLines="1"
                                 android:text="Rachal smith"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="@dimen/text_Small_Size" />
@@ -259,8 +263,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/nunito_regular"
-                                android:maxLines="2"
-                                android:text="mindiii system pvt limited piplihana, Indore "
+                                android:text="mindiii system pvt piplihana, Indore "
                                 android:textColor="@color/colorGray"
                                 android:textSize="@dimen/text_Small_Size" />
 
@@ -315,7 +318,8 @@
                             android:layout_gravity="right"
                             android:layout_weight="1"
                             android:gravity="right"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -354,7 +358,8 @@
                         android:text="Finish Meeting"
                         android:textAllCaps="false"
                         android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/text_Small_Size" />
+                        android:textSize="@dimen/text_Small_Size"
+                        android:visibility="gone"/>
 
                     <RelativeLayout
                         android:id="@+id/ly_accept_reject"
@@ -492,6 +497,23 @@
 
                     </RelativeLayout>
 
+                    <TextView
+                        android:id="@+id/pay_button"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/bg_login_btn"
+                        android:fontFamily="@font/josefinsans_semibold"
+                        android:gravity="center"
+                        android:text="Pay"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/text_Small_Size"
+                        android:visibility="gone"/>
+
                 </LinearLayout>
 
 
@@ -505,7 +527,8 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:elevation="@dimen/_5sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
-                app:cardElevation="@dimen/_4sdp">
+                app:cardElevation="@dimen/_4sdp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -661,10 +684,9 @@
 
         <RelativeLayout
             android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/_5sdp"
-
             android:layout_marginRight="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_40sdp"
             android:background="@color/colorWhite"
@@ -672,7 +694,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -688,14 +710,15 @@
                         android:layout_height="@dimen/_16sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/ico_video_call" />
+                        android:tint="@color/colorPrimary"
+                        android:src="@drawable/edit" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/nunito_regular"
-                        android:text="Update"
+                        android:text="Edit"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_14sdp" />
 
