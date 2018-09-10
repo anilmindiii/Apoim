@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apoim.R;
@@ -15,6 +16,7 @@ import com.apoim.listener.PositionListner;
 import com.apoim.modal.BusinessListInfo;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.loopeer.shadow.ShadowView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,8 +49,19 @@ public class BusinessHorizontalListAdapter extends RecyclerView.Adapter<Business
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BusinessListInfo.BusinessListBean bean = businessListBeans.get(position);
         holder.tv_buz_name.setText(bean.businessName+"");
-        holder.tv_distance.setText(bean.distance+"");
+
+        if(bean.distance != null &&!bean.distance.equals("")){
+            Double d = Double.valueOf(bean.distance);
+            holder.tv_distance.setText( String.format("%.2f", d)+"Km");
+        }
+
         Picasso.with(mContext).load(bean.businessImage).into(holder.buz_image);
+
+        if(bean.isSelected){
+            holder.shadow_view.setVisibility(View.VISIBLE);
+        }else  holder.shadow_view.setVisibility(View.GONE);
+
+
     }
 
     @Override
@@ -59,18 +72,25 @@ public class BusinessHorizontalListAdapter extends RecyclerView.Adapter<Business
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tv_buz_name,tv_distance;
         ImageView buz_image;
+        RelativeLayout shadow_view;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tv_buz_name = itemView.findViewById(R.id.tv_buz_name);
             tv_distance = itemView.findViewById(R.id.tv_distance);
             buz_image = itemView.findViewById(R.id.buz_image);
+            shadow_view = itemView.findViewById(R.id.shadow_view);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            for(int i =0 ; i < businessListBeans.size();i++){
+                businessListBeans.get(i).isSelected = false;
+            }
+            businessListBeans.get(getAdapterPosition()).isSelected = true;
             positionListner.getPosition(getAdapterPosition());
+
         }
     }
 }

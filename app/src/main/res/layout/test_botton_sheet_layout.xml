@@ -107,16 +107,6 @@
 
                         </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/iv_delete_meeting"
-                            android:layout_width="@dimen/_22sdp"
-                            android:layout_height="@dimen/_22sdp"
-                            android:layout_alignParentRight="true"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:src="@drawable/ico_trash_apoim" />
-
-
                     </RelativeLayout>
 
 
@@ -280,7 +270,7 @@
                         android:layout_marginRight="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:gravity="center"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:weightSum="2">
 
                         <LinearLayout
@@ -317,7 +307,6 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:layout_weight="1"
-                            android:gravity="right"
                             android:orientation="horizontal"
                             android:visibility="gone">
 
@@ -477,6 +466,7 @@
                                             android:src="@drawable/counter" />
 
                                         <TextView
+                                            android:id="@+id/tv_counter_price_bottom"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
@@ -683,7 +673,7 @@
 
 
         <RelativeLayout
-            android:layout_width="@dimen/_150sdp"
+            android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/_5sdp"
@@ -719,7 +709,9 @@
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/nunito_regular"
                         android:text="Edit"
-                        android:textColor="@color/colorBlack"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_14sdp" />
 
                     <View
@@ -731,7 +723,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/btn_audio_call"
+                    android:id="@+id/ly_delete"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_35sdp">
 
@@ -748,8 +740,12 @@
                         android:layout_centerInParent="true"
                         android:fontFamily="@font/nunito_regular"
                         android:text="Delete"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_14sdp" />
+
 
 
                 </RelativeLayout>

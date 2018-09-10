@@ -571,6 +571,7 @@
     <string name="recevied_appointment">Recevied Appointment</string>
     <string name="sent_appointment">Sent Appointment</string>
     <string name="finished_appointment">Finished Appointment</string>
+    <string name="sure_edit_apoim">Are you sure you want to edit appointment ?</string>
 
 
 </resources>

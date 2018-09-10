@@ -85,14 +85,14 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
     private GoogleDirection gd1;
     private SingleAppointmentInfo listInfo;
     private TextView tv_crd, tv_time, tv_address, tv_by_name, tv_for_name;
-    private ImageView iv_by_profile, iv_for_profile, iv_delete_meeting, iv_back;
+    private ImageView iv_by_profile, iv_for_profile, iv_back;
     private TextView finish_meeting_button;
     private InsLoadingView loadingView;
     private LatLng start;
     private LatLng end;
     private LatLng end1;
     private String myUserId = "";
-
+    private RelativeLayout ly_delete;
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     LocationManager locationManager;
@@ -109,7 +109,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
     Marker marker_start, marker_end;
     Marker marker_end1;
     private LinearLayout ly_accept, ly_reject, ly_fill_counter_price, ly_counter;
-    private TextView tv_counter_price, tv_offer_price;
+    private TextView tv_counter_price, tv_offer_price,tv_counter_price_bottom;
     private int count = -1;
     RelativeLayout ly_accept_reject, ly_popup_menu, ly_update_apoim;
     private ImageView iv_popup_menu;
@@ -159,7 +159,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         iv_for_profile = findViewById(R.id.iv_for_profile);
         tv_for_name = findViewById(R.id.tv_for_name);
         finish_meeting_button = findViewById(R.id.finish_meeting_button);
-        iv_delete_meeting = findViewById(R.id.iv_delete_meeting);
+        ly_delete = findViewById(R.id.ly_delete);
         iv_back = findViewById(R.id.iv_back);
 
         ly_accept = findViewById(R.id.ly_accept);
@@ -167,6 +167,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         ly_fill_counter_price = findViewById(R.id.ly_fill_counter_price);
 
         tv_counter_price = findViewById(R.id.tv_counter_price);
+        tv_counter_price_bottom = findViewById(R.id.tv_counter_price_bottom);
         tv_offer_price = findViewById(R.id.tv_offer_price);
 
         ly_accept_reject = findViewById(R.id.ly_accept_reject);
@@ -183,7 +184,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         pay_button = findViewById(R.id.pay_button);
 
         finish_meeting_button.setOnClickListener(this);
-        iv_delete_meeting.setOnClickListener(this);
+        ly_delete.setOnClickListener(this);
         iv_back.setOnClickListener(this);
 
         ly_accept.setOnClickListener(this);
@@ -203,7 +204,8 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     finish_meeting(listInfo.appoimData.appId);
                 break;
             }
-            case R.id.iv_delete_meeting: {
+            case R.id.ly_delete: {
+                ly_popup_menu.setVisibility(View.GONE);
                 conform_delete_meeting(this, getString(R.string.delete_appointment_sure));
                 break;
             }
@@ -212,11 +214,20 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 break;
             }
             case R.id.ly_accept: {
-                acceptAppoinmentRequest(appId);
+                if (listInfo.appoimData.isCounterApply.equals("1")) {
+                    upDateCounter(appId,listInfo.appoimData.appointForId,"1"); // 1 for accept
+                } else  acceptAppoinmentRequest(appId);
+
+
+
                 break;
             }
             case R.id.ly_reject: {
-                rejectAppoinmentRequest(appId);
+                if (listInfo.appoimData.isCounterApply.equals("1")) {
+                    upDateCounter(appId,listInfo.appoimData.appointForId,"2"); // 2 for reject
+                } else  rejectAppoinmentRequest(appId);
+
+
                 break;
             }
             case R.id.ly_fill_counter_price: {
@@ -231,14 +242,14 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 break;
             }
             case R.id.ly_update_apoim: {
-
+                ly_popup_menu.setVisibility(View.GONE);
                 if (listInfo != null)
 
                     if (listInfo.appoimData.appointById.equals(myUserId)) {
                         if (listInfo.appoimData.appointmentStatus.equals("2") || listInfo.appoimData.appointmentStatus.equals("4")) {
                             Utils.openAlertDialog(AppointmentDirectionActivity.this, "You can not edit apointment");
                         } else {
-                            askEditApoimDialog(this, "Are you sure want to edit apointment");
+                            askEditApoimDialog(this, getString(R.string.sure_edit_apoim));
                         }
                     }
 
@@ -657,9 +668,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
             tv_buz_name.setText(listInfo.businessName);
             tv_buz_location.setText(listInfo.businessAddress);
 
-            Glide.with(AppointmentDirectionActivity.this).load(listInfo
-                    .businessImage).apply(new RequestOptions()
-                    .placeholder(R.drawable.placeholder_chat_image)).into(iv_buz_image);
+            Picasso.with(AppointmentDirectionActivity.this).load(listInfo.businessImage).into(iv_buz_image);
 
         } else {
             ly_is_buz_added.setVisibility(View.GONE);
@@ -687,13 +696,19 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
                 if (listInfo.counterStatus.equals("0")) {
                     ly_accept_reject.setVisibility(View.VISIBLE);
+
+                    ly_fill_counter_price.setEnabled(false);
+                    tv_counter_price_bottom.setText(listInfo.counterPrice);
+
                 } else if (listInfo.counterStatus.equals("1")) {
                     // pay button visible
                     ly_counter.setVisibility(View.VISIBLE);
                     pay_button.setVisibility(View.VISIBLE);
+                    ly_accept_reject.setVisibility(View.GONE);
                 } else if (listInfo.counterStatus.equals("3")) {
                     // finish button visible else all gone
                     finish_meeting_button.setVisibility(View.VISIBLE);
+                    ly_counter.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -701,7 +716,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
                 ly_accept_reject.setVisibility(View.GONE);
 
-                if (listInfo.counterPrice.equals("0")) {// empty mean free
+                if (listInfo.counterPrice.equals("")) {// empty mean free
                     ly_counter.setVisibility(View.GONE);
                 } else {
                     ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
@@ -741,8 +756,10 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
             } else if (listInfo.isCounterApply.equals("1")) {
                 if (listInfo.counterStatus.equals("0")) {
                     ly_counter.setVisibility(View.VISIBLE);
+                    ly_accept_reject.setVisibility(View.GONE);
                 } else if (listInfo.counterStatus.equals("3")) {
                     finish_meeting_button.setVisibility(View.VISIBLE);
+                    ly_counter.setVisibility(View.VISIBLE);
                 }
             } else if (listInfo.appointmentStatus.equals("1")) {
 

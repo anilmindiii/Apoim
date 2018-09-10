@@ -93,6 +93,8 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
 
         holder.tv_counter_price.setText("$ " + bean.counterPrice);
         holder.tv_counter_price1.setText("$ " + bean.counterPrice);
+        holder.tv_coounter_price.setText("$ " + bean.counterPrice);
+        holder.ly_counter_price.setVisibility(View.GONE);
 
         try {
             String timeLong = bean.appointTime;
@@ -126,6 +128,12 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.tv_status.setText("Finished Appointment");
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
                 holder.ly_bottom_view.setVisibility(View.GONE);
+                if (bean.counterStatus.equals("0")) {// empty mean free
+                    holder.ly_counter_price.setVisibility(View.GONE); // if free then gone if paid then visible
+                } else
+                    holder.ly_counter_price.setVisibility(View.VISIBLE); // if free then gone if paid then visible
+
+
             }
             else if (bean.isCounterApply.equals("1")) {
 
@@ -152,7 +160,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.ly_accept_reject.setVisibility(View.GONE);
                 holder.ly_status_counter.setVisibility(View.VISIBLE);
 
-                if (bean.counterPrice.equals("0")) {// empty mean free
+                if (bean.counterStatus.equals("0")) {// empty mean free
                     holder.ly_counter.setVisibility(View.GONE); // if free then gone if paid then visible
                 } else
                     holder.ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
@@ -171,7 +179,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.ly_accept_reject.setVisibility(View.GONE);
                 holder.ly_status_counter.setVisibility(View.VISIBLE);
 
-                if (bean.counterPrice.equals("0")) {// empty mean free
+                if (bean.counterStatus.equals("0")) {// empty mean free
                     holder.ly_counter.setVisibility(View.GONE); // if free then gone if paid then visible
                 } else
                     holder.ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
@@ -195,13 +203,21 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
             if (apomList.get(position).isFinish.equals("1")) {
                 holder.tv_status.setText("Finished Appointment");
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-                holder.ly_accept.setVisibility(View.GONE);
-                holder.ly_reject.setVisibility(View.GONE);
+                holder.ly_bottom_view.setVisibility(View.GONE);
+                if (bean.counterStatus.equals("0")) {// empty mean free
+                    holder.ly_counter_price.setVisibility(View.GONE); // if free then gone if paid then visible
+                } else
+                    holder.ly_counter_price.setVisibility(View.VISIBLE); // if free then gone if paid then visible
+
             } else if (bean.isCounterApply.equals("1")) {
 
                 if (bean.counterStatus.equals("0")) {
-                    holder.ly_status_counter.setVisibility(View.GONE);
-                    holder.ly_accept_reject.setVisibility(View.VISIBLE);
+                    holder.ly_status_counter.setVisibility(View.VISIBLE);
+                    holder.ly_accept_reject.setVisibility(View.GONE);
+                    holder.tv_status.setText("Waiting for approval");
+
+                    holder.ly_counter.setVisibility(View.VISIBLE);
+                    holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.coloryellow));
                 } else if (bean.counterStatus.equals("1")) {
                     holder.tv_status.setText("Payment is pending");
                     holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.coloryellow));
@@ -216,7 +232,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 }
             } else if (apomList.get(position).appointmentStatus.equals("1")) {
 
-                if (!bean.counterPrice.equals("0")) {
+                if (!bean.counterStatus.equals("0")) {
                     holder.ly_counter.setVisibility(View.VISIBLE);
                     holder.tv_counter_price1.setText(bean.counterPrice);
                     holder.tv_status.setText("Waiting for approval");
@@ -259,7 +275,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.ly_accept_reject.setVisibility(View.GONE);
                 holder.ly_status_counter.setVisibility(View.VISIBLE);
 
-                if (!bean.counterPrice.equals("0")) {
+                if (!bean.counterStatus.equals("0")) {
                     holder.ly_counter.setVisibility(View.VISIBLE);
                     holder.tv_counter_price1.setText(bean.counterPrice);
                 } else {
@@ -310,8 +326,8 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView iv_profile;
         TextView tv_time, tv_location, tv_time_date, tv_status, tv_name, tv_date,
-                tv_offer_price, tv_counter_price, tv_counter_price1, tv_time_ago;
-        LinearLayout ly_main_view, ly_accept, ly_reject, ly_counter, ly_fill_counter_price;
+                tv_offer_price, tv_counter_price, tv_counter_price1, tv_time_ago,tv_coounter_price;
+        LinearLayout ly_main_view, ly_accept, ly_reject, ly_counter, ly_fill_counter_price,ly_counter_price;
         RelativeLayout ly_accept_reject, ly_status_counter, ly_bottom_view;
 
         public ViewHolder(View itemView) {
@@ -328,6 +344,8 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
             tv_name = itemView.findViewById(R.id.tv_name);
             iv_profile = itemView.findViewById(R.id.iv_profile);
             tv_date = itemView.findViewById(R.id.tv_date);
+            tv_coounter_price = itemView.findViewById(R.id.tv_coounter_price);
+
             ly_main_view = itemView.findViewById(R.id.ly_main_view);
             ly_fill_counter_price = itemView.findViewById(R.id.ly_fill_counter_price);
 
@@ -339,6 +357,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
             ly_status_counter = itemView.findViewById(R.id.ly_status_counter);
             ly_counter = itemView.findViewById(R.id.ly_counter);
             ly_bottom_view = itemView.findViewById(R.id.ly_bottom_view);
+            ly_counter_price = itemView.findViewById(R.id.ly_counter_price);
 
             ly_reject.setOnClickListener(this);
             ly_accept.setOnClickListener(this);

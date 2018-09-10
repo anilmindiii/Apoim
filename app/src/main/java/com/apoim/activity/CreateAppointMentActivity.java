@@ -163,6 +163,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
     private String businessId = "";
     private String MybizSubscriptionId = "";
     private Session session;
+    String forEditApoim = "";
 
     private LinearLayout ly_location, ly_is_buz_added;
     private ImageView iv_buz_image;
@@ -229,6 +230,11 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
                 tv_buz_location.setText(bean.businessAddress);
                 tv_buz_distance.setText(bean.distance);
 
+                if(bean.distance != null &&!bean.distance.equals("")){
+                    Double d = Double.valueOf(bean.distance);
+                    tv_buz_distance.setText(String.format("%.2f", d)+" Km");
+                }
+
                 Picasso.with(CreateAppointMentActivity.this).load(bean
                         .businessImage).into(iv_buz_image);
 
@@ -277,6 +283,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
 
         // for update apointment...
         if (getIntent().getStringExtra("forEditApoim") != null) {
+            forEditApoim = getIntent().getStringExtra("forEditApoim");
             SingleAppointmentInfo.AppoimDataBean listInfo = (SingleAppointmentInfo.AppoimDataBean) getIntent().getSerializableExtra("SingleAppointmentInfo");
 
             if (listInfo.forImage != null) {
@@ -337,8 +344,9 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
             appointLongitude = listInfo.appointLongitude;
             businessId = listInfo.businessId;
 
+            businessId = listInfo.business_id;
             // for business module set data
-            if (!listInfo.business_id.equals("")) {
+            if (!listInfo.business_id.equals("0")) {
                 ly_is_buz_added.setVisibility(View.VISIBLE);
                 ly_location.setVisibility(View.GONE);
 
@@ -373,10 +381,10 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
 
                     Glide.with(this).load(ProfileInfo.profileImage.get(0).image).apply(new RequestOptions().
                             placeholder(R.drawable.ico_user_placeholder)).into(iv_user_image);
-                    tv_user_name.setText(ProfileInfo.fullName);
+
                 }
             }
-
+            tv_user_name.setText(ProfileInfo.fullName);
             isOtherbusinessAdded = ProfileInfo.isBusinessAdded;
             otherUserId = ProfileInfo.userId;
 
@@ -479,54 +487,63 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
     private void inputFilter(final EditText et) {
         et.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-                if (et.getText().toString().contains(".")) {
-                    if (et.getText().toString().substring(et.getText().toString().indexOf(".") + 1, et.length()).length() == 2) {
-                        InputFilter[] fArray = new InputFilter[1];
-                        fArray[0] = new InputFilter.LengthFilter(arg0.length());
-                        et.setFilters(fArray);
-                    }
-                }
+                   if (et.getText().toString().contains(".")) {
+                       if (et.getText().toString().substring(et.getText().toString().indexOf(".") + 1, et.length()).length() == 2) {
+                           InputFilter[] fArray = new InputFilter[1];
+                           fArray[0] = new InputFilter.LengthFilter(arg0.length());
+                           et.setFilters(fArray);
+                       }
+                   }
             }
 
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-            }
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
 
             public void afterTextChanged(Editable arg0) {
-                if (arg0.toString().length() == 1 && arg0.toString().startsWith("0") || arg0.toString().startsWith(".00")) {
-                    arg0.clear();
-                }
 
-                if (arg0.length() > 0) {
-                    String str = et.getText().toString();
-                    et.setOnKeyListener(new View.OnKeyListener() {
-                        public boolean onKey(View v, int keyCode, KeyEvent event) {
-                            if (keyCode == KeyEvent.KEYCODE_DEL) {
-                                count--;
-                                InputFilter[] fArray = new InputFilter[1];
-                                fArray[0] = new InputFilter.LengthFilter(100);
-                                et.setFilters(fArray);
-                                //change the edittext's maximum length to 100.
-                                //If we didn't change this the edittext's maximum length will
-                                //be number of digits we previously entered.
+                if (arg0.toString().length() == 1 && arg0.toString().startsWith("0") || arg0.toString().startsWith(".00")) {
+                        arg0.clear();
+                    }
+
+                    if (arg0.length() > 0) {
+                        String str = et.getText().toString();
+                        et.setOnKeyListener(new View.OnKeyListener() {
+                            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                                if (keyCode == KeyEvent.KEYCODE_DEL) {
+                                    count--;
+                                    InputFilter[] fArray = new InputFilter[1];
+                                    fArray[0] = new InputFilter.LengthFilter(100);
+                                    et.setFilters(fArray);
+                                    //change the edittext's maximum length to 100.
+                                    //If we didn't change this the edittext's maximum length will
+                                    //be number of digits we previously entered.
+                                }
+                                return false;
                             }
-                            return false;
+                        });
+                        char t = str.charAt(arg0.length() - 1);
+                        if (t == '.') {
+                            count = 0;
                         }
-                    });
-                    char t = str.charAt(arg0.length() - 1);
-                    if (t == '.') {
-                        count = 0;
-                    }
-                    if (count >= 0) {
-                        if (count == 2) {
+                        if (count >= 0) {
+                            if (count == 2) {
+                                InputFilter[] fArray = new InputFilter[1];
+                                fArray[0] = new InputFilter.LengthFilter(arg0.length());
+
+                                et.setFilters(fArray);
+                                //prevent the edittext from accessing digits
+                                //by setting maximum length as total number of digits we typed till now.
+                            }
+                            count++;
+                        }else {
                             InputFilter[] fArray = new InputFilter[1];
-                            fArray[0] = new InputFilter.LengthFilter(arg0.length());
+                            fArray[0] = new InputFilter.LengthFilter(6);
+
                             et.setFilters(fArray);
-                            //prevent the edittext from accessing digits
-                            //by setting maximum length as total number of digits we typed till now.
                         }
-                        count++;
                     }
-                }
+
+
+
             }
         });
     }
@@ -542,7 +559,11 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
                 Utils.openAlertDialog(CreateAppointMentActivity.this, "Please enter offer price");
                 return false;
 
-            } else if (ly_is_buz_added.getVisibility() == View.VISIBLE) {
+            }else if(ed_offer_price.getText().toString().trim().equals(".") || ed_offer_price.getText().toString().trim().equals(".0")){
+                Utils.openAlertDialog(CreateAppointMentActivity.this, "Please enter valid offer price");
+                return false;
+            }
+            else if (ly_is_buz_added.getVisibility() == View.VISIBLE) {
                 return true;
             } else if (!v.isNullValue(tv_location.getText().toString().trim())) {
                 Utils.openAlertDialog(CreateAppointMentActivity.this, "Please select meeting location");
@@ -1086,40 +1107,19 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
                         BusinessListInfo businessListInfo = gson.fromJson(response, BusinessListInfo.class);
                         businessList.addAll(businessListInfo.businessList);
 
-                        if (isMybusinessAdded.equals("1")) {
 
-                            if (!MybizSubscriptionId.equals("")) {
-                                for (int i = 0; i < businessList.size(); i++) {
-                                    if (businessList.get(i).userId.equals(myUserId)) {
-                                        profile_horizontal_recycler.smoothScrollToPosition(i);
-
-                                        tv_buz_name.setText(businessList.get(i).businessName);
-                                        tv_buz_location.setText(businessList.get(i).businessAddress);
-                                        tv_buz_distance.setText(businessList.get(i).distance);
-
-                                        Glide.with(CreateAppointMentActivity.this).load(businessList.get(i)
-                                                .businessImage).apply(new RequestOptions()
-                                                .placeholder(R.drawable.placeholder_chat_image)).into(iv_buz_image);
-
-                                        appointAddress = businessList.get(i).businessAddress;
-                                        appointLatitude = businessList.get(i).businesslat;
-                                        appointLongitude = businessList.get(i).businesslong;
-                                        businessId = businessList.get(i).businessId;
-                                    }
-                                }
-
-                                ly_is_buz_added.setVisibility(View.VISIBLE);
-                                ly_location.setVisibility(View.GONE);
-                            }
-
-                        } else if (isOtherbusinessAdded.equals("1")) {
+                        if(!forEditApoim.equals("")){
                             for (int i = 0; i < businessList.size(); i++) {
-                                if (businessList.get(i).userId.equals(otherUserId)) {
-                                    profile_horizontal_recycler.scrollToPosition(i - 1);
+                                if (businessList.get(i).businessId.equals(businessId)) {
+                                    profile_horizontal_recycler.scrollToPosition(i);
 
                                     tv_buz_name.setText(businessList.get(i).businessName);
                                     tv_buz_location.setText(businessList.get(i).businessAddress);
-                                    tv_buz_distance.setText(businessList.get(i).distance);
+
+                                    if(businessList.get(i).distance != null &&!businessList.get(i).distance.equals("")){
+                                        Double d = Double.valueOf(businessList.get(i).distance);
+                                        tv_buz_distance.setText(String.format("%.2f", d)+" Km");
+                                    }
 
                                     Glide.with(CreateAppointMentActivity.this).load(businessList.get(i)
                                             .businessImage).apply(new RequestOptions()
@@ -1129,14 +1129,91 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
                                     appointLatitude = businessList.get(i).businesslat;
                                     appointLongitude = businessList.get(i).businesslong;
                                     businessId = businessList.get(i).businessId;
+                                    businessList.get(i).isSelected = true;
+
+                                    if(forEditApoim.equals("")){
+                                        ly_is_buz_added.setVisibility(View.VISIBLE);
+                                        ly_location.setVisibility(View.GONE);
+                                    }
+
+                                }
+                            }
+                        }
+                        else
+
+                        if (!MybizSubscriptionId.equals("")) {
+                                for (int i = 0; i < businessList.size(); i++) {
+                                    if (businessList.get(i).userId.equals(myUserId)) {
+                                        profile_horizontal_recycler.scrollToPosition(i);
+
+                                        tv_buz_name.setText(businessList.get(i).businessName);
+                                        tv_buz_location.setText(businessList.get(i).businessAddress);
+
+                                        if(businessList.get(i).distance != null &&!businessList.get(i).distance.equals("")){
+                                            Double d = Double.valueOf(businessList.get(i).distance);
+                                            tv_buz_distance.setText(String.format("%.2f", d)+" Km");
+                                        }
+
+                                        Glide.with(CreateAppointMentActivity.this).load(businessList.get(i)
+                                                .businessImage).apply(new RequestOptions()
+                                                .placeholder(R.drawable.placeholder_chat_image)).into(iv_buz_image);
+
+                                        appointAddress = businessList.get(i).businessAddress;
+                                        appointLatitude = businessList.get(i).businesslat;
+                                        appointLongitude = businessList.get(i).businesslong;
+                                        businessId = businessList.get(i).businessId;
+                                        businessList.get(i).isSelected = true;
+
+                                        if(forEditApoim.equals("")){
+                                            ly_is_buz_added.setVisibility(View.VISIBLE);
+                                            ly_location.setVisibility(View.GONE);
+                                        }
+
+                                    }
+                                }
+
+
+                            }
+
+                        else if (isOtherbusinessAdded.equals("1")) {
+                            for (int i = 0; i < businessList.size(); i++) {
+                                if (businessList.get(i).userId.equals(otherUserId)) {
+                                    profile_horizontal_recycler.scrollToPosition(i);
+
+                                    tv_buz_name.setText(businessList.get(i).businessName);
+                                    tv_buz_location.setText(businessList.get(i).businessAddress);
+
+                                    if(businessList.get(i).distance != null &&!businessList.get(i).distance.equals("")){
+                                        Double d = Double.valueOf(businessList.get(i).distance);
+                                        tv_buz_distance.setText(String.format("%.2f", d)+" Km");
+                                    }
+
+
+
+                                    Glide.with(CreateAppointMentActivity.this).load(businessList.get(i)
+                                            .businessImage).apply(new RequestOptions()
+                                            .placeholder(R.drawable.placeholder_chat_image)).into(iv_buz_image);
+
+                                    appointAddress = businessList.get(i).businessAddress;
+                                    appointLatitude = businessList.get(i).businesslat;
+                                    appointLongitude = businessList.get(i).businesslong;
+                                    businessId = businessList.get(i).businessId;
+                                    businessList.get(i).isSelected = true;
+
+                                    if(forEditApoim.equals("")){
+                                        ly_is_buz_added.setVisibility(View.VISIBLE);
+                                        ly_location.setVisibility(View.GONE);
+                                    }
                                 }
                             }
 
-                            ly_is_buz_added.setVisibility(View.VISIBLE);
-                            ly_location.setVisibility(View.GONE);
+
                         } else {
-                            ly_is_buz_added.setVisibility(View.GONE);
-                            ly_location.setVisibility(View.VISIBLE);
+                            if(forEditApoim.equals("")){
+                                ly_is_buz_added.setVisibility(View.GONE);
+                                ly_location.setVisibility(View.VISIBLE);
+                            }
+
                         }
 
 

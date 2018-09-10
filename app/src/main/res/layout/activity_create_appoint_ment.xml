@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:scrollbars="none"
+                android:layout_gravity="center_horizontal"
                 android:nestedScrollingEnabled="false"
                 android:layout_marginBottom="@dimen/_4sdp"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
@@ -241,11 +242,7 @@
                                 app:siRadius="@dimen/_3sdp" />
 
 
-
-
                         </RelativeLayout>
-
-
 
                         <LinearLayout
                             android:layout_width="wrap_content"

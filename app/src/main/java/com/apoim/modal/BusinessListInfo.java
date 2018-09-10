@@ -25,5 +25,6 @@ public class BusinessListInfo implements Serializable{
         public String bizSubscriptionId;
         public String bizSubscriptionStatus;
         public String distance;
+        public boolean isSelected;
     }
 }

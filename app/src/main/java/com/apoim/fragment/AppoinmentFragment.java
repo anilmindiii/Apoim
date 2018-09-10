@@ -202,7 +202,7 @@ public class AppoinmentFragment extends Fragment {
         } else if (type.equals("sent")) {
             sentSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);
         } else if (type.equals("finished")) {
-            //finishedSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);
+            finishedSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);
         }
 
         ly_receive_apoim.setOnClickListener(new View.OnClickListener() {
@@ -224,8 +224,8 @@ public class AppoinmentFragment extends Fragment {
         ly_finished_apoim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*id = R.id.ly_finished_apoim;
-                finishedSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);*/
+                id = R.id.ly_finished_apoim;
+                finishedSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);
             }
         });
 

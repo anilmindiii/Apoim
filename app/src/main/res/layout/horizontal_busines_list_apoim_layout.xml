@@ -7,18 +7,27 @@
     android:layout_height="@dimen/_120sdp"
     android:orientation="vertical">
 
-    <com.loopeer.shadow.ShadowView
+    <RelativeLayout
         android:id="@+id/shadow_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_2sdp"
+        android:backgroundTint="@color/colorPrimary"
+        android:alpha="0.7"
+        android:background="@drawable/rectangular_primary_border">
+
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
         android:layout_width="@dimen/_120sdp"
         android:layout_height="@dimen/_120sdp"
-        android:background="@color/colorLightGray"
+        android:background="@color/colorPrimary"
         android:elevation="3dp"
-        android:layout_margin="@dimen/_5sdp"
-        android:foreground="?attr/selectableItemBackground"
-        app:cornerRadius="@dimen/_5sdp"
-        app:shadowMargin="3dp"
-        app:shadowColor="@color/colorPrimary"
-        app:shadowRadius="3dp">
+        android:layout_margin="5dp"
+        app:cornerRadius="@dimen/_3sdp"
+        app:shadowMargin="3dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -28,7 +37,7 @@
                 android:id="@+id/buz_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:siRadius="@dimen/_5sdp"
+                app:siRadius="@dimen/_2sdp"
                 android:src="@drawable/hotel"/>
 
             <View
@@ -38,61 +47,63 @@
                 android:alpha="0.5"
                 />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            >
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_alignParentBottom="true"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
 
-                <TextView
-                    android:id="@+id/tv_buz_name"
+                >
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:maxLength="16"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_Small_Size"
-                    android:text="Peters italian"
-                    android:gravity="center"
-                    android:fontFamily="@font/nunito_bold"/>
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:layout_centerInParent="true"/>
+                    <TextView
+                        android:id="@+id/tv_buz_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:maxLength="16"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_Small_Size"
+                        android:text="Peters italian"
+                        android:gravity="center"
+                        android:fontFamily="@font/nunito_bold"/>
 
-                <TextView
-                    android:id="@+id/tv_distance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_Small_Size"
-                    android:text="2.5 Km"
-                    android:gravity="center"
-                    android:fontFamily="@font/nunito_bold"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_centerInParent="true"/>
+
+                    <TextView
+                        android:id="@+id/tv_distance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_Small_Size"
+                        android:text="2.5 Km"
+                        android:gravity="center"
+                        android:fontFamily="@font/nunito_bold"/>
 
 
-            </LinearLayout>
+                </LinearLayout>
 
+
+
+            </RelativeLayout>
 
 
         </RelativeLayout>
 
 
-        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
 
 
-
-    </com.loopeer.shadow.ShadowView>
 
 </RelativeLayout>
