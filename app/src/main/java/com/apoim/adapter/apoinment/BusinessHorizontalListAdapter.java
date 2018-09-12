@@ -14,9 +14,6 @@ import com.apoim.R;
 import com.apoim.activity.CreateAppointMentActivity;
 import com.apoim.listener.PositionListner;
 import com.apoim.modal.BusinessListInfo;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.loopeer.shadow.ShadowView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -55,7 +52,7 @@ public class BusinessHorizontalListAdapter extends RecyclerView.Adapter<Business
             holder.tv_distance.setText( String.format("%.2f", d)+"Km");
         }
 
-        Picasso.with(mContext).load(bean.businessImage).into(holder.buz_image);
+        Picasso.with(mContext).load(bean.businessImage).placeholder(R.drawable.placeholder_chat_image).into(holder.buz_image);
 
         if(bean.isSelected){
             holder.shadow_view.setVisibility(View.VISIBLE);

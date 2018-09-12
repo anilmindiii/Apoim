@@ -1,5 +1,6 @@
 package com.apoim.fragment;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ablanco.zoomy.Zoomy;
 import com.android.volley.VolleyError;
 import com.apoim.R;
 import com.apoim.activity.AppointmentDirectionActivity;
@@ -152,6 +154,8 @@ public class AppoinmentFragment extends Fragment {
                 filterDialog();
             }
         });
+
+
 
         return view;
     }

@@ -79,11 +79,13 @@ public class Constant {
     public static final String Pending_request = "5";
     public static final String Request_Canceled = "face_verification";
 
+
     public static final int PayForMap = 1;
     public static final int PayForToBeOnTop = 2;
     public static final int PayForcompainion = 4;
     public static final int PayForTSubscription = 5;
     public static final int PayForBusinessSubscription =6;
+    public static final int PayForCounterAppointment = 7;
 
 
     public static void hideSoftKeyboard(Activity activity) {

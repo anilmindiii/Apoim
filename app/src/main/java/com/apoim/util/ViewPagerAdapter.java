@@ -1,24 +1,19 @@
 package com.apoim.util;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
 
+import com.ablanco.zoomy.Zoomy;
 import com.apoim.R;
-import com.apoim.activity.SliderImageActivity;
 import com.apoim.modal.GetOtherProfileInfo;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -86,11 +81,14 @@ public class ViewPagerAdapter extends PagerAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!images.get(position).equals("")){
+               /* if(!images.get(position).equals("")){
                     Intent  intent = new Intent(context, SliderImageActivity.class);
                     intent.putStringArrayListExtra("imagelist",images);
                     context.startActivity(intent);
-                }
+                }*/
+
+                Zoomy.Builder builder = new Zoomy.Builder((Activity) context).target(imageView);
+                builder.register();
 
             }
         });

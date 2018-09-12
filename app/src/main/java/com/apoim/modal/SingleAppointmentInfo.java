@@ -8,13 +8,13 @@ import java.io.Serializable;
 
 public class SingleAppointmentInfo  implements Serializable{
     
-
     public String status;
     public String message;
+    public String date;
     public AppoimDataBean appoimData;
 
     public static class AppoimDataBean implements Serializable {
-
+        
         public String appId;
         public String appointById;
         public String appointForId;
@@ -55,6 +55,16 @@ public class SingleAppointmentInfo  implements Serializable{
         public String businesslat;
         public String businesslong;
         public String businessImage;
-        
+        public Object reviewByUserId;
+        public Object reviewByRating;
+        public Object reviewByComment;
+        public Object reviewByCreatedDate;
+        public Object reviewForUserId;
+        public Object reviewForRating;
+        public Object reviewForComment;
+        public Object reviewForCreatedDate;
+
+       
+         
     }
 }

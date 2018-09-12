@@ -75,6 +75,11 @@ public class SubscriptionPayActivity extends AppCompatActivity implements View.O
     private ArrayList<CurrencyInfo> currencyList;
     Session session ;
 
+    // for appointment...
+    String amount = "";
+    String appointmentId = "";
+    String appointForId = "";
+
     public static final int MAX_LENGTH_CARD_NUMBER_VISA_MASTERCARD = 19;
     public static final int MAX_LENGTH_CARD_NUMBER_AMEX = 17;
 
@@ -82,7 +87,6 @@ public class SubscriptionPayActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscription_pay);
-
 
         ImageView iv_back = findViewById(R.id.iv_back);
         cv_card = findViewById(R.id.cv_card);
@@ -192,6 +196,13 @@ public class SubscriptionPayActivity extends AppCompatActivity implements View.O
                         tv_pay.setText("Pay" + " " + info.symbol_native + eventAmount);
                     }
                 }
+            }
+
+            if(payfor == Constant.PayForCounterAppointment){
+                // for appointment...
+                amount = getIntent().getStringExtra("amount");
+                appointmentId = getIntent().getStringExtra("appointmentId");;
+                appointForId = getIntent().getStringExtra("appointForId");;
             }
         }
 
@@ -426,6 +437,12 @@ public class SubscriptionPayActivity extends AppCompatActivity implements View.O
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
 
+        if(payfor == Constant.PayForCounterAppointment){
+            params.put("amount", amount);
+            params.put("appointmentId", appointmentId);
+            params.put("appointForId", appointForId);
+        }
+
         WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
             @Override
             public void onResponse(String response) {
@@ -494,14 +511,19 @@ public class SubscriptionPayActivity extends AppCompatActivity implements View.O
         if (payfor == Constant.PayForMap) { // 1 for payment for map
             service.callMultiPartApi("payment/viewOnMapPayment", params, null);
             //service.callSimpleVolley("payment/viewOnMapPayment",params);
-        } else if (payfor == Constant.PayForToBeOnTop) { // 2 for payment for to be on top
+        }
+        else if (payfor == Constant.PayForToBeOnTop) { // 2 for payment for to be on top
             service.callMultiPartApi("payment/paymentForShowTopList", params, null);
             //service.callSimpleVolley("payment/paymentForShowTopList",params);
-        }else if(payfor == Constant.PayForTSubscription){
+        }
+        else if(payfor == Constant.PayForTSubscription){
             service.callMultiPartApi("payment/subsPaymentProcess", params, null);
         }
         else if(payfor == Constant.PayForBusinessSubscription){
             service.callMultiPartApi("business/businessSubscription", params, null);
+        }
+        else if(payfor == Constant.PayForCounterAppointment){
+            service.callMultiPartApi("appointment/appointmentPayment", params, null);
         }
 
     }
@@ -527,7 +549,6 @@ public class SubscriptionPayActivity extends AppCompatActivity implements View.O
 
         completePaymentDialod(SubscriptionPayActivity.this, message);
     }
-
 
     public void completePaymentDialod(Context context, String message) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);

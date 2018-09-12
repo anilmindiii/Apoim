@@ -167,7 +167,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
 
     private LinearLayout ly_location, ly_is_buz_added;
     private ImageView iv_buz_image;
-    private TextView tv_buz_name, tv_buz_location, tv_buz_distance;
+    private TextView tv_buz_name, tv_buz_location, tv_buz_distance,tv_heading;
 
 
     private void init() {
@@ -191,6 +191,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
         tv_buz_name = findViewById(R.id.tv_buz_name);
         tv_buz_location = findViewById(R.id.tv_buz_location);
         tv_buz_distance = findViewById(R.id.tv_buz_distance);
+        tv_heading = findViewById(R.id.tv_heading);
     }
 
     @Override
@@ -281,6 +282,8 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
         mapBeanArrayList = new ArrayList<>();
         nearByUsersBean = new UserListInfo.NearByUsersBean();
 
+        /*.........................<<<<<<<<<<<<<<UPDATE CASE>>>>>>>>>>>.......................................*/
+
         // for update apointment...
         if (getIntent().getStringExtra("forEditApoim") != null) {
             forEditApoim = getIntent().getStringExtra("forEditApoim");
@@ -297,6 +300,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
             tv_location.setText(listInfo.appointAddress+"");
             ed_offer_price.setText(listInfo.offerPrice+"");
             sendRequestBtn.setText("Update Request");
+            tv_heading.setText("Update Appointment");
 
             String time = "";
             try {
@@ -370,7 +374,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
             mapBeanArrayList.add(nearByUsersBean);
             balloonAdapter = new BalloonAdapter(getLayoutInflater());
         }
-/*..........................................................................................................................*/
+/*.............................................<<<< END >>>>.............................................................................*/
 
         if (getIntent().getSerializableExtra("profileDetails") != null) {
 

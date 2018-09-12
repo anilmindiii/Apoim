@@ -318,7 +318,7 @@
         android:background="@drawable/header_bg">
 
         <TextView
-            android:id="@+id/profile_action_bar"
+            android:id="@+id/tv_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

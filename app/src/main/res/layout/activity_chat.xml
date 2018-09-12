@@ -70,7 +70,7 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             app:stackFromEnd="true" />
 
-        <com.loopeer.shadow.ShadowView
+        <android.support.v7.widget.CardView
             android:id="@+id/shadow_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,11 +78,7 @@
             android:elevation="3dp"
             android:layout_margin="@dimen/_5sdp"
             android:foreground="?attr/selectableItemBackground"
-            app:cornerRadius="@dimen/_5sdp"
-            app:shadowMargin="3dp"
-            app:shadowColor="@color/colorPrimary"
-            android:layout_alignParentBottom="true"
-            app:shadowRadius="3dp">
+            android:layout_alignParentBottom="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -90,7 +86,6 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:padding="@dimen/_5sdp"
-                app:layout_gravity="center"
                 android:weightSum="1">
 
                 <ImageView
@@ -136,7 +131,7 @@
             </LinearLayout>
 
 
-        </com.loopeer.shadow.ShadowView>
+        </android.support.v7.widget.CardView>
 
     </RelativeLayout>
 

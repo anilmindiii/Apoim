@@ -25,14 +25,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
+import com.apoim.adapter.ProfileRelationshipAdapter;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
 import com.apoim.helper.GoogleDirection;
+import com.apoim.listener.ProfileRelationListener;
+import com.apoim.modal.ProfileItemInfo;
 import com.apoim.modal.SingleAppointmentInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
@@ -115,7 +120,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
     private ImageView iv_popup_menu;
     private LinearLayout ly_is_buz_added;
     private ImageView iv_buz_image;
-    private TextView tv_buz_name, tv_buz_location, pay_button;
+    private TextView tv_buz_name, tv_buz_location, pay_button,review_button;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -182,6 +187,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         tv_buz_name = findViewById(R.id.tv_buz_name);
         tv_buz_location = findViewById(R.id.tv_buz_location);
         pay_button = findViewById(R.id.pay_button);
+        review_button = findViewById(R.id.review_button);
 
         finish_meeting_button.setOnClickListener(this);
         ly_delete.setOnClickListener(this);
@@ -193,6 +199,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         iv_popup_menu.setOnClickListener(this);
         ly_update_apoim.setOnClickListener(this);
         pay_button.setOnClickListener(this);
+        review_button.setOnClickListener(this);
     }
 
 
@@ -256,21 +263,23 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 break;
             }
             case R.id.pay_button: {
-                /*if (listInfo.appoimData.isCounterApply.equals("1")) {
-                    // send counter price
-                    Intent intent = new Intent(AppointmentDirectionActivity.this, SubscriptionPayActivity.class);
-                    intent.putExtra(paymentType, Constant.PayForMap);// 1 for pay for map
-                    startActivityForResult(intent, 1);
+                Intent intent = new Intent(AppointmentDirectionActivity.this, SubscriptionPayActivity.class);
+                intent.putExtra(paymentType, Constant.PayForCounterAppointment); // 7 for counter for map
+                intent.putExtra("appointmentId",listInfo.appoimData.appId);
+                intent.putExtra("appointForId",listInfo.appoimData.appointForId);
 
-                } else {
-                    // send offer price
+                if (listInfo.appoimData.isCounterApply.equals("1")) {
+                    intent.putExtra("amount",listInfo.appoimData.counterPrice); // send counter price
+                }else {
+                    intent.putExtra("amount",listInfo.appoimData.offerPrice);   // send offer price
+                }
+                startActivityForResult(intent, 1);
 
-                    Intent intent = new Intent(AppointmentDirectionActivity.this, SubscriptionPayActivity.class);
-                    intent.putExtra(paymentType, Constant.PayForMap);// 1 for pay for map
-                    startActivityForResult(intent, 1);
-                }*/
 
                 break;
+            }
+            case R.id.review_button:{
+                reviewDialog();
             }
         }
     }
@@ -367,7 +376,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
     }
 
 
-    private void drowRouteAnimated(String MODE, final int ico_current_red, final int colorPrimary) {
+    synchronized void drowRouteAnimated(String MODE, final int ico_current_red, final int colorPrimary) {
         if (gd != null) {
 
             gd.setOnDirectionResponseListener(new GoogleDirection.OnDirectionResponseListener() {
@@ -388,6 +397,9 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                                 .icon(BitmapDescriptorFactory.fromResource(ico_current_red)));
                     }
 
+                    String durationValue = gd.getTotalDurationText(doc);
+                    Log.d("durationValue",durationValue+"");
+
 
                     PolylineOptions options = new PolylineOptions().width(8).color(getResources().getColor(colorPrimary)).geodesic(true);
                     ArrayList<LatLng> arr_pos = gd.getDirection(doc);
@@ -404,7 +416,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
     }
 
-    private void drowRouteAnimated1(String MODE, final int ico_current_purple, final int colorPurple) {
+    synchronized void drowRouteAnimated1(String MODE, final int ico_current_purple, final int colorPurple) {
         if (gd1 != null) {
             gd1.setOnDirectionResponseListener(new GoogleDirection.OnDirectionResponseListener() {
                 public void onResponse(String status, Document doc, GoogleDirection gd) {
@@ -691,6 +703,13 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
             if (listInfo.isFinish.equals("1")) {
                 ly_accept.setVisibility(View.GONE);
                 ly_reject.setVisibility(View.GONE);
+
+                if (listInfo.counterPrice.equals("")) {// empty mean free
+                    ly_counter.setVisibility(View.GONE);
+                } else {
+                    ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
+                }
+
             }
             else if (listInfo.isCounterApply.equals("1")) {
 
@@ -709,6 +728,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     // finish button visible else all gone
                     finish_meeting_button.setVisibility(View.VISIBLE);
                     ly_counter.setVisibility(View.VISIBLE);
+                    pay_button.setVisibility(View.GONE);
                 }
 
             }
@@ -735,7 +755,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
             } else if (listInfo.appointmentStatus.equals("4")) { // confirm for paid apointment
                 finish_meeting_button.setVisibility(View.VISIBLE);
-
+                pay_button.setVisibility(View.GONE);
             }
         }
 
@@ -748,7 +768,10 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     tv_offer_price.setText("Free");
                 } else {
                     if (listInfo.counterStatus.equals("3")) {
-                        ly_counter.setVisibility(View.VISIBLE);
+                        if (listInfo.counterPrice.equals("")) {// empty mean free
+                            ly_counter.setVisibility(View.GONE); // if free then gone if paid then visible
+                        } else
+                            ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
                     } else {
                         ly_counter.setVisibility(View.GONE);
                     }
@@ -760,10 +783,11 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 } else if (listInfo.counterStatus.equals("3")) {
                     finish_meeting_button.setVisibility(View.VISIBLE);
                     ly_counter.setVisibility(View.VISIBLE);
+                    pay_button.setVisibility(View.GONE);
                 }
             } else if (listInfo.appointmentStatus.equals("1")) {
 
-                if (!listInfo.counterPrice.equals("0")) {
+                if (!listInfo.counterPrice.equals("")) {
                     ly_counter.setVisibility(View.VISIBLE);
                     ly_accept_reject.setVisibility(View.GONE);
                 } else {
@@ -797,6 +821,13 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
             } else if (listInfo.appointmentStatus.equals("4")) {
                 finish_meeting_button.setVisibility(View.VISIBLE);
+                pay_button.setVisibility(View.GONE);
+
+                if (listInfo.counterPrice.equals("")) {// empty mean free
+                   ly_counter.setVisibility(View.GONE); // if free then gone if paid then visible
+                } else{
+                    ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
+                }
             }
 
         }
@@ -989,7 +1020,6 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     String status = object.getString("status");
                     String message = object.getString("message");
 
-
                     if (status.equals("success")) {
                         appointmentDetails(appId);
                     } else {
@@ -1146,7 +1176,6 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         service.callSimpleVolley("appointment/changeAppointmentStatus", param);
     }
 
-
     // Input filter used to restrict amount input to be round off to 2 decimal places
     private void inputFilter(final EditText et) {
         et.addTextChangedListener(new TextWatcher() {
@@ -1202,6 +1231,47 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 }
             }
         });
+    }
+
+    private void reviewDialog() {
+        final Dialog dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.apoim_review_dialog);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+        EditText ed_review = dialog.findViewById(R.id.ed_review);
+        TextView tv_submit_button = dialog.findViewById(R.id.tv_submit_button);
+        RatingBar ratting_bar = dialog.findViewById(R.id.ratting_bar);
+        ImageView iv_close_button = dialog.findViewById(R.id.iv_close_button);
+
+        iv_close_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        tv_submit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String review = ed_review.getText().toString().trim();
+                float rating = ratting_bar.getRating();
+
+                if(review.equals("")){
+                    Utils.openAlertDialog(AppointmentDirectionActivity.this,"please write some review.");
+                    return;
+                }
+                else if(rating == 0.0){
+                    Utils.openAlertDialog(AppointmentDirectionActivity.this,"please give ratting.");
+                    return;
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.getWindow().setGravity(Gravity.CENTER);
+        dialog.show();
     }
 }
 

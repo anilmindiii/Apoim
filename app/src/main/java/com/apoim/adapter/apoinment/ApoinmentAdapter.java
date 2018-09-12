@@ -128,7 +128,8 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.tv_status.setText("Finished Appointment");
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
                 holder.ly_bottom_view.setVisibility(View.GONE);
-                if (bean.counterStatus.equals("0")) {// empty mean free
+
+                if (bean.counterPrice.equals("")) {// empty mean free
                     holder.ly_counter_price.setVisibility(View.GONE); // if free then gone if paid then visible
                 } else
                     holder.ly_counter_price.setVisibility(View.VISIBLE); // if free then gone if paid then visible
@@ -140,6 +141,15 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 if (bean.counterStatus.equals("0")) {
                     holder.ly_status_counter.setVisibility(View.GONE);
                     holder.ly_accept_reject.setVisibility(View.VISIBLE);
+
+                    if (bean.counterPrice.equals("")) {// empty mean free
+                        holder.ly_fill_counter_price.setVisibility(View.GONE); // if free then gone if paid then visible
+                    } else{
+                        holder.ly_fill_counter_price.setVisibility(View.VISIBLE); // if free then gone if paid then visible
+                        holder.ly_fill_counter_price.setEnabled(false);
+                    }
+
+
                 } else if (bean.counterStatus.equals("1")) {
                     holder.tv_status.setText("Payment is pending");
                     holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.coloryellow));
@@ -190,6 +200,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
                 holder.ly_accept_reject.setVisibility(View.GONE);
                 holder.ly_status_counter.setVisibility(View.VISIBLE);
+                holder.ly_counter.setVisibility(View.GONE);
             }
             holder.tv_name.setText(apomList.get(position).ForName);
 
@@ -204,10 +215,13 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.tv_status.setText("Finished Appointment");
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
                 holder.ly_bottom_view.setVisibility(View.GONE);
-                if (bean.counterStatus.equals("0")) {// empty mean free
+
+                if (bean.counterPrice.equals("")) {// empty mean free
                     holder.ly_counter_price.setVisibility(View.GONE); // if free then gone if paid then visible
-                } else
+                } else{
                     holder.ly_counter_price.setVisibility(View.VISIBLE); // if free then gone if paid then visible
+                }
+
 
             } else if (bean.isCounterApply.equals("1")) {
 
@@ -287,6 +301,14 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.tv_status.setText("Confirmed Appointment");
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
                 holder.ly_accept_reject.setVisibility(View.GONE);
+
+
+                if (bean.counterPrice.equals("")) {// empty mean free
+                    holder.ly_counter.setVisibility(View.GONE); // if free then gone if paid then visible
+                } else{
+                    holder.ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
+                }
+
                 holder.ly_status_counter.setVisibility(View.VISIBLE);
             }
             holder.tv_name.setText(apomList.get(position).ByName);

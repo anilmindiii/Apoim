@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -365,7 +364,6 @@
 
         </android.support.v7.widget.CardView>
 
-
         <android.support.v7.widget.CardView
             android:id="@+id/cvuserImg"
             android:layout_width="@dimen/_100sdp"
@@ -383,7 +381,6 @@
 
 
         </android.support.v7.widget.CardView>
-
 
     </RelativeLayout>
 

@@ -23,8 +23,8 @@
             android:background="@color/colorWhite">
 
           <ImageView
-              android:layout_width="@dimen/_60sdp"
-              android:layout_height="@dimen/_60sdp"
+              android:layout_width="@dimen/_50sdp"
+              android:layout_height="@dimen/_50sdp"
               android:src="@drawable/review"
               android:layout_marginTop="@dimen/_10sdp"
               android:layout_centerHorizontal="true"/>
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/_70sdp"
+                android:layout_marginTop="@dimen/_65sdp"
                 android:orientation="vertical">
 
                 <TextView
@@ -54,30 +54,36 @@
                     android:gravity="center"
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:textSize="@dimen/text_Medium_Size"
+                    android:textSize="@dimen/text_Small_Size"
                     android:fontFamily="@font/nunito_semibold"
                     android:textColor="@color/colorBlack"
                     android:layout_gravity="center"/>
 
                 <RatingBar
+                    android:id="@+id/ratting_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?android:attr/ratingBarStyleIndicator"
                     android:progressTint="@color/coloryellow"
-                    android:rating="3"
+                    android:rating="5"
+                    android:scaleX="0.6"
+                    android:scaleY="0.6"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_gravity="center"
-                    android:transformPivotX="10dp"
-                    android:transformPivotY="0dp"
                     android:max="5"/>
 
 
                 <EditText
-                    android:id="@+id/ed_counter_price"
+                    android:id="@+id/ed_review"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Write Comment"
                     android:background="@null"
-                    android:inputType="numberDecimal"
+                    android:maxLength="200"
+                    android:maxLines="2"
+                    android:textSize="@dimen/text_Small_Size"
+                    android:fontFamily="@font/nunito_regular"
+                    android:text="sdhshdishdishdihsidhsidhsidhidhishdishdishidhsidhsidhishdishdisdhisdhishdishdisdhisdhisdhisdhisdhisdhisdhisdhisdhisdhsidhsidhsidhsidhsidhisdhsidhsidhsidhsidhisdhisdhsidhsidhsidhapohd;a'cbadbucauobc;asc;bas;cb;absc;uabsc"
                     android:layout_marginTop="@dimen/_30sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"/>
@@ -92,14 +98,14 @@
 
 
                 <TextView
-                    android:id="@+id/tv_apply_button"
+                    android:id="@+id/tv_submit_button"
                     android:layout_width="@dimen/_200sdp"
-                    android:layout_height="@dimen/_35sdp"
+                    android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/_40sdp"
                     android:background="@drawable/bg_login_btn"
                     android:fontFamily="@font/josefinsans_semibold"
-                    android:text="Send Counter"
+                    android:text="Submit"
                     android:textAllCaps="false"
                     android:gravity="center"
                     android:layout_marginLeft="@dimen/_20sdp"

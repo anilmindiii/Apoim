@@ -25,9 +25,7 @@
         android:layout_height="@dimen/_120sdp"
         android:background="@color/colorPrimary"
         android:elevation="3dp"
-        android:layout_margin="5dp"
-        app:cornerRadius="@dimen/_3sdp"
-        app:shadowMargin="3dp">
+        android:layout_margin="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"

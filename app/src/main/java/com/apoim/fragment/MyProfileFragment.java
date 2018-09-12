@@ -8,12 +8,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,8 +29,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.ablanco.zoomy.Zoomy;
 import com.android.volley.VolleyError;
 import com.apoim.R;
+import com.apoim.activity.ImageGalleryActivity;
 import com.apoim.activity.MatchGalleryActivity;
 import com.apoim.activity.MyFevoriteActivity;
 import com.apoim.activity.MyFriendsActivity;
@@ -56,6 +61,8 @@ import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
 import com.apoim.util.Utils;
+import com.apoim.util.VerticalViewPager;
+import com.apoim.util.ViewPagerAdapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,6 +98,13 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     private LinearLayout ly_notifications;
     private LinearLayout ly_subscription;
     private ImageView iv_edit_profile;*/
+
+    private VerticalViewPager viewPager;
+    private LinearLayout sliderDotspanel,ly_uper_view;
+    private int dotscount;
+    private ImageView[] dots;
+    private ViewPagerAdapter viewPagerAdapter;
+
     private ImageView iv_mobile_veri, iv_id_hand_veri, iv_face_detection_veri;
     private ImageView iv_mobile_veri_active, iv_id_hand_veri_active, iv_face_detection_veri_active;
     private TextView tv_mobile_veri, tv_id_hand_veri, tv_face_detection_veri;
@@ -131,6 +145,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     TextView tv_appoim_type, tv_event_type;
     private ImageView iv_settings, iv_notication;
     String typeNotification = "";
+    RelativeLayout pager_main_layout;
 
     public static MyProfileFragment newInstance(String type) {
 
@@ -194,6 +209,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         ly_mobile_veri = view.findViewById(R.id.ly_mobile_veri);
         ly_id_hand_veri = view.findViewById(R.id.ly_id_hand_veri);
         ly_face_detection_veri = view.findViewById(R.id.ly_face_detection_veri);
+        pager_main_layout = view.findViewById(R.id.pager_main_layout);
 
 
         int numberOfColumns = 2;
@@ -229,6 +245,34 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         ly_friends.setOnClickListener(this);
 
 
+        viewPager = view.findViewById(R.id.viewPager);
+        sliderDotspanel =  view.findViewById(R.id.SliderDots);
+        //getProfileDetails();
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for(int i = 0; i< dotscount; i++){
+                    dots[i].setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.non_active_dot));
+                }
+
+                dots[position].setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.active_dot));
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+
         showInterestAdapter = new ShowInterestAdapter(Constant.OtherProfile, mContext, interestArrayList, new GetInterestValueListener() {
             @Override
             public void getInterestValue(String value) {
@@ -239,6 +283,8 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
 
 
         ly_my_fevorite.setOnClickListener(this);
+        iv_profile.setOnClickListener(this);
+
         /*ly_logout.setOnClickListener(this);
         ly_details.setOnClickListener(this);
         iv_edit_profile.setOnClickListener(this);
@@ -268,9 +314,13 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         iv_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (otherProfileInfo.status != null)
+                /*if (otherProfileInfo.status != null)
                     startActivity(new Intent(mContext, SettingsActivity.class)
-                            .putExtra("otherProfileInfo", otherProfileInfo));
+                            .putExtra("otherProfileInfo", otherProfileInfo));*/
+
+                Intent intent = new Intent(mContext, ImageGalleryActivity.class);
+                intent.putExtra("profileImage",otherProfileInfo.UserDetail.profileImage);
+                startActivity(intent);
             }
         });
 
@@ -300,6 +350,10 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         requestExecutor = Apoim.getInstance().getQbResRequestExecutor();
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
         currentUser = sharedPrefsHelper.getQbUser();
+
+
+        Zoomy.Builder builder = new Zoomy.Builder((Activity) mContext).target(iv_profile);
+        builder.register();
 
         return view;
     }
@@ -347,6 +401,14 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             case R.id.ly_my_fevorite: {
                 //ly_my_fevorite.setEnabled(false);
                 intent = new Intent(mContext, MyFevoriteActivity.class);
+                startActivity(intent);
+                break;
+            }
+
+            case R.id.iv_profile: {
+                //ly_my_fevorite.setEnabled(false);
+                intent = new Intent(mContext, ImageGalleryActivity.class);
+                intent.putExtra("profileImage",otherProfileInfo.UserDetail.profileImage);
                 startActivity(intent);
                 break;
             }
@@ -512,6 +574,28 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                         isResponceAppear = false;
                         Utils.openAlertDialog(mContext, message);
                     }
+
+                    /*............<<<<< view pager >>>>..................*/
+                    viewPagerAdapter = new ViewPagerAdapter(mContext,otherProfileInfo.UserDetail.profileImage);
+                    viewPager.setAdapter(viewPagerAdapter);
+
+                    dotscount = viewPagerAdapter.getCount();
+                    dots = new ImageView[dotscount];
+                    sliderDotspanel.removeAllViews();
+
+                    for(int i = 0; i < dotscount; i++){
+                        dots[i] = new ImageView(mContext);
+                        dots[i].setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.non_active_dot));
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(8, 0, 8, 0);
+                        sliderDotspanel.addView(dots[i], params);
+
+                    }
+
+                    if(dots.length != 0)
+                        dots[0].setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.active_dot));
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     isResponceAppear = false;
