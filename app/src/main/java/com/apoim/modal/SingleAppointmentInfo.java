@@ -55,14 +55,14 @@ public class SingleAppointmentInfo  implements Serializable{
         public String businesslat;
         public String businesslong;
         public String businessImage;
-        public Object reviewByUserId;
-        public Object reviewByRating;
-        public Object reviewByComment;
-        public Object reviewByCreatedDate;
-        public Object reviewForUserId;
-        public Object reviewForRating;
-        public Object reviewForComment;
-        public Object reviewForCreatedDate;
+        public String reviewByUserId;
+        public String reviewByRating;
+        public String reviewByComment;
+        public String reviewByCreatedDate;
+        public String reviewForUserId;
+        public String reviewForRating;
+        public String reviewForComment;
+        public String reviewForCreatedDate;
 
        
          

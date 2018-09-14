@@ -999,30 +999,20 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             if (requestCode == 234) {
                 Uri imageUri = ImagePicker.getImageURIFromResult(CreateAccountActivity.this, requestCode, resultCode, data);
 
-                if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
-                            .setAspectRatio(4, 3)
-                            .start(this);
-                } else {
-                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                }
-
-            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-
                 try {
-                    if (result != null)
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result.getUri());
+                    if (imageUri != null)
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
 
                     if (bitmap != null) {
 
-                        bitmap = ImagePicker.getImageResized(this, result.getUri());
+                        bitmap = ImagePicker.getImageResized(this, imageUri);
                         profileImage.setImageBitmap(bitmap);
                     }
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
         }
 

@@ -314,13 +314,10 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         iv_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*if (otherProfileInfo.status != null)
+                if (otherProfileInfo.status != null)
                     startActivity(new Intent(mContext, SettingsActivity.class)
-                            .putExtra("otherProfileInfo", otherProfileInfo));*/
+                            .putExtra("otherProfileInfo", otherProfileInfo));
 
-                Intent intent = new Intent(mContext, ImageGalleryActivity.class);
-                intent.putExtra("profileImage",otherProfileInfo.UserDetail.profileImage);
-                startActivity(intent);
             }
         });
 

@@ -16,6 +16,7 @@
     <color name="colorPurple">#8034ad</color>
     <color name="coloryellow">#f5b400</color>
     <color name="colorgreen">#0f9102</color>
+    <color name="colordarlyellow">#E7652B</color>
     <!--<color name="colorRipple">#A6a51d29</color>-->
     <color name="colorRipple">#c23642</color>
     <color name="verification_color">#eff5fb</color>

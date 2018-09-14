@@ -104,6 +104,11 @@
         <item name="android:layout_marginTop">4dip</item>
         </style>
 
+    <style name="customRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/active_check_box</item>
+        <item name="android:indeterminateDrawable">@drawable/star_active</item>
+    </style>
+
     //***************AUDIO AND VIDEO **************//
 
 

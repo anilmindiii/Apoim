@@ -129,7 +129,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
                 holder.ly_bottom_view.setVisibility(View.GONE);
 
-                if (bean.counterPrice.equals("")) {// empty mean free
+                if (bean.counterPrice.equals("") || bean.counterPrice.equals("0")) {// empty mean free
                     holder.ly_counter_price.setVisibility(View.GONE); // if free then gone if paid then visible
                 } else
                     holder.ly_counter_price.setVisibility(View.VISIBLE); // if free then gone if paid then visible
@@ -142,7 +142,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                     holder.ly_status_counter.setVisibility(View.GONE);
                     holder.ly_accept_reject.setVisibility(View.VISIBLE);
 
-                    if (bean.counterPrice.equals("")) {// empty mean free
+                    if (bean.counterPrice.equals("")|| bean.counterPrice.equals("0")) {// empty mean free
                         holder.ly_fill_counter_price.setVisibility(View.GONE); // if free then gone if paid then visible
                     } else{
                         holder.ly_fill_counter_price.setVisibility(View.VISIBLE); // if free then gone if paid then visible
@@ -216,7 +216,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
                 holder.ly_bottom_view.setVisibility(View.GONE);
 
-                if (bean.counterPrice.equals("")) {// empty mean free
+                if (bean.counterPrice.equals("")|| bean.counterPrice.equals("0")) {// empty mean free
                     holder.ly_counter_price.setVisibility(View.GONE); // if free then gone if paid then visible
                 } else{
                     holder.ly_counter_price.setVisibility(View.VISIBLE); // if free then gone if paid then visible
@@ -303,7 +303,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                 holder.ly_accept_reject.setVisibility(View.GONE);
 
 
-                if (bean.counterPrice.equals("")) {// empty mean free
+                if (bean.counterPrice.equals("")|| bean.counterPrice.equals("0")) {// empty mean free
                     holder.ly_counter.setVisibility(View.GONE); // if free then gone if paid then visible
                 } else{
                     holder.ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible

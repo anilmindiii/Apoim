@@ -26,19 +26,20 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="@dimen/_22sdp"
-                    android:layout_height="@dimen/_22sdp"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:layout_gravity="center"
                     android:src="@drawable/inactive_running"/>
 
                 <TextView
+                    android:id="@+id/tv_walking_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1 hr"
+                    android:text="0"
                     android:gravity="center"
                     android:fontFamily="@font/nunito_regular"
                     android:layout_marginLeft="@dimen/_7sdp"
-                    android:textSize="@dimen/text_Medium_Size"
+                    android:textSize="@dimen/text_Small_Size"
                     android:textColor="@color/colorBlack"
                     android:layout_gravity="center"/>
 
@@ -91,19 +92,20 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:layout_width="@dimen/_22sdp"
-                    android:layout_height="@dimen/_22sdp"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:layout_gravity="center"
                     android:src="@drawable/inactive_car"/>
 
                 <TextView
+                    android:id="@+id/tv_driving_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="15 Min"
+                    android:text="0 "
                     android:gravity="center"
                     android:fontFamily="@font/nunito_regular"
                     android:layout_marginLeft="@dimen/_7sdp"
-                    android:textSize="@dimen/text_Medium_Size"
+                    android:textSize="@dimen/text_Small_Size"
                     android:textColor="@color/colorBlack"
                     android:layout_gravity="center"/>
 

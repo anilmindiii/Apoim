@@ -39,6 +39,7 @@ public class Constant {
     public static String REGISTER_PUBLIC_PRIVATE_BOTH = "3";
 
     public static String appointment_details = "appId";
+    public static String Appointment_type_review = "1";
 
     //FireBase....................................................
     public static final String ARG_USERS = "users";

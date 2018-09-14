@@ -209,7 +209,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     type.equals("apply_counter") || type.equals("update_counter")) {
                 ly_map_tab.callOnClick();// appoinment listing
             }
-            else if (type.equals("confirmed_appointment") || type.equals("finish_appointment")) {
+            else if (type.equals("confirmed_appointment") || type.equals("finish_appointment") || type.equals("review_appointment")) {
                 Intent intent = new Intent(this, AppointmentDirectionActivity.class); // appointment details
                 intent.putExtra(Constant.appointment_details, reference_id);
                 startActivity(intent);

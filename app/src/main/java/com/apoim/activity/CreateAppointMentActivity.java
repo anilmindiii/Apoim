@@ -1058,11 +1058,11 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
     private void displayCurrentLocation() {
         if (LocationRuntimePermission.checkLocationPermission(CreateAppointMentActivity.this)) {
 
-            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             isNetworkEnabled = locationManager.isProviderEnabled(locationManager.NETWORK_PROVIDER);
 
-            if (isGPSEnabled) {
+            if (isNetworkEnabled) {
                 mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
                 if (mLastLocation != null) {

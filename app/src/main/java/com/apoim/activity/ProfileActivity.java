@@ -262,9 +262,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 profile_select_about_you.setText(getResources().getString(R.string.all_details_are_filled));
             }
 
-
-
-
             profile_action_bar.setText(R.string.edit_profile);
             profile_skip.setVisibility(View.GONE);
             iv_back.setVisibility(View.VISIBLE);
@@ -323,14 +320,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             }
 
                             @Override
-                            public void onBitmapFailed(Drawable errorDrawable) {
-
-                            }
+                            public void onBitmapFailed(Drawable errorDrawable) {}
 
                             @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                            }
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {}
                         });
             }
 
@@ -1119,24 +1112,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             if (requestCode == 234) {
                 Uri imageUri = ImagePicker.getImageURIFromResult(ProfileActivity.this, requestCode, resultCode, data);
 
-                if (imageUri != null) {
-                    CropImage.activity(imageUri).setCropShape(CropImageView.CropShape.RECTANGLE)
-                            .setAspectRatio(4, 3)
-                            .start(this);
-                } else {
-                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                }
-
-            } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-
                 try {
-                    if (result != null)
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result.getUri());
+                    if (imageUri != null)
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
 
                     if (bitmap != null) {
 
-                        bitmap = ImagePicker.getImageResized(this, result.getUri());
+                        bitmap = ImagePicker.getImageResized(this, imageUri);
                         if (imageBeans.size() < 6) {
                             imageBeans.add(1, new ImageBean(null, bitmap, ""));
                             imageAdapter.notifyDataSetChanged();

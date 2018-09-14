@@ -9,16 +9,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.apoim.R;
+
 /**
- * Created by mindiii on 11/9/18.
+ * Created by mindiii on 14/9/18.
  */
 
-public class OneScreenFragment extends Fragment {
+public class SecandScreenFragment extends Fragment {
+
+    public static SecandScreenFragment newInstance() {
+        Bundle args = new Bundle();
+
+        SecandScreenFragment fragment = new SecandScreenFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_event_secand_screen, container, false);
+
+        return view;
     }
 
     @Override

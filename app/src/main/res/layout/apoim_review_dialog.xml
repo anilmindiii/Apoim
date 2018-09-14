@@ -10,7 +10,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_350sdp"
+        android:layout_height="@dimen/_310sdp"
         android:layout_margin="@dimen/_5sdp"
         android:elevation="@dimen/_4sdp"
         app:cardElevation="@dimen/_4sdp"
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/_65sdp"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:orientation="vertical">
 
                 <TextView
@@ -41,8 +41,8 @@
                     android:layout_height="wrap_content"
                     android:text="Wow!!"
                     android:textSize="@dimen/text_Large_Size"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:fontFamily="@font/josefinsans_semibold"
+                    android:layout_marginTop="@dimen/_40sdp"
                     android:textColor="@color/colorPrimary"
                     android:layout_gravity="center"/>
 
@@ -52,8 +52,9 @@
                     android:layout_height="wrap_content"
                     android:text="Hope you had fun with your new friend, write your thoughts for your new friend here"
                     android:gravity="center"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
                     android:textSize="@dimen/text_Small_Size"
                     android:fontFamily="@font/nunito_semibold"
                     android:textColor="@color/colorBlack"
@@ -65,26 +66,37 @@
                     android:layout_height="wrap_content"
                     style="?android:attr/ratingBarStyleIndicator"
                     android:progressTint="@color/coloryellow"
-                    android:rating="5"
-                    android:scaleX="0.6"
-                    android:scaleY="0.6"
+                    android:rating="0"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8"
+                    android:isIndicator="false"
+                    android:stepSize="1"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_gravity="center"
                     android:max="5"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Write Comment"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:textSize="@dimen/text_Medium_Size"
+                    android:textColor="@color/colorBlack"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:fontFamily="@font/nunito_regular"/>
 
 
                 <EditText
                     android:id="@+id/ed_review"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Write Comment"
                     android:background="@null"
                     android:maxLength="200"
                     android:maxLines="2"
+                    android:textColor="@color/colorBlack"
                     android:textSize="@dimen/text_Small_Size"
                     android:fontFamily="@font/nunito_regular"
-                    android:text="sdhshdishdishdihsidhsidhsidhidhishdishdishidhsidhsidhishdishdisdhisdhishdishdisdhisdhisdhisdhisdhisdhisdhisdhisdhisdhsidhsidhsidhsidhsidhisdhsidhsidhsidhsidhisdhisdhsidhsidhsidhapohd;a'cbadbucauobc;asc;bas;cb;absc;uabsc"
-                    android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:layout_marginLeft="@dimen/_10sdp"/>
 
@@ -99,10 +111,10 @@
 
                 <TextView
                     android:id="@+id/tv_submit_button"
-                    android:layout_width="@dimen/_200sdp"
-                    android:layout_height="@dimen/_30sdp"
+                    android:layout_width="@dimen/_170sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_13sdp"
                     android:background="@drawable/bg_login_btn"
                     android:fontFamily="@font/josefinsans_semibold"
                     android:text="Submit"

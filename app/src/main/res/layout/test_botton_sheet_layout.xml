@@ -54,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
                 android:layout_marginLeft="@dimen/_2sdp"
                 android:layout_marginRight="@dimen/_2sdp"
                 android:elevation="@dimen/_5sdp"
@@ -307,6 +308,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:layout_weight="1"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
                             android:orientation="horizontal"
                             android:visibility="gone">
 
@@ -315,7 +318,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/nunito_regular"
                                 android:text="Counter Price: "
-                                android:textColor="@color/coloryellow"
+                                android:textColor="@color/colordarlyellow"
                                 android:textSize="@dimen/text_Small_Size" />
 
 
@@ -515,11 +518,11 @@
                         android:background="@drawable/bg_login_btn"
                         android:fontFamily="@font/josefinsans_semibold"
                         android:gravity="center"
-                        android:text="Pay"
+                        android:text="Give Review"
                         android:textAllCaps="false"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/text_Small_Size"
-                        android:visibility="visible"/>
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -528,14 +531,14 @@
 
 
             <android.support.v7.widget.CardView
+                android:id="@+id/ly_main_review"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_30sdp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:elevation="@dimen/_5sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 app:cardElevation="@dimen/_4sdp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -554,45 +557,79 @@
                         android:textSize="@dimen/text_Medium_Size" />
 
                    <LinearLayout
+                       android:id="@+id/ly_top_review"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
+                       android:layout_marginTop="@dimen/_7sdp"
                        android:orientation="vertical"
                        android:visibility="visible">
 
                        <TextView
+                           android:id="@+id/tv_top_review_by"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:layout_gravity="center"
-                           android:fontFamily="@font/nunito_regular"
+                           android:fontFamily="@font/nunito_semibold"
                            android:gravity="left"
                            android:maxLines="1"
                            android:text="Review by Anil chourasiya"
                            android:textColor="@color/colorBlack"
                            android:textSize="@dimen/text_Medium_Size" />
 
-                       <RatingBar
-                           android:id="@+id/ratingBar"
-                           style="?android:attr/ratingBarStyleSmall"
-                           android:layout_width="wrap_content"
+
+                       <LinearLayout
+                           android:layout_width="match_parent"
                            android:layout_height="wrap_content"
-                           android:max="5"
-                           android:progressTint="@color/coloryellow"
-                           android:rating="3"
-                           android:transformPivotX="0dp"
-                           android:transformPivotY="0dp" />
+                           android:orientation="horizontal">
+
+                           <RatingBar
+                               android:id="@+id/ratingBar_top"
+                               style="?android:attr/ratingBarStyleSmall"
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:max="5"
+                               android:layout_marginTop="@dimen/_2sdp"
+                               android:layout_marginBottom="@dimen/_2sdp"
+                               android:progressTint="@color/coloryellow"
+                               android:rating="3"
+                               android:layout_gravity="center"
+                               android:transformPivotX="0dp"
+                               android:transformPivotY="0dp" />
+
+
+                           <TextView
+                               android:id="@+id/tv_time_ago_top"
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_alignParentBottom="true"
+                               android:layout_below="@+id/cvuserImg"
+                               android:layout_marginLeft="@dimen/_10sdp"
+                               android:layout_marginRight="@dimen/_10sdp"
+                               android:layout_marginStart="@dimen/_10sdp"
+                               android:elevation="@dimen/_5sdp"
+                               android:fontFamily="@font/nunito_regular"
+                               android:maxLines="1"
+                               android:layout_gravity="right"
+                               android:gravity="right"
+                               android:text="2 day ago"
+                               android:textColor="@color/colorBlack"
+                               android:textSize="@dimen/text_very_Small_Size" />
+                       </LinearLayout>
+
 
                        <TextView
+                           android:id="@+id/tv_top_comments"
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:layout_gravity="center"
                            android:fontFamily="@font/nunito_regular"
                            android:gravity="left"
-                           android:maxLines="3"
                            android:text="Review by Anil chourasiyaReview by Anil chourasiyaReview by Anil chourasiyaReview by Anil chourasiya "
                            android:textColor="@color/colorGray"
                            android:textSize="@dimen/text_Medium_Size" />
 
-                       <View
+                       <TextView
+                           android:id="@+id/tv_div_line"
                            android:layout_width="match_parent"
                            android:layout_height="0.7dp"
                            android:layout_marginBottom="@dimen/_5sdp"
@@ -602,40 +639,71 @@
                    </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ly_bottom_review"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:orientation="vertical"
                     android:visibility="visible">
 
                     <TextView
+                        android:id="@+id/tv_bottom_review_by"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:fontFamily="@font/nunito_regular"
+                        android:fontFamily="@font/nunito_semibold"
                         android:gravity="right"
                         android:maxLines="1"
                         android:text="Review by You"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/text_Medium_Size" />
 
-                    <RatingBar
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="wrap_content"
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:max="5"
-                        android:progressTint="@color/coloryellow"
-                        android:rating="3"
-                        android:transformPivotX="0dp"
-                        android:transformPivotY="0dp" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_time_ago_bottom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_below="@+id/cvuserImg"
+                            android:elevation="@dimen/_5sdp"
+                            android:fontFamily="@font/nunito_regular"
+                            android:maxLines="1"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:text="2 day ago"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_very_Small_Size" />
+
+                        <RatingBar
+                            android:id="@+id/ratingBar_bottom"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:max="5"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:layout_marginBottom="@dimen/_2sdp"
+                            android:progressTint="@color/coloryellow"
+                            android:rating="3"
+                            android:transformPivotX="0dp"
+                            android:transformPivotY="0dp" />
+
+                    </RelativeLayout>
+
 
                     <TextView
+                        android:id="@+id/tv_bottom_comments"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/nunito_regular"
                         android:gravity="right"
-                        android:maxLines="3"
                         android:text="Review by Anil chouras iyaR eview by Anil cho urasi yaRevi ew by Anil choura siyaRe view by Anil chourasiya "
                         android:textColor="@color/colorGray"
                         android:textSize="@dimen/text_Medium_Size" />
