@@ -138,7 +138,8 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     private TextView tv_basic_info, tv_more_info;
     private LinearLayout ly_basic_info, ly_more_info;
     private TextView tv_fullName, tv_address, tv_about, tv_work, tv_education,
-            tv_height, tv_weight, tv_marrige_status, tv_languge, tv_like_count, tv_no_interest_found, tv_age, profile_action_bar;
+            tv_height, tv_weight, tv_marrige_status, tv_languge, tv_like_count, tv_no_interest_found, tv_age,
+            profile_action_bar;
     private RecyclerView user_selected_interest_list_view, profile_horizontal_recycler;
     private ShowInterestAdapter showInterestAdapter;
     private NewProfileAdapter newProfileImageAdapter;
@@ -190,6 +191,8 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         tv_languge = view.findViewById(R.id.tv_languge);
         tv_age = view.findViewById(R.id.tv_age);
         tv_no_interest_found = view.findViewById(R.id.tv_no_interest_found);
+
+
         profile_action_bar = view.findViewById(R.id.profile_action_bar);
         user_selected_interest_list_view = view.findViewById(R.id.user_selected_interest_list_view);
         ly_business = view.findViewById(R.id.ly_business);
@@ -343,15 +346,29 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             }
         });
 
+       /* image_click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+               *//* if (otherProfileInfo.UserDetail.profileImage.size() != 0) {
+                    Intent intent = new Intent(mContext, MatchGalleryActivity.class);
+                    intent.putExtra("user_id", userId);
+                    intent.putExtra("image_index", 0);
+                    intent.putExtra("otherProfileInfo", otherProfileInfo);
+                    startActivity(intent);
+                }*//*
+            }
+        });*/
+
         dbManager = QbUsersDbManager.getInstance(getApplicationContext());
         requestExecutor = Apoim.getInstance().getQbResRequestExecutor();
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
         currentUser = sharedPrefsHelper.getQbUser();
 
 
-        Zoomy.Builder builder = new Zoomy.Builder((Activity) mContext).target(iv_profile);
+       /* Zoomy.Builder builder = new Zoomy.Builder((Activity) mContext).target(iv_profile);
         builder.register();
-
+*/
         return view;
     }
 
@@ -404,9 +421,13 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
 
             case R.id.iv_profile: {
                 //ly_my_fevorite.setEnabled(false);
-                intent = new Intent(mContext, ImageGalleryActivity.class);
-                intent.putExtra("profileImage",otherProfileInfo.UserDetail.profileImage);
-                startActivity(intent);
+                if (otherProfileInfo.UserDetail.profileImage.size() != 0) {
+                    intent = new Intent(mContext, MatchGalleryActivity.class);
+                    intent.putExtra("user_id", userId);
+                    intent.putExtra("image_index", 0);
+                    intent.putExtra("otherProfileInfo", otherProfileInfo);
+                    startActivity(intent);
+                }
                 break;
             }
 

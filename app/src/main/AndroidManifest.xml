@@ -356,8 +356,13 @@
             android:name="io.fabric.ApiKey"
             android:value="f584c59e1354706f33ae4e5508ac9cb630282533" />
 
-        <activity android:name=".activity.event.CreateNewEventActivity" />
-        <activity android:name=".activity.ImageGalleryActivity"></activity>
+        <activity android:name=".activity.event.CreateNewEventActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".activity.ImageGalleryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

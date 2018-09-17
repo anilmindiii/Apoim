@@ -125,12 +125,6 @@
         android:background="@color/colorWhiteTransparent"
         android:visibility="visible">
 
-
-
-
-
-
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_50sdp"

@@ -163,7 +163,9 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             String reference_id = notificationList.get(getAdapterPosition()).message.referenceId;
             String type = notificationList.get(getAdapterPosition()).message.type;
 
-            if(type.equals("finish_appointment") || type.equals("confirmed_appointment")){
+            if(type.equals("finish_appointment") || type.equals("confirmed_appointment")
+                    || type.equals("review_appointment")  || type.equals("apply_counter")
+                    || type.equals("appointment_payment") || type.equals("update_counter")){
 
                 if(alist.contains(reference_id)){
                     Utils.openAlertDialog(mContext,"This appointment does not exists");
@@ -182,6 +184,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
                 else if(type.equals("create_appointment") || type.equals("delete_appointment")){
                     Intent intent = new Intent(mContext, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                     intent.putExtra("type",type);
                     intent.putExtra("reference_id",reference_id);
                     mContext.startActivity(intent);

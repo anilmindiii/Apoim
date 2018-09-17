@@ -538,7 +538,7 @@
                 android:elevation="@dimen/_5sdp"
                 app:cardCornerRadius="@dimen/_8sdp"
                 app:cardElevation="@dimen/_4sdp"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -572,7 +572,7 @@
                            android:fontFamily="@font/nunito_semibold"
                            android:gravity="left"
                            android:maxLines="1"
-                           android:text="Review by Anil chourasiya"
+                           android:text="Review by"
                            android:textColor="@color/colorBlack"
                            android:textSize="@dimen/text_Medium_Size" />
 
@@ -624,7 +624,6 @@
                            android:layout_gravity="center"
                            android:fontFamily="@font/nunito_regular"
                            android:gravity="left"
-                           android:text="Review by Anil chourasiyaReview by Anil chourasiyaReview by Anil chourasiyaReview by Anil chourasiya "
                            android:textColor="@color/colorGray"
                            android:textSize="@dimen/text_Medium_Size" />
 
@@ -704,7 +703,6 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/nunito_regular"
                         android:gravity="right"
-                        android:text="Review by Anil chouras iyaR eview by Anil cho urasi yaRevi ew by Anil choura siyaRe view by Anil chourasiya "
                         android:textColor="@color/colorGray"
                         android:textSize="@dimen/text_Medium_Size" />
 

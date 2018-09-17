@@ -307,6 +307,19 @@ public class OtherProfileActivity extends AppCompatActivity {
             }
         });
 
+        iv_profile_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(otherProfileInfo.UserDetail.profileImage.size()> 0){
+                    Intent intent = new Intent(OtherProfileActivity.this, MatchGalleryActivity.class);
+                    intent.putExtra("user_id", userId);
+                    intent.putExtra("image_index", 0);
+                    intent.putExtra("otherProfileInfo", otherProfileInfo);
+                    startActivity(intent);
+                }
+            }
+        });
+
     }
 
     @Override

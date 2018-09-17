@@ -188,7 +188,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_invite_n_create_friend"
+        android:id="@+id/tv_next_first"
         android:layout_width="@dimen/_170sdp"
         android:layout_height="@dimen/_35sdp"
         android:layout_gravity="center_horizontal"

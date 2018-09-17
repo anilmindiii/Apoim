@@ -38,8 +38,8 @@ import java.util.List;
 public final class ImagePicker {
 
     public static final int PICK_IMAGE_REQUEST_CODE = 234; // the number doesn't matter
-    private static final int DEFAULT_MIN_WIDTH_QUALITY = 400;        // min pixels
-    private static final int DEFAULT_MIN_HEIGHT_QUALITY = 400;        // min pixels
+    private static final int DEFAULT_MIN_WIDTH_QUALITY = 600;        // min pixels
+    private static final int DEFAULT_MIN_HEIGHT_QUALITY = 600;        // min pixels
     private static final String TAG = ImagePicker.class.getSimpleName();
     private static final String TEMP_IMAGE_NAME = "tempImage.jpg";
 

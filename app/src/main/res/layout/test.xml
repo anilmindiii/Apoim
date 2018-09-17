@@ -85,6 +85,8 @@
 
             </RelativeLayout>
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -110,7 +112,6 @@
                         android:fontFamily="@font/josefinsans_semibold"
                         android:gravity="center"
                         android:maxLines="1"
-                        android:text="Veronica"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/text_XLarge_Size" />
                     <TextView

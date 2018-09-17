@@ -70,9 +70,35 @@
 
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.RecyclerView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/_10sdp"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_50sdp"/>
+
+
+        <TextView
+            android:id="@+id/tv_next_thired"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:gravity="center"
+            android:background="@drawable/bg_login_btn"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:text="Next"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_Large_Size" />
+
+    </RelativeLayout>
+
+
+
 
 </LinearLayout>

@@ -758,9 +758,11 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
                 if(!listInfo.reviewByUserId.equals("")){
                     // review by wala data set at bottom
+                    ly_bottom_review.setVisibility(View.VISIBLE);
                     tv_bottom_review_by.setText("Review by You");
                     ratingBar_bottom.setRating(Float.parseFloat(listInfo.reviewByRating));
-                    tv_bottom_comments.setText(listInfo.reviewByComment);
+                   // tv_bottom_comments.setText(Utils.convertUTF8ToStringSetText(listInfo.reviewByComment));
+                    tv_bottom_comments.setText((listInfo.reviewByComment));
                     tv_time_ago_bottom.setText(TimeAgo.toRelative(listInfo.reviewByCreatedDate, currentDateTime));
                 }else {
                     review_button.setVisibility(View.VISIBLE);
@@ -771,7 +773,8 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     // review for wala data set at top
                     tv_top_review_by.setText("Review by "+listInfo.ForName);
                     ratingBar_top.setRating(Float.parseFloat(listInfo.reviewForRating));
-                    tv_top_comments.setText(listInfo.reviewForComment);
+                    //tv_top_comments.setText(Utils.convertUTF8ToStringSetText(listInfo.reviewForComment));
+                    tv_top_comments.setText((listInfo.reviewForComment));
                     tv_time_ago_top.setText(TimeAgo.toRelative(listInfo.reviewForCreatedDate, currentDateTime));
                 }else {
                     ly_top_review.setVisibility(View.GONE);
@@ -860,6 +863,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     // set ReviewBy data to Top view
                     tv_top_review_by.setText("Review by "+listInfo.ByName);
                     ratingBar_top.setRating(Float.parseFloat(listInfo.reviewByRating));
+                   // tv_top_comments.setText(Utils.convertUTF8ToStringSetText(listInfo.reviewByComment));
                     tv_top_comments.setText(listInfo.reviewByComment);
                     tv_time_ago_top.setText(TimeAgo.toRelative(listInfo.reviewByCreatedDate, currentDateTime));
                 }
@@ -869,9 +873,10 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
                 if(!listInfo.reviewForUserId.equals("")){
                     // set ReviewBottom data to Bottom  view
-
+                    ly_bottom_review.setVisibility(View.VISIBLE);
                     tv_bottom_review_by.setText("Review by You");
                     ratingBar_bottom.setRating(Float.parseFloat(listInfo.reviewForRating));
+                    //tv_bottom_comments.setText(Utils.convertUTF8ToStringSetText(listInfo.reviewForComment));
                     tv_bottom_comments.setText(listInfo.reviewForComment);
                     tv_time_ago_bottom.setText(TimeAgo.toRelative(listInfo.reviewForCreatedDate, currentDateTime));
                 }
@@ -904,7 +909,14 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 if (listInfo.counterStatus.equals("0")) {
                     ly_counter.setVisibility(View.VISIBLE);
                     ly_accept_reject.setVisibility(View.GONE);
-                } else if (listInfo.counterStatus.equals("3")) {
+                }
+                else if (listInfo.counterStatus.equals("1")) {
+                    // pay button visible
+                    ly_counter.setVisibility(View.VISIBLE);
+                    pay_button.setVisibility(View.GONE);
+                    ly_accept_reject.setVisibility(View.GONE);
+                }//my code new w
+                else if (listInfo.counterStatus.equals("3")) {
                     finish_meeting_button.setVisibility(View.VISIBLE);
                     ly_counter.setVisibility(View.VISIBLE);
                     pay_button.setVisibility(View.GONE);
@@ -983,22 +995,27 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
         if (listInfo.ByGender != null && listInfo.ForGender != null) {
 
-            if (listInfo.ByGender.equals(Constant.PROFILE_MALE) && listInfo.ForGender.equals(Constant.PROFILE_FEMALE)) {
+            if (listInfo.ByGender.equals(Constant.PROFILE_TRANSGENDER) || listInfo.ByGender.equals(Constant.PROFILE_MALE) && listInfo.ForGender.equals(Constant.PROFILE_FEMALE)) {
                 drowRouteAnimated(GoogleDirection.MODE_WALKING, R.drawable.ico_current_red, R.color.colorPrimary);
                 drowRouteAnimated1(GoogleDirection.MODE_WALKING, R.drawable.ico_current_purple, R.color.colorPurple);
-            } else if (listInfo.ByGender.equals(Constant.PROFILE_FEMALE) && listInfo.ForGender.equals(Constant.PROFILE_MALE)) {
+            }
+            else if (listInfo.ByGender.equals(Constant.PROFILE_FEMALE) && listInfo.ForGender.equals(Constant.PROFILE_MALE) || listInfo.ByGender.equals(Constant.PROFILE_TRANSGENDER)) {
                 drowRouteAnimated(GoogleDirection.MODE_WALKING, R.drawable.ico_current_red, R.color.colorPrimary);
                 drowRouteAnimated1(GoogleDirection.MODE_WALKING, R.drawable.ico_current_purple, R.color.colorPurple);
-            } else if (listInfo.ByGender.equals(Constant.PROFILE_MALE) && listInfo.ByGender.equals(Constant.PROFILE_MALE)) {
+            }
+            else if (listInfo.ByGender.equals(Constant.PROFILE_MALE) && listInfo.ByGender.equals(Constant.PROFILE_MALE) || listInfo.ByGender.equals(Constant.PROFILE_TRANSGENDER)) {
                 drowRouteAnimated(GoogleDirection.MODE_WALKING, R.drawable.ico_current_red, R.color.colorPrimary);
                 drowRouteAnimated1(GoogleDirection.MODE_WALKING, R.drawable.ico_current_red, R.color.colorPrimary);
-            } else if (listInfo.ByGender.equals(Constant.PROFILE_FEMALE) && listInfo.ByGender.equals(Constant.PROFILE_FEMALE)) {
+            }
+            else if (listInfo.ByGender.equals(Constant.PROFILE_FEMALE) && listInfo.ByGender.equals(Constant.PROFILE_FEMALE)) {
                 drowRouteAnimated(GoogleDirection.MODE_WALKING, R.drawable.ico_current_purple, R.color.colorPurple);
                 drowRouteAnimated1(GoogleDirection.MODE_WALKING, R.drawable.ico_current_purple, R.color.colorPurple);
-            } else if (listInfo.ForGender.equals(Constant.PROFILE_MALE) && listInfo.ForGender.equals(Constant.PROFILE_MALE)) {
+            }
+            else if (listInfo.ForGender.equals(Constant.PROFILE_MALE) && listInfo.ForGender.equals(Constant.PROFILE_MALE) || listInfo.ByGender.equals(Constant.PROFILE_TRANSGENDER)) {
                 drowRouteAnimated(GoogleDirection.MODE_WALKING, R.drawable.ico_current_red, R.color.colorPrimary);
                 drowRouteAnimated1(GoogleDirection.MODE_WALKING, R.drawable.ico_current_red, R.color.colorPrimary);
-            } else if (listInfo.ForGender.equals(Constant.PROFILE_FEMALE) && listInfo.ForGender.equals(Constant.PROFILE_FEMALE)) {
+            }
+            else if (listInfo.ForGender.equals(Constant.PROFILE_FEMALE) && listInfo.ForGender.equals(Constant.PROFILE_FEMALE)) {
                 drowRouteAnimated(GoogleDirection.MODE_WALKING, R.drawable.ico_current_purple, R.color.colorPurple);
                 drowRouteAnimated1(GoogleDirection.MODE_WALKING, R.drawable.ico_current_purple, R.color.colorPurple);
             }
@@ -1310,6 +1327,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
         Map<String, String> param = new HashMap<>();
         param.put("rating", rating);
+        //param.put("comment",  Utils.convertStringToUTF8SendToserver(comment));
         param.put("comment", comment);
         param.put("receiverId", receiverId);
         param.put("referenceId", referenceId);

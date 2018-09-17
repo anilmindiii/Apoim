@@ -23,6 +23,7 @@ import com.apoim.activity.CreateEventActivity;
 import com.apoim.activity.MainActivity;
 import com.apoim.activity.ProfileActivity;
 import com.apoim.activity.SignInActivity;
+import com.apoim.activity.event.CreateNewEventActivity;
 import com.apoim.adapter.apoinment.EventRequestAdapter;
 import com.apoim.adapter.apoinment.MyEventAdapter;
 import com.apoim.app.Apoim;
@@ -121,16 +122,21 @@ public class EventFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()){
 
             case R.id.create_event:{
-                if(session.getUser().userDetail.totalFriends != null)
-                    if(!session.getUser().userDetail.totalFriends.equals("")){
+                if(session.getUser().userDetail.totalFriends != null) {
+                   /* if (!session.getUser().userDetail.totalFriends.equals("")) {
                         int totalFriends = Integer.parseInt(session.getUser().userDetail.totalFriends);
-                        if(totalFriends == 0){
-                            Utils.openAlertDialog(mContext,getString(R.string.no_friend_to_create_event));
-                        }else {
+                        if (totalFriends == 0) {
+                            Utils.openAlertDialog(mContext, getString(R.string.no_friend_to_create_event));
+                        } else {
                             Intent intent = new Intent(mContext, CreateEventActivity.class);
                             startActivity(intent);
                         }
-                    }
+                    }*/
+
+                    Intent intent = new Intent(mContext, CreateNewEventActivity.class);
+                    startActivity(intent);
+
+                }
 
                 break;
             }

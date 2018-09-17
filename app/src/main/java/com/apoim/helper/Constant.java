@@ -60,6 +60,7 @@ public class Constant {
 
     public static String PROFILE_MALE = "1";
     public static String PROFILE_FEMALE = "2";
+    public static String PROFILE_TRANSGENDER = "3";
 
     public static String SHOW_ON_MAP_YES = "1";
     public static String SHOW_ON_MAP_NO = "2";

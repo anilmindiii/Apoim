@@ -49,6 +49,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.apoim.ImagePickerPackge.ImagePicker;
+import com.apoim.ImagePickerPackge.ImageRotator;
 import com.apoim.R;
 import com.apoim.adapter.ProfileEducationAdapter;
 import com.apoim.adapter.ProfileImageAdapter;
@@ -307,24 +308,29 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             profile_name.setText(signInInfo.userDetail.fullName);
             profile_birthday.setText(signInInfo.userDetail.birthday);
             if (signInInfo.userDetail.profileImage.size() != 0 && signInInfo.userDetail.profileImage != null) {
-                Picasso.with(this)
+
+                if (imageBeans.size() < 6) {
+                    imageBeans.add(1, new ImageBean(signInInfo.userDetail.profileImage.get(0).image, null, ""));
+                    imageAdapter.notifyDataSetChanged();
+                }
+
+                /*Picasso.with(this)
                         .load(signInInfo.userDetail.profileImage.get(0).image)
                         .into(new Target() {
                             @Override
                             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                                if (imageBeans.size() < 6) {
-                                    imageBeans.add(1, new ImageBean(signInInfo.userDetail.profileImage.get(0).image, null, ""));
-                                    imageAdapter.notifyDataSetChanged();
-                                }
+
                             }
 
                             @Override
-                            public void onBitmapFailed(Drawable errorDrawable) {}
+                            public void onBitmapFailed(Drawable errorDrawable) {
+                            }
 
                             @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {}
-                        });
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            }
+                        });*/
             }
 
             // Set gender
@@ -944,12 +950,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private boolean isGPSEnabled() {
         final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER) || manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             return true;
         }
         // otherwise return false
         return false;
     }
+
     /**
      * Method to verify google play services on the device
      */
@@ -1116,9 +1123,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     if (imageUri != null)
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
 
-                    if (bitmap != null) {
 
+                    if (bitmap != null) {
                         bitmap = ImagePicker.getImageResized(this, imageUri);
+                        bitmap = ImageRotator.rotateImageIfRequired(bitmap, imageUri);
                         if (imageBeans.size() < 6) {
                             imageBeans.add(1, new ImageBean(null, bitmap, ""));
                             imageAdapter.notifyDataSetChanged();

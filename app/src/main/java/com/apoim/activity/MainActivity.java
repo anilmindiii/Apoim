@@ -205,11 +205,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 intent.putExtra("userId", reference_id);
                 startActivity(intent);
             }
-            else if (type.equals("create_appointment") || type.equals("delete_appointment") ||
-                    type.equals("apply_counter") || type.equals("update_counter")) {
+            else if (type.equals("create_appointment") || type.equals("delete_appointment") ) {
                 ly_map_tab.callOnClick();// appoinment listing
             }
-            else if (type.equals("confirmed_appointment") || type.equals("finish_appointment") || type.equals("review_appointment")) {
+            else if (type.equals("confirmed_appointment") || type.equals("finish_appointment")
+                    || type.equals("review_appointment")  || type.equals("apply_counter")
+                    || type.equals("appointment_payment") || type.equals("update_counter")) {
                 Intent intent = new Intent(this, AppointmentDirectionActivity.class); // appointment details
                 intent.putExtra(Constant.appointment_details, reference_id);
                 startActivity(intent);
@@ -337,8 +338,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             if (type.equals("friend_request") || type.equals("accept_request") || type.equals("add_like") || type.equals("add_favorite")) {
                 addFragment(new ListorMapFragment(), false, R.id.fragment_place);
                 type = "";
-            } else if (type.equals("confirmed_appointment") || type.equals("finish_appointment") ||
-                    type.equals("apply_counter") || type.equals("update_counter")) {
+            }
+
+            else if (type.equals("confirmed_appointment") || type.equals("finish_appointment")
+                        || type.equals("review_appointment")  || type.equals("apply_counter")
+                        || type.equals("appointment_payment") || type.equals("update_counter")){
+
                 ly_map_tab.callOnClick();
                 type = "";
 

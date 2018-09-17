@@ -353,7 +353,7 @@
                 android:gravity="center"
                 android:maxLines="1"
                 android:maxLength="26"
-                android:text="Pay $5"
+                android:text="Pay"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_Large_Size" />

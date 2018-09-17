@@ -235,7 +235,13 @@ public class WebService {
         });
 
         android.support.v7.app.AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+
+        try {
+            alertDialog.show();
+        } catch (Exception e) {
+            alertDialog.dismiss();
+        }
+
     }
 
 }

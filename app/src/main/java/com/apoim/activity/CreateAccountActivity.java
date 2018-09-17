@@ -45,6 +45,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.apoim.ImagePickerPackge.ImagePicker;
+import com.apoim.ImagePickerPackge.ImageRotator;
 import com.apoim.R;
 import com.apoim.activity.business.RegisterBusinessActivity;
 import com.apoim.app.Apoim;
@@ -1006,6 +1007,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     if (bitmap != null) {
 
                         bitmap = ImagePicker.getImageResized(this, imageUri);
+                        bitmap = ImageRotator.rotateImageIfRequired(bitmap, imageUri);
                         profileImage.setImageBitmap(bitmap);
                     }
 

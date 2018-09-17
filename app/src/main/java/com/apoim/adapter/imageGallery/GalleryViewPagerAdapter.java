@@ -46,7 +46,8 @@ public class GalleryViewPagerAdapter extends PagerAdapter {
         // create a ImageView programmatically
         ImageView imageView = view.findViewById(R.id.iv_user_image);
 
-        Glide.with(mContext).load(imageList.get(position).profileUrl).apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).into(imageView);
+        Glide.with(mContext).load(imageList.get(position).profileUrl).apply(new RequestOptions()
+                .placeholder(R.drawable.ico_user_placeholder)).into(imageView);
         container.addView(view);
 
         return view;
