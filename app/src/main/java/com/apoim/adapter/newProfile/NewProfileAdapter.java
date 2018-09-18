@@ -12,6 +12,7 @@ import com.apoim.listener.GetNewImageClick;
 import com.apoim.modal.GetOtherProfileInfo;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -40,9 +41,11 @@ public class NewProfileAdapter extends RecyclerView.Adapter<NewProfileAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Glide.with(mContext)
+
+        if(imagesBeans.get(position).image != null)
+            Picasso.with(mContext)
                     .load(imagesBeans.get(position).image)
-                    .apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).into(holder.circular_profile_image);
+                    .into(holder.circular_profile_image);
 
     }
 

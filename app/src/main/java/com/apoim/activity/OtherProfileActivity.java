@@ -74,7 +74,8 @@ public class OtherProfileActivity extends AppCompatActivity {
     private ArrayList<GetOtherProfileInfo.UserDetailBean> otherProfileList;
     private ArrayList<ProfileInterestInfo> interestArrayList;
     private ShowInterestAdapter showInterestAdapter;
-    private RecyclerView user_selected_interest_list_view,profile_horizontal_recycler;
+    private RecyclerView profile_horizontal_recycler;
+   // private RecyclerView user_selected_interest_list_view;
     private TextView tv_basic_info,tv_more_info;
     private LinearLayout ly_basic_info,ly_more_info,ly_request_accept_reject,ly_photo_view;
 
@@ -83,8 +84,7 @@ public class OtherProfileActivity extends AppCompatActivity {
     private GetOtherProfileInfo otherProfileInfo;
     private ViewPagerAdapter viewPagerAdapter;
     private TextView tv_fullName,tv_address,tv_about,tv_work,tv_education,
-            tv_height,tv_weight,tv_marrige_status,tv_languge,tv_like_count,
-            tv_no_interest_found,tv_age,profile_action_bar,tv_no_user_image_found
+            tv_height,tv_weight,tv_marrige_status,tv_languge,tv_like_count,tv_age,profile_action_bar,tv_no_user_image_found
             ,tv_accept_friend,tv_remove_friend;
     //private RelativeLayout pager_view;
     //private NestedScrollView bottom_sheet;
@@ -99,7 +99,7 @@ public class OtherProfileActivity extends AppCompatActivity {
 
     private ImageView iv_mobile_veri, iv_id_hand_veri, iv_face_detection_veri;
     private ImageView iv_mobile_veri_active, iv_id_hand_veri_active, iv_face_detection_veri_active;
-    private TextView tv_mobile_veri, tv_id_hand_veri, tv_face_detection_veri;
+    private TextView tv_mobile_veri, tv_id_hand_veri, tv_face_detection_veri,tv_interest;
     private RelativeLayout ly_mobile_veri, ly_id_hand_veri, ly_face_detection_veri;
 
     @Override
@@ -253,7 +253,7 @@ public class OtherProfileActivity extends AppCompatActivity {
 
             }
         });
-        user_selected_interest_list_view.setAdapter(showInterestAdapter);
+      //  user_selected_interest_list_view.setAdapter(showInterestAdapter);
 
         iv_like.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -414,12 +414,12 @@ public class OtherProfileActivity extends AppCompatActivity {
         tv_like_count = findViewById(R.id.tv_like_count);
         tv_event_type = findViewById(R.id.tv_event_type);
         tv_appoim_type = findViewById(R.id.tv_appoim_type);
+        tv_interest = findViewById(R.id.tv_interest);
 
         iv_direction = findViewById(R.id.iv_direction);
         tv_accept_friend = findViewById(R.id.tv_accept_friend);
         tv_remove_friend = findViewById(R.id.tv_remove_friend);
         iv_add_friend = findViewById(R.id.iv_add_friend);
-        tv_no_interest_found = findViewById(R.id.tv_no_interest_found);
         tv_no_user_image_found = findViewById(R.id.tv_no_user_image_found);
         iv_like = findViewById(R.id.iv_like);
         tv_age = findViewById(R.id.tv_age);
@@ -466,9 +466,9 @@ public class OtherProfileActivity extends AppCompatActivity {
         iv_back = findViewById(R.id.iv_back);
         iv_share = findViewById(R.id.iv_share);
         iv_fevorate = findViewById(R.id.iv_fevorate);
-        user_selected_interest_list_view = findViewById(R.id.user_selected_interest_list_view);
-        int numberOfColumns = 2;
-        user_selected_interest_list_view.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+       // user_selected_interest_list_view = findViewById(R.id.user_selected_interest_list_view);
+        //int numberOfColumns = 2;
+        //user_selected_interest_list_view.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
         interestArrayList = new ArrayList<>();
     }
@@ -491,7 +491,7 @@ public class OtherProfileActivity extends AppCompatActivity {
                         dots = null;
                     }
                     if (status.equals("success")) {
-                        interestArrayList.clear();
+                       // interestArrayList.clear();
                         Gson gson = new Gson();
                         otherProfileInfo = gson.fromJson(response, GetOtherProfileInfo.class);
                         setData(otherProfileInfo.UserDetail);
@@ -504,11 +504,12 @@ public class OtherProfileActivity extends AppCompatActivity {
                                 interestInfo.interest = interestList.get(i);
                                 interestArrayList.add(interestInfo);
                             }
-                            showInterestAdapter.notifyDataSetChanged();
-                            if(interestArrayList.size() == 0) tv_no_interest_found.setVisibility(View.VISIBLE);
 
-                        }else {
-                            tv_no_interest_found.setVisibility(View.VISIBLE);
+                            String allInterest = getCommonSeperatedString(interestArrayList);
+                            tv_interest.setText(allInterest);
+
+                              showInterestAdapter.notifyDataSetChanged();
+
                         }
 
                       /*  if(otherProfileInfo.UserDetail.images.size() == 0){
@@ -568,7 +569,14 @@ public class OtherProfileActivity extends AppCompatActivity {
 
     }
 
-
+    String getCommonSeperatedString(List<ProfileInterestInfo> actionObjects) {
+        StringBuffer sb = new StringBuffer();
+        for (ProfileInterestInfo actionObject : actionObjects){
+            sb.append(actionObject.interest).append(", ");
+        }
+        sb.deleteCharAt(sb.lastIndexOf(", "));
+        return sb.toString();
+    }
     private void shareProfileToFriendDialog(String aboutme,String profileImage){
         final Dialog _dialog = new Dialog(this);
         _dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));

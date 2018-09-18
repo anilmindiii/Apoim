@@ -31,7 +31,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class MatchGalleryActivity extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
-    private ImageView iv_back;
     private String userId;
     private int image_index;
 
@@ -39,7 +38,7 @@ public class MatchGalleryActivity extends AppCompatActivity implements View.OnCl
     private RelativeLayout rl_match_gallery;
     private ViewPager gallery_view_pager;
     private GalleryViewPagerAdapter pagerAdapter;
-    private RecyclerView galleryRecyclerView;
+    //private RecyclerView galleryRecyclerView;
     private GalleryRecyclerAdapter recyclerAdapter;
     private GetOtherProfileInfo otherProfileInfo;
 
@@ -73,7 +72,6 @@ public class MatchGalleryActivity extends AppCompatActivity implements View.OnCl
         galleryAdapters();
         setUserData(otherProfileInfo);
         // Click Listeners
-        iv_back.setOnClickListener(this);
     }
 
     // Setting Gallery Adapter
@@ -91,9 +89,9 @@ public class MatchGalleryActivity extends AppCompatActivity implements View.OnCl
 
             }
         });
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+       /* LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         galleryRecyclerView.setLayoutManager(layoutManager);
-        galleryRecyclerView.setAdapter(recyclerAdapter);
+        galleryRecyclerView.setAdapter(recyclerAdapter);*/
 
     }
 
@@ -101,8 +99,7 @@ public class MatchGalleryActivity extends AppCompatActivity implements View.OnCl
         rl_match_gallery = findViewById(R.id.rl_match_gallery);
         gallery_view_pager = findViewById(R.id.gallery_view_pager);
         rl_match_gallery.setVisibility(View.GONE);
-        iv_back = findViewById(R.id.iv_back);
-        galleryRecyclerView = findViewById(R.id.gallery_recycler_view);
+        /*galleryRecyclerView = findViewById(R.id.gallery_recycler_view);*/
     }
 
 
@@ -122,7 +119,7 @@ public class MatchGalleryActivity extends AppCompatActivity implements View.OnCl
             rl_match_gallery.setVisibility(View.VISIBLE);
             pagerAdapter.notifyDataSetChanged();
             gallery_view_pager.setCurrentItem(image_index, true);
-            galleryRecyclerView.scrollToPosition(image_index);
+          /*  galleryRecyclerView.scrollToPosition(image_index);*/
         }
        
     }
@@ -141,9 +138,7 @@ public class MatchGalleryActivity extends AppCompatActivity implements View.OnCl
         mLastClickTime = SystemClock.elapsedRealtime();
 
         switch (v.getId()) {
-            case R.id.iv_back:
-                onBackPressed();
-                break;
+
         }
     }
 
@@ -158,7 +153,7 @@ public class MatchGalleryActivity extends AppCompatActivity implements View.OnCl
             model.isSelected = false;
         }
         imagesList.get(position).isSelected = true;
-        galleryRecyclerView.smoothScrollToPosition(position);
+       /* galleryRecyclerView.smoothScrollToPosition(position);*/
         recyclerAdapter.notifyDataSetChanged();
     }
 

@@ -1117,64 +1117,79 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 234) {
-                Uri imageUri = ImagePicker.getImageURIFromResult(ProfileActivity.this, requestCode, resultCode, data);
+
+                bitmap = ImagePicker.getImageFromResult(ProfileActivity.this, requestCode, resultCode, data);
+
+                if (bitmap != null) {
+                    if (imageBeans.size() < 6) {
+                        imageBeans.add(1, new ImageBean(null, bitmap, ""));
+                        imageAdapter.notifyDataSetChanged();
+
+                    }
+
+
+
+             /*   //Uri imageUri = ImagePicker.getImageURIFromResult(ProfileActivity.this, requestCode, resultCode, data);
 
                 try {
-                    if (imageUri != null)
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+
+                        //bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
 
 
-                    if (bitmap != null) {
-                        bitmap = ImagePicker.getImageResized(this, imageUri);
+              *//*      if (bitmap != null) {
+                        bitmap = ImagePicker.getImageFromResult(ProfileActivity.this, requestCode, resultCode, data);
                         bitmap = ImageRotator.rotateImageIfRequired(bitmap, imageUri);
+
                         if (imageBeans.size() < 6) {
                             imageBeans.add(1, new ImageBean(null, bitmap, ""));
                             imageAdapter.notifyDataSetChanged();
                         }
-                    }
+                    }*//*
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-        }
-        if (resultCode != RESULT_CANCELED) {
-            if (resultCode == Activity.RESULT_OK) {
-                if (requestCode == Constant.SELECT_FILE) {
-                    // onSelectFromGalleryResult(data);
-                } else if (requestCode == Constant.REQUEST_CAMERA) {
-                    //onCaptureImageResult(data);
-                } else if (requestCode == Constant.PROFILE_REQUEST_CODE) {
-                    user_about_you = data.getStringExtra("user_about_you");
-                    user_height = data.getStringExtra("user_height");
-                    user_weight = data.getStringExtra("user_weight");
-                    user_relationship = data.getStringExtra("user_relationship");
-                    user_I_speak = data.getStringExtra("user_I_speak");
-                    if (user_I_speak.contains(" ")) {
-                        user_I_speak = user_I_speak.replace(" ", "");
-                    }
-                    user_interest = data.getStringExtra("user_interest");
-                    allDetailsFilled = data.getStringExtra("allDetailsFilled");
-                    user_interest = data.getStringExtra("interest_key");
-
-                    eventType = data.getStringExtra("eventType");
-                    appointmentType = data.getStringExtra("appointmentType");
-
-                    if (otherProfileInfo != null) {
-                        otherProfileInfo.UserDetail.about = user_about_you;
-                        otherProfileInfo.UserDetail.height = user_height;
-                        otherProfileInfo.UserDetail.weight = user_weight;
-                        otherProfileInfo.UserDetail.relationship = user_relationship;
-                        otherProfileInfo.UserDetail.language = user_I_speak;
-                        otherProfileInfo.UserDetail.interest = user_interest;
-                    }
-
-                    if (allDetailsFilled.equals("true")) {
-                        profile_select_about_you.setText(getResources().getString(R.string.all_details_are_filled));
-                    }
+            }*/
                 }
             }
+            if (resultCode != RESULT_CANCELED) {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (requestCode == Constant.SELECT_FILE) {
+                        // onSelectFromGalleryResult(data);
+                    } else if (requestCode == Constant.REQUEST_CAMERA) {
+                        //onCaptureImageResult(data);
+                    } else if (requestCode == Constant.PROFILE_REQUEST_CODE) {
+                        user_about_you = data.getStringExtra("user_about_you");
+                        user_height = data.getStringExtra("user_height");
+                        user_weight = data.getStringExtra("user_weight");
+                        user_relationship = data.getStringExtra("user_relationship");
+                        user_I_speak = data.getStringExtra("user_I_speak");
+                        if (user_I_speak.contains(" ")) {
+                            user_I_speak = user_I_speak.replace(" ", "");
+                        }
+                        user_interest = data.getStringExtra("user_interest");
+                        allDetailsFilled = data.getStringExtra("allDetailsFilled");
+                        user_interest = data.getStringExtra("interest_key");
 
+                        eventType = data.getStringExtra("eventType");
+                        appointmentType = data.getStringExtra("appointmentType");
+
+                        if (otherProfileInfo != null) {
+                            otherProfileInfo.UserDetail.about = user_about_you;
+                            otherProfileInfo.UserDetail.height = user_height;
+                            otherProfileInfo.UserDetail.weight = user_weight;
+                            otherProfileInfo.UserDetail.relationship = user_relationship;
+                            otherProfileInfo.UserDetail.language = user_I_speak;
+                            otherProfileInfo.UserDetail.interest = user_interest;
+                        }
+
+                        if (allDetailsFilled.equals("true")) {
+                            profile_select_about_you.setText(getResources().getString(R.string.all_details_are_filled));
+                        }
+                    }
+                }
+
+            }
         }
     }
 

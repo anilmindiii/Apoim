@@ -247,13 +247,24 @@ public final class ImagePicker {
             } else {            /** ALBUM **/
                 selectedImage = imageReturnedIntent.getData();
             }
-            Log.i(TAG, "selectedImage: " + selectedImage);
-           /* bm = getImageResized(context, selectedImage);
+           /* Log.i(TAG, "selectedImage: " + selectedImage);
+            bm = getImageResized(context, selectedImage);
             int rotation = ImageRotator.getRotation(context, selectedImage, isCamera);
             bm = ImageRotator.rotate(bm, rotation);
-            return Uri.parse(ImageUtils.savePicture(context, bm, String.valueOf(selectedImage.getPath().hashCode())));*/
-        }
+            return Uri.parse(ImageUtils.savePicture(context, bm, String.valueOf(selectedImage.getPath().hashCode())));
+*/        }
         return selectedImage;
+    }
+
+    public static boolean isCameraCaptured(Context context, int requestCode, int resultCode, Intent imageReturnedIntent) {
+        boolean isCamera = false;
+        if (resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE_REQUEST_CODE) {
+            File imageFile = getTemporalFile(context);
+            isCamera = (imageReturnedIntent == null
+                    || imageReturnedIntent.getData() == null
+                    || imageReturnedIntent.getData().toString().contains(imageFile.toString()));
+        }
+        return isCamera;
     }
 
 

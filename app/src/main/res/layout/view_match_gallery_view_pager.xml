@@ -5,13 +5,11 @@
 
 
 
-    <com.github.chrisbanes.photoview.PhotoView
+    <ImageView
         android:id="@+id/iv_user_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ico_user_placeholder"
-        android:layout_marginBottom="?actionBarSize" />
+        android:src="@drawable/ico_user_placeholder" />
 
 
 </RelativeLayout>

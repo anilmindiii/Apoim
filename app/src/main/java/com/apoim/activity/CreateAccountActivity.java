@@ -209,7 +209,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     account_name.setSelection(account_name.length());
                     //account_name.setEnabled(false);
 
-                    if(!preRegistrationInfo.profileImage.equals("") && preRegistrationInfo.profileImage != null){
+                    if (!preRegistrationInfo.profileImage.equals("") && preRegistrationInfo.profileImage != null) {
                         Picasso.with(this)
                                 .load(preRegistrationInfo.profileImage)
                                 .into(new Target() {
@@ -247,7 +247,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     account_name.setText(preRegistrationInfo.fullName);
                     account_name.setSelection(account_name.length());
 
-                    if(!preRegistrationInfo.profileImage.equals("") && preRegistrationInfo.profileImage != null){
+                    if (!preRegistrationInfo.profileImage.equals("") && preRegistrationInfo.profileImage != null) {
                         Picasso.with(this)
                                 .load(preRegistrationInfo.profileImage)
                                 .into(new Target() {
@@ -271,9 +271,8 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     }
 
 
-
                 }
-            }else {
+            } else {
                 ly_email.setVisibility(View.GONE);
             }
         }
@@ -436,16 +435,15 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
         ArrayList<File> fileList = new ArrayList<>();
 
-        if(preRegistrationInfo.socialType != null){
+        if (preRegistrationInfo.socialType != null) {
 
-            if(!preRegistrationInfo.socialType.equals("")){
-                if(preRegistrationInfo.profileImage != null)
+            if (!preRegistrationInfo.socialType.equals("")) {
+                if (preRegistrationInfo.profileImage != null)
                     map.put("profileImage", preRegistrationInfo.profileImage);
             } else {
                 map.put("profileImage", "");
             }
-        }
-        else {
+        } else {
             if (bitmap != null) {
                 fileList = new ArrayList<>();
                 fileList.add(bitmapToFile(bitmap));
@@ -453,9 +451,6 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                 map.put("profileImage", "");
             }
         }
-
-
-
 
 
         mMultiPartRequest = new MultiPartRequest(new Response.ErrorListener() {
@@ -726,7 +721,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
     public String getAddress(double latitude, double longitude, Context mContext) {
         String user_address = "";
-       // Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+        // Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         try {
             List<Address> addressList = geocoder.getFromLocation(
@@ -740,11 +735,11 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
             Log.e(Apoim.TAG, "Unable connect to Geocoder", e);
         }
 
-        if(user_address.equals("")){
+        if (user_address.equals("")) {
             return "NA";
-        }else
+        } else
 
-        return user_address;
+            return user_address;
     }
 
     /**
@@ -847,9 +842,9 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         infoFCM.name = app_session.getUser().userDetail.fullName;
         infoFCM.isNotification = Constant.Notication_on;
         infoFCM.authToken = app_session.getUser().userDetail.authToken;
-        if(userForSave != null){
+        if (userForSave != null) {
             infoFCM.quickBloxId = userForSave.getId().toString();
-        }else  infoFCM.quickBloxId = "";
+        } else infoFCM.quickBloxId = "";
 
         if (app_session.getUser().userDetail.profileImage.size() > 0) {
             infoFCM.profilePic = app_session.getUser().userDetail.profileImage.get(0).image;
@@ -930,7 +925,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                             signInCreatedUser(newUser, true);
                         } else {
                             loadingView.setVisibility(View.GONE);
-                           // Toast.makeText(CreateAccountActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
+                            // Toast.makeText(CreateAccountActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -998,26 +993,39 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 234) {
-                Uri imageUri = ImagePicker.getImageURIFromResult(CreateAccountActivity.this, requestCode, resultCode, data);
 
-                try {
-                    if (imageUri != null)
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                bitmap = ImagePicker.getImageFromResult(CreateAccountActivity.this, requestCode, resultCode, data);
 
-                    if (bitmap != null) {
+                if (bitmap != null) {
+                    profileImage.setImageBitmap(bitmap);
 
-                        bitmap = ImagePicker.getImageResized(this, imageUri);
-                        bitmap = ImageRotator.rotateImageIfRequired(bitmap, imageUri);
-                        profileImage.setImageBitmap(bitmap);
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
 
             }
-        }
 
+    /*        if (resultCode == RESULT_OK) {
+                if (requestCode == 234) {
+                    Uri imageUri = ImagePicker.getImageURIFromResult(CreateAccountActivity.this, requestCode, resultCode, data);
+
+                    try {
+                        if (imageUri != null)
+                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+
+                        if (bitmap != null) {
+
+                            bitmap = ImagePicker.getImageResized(this, imageUri);
+                            bitmap = ImageRotator.rotateImageIfRequired(bitmap, imageUri);
+                            profileImage.setImageBitmap(bitmap);
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }*/
+
+        }
     }
 
     private void signInCreatedUser(final QBUser user, final boolean deleteCurrentUser) {

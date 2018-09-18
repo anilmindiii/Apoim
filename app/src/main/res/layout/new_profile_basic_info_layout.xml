@@ -174,28 +174,28 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/text_Medium_Size" />
 
-                <TextView
-                    android:id="@+id/tv_no_interest_found"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/nunito_light"
-                    android:gravity="right"
-                    android:text="@string/not_available"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_Medium_Size"
-                    android:visibility="gone" />
-
-
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
+
+            <TextView
+                android:id="@+id/tv_interest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/nunito_light"
+                android:gravity="start"
+                android:text="@string/not_available"
+                android:textColor="@color/colorBlack"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:textSize="@dimen/text_Small_Size" />
+
+        <!--    <android.support.v7.widget.RecyclerView
                 android:id="@+id/user_selected_interest_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:nestedScrollingEnabled="false"
-                android:scrollbars="none" />
+                android:scrollbars="none" />-->
 
 
         </LinearLayout>

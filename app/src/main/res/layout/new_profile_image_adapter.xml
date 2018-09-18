@@ -16,11 +16,5 @@
         app:siRadius="@dimen/_8sdp"
        />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/rectangular_shadow_border"
-        android:alpha="0.3"
-       />
 
 </RelativeLayout>

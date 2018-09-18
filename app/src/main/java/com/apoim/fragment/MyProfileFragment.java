@@ -138,12 +138,13 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     private TextView tv_basic_info, tv_more_info;
     private LinearLayout ly_basic_info, ly_more_info;
     private TextView tv_fullName, tv_address, tv_about, tv_work, tv_education,
-            tv_height, tv_weight, tv_marrige_status, tv_languge, tv_like_count, tv_no_interest_found, tv_age,
+            tv_height, tv_weight, tv_marrige_status, tv_languge, tv_like_count, tv_age,
             profile_action_bar;
-    private RecyclerView user_selected_interest_list_view, profile_horizontal_recycler;
+    private RecyclerView profile_horizontal_recycler;
+   // private RecyclerView user_selected_interest_list_view;
     private ShowInterestAdapter showInterestAdapter;
     private NewProfileAdapter newProfileImageAdapter;
-    TextView tv_appoim_type, tv_event_type;
+    TextView tv_appoim_type, tv_event_type,tv_interest;
     private ImageView iv_settings, iv_notication;
     String typeNotification = "";
     RelativeLayout pager_main_layout;
@@ -190,11 +191,11 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         tv_marrige_status = view.findViewById(R.id.tv_marrige_status);
         tv_languge = view.findViewById(R.id.tv_languge);
         tv_age = view.findViewById(R.id.tv_age);
-        tv_no_interest_found = view.findViewById(R.id.tv_no_interest_found);
+        tv_interest = view.findViewById(R.id.tv_interest);
 
 
         profile_action_bar = view.findViewById(R.id.profile_action_bar);
-        user_selected_interest_list_view = view.findViewById(R.id.user_selected_interest_list_view);
+    //    user_selected_interest_list_view = view.findViewById(R.id.user_selected_interest_list_view);
         ly_business = view.findViewById(R.id.ly_business);
 
         iv_mobile_veri = view.findViewById(R.id.iv_mobile_veri);
@@ -215,8 +216,8 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         pager_main_layout = view.findViewById(R.id.pager_main_layout);
 
 
-        int numberOfColumns = 2;
-        user_selected_interest_list_view.setLayoutManager(new GridLayoutManager(mContext, numberOfColumns));
+       // int numberOfColumns = 2;
+        //user_selected_interest_list_view.setLayoutManager(new GridLayoutManager(mContext, numberOfColumns));
         profile_horizontal_recycler = view.findViewById(R.id.profile_horizontal_recycler);
         ly_photo_view = view.findViewById(R.id.ly_photo_view);
 
@@ -282,7 +283,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
 
             }
         });
-        user_selected_interest_list_view.setAdapter(showInterestAdapter);
+       // user_selected_interest_list_view.setAdapter(showInterestAdapter);
 
 
         ly_my_fevorite.setOnClickListener(this);
@@ -555,12 +556,9 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                             }
                             showInterestAdapter.notifyDataSetChanged();
 
-                        } else {
-                            tv_no_interest_found.setVisibility(View.GONE);
+                            String allInterest = getCommonSeperatedString(interestArrayList);
+                            tv_interest.setText(allInterest);
                         }
-
-                        if (interestArrayList.size() == 0)
-                            tv_no_interest_found.setVisibility(View.VISIBLE);
 
                         if (otherProfileInfo.UserDetail.profileImage.size() == 0) {
                             tv_no_user_image_found.setVisibility(View.VISIBLE);
@@ -630,6 +628,15 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         });
         service.callGetSimpleVolley("user/getUserProfile?userId=" + userId + "");
 
+    }
+
+    String getCommonSeperatedString(List<ProfileInterestInfo> actionObjects) {
+        StringBuffer sb = new StringBuffer();
+        for (ProfileInterestInfo actionObject : actionObjects){
+            sb.append(actionObject.interest).append(", ");
+        }
+        sb.deleteCharAt(sb.lastIndexOf(", "));
+        return sb.toString();
     }
 
     private void startCountAnimation(final TextView textView, int friend_count) {

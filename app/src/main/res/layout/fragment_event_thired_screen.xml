@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -18,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <TextView
+            <EditText
                 android:id="@+id/edt_location"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
@@ -41,19 +42,7 @@
                 android:focusable="true"
                 android:enabled="false" />
 
-            <LinearLayout
-                android:id="@+id/place_outo_completer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0.0">
 
-                <fragment
-                    android:id="@+id/place_autocomplete_fragment"
-                    android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
-            </LinearLayout>
 
             <ImageView
                 android:id="@+id/iv_search"
@@ -80,7 +69,6 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_50sdp"/>
 
-
         <TextView
             android:id="@+id/tv_next_thired"
             android:layout_width="@dimen/_170sdp"
@@ -97,8 +85,5 @@
             android:textSize="@dimen/text_Large_Size" />
 
     </RelativeLayout>
-
-
-
 
 </LinearLayout>
