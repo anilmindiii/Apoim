@@ -924,6 +924,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                         if (e.getHttpStatusCode() == Consts.ERR_LOGIN_ALREADY_TAKEN_HTTP_STATUS) {
                             signInCreatedUser(newUser, true);
                         } else {
+                            addUserFirebaseDatabase();
                             loadingView.setVisibility(View.GONE);
                             // Toast.makeText(CreateAccountActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
                         }

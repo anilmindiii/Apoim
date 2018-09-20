@@ -178,11 +178,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.ly_edit_profile: {
-                if (otherProfileInfo.UserDetail.fullName != null) {
+               /* if (otherProfileInfo.UserDetail.fullName != null) {
                     intent = new Intent(SettingsActivity.this, ProfileActivity.class);
                     intent.putExtra("otherProfileInfo", otherProfileInfo);
                     startActivityForResult(intent, 178);
-                }
+                }*/
+                intent = new Intent(SettingsActivity.this, NotificationActivity.class);
+                startActivity(intent);
+
                 break;
             }
             case R.id.ly_business_page: {
@@ -223,11 +226,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             }
 
 
-            if (requestCode == 178) {
+            /*if (requestCode == 178) {
                 otherProfileInfo = (GetOtherProfileInfo) data.getSerializableExtra("otherProfileInfo");
                 final GetOtherProfileInfo.UserDetailBean userDetail = otherProfileInfo.userDetail;
                 otherProfileInfo.UserDetail = userDetail;
-            }
+            }*/
 
             if(requestCode == 122){
                 otherProfileInfo.UserDetail.isBusinessAdded = "1";

@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.apoim.R;
 import com.apoim.activity.OtherProfileActivity;
 import com.apoim.app.Apoim;
+import com.apoim.helper.Constant;
 import com.apoim.modal.MyFriendListInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.util.InsLoadingView;
@@ -101,6 +102,15 @@ public class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.View
             @Override
             public void onClick(View view) {
                remove_accept_Request(bean.userId,"edit","3","Friend request deleted successfully", position);
+            }
+        });
+
+        holder.iv_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                intent.putExtra(Constant.userId,friendList.get(position).userId);
+                mContext.startActivity(intent);
             }
         });
     }

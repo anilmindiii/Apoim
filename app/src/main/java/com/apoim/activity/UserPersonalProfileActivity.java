@@ -744,8 +744,12 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
                         if (weight_unit.getText().toString().equals("weight")) {
                             Utils.openAlertDialog(UserPersonalProfileActivity.this, "Select units");
                         } else {
-                            weight_dialog.dismiss();
-                            user_weight.setText(weight + " " + weight_unit.getText().toString());
+
+                            if(!weight_unit.getText().toString().equals("Units")){
+                                weight_dialog.dismiss();
+                                user_weight.setText(weight + " " + weight_unit.getText().toString());
+                            }else   Utils.openAlertDialog(UserPersonalProfileActivity.this, "Select units");
+
                         }
 
                     } else {

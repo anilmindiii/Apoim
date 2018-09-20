@@ -28,6 +28,7 @@ import com.apoim.modal.SignInInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.util.Utils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -106,7 +107,7 @@ public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapte
 
             if(!TextUtils.isEmpty(imageBean.url)){
                 Glide.with(holder.circular_profile_image.getContext())
-                        .load(imageBean.url)
+                        .applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).load(imageBean.url)
                         .into(holder.circular_profile_image);
 
               /*  Picasso.with(holder.circular_profile_image.getContext())
@@ -118,21 +119,15 @@ public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapte
             }
 
 
-
-            //holder.circular_profile_image.setImageBitmap(recycler_list.get(position));
-
             holder.cancel_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //recycler_list.remove(position);
-                    //productImages.remove(position -
+
                     int pos = holder.getAdapterPosition();
 
                     if(!list.get(pos).imageId.equals("")){
                         deleteImages(list.get(pos).imageId);
                     }
-
-
 
                     if(list.size()>pos){
                         list.remove(pos);
@@ -145,8 +140,8 @@ public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapte
 
         }
 
-        
-            
+
+
         holder.circular_profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

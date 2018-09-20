@@ -145,7 +145,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     private ShowInterestAdapter showInterestAdapter;
     private NewProfileAdapter newProfileImageAdapter;
     TextView tv_appoim_type, tv_event_type,tv_interest;
-    private ImageView iv_settings, iv_notication;
+    private ImageView iv_settings, iv_edit_profile;
     String typeNotification = "";
     RelativeLayout pager_main_layout;
 
@@ -177,7 +177,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         bottom_sheet = view.findViewById(R.id.bottom_sheet);
         ly_my_fevorite = view.findViewById(R.id.ly_my_fevorite);
         iv_settings = view.findViewById(R.id.iv_settings);
-        iv_notication = view.findViewById(R.id.iv_notication);
+        iv_edit_profile = view.findViewById(R.id.iv_edit_profile);
 
         tv_no_user_image_found = view.findViewById(R.id.tv_no_user_image_found);
         ly_friends = view.findViewById(R.id.ly_friends);
@@ -307,11 +307,17 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             }
         });
 
-        iv_notication.setOnClickListener(new View.OnClickListener() {
+        iv_edit_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, NotificationActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(mContext, NotificationActivity.class);
+                startActivity(intent);*/
+
+                if (otherProfileInfo.UserDetail.fullName != null) {
+                    Intent intent = new Intent(mContext, ProfileActivity.class);
+                    intent.putExtra("otherProfileInfo", otherProfileInfo);
+                    startActivityForResult(intent, 178);
+                }
             }
         });
 
@@ -563,6 +569,9 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                         if (otherProfileInfo.UserDetail.profileImage.size() == 0) {
                             tv_no_user_image_found.setVisibility(View.VISIBLE);
                             profile_horizontal_recycler.setVisibility(View.GONE);
+                        }else {
+                            tv_no_user_image_found.setVisibility(View.GONE);
+                            profile_horizontal_recycler.setVisibility(View.VISIBLE);
                         }
 
                         newProfileImageAdapter = new NewProfileAdapter(mContext, otherProfileInfo.UserDetail.profileImage, new GetNewImageClick() {
@@ -591,7 +600,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                         Utils.openAlertDialog(mContext, message);
                     }
 
-                    /*............<<<<< view pager >>>>..................*/
+ /*..........................................<<<<< view pager >>>>............................................*/
                     viewPagerAdapter = new ViewPagerAdapter(mContext,otherProfileInfo.UserDetail.profileImage);
                     viewPager.setAdapter(viewPagerAdapter);
 
@@ -676,14 +685,18 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         } else {
             tv_event_type.setText(R.string.not_available);
         }
+
         //tv_email.setText(userDetail.email);
         if (userDetail.profileImage.size() != 0) {
+            ly_photo_view.setVisibility(View.VISIBLE);
             RequestOptions options = new RequestOptions();
             options.placeholder(R.drawable.ico_user_placeholder);
+
             Glide.with(mContext).load(userDetail.profileImage.get(0).image).apply(options).into(iv_profile);
             //Picasso.with(mContext).load(userDetail.images.get(0).image).placeholder(R.drawable.ico_user_placeholder).into(iv_profile);
         } else {
             ly_photo_view.setVisibility(View.GONE);
+            iv_profile.setImageResource(R.drawable.ico_user_placeholder);
         }
 
         if (!userDetail.visit.equals(""))

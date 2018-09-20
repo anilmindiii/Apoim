@@ -267,10 +267,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }else tv_days_status.setText(checkDate);
 
 
-        tv_days_status.setVisibility(View.VISIBLE);
+       // tv_days_status.setVisibility(View.VISIBLE);
         tv_days_status.postDelayed(new Runnable() {
             public void run() {
-                tv_days_status.setVisibility(View.GONE);
+                //tv_days_status.setVisibility(View.GONE);
             }
         }, 2000);
 

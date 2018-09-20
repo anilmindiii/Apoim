@@ -259,12 +259,12 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         java.sql.Date yesterday = new java.sql.Date(cal.getTimeInMillis());
         String beforeOneDay = formateDateFromstring("yyyy-MM-dd", "dd MMMM yyyy",yesterday.toString());
 
-        if(!isDateChange.equals(checkDate)){
+       /* if(!isDateChange.equals(checkDate)){
             isDateChange = checkDate;
             tv_days_status.setVisibility(View.VISIBLE);
         }else {
             tv_days_status.setVisibility(View.GONE);
-        }
+        }*/
 
         Log.d("dateA",checkDate);
         if(currentDate.equals(checkDate)){

@@ -1,7 +1,33 @@
 package com.apoim.helper;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.apoim.R;
+import com.apoim.activity.ProfileActivity;
+import com.apoim.activity.SettingsActivity;
+import com.apoim.app.Apoim;
+import com.apoim.modal.GetOtherProfileInfo;
+import com.apoim.modal.ImageBean;
+import com.apoim.modal.ProfileInterestInfo;
+import com.apoim.modal.SignInInfo;
+import com.apoim.multipleFileUpload.MultiPartRequest;
+import com.apoim.multipleFileUpload.Template;
+import com.apoim.util.Utils;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Anil on 2/14/2018.
@@ -73,6 +99,7 @@ public class Constant {
     public static String OtherProfile = "OtherProfile";
     public static String UserPersonalProfile = "UserPersonalProfile";
     public static String editEvent = "editEvent";
+    public static String userId = "userId";
 
     public static final String Confirmed_payment = "1";
     public static final String Joined_Payment_is_pending = "2";
@@ -99,5 +126,170 @@ public class Constant {
         }
     }
 
+
+    // Method for uploading multipart for multiple images upload
+
+   /* void updateProfileTask() {
+        profile_button.setEnabled(false);
+        loading_view.setVisibility(View.VISIBLE);
+        String date = profile_birthday.getText().toString();
+        String name = profile_name.getText().toString().replaceAll("( )+", " ");
+        String aboutYou = user_about_you.replaceAll("( )+", " ");
+
+        if (aboutYou.equals("")) {
+            aboutYou = "NA";
+        }
+        params = new HashMap<>();
+        params.put("birthday", date);
+        params.put("fullName", name);
+        params.put("gender", gender);
+        params.put("height", user_height);
+        params.put("weight", user_weight);
+        params.put("relationship", user_relationship);
+        params.put("about", aboutYou);
+        params.put("showOnMap", showOnMap);
+        params.put("language", user_I_speak);
+        params.put("eduId", educationId);
+        params.put("workId", workId);
+        params.put("interestId", user_interest);
+
+        params.put("address", profile_select_location.getText().toString().trim());
+        params.put("latitude", latitude);
+        params.put("longitude", longitude);
+
+        params.put("eventType", eventType);
+        params.put("appointmentType", appointmentType);
+
+        ArrayList<File> fileList = new ArrayList<>();
+        for (ImageBean tmp : imageBeans) {
+            if (tmp != null && tmp.bitmap != null) {
+                fileList.add(bitmapToFile(tmp.bitmap));
+            }
+        }
+
+        mMultiPartRequest = new MultiPartRequest(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading_view.setVisibility(View.GONE);
+                setResponse(null, error);
+            }
+        }, new Response.Listener() {
+            @Override
+            public void onResponse(Object response) {
+                loading_view.setVisibility(View.GONE);
+                try {
+                    Log.e("RESPONSE", response.toString());
+
+                    JSONObject result = null;
+
+                    Log.d("profileResponce", response + "");
+
+                    result = new JSONObject(response.toString());
+                    String status = result.getString("status");
+                    String message = result.getString("message");
+                    if (status.equalsIgnoreCase("success")) {
+
+                        Gson gson = new Gson();
+                        SignInInfo signInInfo = gson.fromJson(String.valueOf(response), SignInInfo.class);
+                        otherProfileInfo = gson.fromJson(String.valueOf(response), GetOtherProfileInfo.class);
+
+
+                        ArrayList<ProfileInterestInfo> interestInfoList = new ArrayList<>();
+                        session.saveUserInterestList(interestInfoList);
+
+                        //signInInfo = session.getUser();
+                       *//* if(signInInfo != null){
+                            signInInfo.userDetail.isProfileUpdate = "1";
+                            session.createSession(signInInfo);
+                        }*//*
+
+                        session.createSession(signInInfo);
+                        addUserFirebaseDatabase();
+
+
+                        Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+                        intent.putExtra("otherProfileInfo", otherProfileInfo);
+                        setResult(RESULT_OK, intent);
+
+                        if (ProfileActivity.this != null) {
+                            profileUpdated(ProfileActivity.this, getString(R.string.profile_update));
+                        }
+
+                    } else if (status.equalsIgnoreCase("authFail")) {
+                        //  Constant.showLogOutDialog(AddVehicleInfoActivity.this);
+                    } else {
+                        Utils.openAlertDialog(ProfileActivity.this, message);
+                    }
+                    profile_button.setEnabled(false);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    profile_button.setEnabled(true);
+                    loading_view.setVisibility(View.GONE);
+                }
+
+            }
+            //  }, productImages, productImages.size(), params, ProfileActivity.this);
+        }, null, 0, params, ProfileActivity.this, Template.Query.KEY_IMAGE, "user/updateProfile");
+
+        //Set tag
+        mMultiPartRequest.setTag("MultiRequest");
+
+        //Set retry policy
+        mMultiPartRequest.setRetryPolicy(new DefaultRetryPolicy(Template.VolleyRetryPolicy.SOCKET_TIMEOUT,
+                Template.VolleyRetryPolicy.RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        Apoim.getInstance().addToRequestQueue(mMultiPartRequest, "UPLOAD");
+    }*/
+
+
+  /*  void setResponse(Object response, VolleyError error) {
+        profile_button.setEnabled(true);
+        if (response == null) {
+
+        } else {
+            if (StringParser.getCode(response.toString()).equals(Template.Query.VALUE_CODE_SUCCESS)) {
+                //  Constant.snackbar(mainLayout, StringParser.getMessage(response.toString()));
+                Utils.openAlertDialog(ProfileActivity.this, StringParser.getMessage(response.toString()));
+            } else {
+                //  Constant.snackbar(mainLayout, "Error\n" + StringParser.getMessage(response.toString()));
+                Utils.openAlertDialog(ProfileActivity.this, StringParser.getMessage(response.toString()));
+            }
+        }
+    }*/
+
+
+  /*    public File bitmapToFile(Bitmap bmp) {
+        try {
+            String name = System.currentTimeMillis() + ".png";
+            File file = new File(getCacheDir(), name);
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 60, bos);
+            byte[] bArr = bos.toByteArray();
+            bos.flush();
+            bos.close();
+
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bArr);
+            fos.flush();
+            fos.close();
+
+            return file;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Bitmap getCompressBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream);
+        Bitmap compressedBitmap = BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.toByteArray().length);
+
+        return compressedBitmap;
+    }*/
 
 }

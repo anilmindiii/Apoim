@@ -26,25 +26,47 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 
-public class EventPlaceActivity extends AppCompatActivity
+public class EventPlaceActivity extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
 
-      /*  implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener*/ {
+    // Location updates intervals in sec
+    private static int UPDATE_INTERVAL = 10000; // 10 sec
+    private static int FASTEST_INTERVAL = 5000; // 5 sec
+    private static int DISPLACEMENT = 10; // 10 meters
+
+    private LocationManager locationManager;
+    private double current_latitude;
+    private double current_longitude;
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
+    private Location mLastLocation;
+    // Google client to interact with Google API
+    private GoogleApiClient mGoogleApiClient;
+    // boolean flag to toggle periodic location updates
+    private boolean mRequestingLocationUpdates = false;
+    private LocationRequest mLocationRequest;
+    private MapFragment mapFragment;
+    protected GoogleMap mGoogleMap;
+    private boolean isGPSEnabled, isNetworkEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_place);
-    }
-}
 
-/*
+        if (checkPlayServices()) {
+            // Building the GoogleApi client
+            buildGoogleApiClient();
+            createLocationRequest();
+        }
+        displayCurrentLocation();
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -70,28 +92,17 @@ public class EventPlaceActivity extends AppCompatActivity
                 }
             }
         });
-        wattingForImage(mapBeanArrayList);
-        setUpMap(ProfileInfo.latitude, ProfileInfo.longitude);
+        //setUpMap(ProfileInfo.latitude, ProfileInfo.longitude);
     }
 
-    private void setUpMap(String appointLatitude, String appointLongitude) {
+  /*  private void setUpMap(String appointLatitude, String appointLongitude) {
         LatLngBounds bounds = new LatLngBounds(new LatLng(Double.parseDouble(appointLatitude),
                 Double.parseDouble(appointLongitude)), new LatLng(Double.parseDouble(appointLatitude),
                 Double.parseDouble(appointLongitude)));
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 10));
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-    }
-
-
-    */
-/*.....................................................Current location......................................................................*//*
-
-
-    */
-/**
-     * Method to verify google play services on the device
-     *//*
+    }*/
 
 
     private boolean checkPlayServices() {
@@ -102,7 +113,7 @@ public class EventPlaceActivity extends AppCompatActivity
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this,
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
-                Utils.openAlertDialog(CreateAppointMentActivity.this, getResources().getString(R.string.alert_play_services_check));
+                Utils.openAlertDialog(EventPlaceActivity.this, getResources().getString(R.string.alert_play_services_check));
 
                 finish();
             }
@@ -111,10 +122,7 @@ public class EventPlaceActivity extends AppCompatActivity
         return true;
     }
 
-    */
-/**
-     * Creating google api client object
-     *//*
+
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -123,10 +131,7 @@ public class EventPlaceActivity extends AppCompatActivity
                 .addApi(LocationServices.API).build();
     }
 
-    */
-/**
-     * Creating location request object
-     *//*
+
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -155,7 +160,7 @@ public class EventPlaceActivity extends AppCompatActivity
         }
 
         if (!isGPSEnabled()) {
-            Utils.showGPSDisabledAlertToUser(CreateAppointMentActivity.this);
+            Utils.showGPSDisabledAlertToUser(EventPlaceActivity.this);
         }
     }
 
@@ -163,7 +168,7 @@ public class EventPlaceActivity extends AppCompatActivity
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) CreateAppointMentActivity.this);
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) EventPlaceActivity.this);
     }
 
     @Override
@@ -173,7 +178,6 @@ public class EventPlaceActivity extends AppCompatActivity
             mGoogleApiClient.disconnect();
         }
 
-        loading_view.setVisibility(View.GONE);
     }
 
     @Override
@@ -187,7 +191,7 @@ public class EventPlaceActivity extends AppCompatActivity
             return;
         }
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) CreateAppointMentActivity.this);
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, (com.google.android.gms.location.LocationListener) EventPlaceActivity.this);
         }
     }
 
@@ -222,7 +226,7 @@ public class EventPlaceActivity extends AppCompatActivity
     }
 
     private void displayCurrentLocation() {
-        if (LocationRuntimePermission.checkLocationPermission(CreateAppointMentActivity.this)) {
+        if (LocationRuntimePermission.checkLocationPermission(EventPlaceActivity.this)) {
 
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -234,11 +238,6 @@ public class EventPlaceActivity extends AppCompatActivity
                 if (mLastLocation != null) {
                     current_latitude = mLastLocation.getLatitude();
                     current_longitude = mLastLocation.getLongitude();
-
-                    if (businessList.size() == 0) {
-                        getBusinessList(String.valueOf(current_latitude), String.valueOf(current_longitude));
-
-                    }
 
                     stopLocationUpdates();
 
@@ -255,6 +254,7 @@ public class EventPlaceActivity extends AppCompatActivity
         // otherwise return false
         return false;
     }
-    */
 
+
+}
 

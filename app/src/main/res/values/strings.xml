@@ -241,7 +241,7 @@
     <string name="new_appointment_request">New Appointment Request</string>
     <string name="fevorites">Favorites</string>
     <string name="settings_">Settings</string>
-    <string name="change_password">Change password</string>
+    <string name="change_password">Change Password</string>
     <string name="payment">Payment</string>
     <string name="about_us">About Us</string>
     <string name="privacy_policy">Privacy Policy</string>
@@ -572,6 +572,7 @@
     <string name="sent_appointment">Sent Appointment</string>
     <string name="finished_appointment">Finished Appointment</string>
     <string name="sure_edit_apoim">Are you sure you want to edit appointment ?</string>
+    <string name="notification_list">Notification List</string>
 
 
 </resources>

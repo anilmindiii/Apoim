@@ -116,6 +116,15 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         if(notificationInfo.message.type.equals("delete_appointment")){
             alist.add(notificationInfo.message.referenceId);
         }
+
+        holder.profile_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                intent.putExtra(Constant.userId,notificationList.get(position).notId);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     public String formateDateFromstring(String inputFormat, String outputFormat, String inputDate){

@@ -173,7 +173,7 @@ public class ChatFragment extends Fragment {
 
     private void gettingDataFromUserTable(final String key, final Chat chat) {
         FirebaseDatabase.getInstance().getReference().child(Constant.ARG_USERS).child(key).
-                addListenerForSingleValueEvent(new ValueEventListener() {
+                addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue(UserInfoFCM.class) != null){

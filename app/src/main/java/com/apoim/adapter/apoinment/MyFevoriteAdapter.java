@@ -1,6 +1,7 @@
 package com.apoim.adapter.apoinment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,7 +14,9 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
+import com.apoim.activity.OtherProfileActivity;
 import com.apoim.app.Apoim;
+import com.apoim.helper.Constant;
 import com.apoim.modal.MyFavoriteListInfo;
 import com.apoim.server_task.WebService;
 import com.squareup.picasso.Picasso;
@@ -68,10 +71,16 @@ public class MyFevoriteAdapter extends RecyclerView.Adapter<MyFevoriteAdapter.Vi
             public void onClick(View view) {
                 if(!TextUtils.isEmpty(bean.favUserId)){
                     add_remove_Favourate(bean.favUserId,position);
-
-
                 }
+            }
+        });
 
+        holder.iv_favorite_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                intent.putExtra(Constant.userId,favoriteList.get(position).user_id);
+                mContext.startActivity(intent);
             }
         });
     }

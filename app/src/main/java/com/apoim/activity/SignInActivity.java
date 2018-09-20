@@ -209,8 +209,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             Toast.makeText(SignInActivity.this, "Quick blox Server is on maintenance", Toast.LENGTH_LONG).show();
                         }
                         else {
-                           // loadingView.setVisibility(View.GONE);
-                           // Toast.makeText(SignInActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
+//                            addUserFirebaseDatabase(isProfileUpdate);
+                            loadingView.setVisibility(View.GONE);
+                            Toast.makeText(SignInActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -288,7 +289,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         requestExecutor.signInUser(user, new com.apoim.groupchatwebrtc.utils.QBEntityCallbackImpl<QBUser>() {
             @Override
             public void onSuccess(QBUser result, Bundle params) {
-
                 if (deleteCurrentUser) {
                     removeAllUserData(result);
                 } else {
@@ -299,6 +299,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onError(QBResponseException responseException) {
                 loadingView.setVisibility(View.GONE);
+                addUserFirebaseDatabase(isProfileUpdate);
                 //Toast.makeText(SignInActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
             }
         });
@@ -311,6 +312,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
             public void onSuccess(Void aVoid, Bundle bundle) {
                 UsersUtils.removeUserData(getApplicationContext());
                 startSignUpNewUser(createUserWithEnteredData(app_session.getUser().userDetail.fullName, app_session.getUser().userDetail.email));
+
             }
 
             @Override

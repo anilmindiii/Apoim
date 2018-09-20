@@ -591,16 +591,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public boolean isValidData() {
         Validation v = new Validation();
 
-
-        if (imageBeans.size() == 1) {
-            Utils.openAlertDialog(ProfileActivity.this, "Atleast one image should be select");
-            return false;
-        }
        /* if(productImages.size() < 1){
             Utils.openAlertDialog(ProfileActivity.this, "Atleast one image should be select");
             return false;
         }*/
-        else if (!v.isNullValue(profile_name.getText().toString().trim())) {
+         if (!v.isNullValue(profile_name.getText().toString().trim())) {
             Utils.openAlertDialog(ProfileActivity.this, getResources().getString(R.string.alert_profile_name_null));
             return false;
         } else if (!v.isLength3Minimum(profile_name.getText().toString().trim())) {
@@ -1122,12 +1117,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (bitmap != null) {
                     if (imageBeans.size() < 6) {
-                        imageBeans.add(1, new ImageBean(null, bitmap, ""));
-                        imageAdapter.notifyDataSetChanged();
-
+                        String userId = session.getUser().userDetail.userId;
+                        imageUploadTask(userId,bitmap);
                     }
-
-
 
              /*   //Uri imageUri = ImagePicker.getImageURIFromResult(ProfileActivity.this, requestCode, resultCode, data);
 
@@ -1231,45 +1223,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 imageBeans.add(1, new ImageBean(null, bitmap, ""));
                 imageAdapter.notifyDataSetChanged();
             }
-
-        }
-
-
-    }
-
-    public File bitmapToFile(Bitmap bmp) {
-        try {
-            String name = System.currentTimeMillis() + ".png";
-            File file = new File(getCacheDir(), name);
-
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.PNG, 60, bos);
-            byte[] bArr = bos.toByteArray();
-            bos.flush();
-            bos.close();
-
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bArr);
-            fos.flush();
-            fos.close();
-
-            return file;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         }
     }
 
-    public Bitmap getCompressBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream);
-        Bitmap compressedBitmap = BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.toByteArray().length);
 
-        return compressedBitmap;
-    }
 
     void updateProfileTask() {
         profile_button.setEnabled(false);
@@ -1302,22 +1259,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         params.put("eventType", eventType);
         params.put("appointmentType", appointmentType);
 
-        ArrayList<File> fileList = new ArrayList<>();
-        for (ImageBean tmp : imageBeans) {
-            if (tmp != null && tmp.bitmap != null) {
-                fileList.add(bitmapToFile(tmp.bitmap));
-            }
-        }
-
-        mMultiPartRequest = new MultiPartRequest(new Response.ErrorListener() {
+        WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                loading_view.setVisibility(View.GONE);
-                setResponse(null, error);
-            }
-        }, new Response.Listener() {
-            @Override
-            public void onResponse(Object response) {
+            public void onResponse(String response) {
                 loading_view.setVisibility(View.GONE);
                 try {
                     Log.e("RESPONSE", response.toString());
@@ -1370,32 +1314,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
 
             }
-            //  }, productImages, productImages.size(), params, ProfileActivity.this);
-        }, fileList, fileList.size(), params, ProfileActivity.this, Template.Query.KEY_IMAGE, "user/updateProfile");
 
-        //Set tag
-        mMultiPartRequest.setTag("MultiRequest");
-
-        //Set retry policy
-        mMultiPartRequest.setRetryPolicy(new DefaultRetryPolicy(Template.VolleyRetryPolicy.SOCKET_TIMEOUT,
-                Template.VolleyRetryPolicy.RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        Apoim.getInstance().addToRequestQueue(mMultiPartRequest, "UPLOAD");
-    }
-
-    void setResponse(Object response, VolleyError error) {
-        profile_button.setEnabled(true);
-        if (response == null) {
-
-        } else {
-            if (StringParser.getCode(response.toString()).equals(Template.Query.VALUE_CODE_SUCCESS)) {
-                //  Constant.snackbar(mainLayout, StringParser.getMessage(response.toString()));
-                Utils.openAlertDialog(ProfileActivity.this, StringParser.getMessage(response.toString()));
-            } else {
-                //  Constant.snackbar(mainLayout, "Error\n" + StringParser.getMessage(response.toString()));
-                Utils.openAlertDialog(ProfileActivity.this, StringParser.getMessage(response.toString()));
+            @Override
+            public void ErrorListener(VolleyError error) {
+                Log.d("response", error.toString());
+                loading_view.setVisibility(View.GONE);
             }
-        }
+        });
+
+        service.callMultiPartApi("user/updateProfile", params, null);
     }
 
     private void addUserFirebaseDatabase() {
@@ -1455,5 +1382,59 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         alert.show();
     }
 
+
+    private void imageUploadTask(final String userId,final Bitmap bitmap) {
+        loading_view.setVisibility(View.VISIBLE);
+        Map<String, String> map = new HashMap<>();
+        map.put("userId", userId);
+
+        Map<String , Bitmap> bitmapMap = new HashMap<>();
+        bitmapMap.put("image",bitmap);
+
+        WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
+
+            @Override
+            public void onResponse(String response) {
+                loading_view.setVisibility(View.GONE);
+                Log.e("RESPONSE", response);
+
+                try {
+                    final JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+
+                    if (status.equals("success")) {
+
+                        JSONObject object = jsonObject.getJSONObject("imageData");
+                        String image = object.getString("image");
+                        String userImgId = object.getString("userImgId");
+
+                        imageBeans.add(1, new ImageBean(null, bitmap, userImgId));
+                        imageAdapter.notifyDataSetChanged();
+
+                        SignInInfo signInInfo = session.getUser();
+                        signInInfo.userDetail.profileImage.get(0).image = image;
+                        session.createSession(signInInfo);
+
+                        addUserFirebaseDatabase();
+
+                    } else {
+                        Utils.openAlertDialog(ProfileActivity.this, message);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    loading_view.setVisibility(View.GONE);
+                }
+
+
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+                loading_view.setVisibility(View.GONE);
+            }
+        });
+        service.callMultiPartApi("user/uploadUserImage", map,bitmapMap);
+    }
 
 }

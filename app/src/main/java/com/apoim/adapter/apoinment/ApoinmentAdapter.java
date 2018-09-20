@@ -3,6 +3,7 @@ package com.apoim.adapter.apoinment;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apoim.R;
+import com.apoim.activity.OtherProfileActivity;
+import com.apoim.helper.Constant;
 import com.apoim.listener.AppointmentReqStatus;
 import com.apoim.modal.AppointmentListInfo;
 import com.apoim.session.Session;
@@ -383,6 +386,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
 
             ly_reject.setOnClickListener(this);
             ly_accept.setOnClickListener(this);
+            iv_profile.setOnClickListener(this);
 
             itemView.setOnClickListener(this);
         }
@@ -414,6 +418,20 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
                     tv_status.setTextColor(ContextCompat.getColor(mContext, R.color.colorgreen));
                     // tv_status.setText("Confirmed Appointment");
 
+                    break;
+                }
+
+                case R.id.iv_profile:{
+
+                    Intent intent = new Intent(mContext, OtherProfileActivity.class);
+
+                    if (apomList.get(getAdapterPosition()).appointById.equals(myUserId)) {
+                        intent.putExtra(Constant.userId,apomList.get(getAdapterPosition()).appointForId);
+                    }
+                    else if (apomList.get(getAdapterPosition()).appointForId.equals(myUserId)){
+                        intent.putExtra(Constant.userId,apomList.get(getAdapterPosition()).appointById);
+                    }
+                    mContext.startActivity(intent);
                     break;
                 }
 

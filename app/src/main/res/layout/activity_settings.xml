@@ -84,13 +84,13 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/edit"/>
+                        android:src="@drawable/notification_settings"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_regular"
-                        android:text="@string/edit_profile"
+                        android:text="@string/notification_list"
                         android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
                         android:layout_centerVertical="true"

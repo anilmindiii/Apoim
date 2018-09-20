@@ -58,7 +58,7 @@ public class SplashActivity extends BaseActivity {
         session = new Session(this, this);
 
         //for quick blocks
-       /* int secondsDelayed = 1;
+        int secondsDelayed = 1;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -78,10 +78,9 @@ public class SplashActivity extends BaseActivity {
                 }
             }
         }, secondsDelayed * 3000);
-*/
 
         //for Normal
-        session = new Session(this, this);
+     /*   session = new Session(this, this);
         int secondsDelayed = 1;
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -118,7 +117,7 @@ public class SplashActivity extends BaseActivity {
                 }
             }
         }, secondsDelayed * 3000);
-
+*/
 
     }
 

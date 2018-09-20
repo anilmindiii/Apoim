@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.apoim.R;
 import com.apoim.activity.ChatActivity;
+import com.apoim.activity.OtherProfileActivity;
+import com.apoim.helper.Constant;
 import com.apoim.modal.Chat;
 import com.apoim.session.Session;
 import com.bumptech.glide.Glide;
@@ -68,6 +70,15 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
                 Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.NORMAL);
                 holder.tv_favorite_work.setTypeface(boldTypeface);
             }
+
+        holder.iv_favorite_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                intent.putExtra(Constant.userId,historyList.get(position).uid);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

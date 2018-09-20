@@ -44,7 +44,7 @@ public class NewProfileAdapter extends RecyclerView.Adapter<NewProfileAdapter.Vi
 
         if(imagesBeans.get(position).image != null)
             Picasso.with(mContext)
-                    .load(imagesBeans.get(position).image)
+                    .load(imagesBeans.get(position).image).placeholder(R.drawable.ico_user_placeholder)
                     .into(holder.circular_profile_image);
 
     }

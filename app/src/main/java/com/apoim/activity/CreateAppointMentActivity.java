@@ -278,7 +278,6 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
         });
 
         profile_horizontal_recycler.setAdapter(horizontalListAdapter);
-
         mapBeanArrayList = new ArrayList<>();
         nearByUsersBean = new UserListInfo.NearByUsersBean();
 
