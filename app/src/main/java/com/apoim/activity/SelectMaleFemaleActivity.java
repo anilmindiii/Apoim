@@ -929,6 +929,7 @@ public class SelectMaleFemaleActivity extends BaseActivity implements View.OnCli
                         if (e.getHttpStatusCode() == Consts.ERR_LOGIN_ALREADY_TAKEN_HTTP_STATUS) {
                             signInCreatedUser(newUser, true);
                         } else {
+                            addUserFirebaseDatabase(isProfileUpdate);
                             loadingView.setVisibility(View.GONE);
                             //Toast.makeText(SelectMaleFemaleActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
                         }

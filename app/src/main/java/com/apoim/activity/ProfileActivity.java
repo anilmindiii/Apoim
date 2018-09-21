@@ -24,6 +24,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -38,6 +39,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -54,11 +56,13 @@ import com.apoim.R;
 import com.apoim.adapter.ProfileEducationAdapter;
 import com.apoim.adapter.ProfileImageAdapter;
 import com.apoim.adapter.ProfileWorkAdapter;
+import com.apoim.adapter.newProfile.NewProfileAdapter;
 import com.apoim.app.Apoim;
 import com.apoim.cropper.CropImage;
 import com.apoim.cropper.CropImageView;
 import com.apoim.helper.Constant;
 import com.apoim.helper.Validation;
+import com.apoim.listener.GetNewImageClick;
 import com.apoim.listener.ProfileImageAdapterListener;
 import com.apoim.modal.GetOtherProfileInfo;
 import com.apoim.modal.ImageBean;
@@ -76,6 +80,7 @@ import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
 import com.apoim.util.LocationRuntimePermission;
 import com.apoim.util.Utils;
+import com.apoim.util.ViewPagerAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -108,6 +113,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -305,33 +311,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
         if (signInInfo.userDetail != null) {
+            getProfileDetails(signInInfo.userDetail.userId);
+
             profile_name.setText(signInInfo.userDetail.fullName);
             profile_birthday.setText(signInInfo.userDetail.birthday);
-            if (signInInfo.userDetail.profileImage.size() != 0 && signInInfo.userDetail.profileImage != null) {
-
-                if (imageBeans.size() < 6) {
-                    imageBeans.add(1, new ImageBean(signInInfo.userDetail.profileImage.get(0).image, null, ""));
-                    imageAdapter.notifyDataSetChanged();
-                }
-
-                /*Picasso.with(this)
-                        .load(signInInfo.userDetail.profileImage.get(0).image)
-                        .into(new Target() {
-                            @Override
-                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
-
-                            }
-
-                            @Override
-                            public void onBitmapFailed(Drawable errorDrawable) {
-                            }
-
-                            @Override
-                            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                            }
-                        });*/
-            }
 
             // Set gender
             if (signInInfo.userDetail.gender.equals(Constant.REGISTER_MALE)) {
@@ -421,6 +404,48 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profile_button.setOnClickListener(this);
         profile_skip.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+
+    }
+
+    private void getProfileDetails(String userId) {
+        WebService service = new WebService(ProfileActivity.this, Apoim.TAG, new WebService.LoginRegistrationListener() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    final JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+                    if (status.equals("success")) {
+                        Gson gson = new Gson();
+                        otherProfileInfo = gson.fromJson(response, GetOtherProfileInfo.class);
+
+                        if (otherProfileInfo.UserDetail.profileImage.size() != 0 && otherProfileInfo.UserDetail.profileImage != null) {
+
+                           for(int i = 0 ; i <otherProfileInfo.UserDetail.profileImage.size() ; i++ ){
+                               imageBeans.add((i+1), new ImageBean(otherProfileInfo.UserDetail.profileImage.get(i).image,null,
+                                       otherProfileInfo.UserDetail.profileImage.get(i).userImgId));
+                           }
+                            imageAdapter.notifyDataSetChanged();
+
+                           /* if (imageBeans.size() < 6) {
+                                imageBeans.addAll(otherProfileInfo.userDetail.profileImage);
+                                imageAdapter.notifyDataSetChanged();
+
+                                imageBeans.add(1, new ImageBean(signInInfo.userDetail.profileImage.get(0).image, null, ""));
+                            }*/
+
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {}
+        });
+        service.callGetSimpleVolley("user/getUserProfile?userId=" + userId + "");
 
     }
 
@@ -1436,5 +1461,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         });
         service.callMultiPartApi("user/uploadUserImage", map,bitmapMap);
     }
+
+
 
 }

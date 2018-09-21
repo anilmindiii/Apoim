@@ -203,15 +203,20 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                     public void onError(QBResponseException e) {
                         if (e.getHttpStatusCode() == Consts.ERR_LOGIN_ALREADY_TAKEN_HTTP_STATUS) {
                             signInCreatedUser(newUser, true);
+                        }else {
+                            loadingView.setVisibility(View.GONE);
+                            addUserFirebaseDatabase(isProfileUpdate);
                         }
+
+
                         if(e.getHttpStatusCode() == Consts.SERVERIN_MAINTINANCE){
                             loadingView.setVisibility(View.GONE);
                             Toast.makeText(SignInActivity.this, "Quick blox Server is on maintenance", Toast.LENGTH_LONG).show();
                         }
                         else {
 //                            addUserFirebaseDatabase(isProfileUpdate);
-                            loadingView.setVisibility(View.GONE);
-                            Toast.makeText(SignInActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
+                           // loadingView.setVisibility(View.GONE);
+                            //Toast.makeText(SignInActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
                         }
                     }
                 }
@@ -299,7 +304,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onError(QBResponseException responseException) {
                 loadingView.setVisibility(View.GONE);
-                addUserFirebaseDatabase(isProfileUpdate);
+
                 //Toast.makeText(SignInActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
             }
         });
@@ -758,7 +763,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                     }
                 });
     }
-
 
     private void sendQuickBlockIdToServer(String quickBloxId) {
         loadingView.setVisibility(View.VISIBLE);

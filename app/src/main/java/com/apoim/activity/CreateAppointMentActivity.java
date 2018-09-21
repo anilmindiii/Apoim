@@ -269,6 +269,12 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
 
                 ly_is_buz_added.setVisibility(View.GONE);
                 ly_location.setVisibility(View.VISIBLE);
+
+                for(BusinessListInfo.BusinessListBean bean:businessList){
+                    bean.isSelected = false;
+                }
+
+                horizontalListAdapter.notifyDataSetChanged();
             }
 
             @Override

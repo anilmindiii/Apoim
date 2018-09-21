@@ -49,13 +49,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapter.MyViewHolder> {
     //private ArrayList<Bitmap> recycler_list;
-   // private ArrayList<File> productImages;
+    // private ArrayList<File> productImages;
     private Context context;
     ProfileImageAdapterListener listener;
 
     List<ImageBean> list;
 
-    public ProfileImageAdapter(List<ImageBean> imageBeans, ProfileImageAdapterListener listener){
+    public ProfileImageAdapter(List<ImageBean> imageBeans, ProfileImageAdapterListener listener) {
         this.list = imageBeans;
         this.listener = listener;
     }
@@ -98,25 +98,26 @@ public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapte
             holder.camera_icon.setVisibility(View.VISIBLE);
             holder.cancel_icon.setVisibility(View.GONE);
             holder.circular_profile_image.setImageResource(R.drawable.ico_user_placeholder);
-        }
-        else if (position > 0) {
+        } else if (position > 0) {
 
             ImageBean imageBean = list.get(position);
             holder.cancel_icon.setVisibility(View.VISIBLE);
             holder.camera_icon.setVisibility(View.GONE);
 
-            if(!TextUtils.isEmpty(imageBean.url)){
-                Glide.with(holder.circular_profile_image.getContext())
-                        .applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).load(imageBean.url)
-                        .into(holder.circular_profile_image);
+
+            if (imageBean != null)
+                if (!TextUtils.isEmpty(imageBean.url)) {
+                    Glide.with(holder.circular_profile_image.getContext())
+                            .applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).load(imageBean.url)
+                            .into(holder.circular_profile_image);
 
               /*  Picasso.with(holder.circular_profile_image.getContext())
                         .load(imageBean.url)
                         .resize(100,100)
                         .into(holder.circular_profile_image);*/
-            }else if(imageBean.bitmap!=null){
-                holder.circular_profile_image.setImageBitmap(imageBean.bitmap);
-            }
+                } else if (imageBean.bitmap != null) {
+                    holder.circular_profile_image.setImageBitmap(imageBean.bitmap);
+                }
 
 
             holder.cancel_icon.setOnClickListener(new View.OnClickListener() {
@@ -125,11 +126,11 @@ public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapte
 
                     int pos = holder.getAdapterPosition();
 
-                    if(!list.get(pos).imageId.equals("")){
+                    if (!list.get(pos).imageId.equals("")) {
                         deleteImages(list.get(pos).imageId);
                     }
 
-                    if(list.size()>pos){
+                    if (list.size() > pos) {
                         list.remove(pos);
                         notifyItemRemoved(pos);
                     }
@@ -141,15 +142,13 @@ public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapte
         }
 
 
-
         holder.circular_profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(list.size()>= 6){
-                    if(holder.getAdapterPosition() == 0)
-                    Utils.openAlertDialog(context,context.getString(R.string.image_selection_limite_msg));
-                }
-                else listener.getPosition(position);
+                if (list.size() >= 6) {
+                    if (holder.getAdapterPosition() == 0)
+                        Utils.openAlertDialog(context, context.getString(R.string.image_selection_limite_msg));
+                } else listener.getPosition(position);
             }
         });
 

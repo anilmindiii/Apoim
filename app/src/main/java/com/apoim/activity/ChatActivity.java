@@ -2,6 +2,7 @@ package com.apoim.activity;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.VolleyError;
 import com.apoim.ImagePickerPackge.ImagePicker;
 import com.apoim.R;
 import com.apoim.adapter.chat.ChattingAdapter;
@@ -41,24 +44,31 @@ import com.apoim.groupchatwebrtc.utils.Consts;
 import com.apoim.groupchatwebrtc.utils.PermissionsChecker;
 import com.apoim.groupchatwebrtc.utils.PushNotificationSender;
 import com.apoim.groupchatwebrtc.utils.SharedPrefsHelper;
+import com.apoim.groupchatwebrtc.utils.UsersUtils;
 import com.apoim.groupchatwebrtc.utils.WebRtcSessionManager;
 import com.apoim.helper.Constant;
 import com.apoim.listener.GetDateStatus;
 import com.apoim.modal.Chat;
 import com.apoim.modal.UserInfoFCM;
 import com.apoim.pagination.EndlessRecyclerViewScrollListener;
+import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
 import com.apoim.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
@@ -69,10 +79,14 @@ import com.google.firebase.storage.UploadTask;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.core.helper.StringifyArrayList;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCClient;
 import com.quickblox.videochat.webrtc.QBRTCSession;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -133,7 +147,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private String lastDataSnapshotKey = "";
     private boolean isunreadDone;
     private String myAuthToken = "";
-
+    private QBUser userForSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,6 +259,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         startLoadUsers();
+
+        // Register audio/vidio call
+        startSignUpNewUser(createUserWithEnteredData(session.getUser().userDetail.fullName, session.getUser().userDetail.email));
+
 
     }
 
@@ -873,7 +891,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -883,7 +901,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 loading_view.setVisibility(View.VISIBLE);
             }
         }
-    }
+    }*/
 
     private void creatFirebaseProfilePicUrl(Uri selectedImageUri) {
         StorageReference storageRef;
@@ -935,7 +953,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onError(QBResponseException responseException) {
                 loading_view.setVisibility(View.GONE);
-                startLoadUsers();
+                //startLoadUsers();
             }
         });
     }
@@ -981,4 +999,207 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private void startPermissionsActivity(boolean checkOnlyAudio) {
         PermissionsActivity.startActivity(this, checkOnlyAudio, Consts.PERMISSIONS);
     }
+
+
+    /*................................................video call start ...........................................................*/
+
+    private void startSignUpNewUser(final QBUser newUser) {
+        //loading_view.setVisibility(View.VISIBLE);
+        requestExecutor.signUpNewUser(newUser, new QBEntityCallback<QBUser>() {
+                    @Override
+                    public void onSuccess(QBUser result, Bundle params) {
+                        loginToChat(result);
+                    }
+
+                    @Override
+                    public void onError(QBResponseException e) {
+                        if (e.getHttpStatusCode() == Consts.ERR_LOGIN_ALREADY_TAKEN_HTTP_STATUS) {
+                            signInCreatedUser(newUser, true);
+                        } else {
+                            addUserFirebaseDatabase();
+                            loading_view.setVisibility(View.GONE);
+                            //Toast.makeText(SelectMaleFemaleActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
+    }
+
+    private void loginToChat(final QBUser qbUser) {
+        qbUser.setPassword(Consts.DEFAULT_USER_PASSWORD);
+
+        userForSave = qbUser;
+        startLoginService(qbUser);
+    }
+
+    private void startOpponentsActivity() {
+        sendQuickBlockIdToServer(userForSave.getId().toString());
+        addUserFirebaseDatabase();
+
+    }
+
+    private void saveUserData(QBUser qbUser) {
+        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
+        sharedPrefsHelper.save(Consts.PREF_CURREN_ROOM_NAME, qbUser.getTags().get(0));
+        sharedPrefsHelper.saveQbUser(qbUser);
+    }
+
+
+    private QBUser createUserWithEnteredData(String userName,String email) {
+        return createQBUserWithCurrentData(userName,
+                "mychatroom",email);
+    }
+
+    private QBUser createQBUserWithCurrentData(String userName, String chatRoomName, String email) {
+        QBUser qbUser = null;
+        if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(chatRoomName)) {
+            StringifyArrayList<String> userTags = new StringifyArrayList<>();
+            userTags.add(chatRoomName);
+
+            qbUser = new QBUser();
+            qbUser.setFullName(userName);
+            qbUser.setLogin(email);
+            qbUser.setEmail(email);
+            qbUser.setPassword(Consts.DEFAULT_USER_PASSWORD);
+            qbUser.setTags(userTags);
+        }
+
+        return qbUser;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Consts.EXTRA_LOGIN_RESULT_CODE) {
+            loading_view.setVisibility(View.GONE);
+            boolean isLoginSuccess = data.getBooleanExtra(Consts.EXTRA_LOGIN_RESULT, false);
+            String errorMessage = data.getStringExtra(Consts.EXTRA_LOGIN_ERROR_MESSAGE);
+
+            if (isLoginSuccess) {
+                saveUserData(userForSave);
+                signInCreatedUser(userForSave, false);
+            } else {
+                Toast.makeText(ChatActivity.this, getString(R.string.login_chat_login_error) + errorMessage, Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 234) {
+                Uri imageUri = ImagePicker.getImageURIFromResult(ChatActivity.this, requestCode, resultCode, data);
+                creatFirebaseProfilePicUrl(imageUri);
+                loading_view.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void signInCreatedUser(final QBUser user, final boolean deleteCurrentUser) {
+        requestExecutor.signInUser(user, new com.apoim.groupchatwebrtc.utils.QBEntityCallbackImpl<QBUser>() {
+            @Override
+            public void onSuccess(QBUser result, Bundle params) {
+
+                if (deleteCurrentUser) {
+                    removeAllUserData(result);
+                } else {
+                    startOpponentsActivity();
+                }
+            }
+
+            @Override
+            public void onError(QBResponseException responseException) {
+                loading_view.setVisibility(View.GONE);
+                //  Toast.makeText(ChatActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void removeAllUserData(final QBUser user) {
+        Session app_session = new Session(ChatActivity.this);
+        requestExecutor.deleteCurrentUser(user.getId(), new QBEntityCallback<Void>() {
+            @Override
+            public void onSuccess(Void aVoid, Bundle bundle) {
+                UsersUtils.removeUserData(getApplicationContext());
+                startSignUpNewUser(createUserWithEnteredData(app_session.getUser().userDetail.fullName,app_session.getUser().userDetail.email));
+            }
+
+            @Override
+            public void onError(QBResponseException e) {
+                loading_view.setVisibility(View.GONE);
+                // Toast.makeText(ChatActivity.this, R.string.sign_up_error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void startLoginService(QBUser qbUser) {
+        Intent tempIntent = new Intent(this, CallService.class);
+        PendingIntent pendingIntent = createPendingResult(Consts.EXTRA_LOGIN_RESULT_CODE, tempIntent, 0);
+        CallService.start(this, qbUser, pendingIntent);
+    }
+/*................................end video call ............................................................*/
+
+    private void addUserFirebaseDatabase() {
+        final Session app_session = new Session(ChatActivity.this);
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
+        UserInfoFCM infoFCM = new UserInfoFCM();
+        infoFCM.uid = app_session.getUser().userDetail.userId;
+        infoFCM.email = app_session.getUser().userDetail.email;
+        infoFCM.firebaseId = "";
+        infoFCM.firebaseToken = FirebaseInstanceId.getInstance().getToken();
+        infoFCM.name = app_session.getUser().userDetail.fullName;
+        infoFCM.isNotification = Constant.Notication_on;
+        infoFCM.authToken = app_session.getUser().userDetail.authToken;
+        if(userForSave != null){
+            infoFCM.quickBloxId = userForSave.getId().toString();
+        }else  infoFCM.quickBloxId = "";
+
+
+        if (app_session.getUser().userDetail.profileImage.size() != 0 && app_session.getUser().userDetail.profileImage != null) {
+            infoFCM.profilePic = app_session.getUser().userDetail.profileImage.get(0).image;
+        } else infoFCM.profilePic = "";
+
+        database.child(Constant.ARG_USERS)
+                .child(app_session.getUser().userDetail.userId)
+                .setValue(infoFCM);
+
+    }
+
+    private void sendQuickBlockIdToServer(String quickBloxId) {
+       // loading_view.setVisibility(View.VISIBLE);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("quickBloxId", quickBloxId);
+
+        WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
+
+            @Override
+            public void onResponse(String response) {
+                loading_view.setVisibility(View.GONE);
+                Log.e("SIGN IN RESPONSE", response);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+
+                    if (status.equals("success")) {
+
+                    } else {
+                        Utils.openAlertDialog(ChatActivity.this, message);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    loading_view.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+                loading_view.setVisibility(View.GONE);
+            }
+        });
+        service.callSimpleVolley("user/saveCallingUserId", map);
+
+    }
+
 }

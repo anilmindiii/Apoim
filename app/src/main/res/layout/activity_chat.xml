@@ -18,6 +18,7 @@
             android:layout_height="@dimen/_38sdp"
             android:src="@drawable/ico_user_placeholder"
             android:padding="@dimen/_3sdp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_40sdp"/>
 
         <TextView

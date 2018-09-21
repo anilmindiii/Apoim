@@ -69,12 +69,44 @@ public class SplashActivity extends BaseActivity {
                     startLoginService(sharedPrefsHelper.getQbUser());
                     // from here to go main Activity
                     apoim_session();
-
                     return;
+                } else {
+                    // normal login
+                    SignInInfo signInInfo = session.getUser();
+                    if (signInInfo == null) {
+                        signInInfo = new SignInInfo();
+                    }
+
+                    if (signInInfo.userDetail != null) {
+                        Utils.goToOnlineStatus(SplashActivity.this, Constant.online);
+                        if (signInInfo.userDetail.isProfileUpdate.equals("0")) {
+                            startActivity(new Intent(SplashActivity.this, ProfileActivity.class));
+                            // startActivity(new Intent(SplashActivity.this, LogOutActivity.class));
+                            // overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                finishAfterTransition();
+                            }
+                        } else if (signInInfo.userDetail.isProfileUpdate.equals("1")) {
+                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                            // startActivity(new Intent(SplashActivity.this, LogOutActivity.class));
+                            //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                finishAfterTransition();
+                            }
+                        }
+                    } else {
+                        startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+                        //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            finishAfterTransition();
+                        }
+                    }
+
                 }
 
+
                 if (checkConfigsWithSnackebarError()) {
-                    proceedToTheNextActivityWithDelay();
+                   // proceedToTheNextActivityWithDelay();
                 }
             }
         }, secondsDelayed * 3000);
@@ -122,30 +154,9 @@ public class SplashActivity extends BaseActivity {
     }
 
 
-
-
-
-    private void setStatusBar() {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                StatusBarUtil.setStatusBarTranslucent(this,true);
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                View decor = getWindow().getDecorView();
-                decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-
-            }
-            else {
-                StatusBarUtil.setStatusBarColor(this,R.color.coloryellow);
-
-            }
-    }
-
-
-
-
-    /** Changes the System Bar Theme. */
+    /**
+     * Changes the System Bar Theme.
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static final void setSystemBarTheme(final Activity pActivity, final boolean pIsDark) {
         // Fetch the current flags.
@@ -173,7 +184,7 @@ public class SplashActivity extends BaseActivity {
         finish();
     }
 
-    protected boolean sampleConfigIsCorrect(){
+    protected boolean sampleConfigIsCorrect() {
         return Apoim.getInstance().getQbConfigs() != null;
     }
 
@@ -181,8 +192,8 @@ public class SplashActivity extends BaseActivity {
         mainThreadHandler.postDelayed(this::proceedToTheNextActivity, 1500);
     }
 
-    protected boolean checkConfigsWithSnackebarError(){
-        if (!sampleConfigIsCorrect()){
+    protected boolean checkConfigsWithSnackebarError() {
+        if (!sampleConfigIsCorrect()) {
             showSnackbarErrorParsingConfigs();
             return false;
         }
@@ -190,7 +201,7 @@ public class SplashActivity extends BaseActivity {
         return true;
     }
 
-    protected void showSnackbarErrorParsingConfigs(){
+    protected void showSnackbarErrorParsingConfigs() {
         ErrorUtils.showSnackbar(findViewById(R.id.layout_root), R.string.error_parsing_configs, R.string.dlg_ok, null);
     }
 
