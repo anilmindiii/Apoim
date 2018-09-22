@@ -278,7 +278,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 saveUserData(userForSave);
                 signInCreatedUser(userForSave, false);
             } else {
-                Toast.makeText(SignInActivity.this, getString(R.string.login_chat_login_error) + errorMessage, Toast.LENGTH_LONG).show();
+                addUserFirebaseDatabase(isProfileUpdate);
+              //  Toast.makeText(SignInActivity.this, getString(R.string.login_chat_login_error) + errorMessage, Toast.LENGTH_LONG).show();
             }
         }
 

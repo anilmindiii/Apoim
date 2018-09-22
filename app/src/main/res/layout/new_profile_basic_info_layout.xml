@@ -28,7 +28,7 @@
                     android:fontFamily="@font/nunito_semibold"
                     android:text="Photos"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_Medium_Size" />
+                    android:textSize="@dimen/text_Large_Size" />
 
                 <TextView
                     android:id="@+id/tv_no_user_image_found"
@@ -70,8 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_12sdp"
+                android:layout_marginRight="@dimen/_12sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="start"
                 android:orientation="horizontal">
@@ -84,7 +84,7 @@
                     android:gravity="start"
                     android:text="My Favourite"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_Medium_Size" />
+                    android:textSize="@dimen/text_Large_Size" />
 
 
                 <ImageView
@@ -113,8 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginRight="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center"
             android:orientation="horizontal">
@@ -125,7 +125,7 @@
                 android:fontFamily="@font/nunito_semibold"
                 android:text="Relationship"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_Medium_Size" />
+                android:textSize="@dimen/text_Large_Size" />
 
 
             <TextView
@@ -136,7 +136,7 @@
                 android:fontFamily="@font/nunito_light"
                 android:gravity="right"
                 android:text=""
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorGray"
                 android:textSize="@dimen/text_Medium_Size" />
 
 
@@ -154,8 +154,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginRight="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center"
             android:orientation="vertical">
@@ -172,6 +172,18 @@
                     android:gravity="start"
                     android:text="Interest"
                     android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_Large_Size" />
+
+                <TextView
+                    android:id="@+id/tv_no_interest_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/nunito_light"
+                    android:gravity="right"
+                    android:layout_centerVertical="true"
+                    android:text="@string/not_available"
+                    android:textColor="@color/colorGray"
                     android:textSize="@dimen/text_Medium_Size" />
 
             </RelativeLayout>
@@ -185,17 +197,10 @@
                 android:fontFamily="@font/nunito_light"
                 android:gravity="start"
                 android:text="@string/not_available"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorGray"
                 android:layout_marginTop="@dimen/_3sdp"
-                android:textSize="@dimen/text_Small_Size" />
-
-        <!--    <android.support.v7.widget.RecyclerView
-                android:id="@+id/user_selected_interest_list_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:nestedScrollingEnabled="false"
-                android:scrollbars="none" />-->
+                android:textSize="@dimen/text_Medium_Size"
+                android:visibility="gone"/>
 
 
         </LinearLayout>
@@ -212,8 +217,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginRight="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center"
             android:orientation="horizontal">
@@ -224,7 +229,7 @@
                 android:fontFamily="@font/nunito_semibold"
                 android:text="I speak"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_Medium_Size" />
+                android:textSize="@dimen/text_Large_Size" />
 
 
             <TextView
@@ -235,7 +240,7 @@
                 android:fontFamily="@font/nunito_light"
                 android:gravity="right"
                 android:text="@string/not_available"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorGray"
                 android:textSize="@dimen/text_Medium_Size" />
 
 
@@ -253,94 +258,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginRight="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semibold"
-                android:text="Appoinment Type"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_Medium_Size" />
-
-
-            <TextView
-                android:id="@+id/tv_appoim_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/nunito_light"
-                android:gravity="right"
-                android:text="@string/not_available"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_Medium_Size" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/colorGray" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_semibold"
-                android:text="Event Type"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_Medium_Size" />
-
-
-            <TextView
-                android:id="@+id/tv_event_type"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/nunito_light"
-                android:gravity="right"
-                android:text="@string/not_available"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_Medium_Size" />
-
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/colorGray" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/_30sdp">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -349,7 +271,7 @@
                 android:fontFamily="@font/nunito_semibold"
                 android:text="About"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_Medium_Size" />
+                android:textSize="@dimen/text_Large_Size" />
 
 
             <TextView
@@ -364,6 +286,164 @@
                 android:textColor="@color/colorGray"
                 android:textSize="@dimen/text_Medium_Size" />
 
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:fontFamily="@font/nunito_semibold"
+            android:text="Verification"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_Large_Size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="@dimen/_30sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_gravity="top">
+
+                <RelativeLayout
+                    android:id="@+id/ly_mobile_veri"
+                    android:layout_width="@dimen/_65sdp"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/rectangular_gray_border">
+
+                    <ImageView
+                        android:id="@+id/iv_mobile_veri"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_15sdp"
+                        android:src="@drawable/inactive_sms"
+                        />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_mobile_veri_active"
+                    android:layout_width="@dimen/_28sdp"
+                    android:layout_height="@dimen/_28sdp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/verified"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tv_mobile_veri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorGray"
+                    android:text="@string/mobile_verification"
+                    android:fontFamily="@font/nunito_regular"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_Small_Size"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
+                android:layout_gravity="top">
+
+                <RelativeLayout
+                    android:id="@+id/ly_id_hand_veri"
+                    android:layout_width="@dimen/_65sdp"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/rectangular_gray_border">
+
+                    <ImageView
+                        android:id="@+id/iv_id_hand_veri"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_15sdp"
+                        android:src="@drawable/inactive_id" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_id_hand_veri_active"
+                    android:layout_width="@dimen/_28sdp"
+                    android:layout_height="@dimen/_28sdp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/verified"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tv_id_hand_veri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorGray"
+                    android:text="@string/id_with_hand"
+                    android:fontFamily="@font/nunito_regular"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/text_Small_Size"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_gravity="top">
+
+                <RelativeLayout
+                    android:id="@+id/ly_face_detection_veri"
+                    android:layout_width="@dimen/_65sdp"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/rectangular_gray_border">
+
+                    <ImageView
+                        android:id="@+id/iv_face_detection_veri"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_15sdp"
+                        android:src="@drawable/inactive_face" />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/iv_face_detection_veri_active"
+                    android:layout_width="@dimen/_28sdp"
+                    android:layout_height="@dimen/_28sdp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/verified"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tv_face_detection_veri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorGray"
+                    android:text="@string/face_detection"
+                    android:fontFamily="@font/nunito_regular"
+                    android:gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/text_Small_Size"/>
+
+
+            </RelativeLayout>
 
         </LinearLayout>
 

@@ -755,6 +755,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         TextView dialog_header = education_dialog.findViewById(R.id.dialog_header);
         dialog_header.setText(getResources().getString(R.string.heading_select_education_dialog));
 
+        ImageView iv_refrence = education_dialog.findViewById(R.id.iv_refrence);
+        iv_refrence.setImageResource(R.drawable.education);
+
         ListView profile_dialog_listView = education_dialog.findViewById(R.id.profile_dialog_listView);
         final ImageView education_decline_button = education_dialog.findViewById(R.id.interest_decline_button);
 
@@ -844,6 +847,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         TextView dialog_header = work_dialog.findViewById(R.id.dialog_header);
         dialog_header.setText(getResources().getString(R.string.heading_select_work_dialog));
+
+        ImageView iv_refrence = work_dialog.findViewById(R.id.iv_refrence);
+        iv_refrence.setImageResource(R.drawable.work);
 
         ListView profile_dialog_listView = work_dialog.findViewById(R.id.profile_dialog_listView);
         final ImageView work_decline_button = work_dialog.findViewById(R.id.interest_decline_button);

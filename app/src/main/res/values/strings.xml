@@ -191,8 +191,8 @@
 
     <string name="heading_select_height_dialog">Select Height</string>
     <string name="heading_select_weight_dialog">Enter Weight</string>
-    <string name="heading_select_relationship_dialog">Select Relation</string>
-    <string name="heading_select_I_speak_dialog">Select Language</string>
+    <string name="heading_select_relationship_dialog">Add Relationship</string>
+    <string name="heading_select_I_speak_dialog">I Speak</string>
 
 
     // Add Interest Dialog
@@ -558,6 +558,7 @@
     <string name="add_location">Add Location</string>
     <string name="sed_ut_perspiciatis_unde_omnis_iste_natus_error_sit_voluptatem_accusantium_dolorem">&quot;&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem&quot;</string>
     <string name="Promote_your_business_and_users">&quot;Promote your business and users will get suggestion of your business when they create appointments and event&quot;</string>
+    <string name="demo">&quot;Sudo ut perspiciates unde monie iste natus sit voluptatem&quot;</string>
     <string name="appointment_type">Appointment Type</string>
     <string name="face_detection">Face \nDetection</string>
     <string name="id_with_hand">ID \nWith Hand</string>

@@ -658,6 +658,9 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
         TextView dialog_header = height_dialog.findViewById(R.id.dialog_header);
         dialog_header.setText(getResources().getString(R.string.heading_select_height_dialog));
 
+        ImageView iv_refrence = height_dialog.findViewById(R.id.iv_refrence);
+        iv_refrence.setImageResource(R.drawable.height);
+
         ListView profile_dialog_listView = height_dialog.findViewById(R.id.profile_dialog_listView);
         final ImageView education_decline_button = height_dialog.findViewById(R.id.interest_decline_button);
 
@@ -832,6 +835,9 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
         TextView dialog_header = relation_dialog.findViewById(R.id.dialog_header);
         dialog_header.setText(getResources().getString(R.string.heading_select_relationship_dialog));
 
+        ImageView iv_refrence = relation_dialog.findViewById(R.id.iv_refrence);
+        iv_refrence.setImageResource(R.drawable.give_heart);
+
         ListView profile_dialog_listView = relation_dialog.findViewById(R.id.profile_dialog_listView);
         final ImageView education_decline_button = relation_dialog.findViewById(R.id.interest_decline_button);
 
@@ -877,6 +883,9 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
 
         TextView dialog_header = I_speak_dialog.findViewById(R.id.dialog_header);
         dialog_header.setText(getResources().getString(R.string.heading_select_I_speak_dialog));
+
+        ImageView iv_refrence = I_speak_dialog.findViewById(R.id.iv_refrence);
+        iv_refrence.setImageResource(R.drawable.speak);
 
         ListView profile_dialog_listView = I_speak_dialog.findViewById(R.id.profile_dialog_listView);
         final ImageView education_decline_button = I_speak_dialog.findViewById(R.id.interest_decline_button);

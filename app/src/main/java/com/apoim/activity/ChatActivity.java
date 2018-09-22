@@ -261,7 +261,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         startLoadUsers();
 
         // Register audio/vidio call
-        startSignUpNewUser(createUserWithEnteredData(session.getUser().userDetail.fullName, session.getUser().userDetail.email));
+       // startSignUpNewUser(createUserWithEnteredData(session.getUser().userDetail.fullName, session.getUser().userDetail.email));
 
 
     }

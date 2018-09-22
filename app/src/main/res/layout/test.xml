@@ -30,16 +30,12 @@
             <ImageView
                 android:id="@+id/iv_profile"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_230sdp"
+                android:layout_height="@dimen/_205sdp"
                 android:src="@drawable/ico_user_placeholder"
                 android:background="@color/black"
                 android:scaleType="centerCrop" />
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_230sdp"
-                android:background="@drawable/transparent_shadow"/>
 
 
             <View
@@ -94,16 +90,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_6sdp"
+                android:layout_marginLeft="@dimen/_6sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:background="@drawable/shadow">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_15sdp"
-                    android:layout_marginLeft="@dimen/_10sdp">
+                    android:layout_marginLeft="@dimen/_8sdp">
 
                     <TextView
                         android:id="@+id/tv_fullName"
@@ -136,8 +133,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_Small_Size"
-                    android:layout_marginLeft="@dimen/_12sdp"
+                    android:textSize="@dimen/text_Medium_Size"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
                     android:fontFamily="@font/nunito_regular"/>
 
                 <LinearLayout
@@ -266,8 +264,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_6sdp"
+        android:layout_marginLeft="@dimen/_6sdp"
         android:background="@drawable/shadow">
 
         <LinearLayout
@@ -311,8 +309,8 @@
         app:layout_anchorGravity="bottom"
         app:layout_collapseMode="pin"
         android:background="@drawable/shadow"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_6sdp"
+        android:layout_marginLeft="@dimen/_6sdp"
         app:theme="@style/ThemeOverlay.AppCompat.Light">
 
 
@@ -327,8 +325,8 @@
         app:layout_anchorGravity="bottom"
         app:layout_collapseMode="pin"
         android:background="@color/white"
-        android:layout_marginRight="@dimen/_14sdp"
-        android:layout_marginLeft="@dimen/_14sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_10sdp"
         app:theme="@style/ThemeOverlay.AppCompat.Light">
 
 
@@ -348,7 +346,7 @@
                 android:text="Basic Info"
                 android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_Large_Size" />
+                android:textSize="@dimen/text_XLarge_Size" />
 
             <View
                 android:layout_width="0.7dp"
@@ -366,7 +364,7 @@
                 android:gravity="center"
                 android:text="More Info"
                 android:textColor="@color/colorGray"
-                android:textSize="@dimen/text_Large_Size" />
+                android:textSize="@dimen/text_XLarge_Size" />
 
 
 
