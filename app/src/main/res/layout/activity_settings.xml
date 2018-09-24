@@ -4,40 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:animateLayoutChanges="true"
+    android:orientation="vertical"
     tools:context="com.apoim.activity.SettingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:animateLayoutChanges="true">
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@drawable/header_bg">
-        <TextView
-            android:id="@+id/profile_action_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/settings_"
-            android:fontFamily="@font/josefinsans_semibold"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_18ssp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="@drawable/header_bg">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ico_back"
-            android:tint="@color/colorPrimary"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/_10sdp"/>
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/profile_action_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/josefinsans_semibold"
+                android:gravity="center"
+                android:text="@string/settings_"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_18ssp" />
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:src="@drawable/ico_back"
+                android:tint="@color/colorPrimary" />
+        </RelativeLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -57,19 +58,19 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="Basic Settings"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorBlack"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_10sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -84,33 +85,33 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/notification_settings"/>
+                        android:src="@drawable/notification_settings" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="@string/notification_list"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ico_set_next_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_10sdp"/>
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -125,33 +126,33 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/padlock"/>
+                        android:src="@drawable/padlock" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="@string/change_password"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ico_set_next_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_10sdp"/>
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -165,34 +166,34 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/bell"/>
+                        android:src="@drawable/bell" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="@string/notifications"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                     <ImageView
                         android:id="@+id/iv_notification_toggle"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_32sdp"
-                        android:src="@drawable/ico_set_toggle_on"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_10sdp"/>
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_toggle_on" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -207,33 +208,33 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/suitcase"/>
+                        android:src="@drawable/suitcase" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="@string/bussiness_page"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ico_set_next_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_10sdp"/>
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -248,36 +249,242 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/verificcation_settings"/>
+                        android:src="@drawable/verificcation_settings" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="Verification"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ico_set_next_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_10sdp"/>
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
+
+               <!-- <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/appointment"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/colorLightGray" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/event_type" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Appointment Type (Paid)"
+                        android:textColor="@color/colorGray"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <ImageView
+                        android:id="@+id/iv_apoim_toggle"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_toggle_on" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/apoim_review" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Appointment Review"
+                        android:textColor="@color/colorGray"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="@string/event"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/colorLightGray" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/event_type" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Event Type (Paid)"
+                        android:textColor="@color/colorGray"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <ImageView
+                        android:id="@+id/iv_event_toggle"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_toggle_on" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:src="@drawable/evnt_review" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Event Review"
+                        android:textColor="@color/colorGray"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/_40sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:background="@color/colorLightGray" />
+
+                </RelativeLayout>-->
 
 
                 <RelativeLayout
@@ -288,19 +495,19 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="Payment Settings"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorBlack"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_10sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -315,36 +522,35 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/ico_set_bank"/>
+                        android:src="@drawable/ico_set_bank" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="@string/bank_info"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ico_set_next_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_10sdp"/>
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
-
 
                 <RelativeLayout
                     android:id="@+id/ly_subscription"
@@ -357,33 +563,33 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/subscription_settings"/>
+                        android:src="@drawable/subscription_settings" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="@string/subscription"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ico_set_next_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_10sdp"/>
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -395,19 +601,19 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="About"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorBlack"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_10sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -422,33 +628,33 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/ico_set_info"/>
+                        android:src="@drawable/ico_set_info" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="@string/about_us"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ico_set_next_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_10sdp"/>
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -463,33 +669,33 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/terms_settings"/>
+                        android:src="@drawable/terms_settings" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="@string/terms_and_condition"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ico_set_next_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_10sdp"/>
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -504,33 +710,33 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/policy_settings"/>
+                        android:src="@drawable/policy_settings" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="@string/privacy_policy"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorGray"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                     <ImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ico_set_next_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/_10sdp"/>
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:src="@drawable/ico_set_next_arrow" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/_40sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:background="@color/colorLightGray"
-                        android:layout_alignParentBottom="true"/>
+                        android:background="@color/colorLightGray" />
 
                 </RelativeLayout>
 
@@ -545,17 +751,17 @@
                         android:layout_height="@dimen/_22sdp"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/logout"/>
+                        android:src="@drawable/logout" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/_45sdp"
                         android:fontFamily="@font/nunito_regular"
                         android:text="@string/logout"
-                        android:textSize="@dimen/text_Medium_Size"
                         android:textColor="@color/colorBlack"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_45sdp"/>
+                        android:textSize="@dimen/text_Medium_Size" />
 
                 </RelativeLayout>
 
@@ -564,18 +770,15 @@
         </ScrollView>
 
 
-
-
-
     </LinearLayout>
 
     <com.apoim.util.InsLoadingView
         android:id="@+id/loading_view"
         android:layout_width="@dimen/_60sdp"
         android:layout_height="@dimen/_60sdp"
-        android:src="@drawable/app_icon"
         android:layout_centerInParent="true"
         android:clickable="false"
-        android:visibility="gone"/>
+        android:src="@drawable/app_icon"
+        android:visibility="gone" />
 
 </RelativeLayout>

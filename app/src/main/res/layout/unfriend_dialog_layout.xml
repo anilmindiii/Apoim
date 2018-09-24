@@ -9,7 +9,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="@dimen/_2sdp"
+        app:cardElevation="@dimen/_3sdp"
         app:cardCornerRadius="@dimen/_5sdp"
         android:layout_margin="@dimen/_10sdp">
 
@@ -19,8 +19,8 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
                 android:layout_gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_20sdp"
@@ -60,37 +60,40 @@
 
 
 
-
-
             <TextView
                 android:id="@+id/tv_yes"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_gravity="bottom"
-                android:textSize="@dimen/text_Medium_Size"
-                android:text="Yes"
+                android:layout_height="@dimen/_33sdp"
+                android:layout_below="@id/ed_box"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_alignParentBottom="true"
-                android:textColor="@color/colorWhite"
+                android:layout_marginRight="@dimen/_25sdp"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/bg_login_btn"
                 android:fontFamily="@font/josefinsans_semibold"
-                android:background="@drawable/rounded_border_yellow_gb"
-                android:gravity="center"/>
+                android:text="Yes"
+                android:textAllCaps="false"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_Large_Size" />
+
 
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 
 
-
-
     <ImageView
         android:id="@+id/iv_closeDialog"
-        android:layout_width="@dimen/_22sdp"
-        android:layout_height="@dimen/_22sdp"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:elevation="@dimen/_5sdp"
         android:scaleType="fitXY"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ico_close_popup_a_black"
-        android:elevation="@dimen/_3sdp"
-        android:background="@drawable/bg_circle"/>
+        android:layout_margin="@dimen/_15sdp"
+        android:src="@drawable/close" />
+
 
 </RelativeLayout>

@@ -941,35 +941,38 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                /* mGoogleApiClient.disconnect();
                 stopLocationUpdates();*/
 
-                mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+               if((mGoogleApiClient) != null){
+                   mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-                if (mLastLocation != null) {
-                    double latitude = mLastLocation.getLatitude();
-                    double longitude = mLastLocation.getLongitude();
-
-
-                    Geocoder geocoder = new Geocoder(ProfileActivity.this, Locale.getDefault());
-                    try {
-                        List<Address> addressList = geocoder.getFromLocation(
-                                latitude, longitude, 1);
-                        if (addressList != null && addressList.size() > 0) {
-                            Address address = addressList.get(0);
-                            String user_address = address.getAddressLine(0);
-                            if (profile_select_location.getText().toString().trim().equals("")) {
-                                profile_select_location.setText(user_address);
-                                this.latitude = String.valueOf(latitude);
-                                this.longitude = String.valueOf(longitude);
-                            }
-
-                            Log.e("Address", user_address);
-
-                        }
+                   if (mLastLocation != null) {
+                       double latitude = mLastLocation.getLatitude();
+                       double longitude = mLastLocation.getLongitude();
 
 
-                    } catch (IOException e) {
-                        Log.e(Apoim.TAG, "Unable connect to Geocoder", e);
-                    }
-                }
+                       Geocoder geocoder = new Geocoder(ProfileActivity.this, Locale.getDefault());
+                       try {
+                           List<Address> addressList = geocoder.getFromLocation(
+                                   latitude, longitude, 1);
+                           if (addressList != null && addressList.size() > 0) {
+                               Address address = addressList.get(0);
+                               String user_address = address.getAddressLine(0);
+                               if (profile_select_location.getText().toString().trim().equals("")) {
+                                   profile_select_location.setText(user_address);
+                                   this.latitude = String.valueOf(latitude);
+                                   this.longitude = String.valueOf(longitude);
+                               }
+
+                               Log.e("Address", user_address);
+
+                           }
+
+
+                       } catch (IOException e) {
+                           Log.e(Apoim.TAG, "Unable connect to Geocoder", e);
+                       }
+                   }
+               }
+
             }
         }
     }

@@ -850,6 +850,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
 
 
     private void createAppointment() {
+        sendRequestBtn.setEnabled(false);
         loading_view.setVisibility(View.VISIBLE);
 
         Map<String, String> param = new HashMap<>();
@@ -890,11 +891,15 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
                         appointmentDoneDialog(CreateAppointMentActivity.this, message);
                     } else {
                         Utils.openAlertDialog(CreateAppointMentActivity.this, message);
+                        sendRequestBtn.setEnabled(true);
                     }
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                     loading_view.setVisibility(View.GONE);
+                    sendRequestBtn.setEnabled(true);
                 }
 
             }
@@ -903,6 +908,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
             public void ErrorListener(VolleyError error) {
                 Log.d("response", error.toString());
                 loading_view.setVisibility(View.GONE);
+                sendRequestBtn.setEnabled(true);
             }
         });
 
@@ -923,6 +929,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                sendRequestBtn.setEnabled(true);
                 context.finish();
                 dialogInterface.dismiss();
             }
@@ -1227,7 +1234,7 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
 
 
                     } else {
-                        Utils.openAlertDialog(CreateAppointMentActivity.this, message);
+                        //Utils.openAlertDialog(CreateAppointMentActivity.this, message);
                     }
 
                     horizontalListAdapter.notifyDataSetChanged();

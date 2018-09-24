@@ -15,9 +15,15 @@ import com.apoim.activity.business.BusinessDetailsActivity;
 import com.apoim.activity.business.BusinessSubscriptionActivity;
 import com.apoim.activity.business.RegisterBusinessActivity;
 import com.apoim.app.Apoim;
+import com.apoim.groupchatwebrtc.db.QbUsersDbManager;
+import com.apoim.groupchatwebrtc.services.CallService;
+import com.apoim.groupchatwebrtc.util.QBResRequestExecutor;
+import com.apoim.groupchatwebrtc.utils.SharedPrefsHelper;
+import com.apoim.groupchatwebrtc.utils.UsersUtils;
 import com.apoim.helper.Constant;
 import com.apoim.modal.GetOtherProfileInfo;
 import com.apoim.modal.MyFriendListInfo;
+import com.apoim.modal.ProfileInterestInfo;
 import com.apoim.modal.SignInInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
@@ -27,13 +33,22 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.quickblox.core.QBEntityCallback;
+import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.messages.services.SubscribeService;
+import com.quickblox.users.model.QBUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.apoim.app.Apoim.TAG;
+import static org.webrtc.ContextUtils.getApplicationContext;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView iv_notification_toggle;
@@ -45,6 +60,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     RelativeLayout ly_edit_profile, ly_logout, ly_change_password, ly_verification, ly_business_page, ly_subscription;
     private GetOtherProfileInfo otherProfileInfo;
     String typeNotification = "";
+    private QBUser currentUser;
+    SharedPrefsHelper sharedPrefsHelper;
+    protected QBResRequestExecutor requestExecutor;
+    private QbUsersDbManager dbManager;
+    //private ImageView iv_event_toggle,iv_apoim_toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +85,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         ly_business_page = findViewById(R.id.ly_business_page);
         ly_subscription = findViewById(R.id.ly_subscription);
 
+        /*iv_apoim_toggle = findViewById(R.id.iv_apoim_toggle);
+        iv_event_toggle = findViewById(R.id.iv_event_toggle);*/
+
         ly_subscription.setOnClickListener(this);
         ly_business_page.setOnClickListener(this);
         ly_verification.setOnClickListener(this);
@@ -77,6 +100,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         iv_notification_toggle.setOnClickListener(this);
         ly_edit_profile.setOnClickListener(this);
         ly_logout.setOnClickListener(this);
+       /* iv_event_toggle.setOnClickListener(this);
+        iv_apoim_toggle.setOnClickListener(this);*/
 
         session = new Session(this);
         otherProfileInfo = new GetOtherProfileInfo();
@@ -93,6 +118,18 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 }
 
             }
+
+          /*  if (otherProfileInfo.UserDetail.appointmentType.equals("1")) {
+                iv_apoim_toggle.setImageResource(R.drawable.ico_set_toggle_on);
+            }
+            else iv_apoim_toggle.setImageResource(R.drawable.ico_set_toggle_off);
+
+
+            if (otherProfileInfo.UserDetail.eventType.equals("1")) {
+                iv_event_toggle.setImageResource(R.drawable.ico_set_toggle_on);
+            }
+            else iv_event_toggle.setImageResource(R.drawable.ico_set_toggle_off);*/
+
         }
 
 
@@ -105,10 +142,17 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             iv_notification_toggle.setImageResource(R.drawable.ico_set_toggle_off);
         }
 
+
+
         String socialId = session.getUser().userDetail.socialId;
         if (socialId.equals("")) {
             ly_change_password.setVisibility(View.VISIBLE);
         } else ly_change_password.setVisibility(View.GONE);
+
+        dbManager = QbUsersDbManager.getInstance(getApplicationContext());
+        requestExecutor = Apoim.getInstance().getQbResRequestExecutor();
+        sharedPrefsHelper = SharedPrefsHelper.getInstance();
+        currentUser = sharedPrefsHelper.getQbUser();
     }
 
     @Override
@@ -134,7 +178,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.ly_logout:
-                session.logout();
+                logOutQuickBlock();
+                logout();
                 break;
 
             case R.id.ly_tnc: {
@@ -205,8 +250,17 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 intent.putExtra("showTopPayment", otherProfileInfo.UserDetail.showTopPayment);
                 intent.putExtra("isBusinessAdded", otherProfileInfo.UserDetail.isBusinessAdded);
                 startActivity(intent);
+                break;
             }
-            break;
+          /*  case R.id.iv_apoim_toggle:{
+                updateApoimOrEventStatus("appointmentType",otherProfileInfo.UserDetail.eventType);
+
+                break;
+            }
+
+            case R.id.iv_event_toggle:{
+                updateApoimOrEventStatus("eventType",otherProfileInfo.UserDetail.appointmentType);
+            }*/
         }
     }
 
@@ -301,4 +355,141 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         service.callSimpleVolley("user/notificationStatus", param);
     }
 
+
+    private void logout() {
+        ly_logout.setEnabled(false);
+        loading_view.setVisibility(View.VISIBLE);
+
+        WebService service = new WebService(SettingsActivity.this, "LOGOUT", new WebService.LoginRegistrationListener() {
+            @Override
+            public void onResponse(String response) {
+                loading_view.setVisibility(View.GONE);
+                ly_logout.setEnabled(true);
+                try {
+                    final JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+
+                    Log.e("FRIEND LIST RESPONSE", response.toString());
+                    if (status.equals("success")) {
+                        String f_id = session.getUser().userDetail.userId;
+                        FirebaseMessaging.getInstance().unsubscribeFromTopic("dkjshfs");
+                        FirebaseDatabase.getInstance().getReference().child(Constant.ARG_USERS).child(f_id).child("firebaseToken").setValue("");
+                        Utils.goToOnlineStatus(SettingsActivity.this, Constant.offline);
+                        session.logout();
+                    }
+                    else {
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    loading_view.setVisibility(View.GONE);
+
+                }
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+                ly_logout.setEnabled(true);
+                loading_view.setVisibility(View.GONE);
+            }
+        });
+        service.callGetSimpleVolley("user/logout");
+    }
+
+    private void logOutQuickBlock() {
+        unsubscribeFromPushes();
+        startLogoutCommand();
+        removeAllUserData();
+
+    }
+
+    private void startLogoutCommand() {
+        CallService.logout(SettingsActivity.this);
+    }
+
+    private void unsubscribeFromPushes() {
+        SubscribeService.unSubscribeFromPushes(SettingsActivity.this);
+    }
+
+    private void removeAllUserData() {
+        UsersUtils.removeUserData(getApplicationContext());
+        if (currentUser != null)
+            requestExecutor.deleteCurrentUser(currentUser.getId(), new QBEntityCallback<Void>() {
+                @Override
+                public void onSuccess(Void aVoid, Bundle bundle) {
+                    Log.d(TAG, "Current user was deleted from QB");
+                }
+
+                @Override
+                public void onError(QBResponseException e) {
+                    Log.e(TAG, "Current user wasn't deleted from QB " + e);
+                }
+            });
+    }
+
+   /* void updateApoimOrEventStatus(String key,String value) {
+        loading_view.setVisibility(View.VISIBLE);
+        HashMap params = new HashMap<>();
+        params.put(key, value);
+
+        WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
+            @Override
+            public void onResponse(String response) {
+                loading_view.setVisibility(View.GONE);
+                try {
+
+                    JSONObject result = new JSONObject(response.toString());
+                    String status = result.getString("status");
+                    String message = result.getString("message");
+                    if (status.equalsIgnoreCase("success")) {
+
+                        Gson gson = new Gson();
+                        SignInInfo signInInfo = gson.fromJson(String.valueOf(response), SignInInfo.class);
+                        GetOtherProfileInfo otherProfileInfoLocal = gson.fromJson(String.valueOf(response), GetOtherProfileInfo.class);
+
+                        if(key.equals("appointmentType")){
+                            otherProfileInfo.UserDetail.appointmentType = otherProfileInfoLocal.userDetail.appointmentType;
+
+                            if (otherProfileInfo.UserDetail.appointmentType.equals("1")) {
+                                iv_apoim_toggle.setImageResource(R.drawable.ico_set_toggle_on);
+                            }
+                            else iv_apoim_toggle.setImageResource(R.drawable.ico_set_toggle_off);
+
+                        }else {
+                            otherProfileInfo.UserDetail.eventType = otherProfileInfoLocal.UserDetail.eventType;
+
+                            if (otherProfileInfo.UserDetail.eventType.equals("1")) {
+                                iv_event_toggle.setImageResource(R.drawable.ico_set_toggle_on);
+                            }
+                            else iv_event_toggle.setImageResource(R.drawable.ico_set_toggle_off);
+                        }
+
+
+
+
+
+
+
+                    }
+                    else {
+                        Utils.openAlertDialog(SettingsActivity.this, message);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    loading_view.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+                Log.d("response", error.toString());
+                loading_view.setVisibility(View.GONE);
+            }
+        });
+
+        service.callMultiPartApi("user/updateProfile", params, null);
+    }*/
 }

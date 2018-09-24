@@ -629,12 +629,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void gettingDataFromUserTable(String otherUID) {
-        firebaseDatabase.getReference().child(Constant.ARG_USERS).child(otherUID).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseDatabase.getReference().child(Constant.ARG_USERS).child(otherUID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue(UserInfoFCM.class) != null) {
                     otherUserInfo = dataSnapshot.getValue(UserInfoFCM.class);
-
+                    title_name.setText(otherUserInfo.name+"");
                     if (!otherUserInfo.profilePic.equals("")) {
                         otherprofilePic = otherUserInfo.profilePic;
                         if (getApplicationContext() != null)

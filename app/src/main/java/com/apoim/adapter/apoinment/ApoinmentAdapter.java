@@ -464,8 +464,15 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
             public void onClick(View view) {
                 String counter_price = ed_counter_price.getText().toString().trim();
                 if (!counter_price.equals("")) {
-                    reqStatus.applyCounterTask(apomList.get(position).appId, counter_price, apomList.get(position).appointById, position);
-                    dialog.dismiss();
+
+                    if((!ed_counter_price.getText().toString().trim().equals(".") && !ed_counter_price.getText().toString().trim().equals(".0"))){
+                        reqStatus.applyCounterTask(apomList.get(position).appId, counter_price, apomList.get(position).appointById, position);
+                        dialog.dismiss();
+                    }else {
+                        Utils.openAlertDialog(mContext, "Please Enter Valid Counter Price");
+                    }
+
+
                 } else {
                     Utils.openAlertDialog(mContext, "Please Enter Counter Price");
                 }

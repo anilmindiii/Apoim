@@ -215,7 +215,10 @@ public class NotificationActivity extends AppCompatActivity implements View.OnCl
                 if(filterItetermInfo.equals("Appointment")){
                     for(int m =0;m<notificationList.size();m++){
                         if(notificationList.get(m).notificationType.equals("create_appointment") || notificationList.get(m).notificationType.equals("delete_appointment")
-                                || notificationList.get(m).notificationType.equals("confirmed_appointment") || notificationList.get(m).notificationType.equals("finish_appointment") ){
+                                || notificationList.get(m).notificationType.equals("confirmed_appointment") || notificationList.get(m).notificationType.equals("finish_appointment")
+                                ||notificationList.get(m).notificationType.equals("update_counter") || notificationList.get(m).notificationType.equals("appointment_payment")
+                                ||notificationList.get(m).notificationType.equals("apply_counter") || notificationList.get(m).notificationType.equals("review_appointment")
+                                ||notificationList.get(m).notificationType.equals("update_appointment") ){
                             NotificationInfo.NotificationListBean listBean = notificationList.get(m);
                             tempList.add(listBean);
                         }

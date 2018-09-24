@@ -797,9 +797,11 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         checkPlayServices();
 
         // Resuming the periodic location updates
-        if (mGoogleApiClient.isConnected() && mRequestingLocationUpdates) {
-            startLocationUpdates();
-        }
+
+        if (mGoogleApiClient != null)
+            if (mGoogleApiClient.isConnected() && mRequestingLocationUpdates) {
+                startLocationUpdates();
+            }
     }
 
     private void startLocationUpdates() {

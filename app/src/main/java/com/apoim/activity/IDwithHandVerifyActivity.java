@@ -132,6 +132,7 @@ public class IDwithHandVerifyActivity extends AppCompatActivity {
             ly_status.setVisibility(View.VISIBLE);
 
             if(isVerifiedId.equals("0")){ //0 for review
+                iv_status_icon.setVisibility(View.VISIBLE);
                 iv_status_icon.setImageResource(R.drawable.veri_star);
                 tv_statust_txt.setText("In Reviews");
                 tv_statust_txt.setTextColor(ContextCompat.getColor(this,R.color.coloryellow));
@@ -191,7 +192,7 @@ public class IDwithHandVerifyActivity extends AppCompatActivity {
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result.getUri());
 
                     if (bitmap != null) {
-                        iv_status_icon.setVisibility(View.GONE);
+                        iv_status_icon.setVisibility(View.VISIBLE);
                         bitmap = ImagePicker.getImageResized(this, result.getUri());
                         profileImage.setImageBitmap(bitmap);
                     }

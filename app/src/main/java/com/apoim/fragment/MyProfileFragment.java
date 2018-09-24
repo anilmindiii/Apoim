@@ -127,10 +127,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     private boolean isResponceAppear = false;
     private LinearLayout ly_my_fevorite, ly_photo_view, ly_business;
 
-    private QBUser currentUser;
-    SharedPrefsHelper sharedPrefsHelper;
-    protected QBResRequestExecutor requestExecutor;
-    private QbUsersDbManager dbManager;
+
     NestedScrollView bottom_sheet;
 
     String userId;
@@ -138,7 +135,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     private TextView tv_basic_info, tv_more_info;
     private LinearLayout ly_basic_info, ly_more_info;
     private TextView tv_fullName, tv_address, tv_about, tv_work, tv_education,
-            tv_height, tv_weight, tv_marrige_status, tv_languge, tv_like_count, tv_age,
+            tv_height, tv_weight, tv_marrige_status, tv_languge, tv_like_count, tv_age,tv_no_interest_found,
             profile_action_bar;
     private RecyclerView profile_horizontal_recycler;
    // private RecyclerView user_selected_interest_list_view;
@@ -192,6 +189,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         tv_languge = view.findViewById(R.id.tv_languge);
         tv_age = view.findViewById(R.id.tv_age);
         tv_interest = view.findViewById(R.id.tv_interest);
+        tv_no_interest_found = view.findViewById(R.id.tv_no_interest_found);
 
 
         profile_action_bar = view.findViewById(R.id.profile_action_bar);
@@ -367,15 +365,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             }
         });*/
 
-        dbManager = QbUsersDbManager.getInstance(getApplicationContext());
-        requestExecutor = Apoim.getInstance().getQbResRequestExecutor();
-        sharedPrefsHelper = SharedPrefsHelper.getInstance();
-        currentUser = sharedPrefsHelper.getQbUser();
 
-
-       /* Zoomy.Builder builder = new Zoomy.Builder((Activity) mContext).target(iv_profile);
-        builder.register();
-*/
         return view;
     }
 
@@ -470,47 +460,13 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                 break;
             }
             */
-
             case R.id.ly_friends: {
                 ly_friends.setEnabled(false);
                 intent = new Intent(mContext, MyFriendsActivity.class);
                 startActivity(intent);
                 break;
             }
-
         }
-    }
-
-
-    private void logOutQuickBlock() {
-        unsubscribeFromPushes();
-        startLogoutCommand();
-        removeAllUserData();
-
-    }
-
-    private void startLogoutCommand() {
-        CallService.logout(mContext);
-    }
-
-    private void unsubscribeFromPushes() {
-        SubscribeService.unSubscribeFromPushes(mContext);
-    }
-
-    private void removeAllUserData() {
-        UsersUtils.removeUserData(getApplicationContext());
-        if (currentUser != null)
-            requestExecutor.deleteCurrentUser(currentUser.getId(), new QBEntityCallback<Void>() {
-                @Override
-                public void onSuccess(Void aVoid, Bundle bundle) {
-                    Log.d(TAG, "Current user was deleted from QB");
-                }
-
-                @Override
-                public void onError(QBResponseException e) {
-                    Log.e(TAG, "Current user wasn't deleted from QB " + e);
-                }
-            });
     }
 
     @Override
@@ -564,6 +520,14 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
 
                             String allInterest = getCommonSeperatedString(interestArrayList);
                             tv_interest.setText(allInterest);
+
+                            if(!allInterest.equals("")){
+                                tv_interest.setVisibility(View.VISIBLE);
+                                tv_no_interest_found.setVisibility(View.GONE);
+                            }else {
+                                tv_interest.setVisibility(View.GONE);
+                                tv_no_interest_found.setVisibility(View.VISIBLE);
+                            }
                         }
 
                         if (otherProfileInfo.UserDetail.profileImage.size() == 0) {

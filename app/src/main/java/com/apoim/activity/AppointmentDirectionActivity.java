@@ -240,6 +240,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 break;
             }
             case R.id.ly_accept: {
+                ly_accept.setEnabled(false);
                 if (listInfo.appoimData.isCounterApply.equals("1")) {
                     upDateCounter(appId, listInfo.appoimData.appointForId, "1"); // 1 for accept
                 } else acceptAppoinmentRequest(appId);
@@ -248,6 +249,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 break;
             }
             case R.id.ly_reject: {
+                ly_reject.setEnabled(false);
                 if (listInfo.appoimData.isCounterApply.equals("1")) {
                     upDateCounter(appId, listInfo.appoimData.appointForId, "2"); // 2 for reject
                 } else rejectAppoinmentRequest(appId);
@@ -281,6 +283,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 break;
             }
             case R.id.pay_button: {
+                pay_button.setEnabled(false);
                 Intent intent = new Intent(AppointmentDirectionActivity.this, SubscriptionPayActivity.class);
                 intent.putExtra(paymentType, Constant.PayForCounterAppointment); // 7 for counter for map
                 intent.putExtra("appointmentId", listInfo.appoimData.appId);
@@ -352,8 +355,12 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
             public void onClick(View view) {
                 String counter_price = ed_counter_price.getText().toString().trim();
                 if (!counter_price.equals("")) {
-                    counterApplyRequest(appId, counter_price, listInfo.appoimData.appointById);
-                    dialog.dismiss();
+                    if((!ed_counter_price.getText().toString().trim().equals(".") && !ed_counter_price.getText().toString().trim().equals(".0"))){
+                        counterApplyRequest(appId, counter_price, listInfo.appoimData.appointById);
+                        dialog.dismiss();
+                    }else {
+                        Utils.openAlertDialog(AppointmentDirectionActivity.this, "Please Enter Valid Counter Price");
+                    }
                 } else {
                     Utils.openAlertDialog(AppointmentDirectionActivity.this, "Please Enter Counter Price");
                 }
@@ -406,13 +413,21 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                             , false, false, false, false, null, false, false, new PolylineOptions().width(6).color(getResources().getColor(R.color.colorPrimary)));
 
 
-                    if (marker_start == null && map != null) {
+                   /* if (marker_start == null && map != null) {
                         marker_start = map.addMarker(new MarkerOptions().position(start)
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ico_route_pin)));
-                    }
+                    }*/
 
+                    if (map != null)
+                        marker_start = map.addMarker(new MarkerOptions().position(start)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ico_route_pin)));
 
-                    if (marker_end == null && map != null) {
+                   /* if (marker_end == null && map != null) {
+                        map.addMarker(new MarkerOptions().position(end)
+                                .icon(BitmapDescriptorFactory.fromResource(ico_current_red)));
+                    }*/
+
+                    if (map != null) {
                         map.addMarker(new MarkerOptions().position(end)
                                 .icon(BitmapDescriptorFactory.fromResource(ico_current_red)));
                     }
@@ -451,11 +466,12 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     gd1.animateDirection(map, gd1.getDirection(doc), 0
                             , false, false, false, false, null, false, false, new PolylineOptions().width(6).color(getResources().getColor(R.color.colorPurple)));
 
-                    if (marker_end1 == null) {
+                    /*if (marker_end1 == null) {
                         marker_end1 = map.addMarker(new MarkerOptions().position(end1)
                                 .icon(BitmapDescriptorFactory.fromResource(ico_current_purple)));
-                    }
-
+                    }*/
+                    marker_end1 = map.addMarker(new MarkerOptions().position(end1)
+                            .icon(BitmapDescriptorFactory.fromResource(ico_current_purple)));
 
                     PolylineOptions options = new PolylineOptions().width(8).color(getResources().getColor(colorPurple)).geodesic(true);
                     ArrayList<LatLng> arr_pos = gd.getDirection(doc);
@@ -784,10 +800,13 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     tv_div_line.setVisibility(View.VISIBLE);
                 }else tv_div_line.setVisibility(View.GONE);
 
+                if(ly_top_review.getVisibility() == View.VISIBLE || ly_bottom_review.getVisibility() == View.VISIBLE ){
+                    ly_accept_reject.setVisibility(View.GONE);
+                }
+
             }
             else if (listInfo.isFinish.equals("1")) {
-                ly_accept.setVisibility(View.GONE);
-                ly_reject.setVisibility(View.GONE);
+                ly_accept_reject.setVisibility(View.GONE);
                 review_button.setVisibility(View.VISIBLE);
 
                 if (listInfo.counterPrice.equals("")|| listInfo.counterPrice.equals("0")) {// empty mean free
@@ -889,12 +908,16 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     tv_div_line.setVisibility(View.VISIBLE);
                 }else tv_div_line.setVisibility(View.GONE);
 
+                if(ly_top_review.getVisibility() == View.VISIBLE || ly_bottom_review.getVisibility() == View.VISIBLE ){
+                    ly_accept_reject.setVisibility(View.GONE);
+                }
             }
             else if (listInfo.isFinish.equals("1")) {
                 review_button.setVisibility(View.VISIBLE);
 
                 if (listInfo.offerPrice.equals("")) { // free wala case
                     tv_offer_price.setText("Free");
+                    ly_accept_reject.setVisibility(View.GONE);
                 } else {
                     if (listInfo.counterStatus.equals("3")) {
                         if (listInfo.counterPrice.equals("")|| listInfo.counterPrice.equals("0")) {// empty mean free
@@ -970,6 +993,11 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
     }
 
     private void pollyLineMethod(SingleAppointmentInfo.AppoimDataBean listInfo) {
+
+        if(map != null)
+            map.clear();
+
+
         if (listInfo.ByLatitude != null && listInfo.ByLongitude != null) {
             if (isById) {
                 if (current_lat != null && current_lng != null)
@@ -978,7 +1006,6 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 if (!listInfo.ByLatitude.equals("") && !listInfo.ByLongitude.equals(""))
                     end = new LatLng(Double.parseDouble(listInfo.ByLatitude), Double.parseDouble(listInfo.ByLongitude));
             }
-
         }
 
         if (listInfo.ForLatitude != null && listInfo.ForLongitude != null) {
@@ -990,7 +1017,6 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 if (!listInfo.ForLatitude.equals("") && !listInfo.ForLongitude.equals(""))
                     end1 = new LatLng(Double.parseDouble(listInfo.ForLatitude), Double.parseDouble(listInfo.ForLongitude));
             }
-
         }
 
         if (listInfo.ByGender != null && listInfo.ForGender != null) {
@@ -1120,6 +1146,8 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         if (!GpsStatus) {
             showGPSDisabledAlertToUser();
         }
+        pay_button.setEnabled(true);
+
         appointmentDetails(appId);
     }
 
@@ -1169,12 +1197,16 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     if (status.equals("success")) {
                         appointmentDetails(appId);
                     } else {
+                        ly_accept.setEnabled(true);
+                        ly_reject.setEnabled(true);
                         Utils.openAlertDialog(AppointmentDirectionActivity.this, message);
                     }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    ly_accept.setEnabled(true);
+                    ly_reject.setEnabled(true);
                     loadingView.setVisibility(View.GONE);
                 }
 
@@ -1184,6 +1216,8 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
             public void ErrorListener(VolleyError error) {
                 Log.d("response", error.toString());
                 loadingView.setVisibility(View.GONE);
+                ly_accept.setEnabled(true);
+                ly_reject.setEnabled(true);
             }
         });
 
@@ -1256,12 +1290,14 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                     if (status.equals("success")) {
                         finish();
                     } else {
+                        ly_reject.setEnabled(true);
                         Utils.openAlertDialog(AppointmentDirectionActivity.this, message);
                     }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    ly_reject.setEnabled(true);
                     loadingView.setVisibility(View.GONE);
                 }
 
@@ -1271,6 +1307,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
             public void ErrorListener(VolleyError error) {
                 Log.d("response", error.toString());
                 loadingView.setVisibility(View.GONE);
+                ly_reject.setEnabled(true);
             }
         });
 
@@ -1302,11 +1339,13 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
 
                         appointmentDetails(appId);
                     } else {
+                        ly_accept.setEnabled(true);
                         Utils.openAlertDialog(AppointmentDirectionActivity.this, message);
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    ly_accept.setEnabled(true);
                     loadingView.setVisibility(View.GONE);
                 }
 
@@ -1316,6 +1355,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
             public void ErrorListener(VolleyError error) {
                 Log.d("response", error.toString());
                 loadingView.setVisibility(View.GONE);
+                ly_accept.setEnabled(true);
             }
         });
 

@@ -90,7 +90,7 @@ public class OtherProfileActivity extends AppCompatActivity {
     private GetOtherProfileInfo otherProfileInfo;
     private ViewPagerAdapter viewPagerAdapter;
     private TextView tv_fullName,tv_address,tv_about,tv_work,tv_education,
-            tv_height,tv_weight,tv_marrige_status,tv_languge,tv_like_count,tv_age,profile_action_bar,tv_no_user_image_found
+            tv_height,tv_weight,tv_marrige_status,tv_languge,tv_like_count,tv_age,tv_no_user_image_found
             ,tv_accept_friend,tv_remove_friend;
     //private RelativeLayout pager_view;
     //private NestedScrollView bottom_sheet;
@@ -228,6 +228,7 @@ public class OtherProfileActivity extends AppCompatActivity {
                     if(tv_friend_status.getText().toString().equals("Respond")){
                         acceptRejectDialog();
                     }else {
+                        iv_add_friend.setEnabled(false);
                         add_remove_accept_Request(userId,"add","1","Friend request has been send successfully","1");
 
                     }
@@ -237,16 +238,20 @@ public class OtherProfileActivity extends AppCompatActivity {
             }
         });
 
+
         tv_accept_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tv_accept_friend.setEnabled(false);
                 add_remove_accept_Request(userId,"edit","2","Friend request accepted","0");
             }
         });
 
+
         tv_remove_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tv_remove_friend.setEnabled(false);
                 add_remove_accept_Request(userId,"edit","3","Friend request removed successfully","0");
             }
         });
@@ -254,6 +259,7 @@ public class OtherProfileActivity extends AppCompatActivity {
         iv_remove_friend_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                iv_remove_friend_request.setEnabled(false);
                 add_remove_accept_Request(userId,"edit","3","Friend request removed successfully","0");
             }
         });
@@ -483,7 +489,6 @@ public class OtherProfileActivity extends AppCompatActivity {
         tv_no_user_image_found = findViewById(R.id.tv_no_user_image_found);
         iv_like = findViewById(R.id.iv_like);
         tv_age = findViewById(R.id.tv_age);
-        profile_action_bar = findViewById(R.id.profile_action_bar);
         tv_basic_info = findViewById(R.id.tv_basic_info);
         tv_more_info = findViewById(R.id.tv_more_info);
         ly_basic_info = findViewById(R.id.ly_basic_info);
@@ -551,7 +556,7 @@ public class OtherProfileActivity extends AppCompatActivity {
                         dots = null;
                     }
                     if (status.equals("success")) {
-                       // interestArrayList.clear();
+                        interestArrayList.clear();
                         Gson gson = new Gson();
                         otherProfileInfo = gson.fromJson(response, GetOtherProfileInfo.class);
                         setData(otherProfileInfo.UserDetail);
@@ -970,7 +975,8 @@ public class OtherProfileActivity extends AppCompatActivity {
         
 
         if(userDetail.profileImage.size() > 0){
-            Glide.with((OtherProfileActivity.this))
+
+            Glide.with(getApplicationContext())
                     .load(userDetail.profileImage.get(0).image)
                     .apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder))
                     .into(iv_profile_image);
@@ -1045,28 +1051,23 @@ public class OtherProfileActivity extends AppCompatActivity {
             iv_remove_friend_request.setVisibility(View.GONE);
             tv_accept_friend.setVisibility(View.GONE);
             ly_request_accept_reject.setVisibility(View.GONE);
-            //iv_add_friend.setEnabled(false);
-            tv_friend_status.setText("Friend");
+            iv_add_friend.setEnabled(false);
+            tv_friend_status.setText("Friends");
             iv_add_friend.setVisibility(View.VISIBLE);
             iv_add_friend.setImageResource(R.drawable.ico_accept_friend);
             iv_add_friend.setEnabled(false);
         }
 
 
-
-
-
-
-
         String myUid = mSession.getUser().userDetail.userId;
+
         if(userId.equals(myUid)){
             tv_accept_friend.setVisibility(View.GONE);
             ly_request_accept_reject.setVisibility(View.GONE);
             iv_remove_friend_request.setVisibility(View.GONE);
-           iv_add_friend.setVisibility(View.GONE);
+             iv_add_friend.setVisibility(View.GONE);
             //iv_add_friend.setEnabled(false);
             iv_fevorate.setVisibility(View.GONE);
-            profile_action_bar.setText(R.string.my_profile);
             like_chat_direction_view.setVisibility(View.GONE);
         }
 
@@ -1135,7 +1136,6 @@ public class OtherProfileActivity extends AppCompatActivity {
 
     private void add_remove_accept_Request(String requestForId, String type, String status, final String msg, final String noPopup){
         loading_view.setVisibility(View.VISIBLE);
-
         Map<String,String> param = new HashMap<>();
         param.put("requestFor",requestForId);
         param.put("type",type);
@@ -1157,16 +1157,28 @@ public class OtherProfileActivity extends AppCompatActivity {
                         if(noPopup.equals("1")){
                             Utils.openAlertDialog(OtherProfileActivity.this,msg);
                         }
-
                         getProfileDetails();
+
+                        iv_add_friend.setEnabled(true);
+                        tv_accept_friend.setEnabled(true);
+                        tv_remove_friend.setEnabled(true);
+                        iv_remove_friend_request.setEnabled(true);
 
                     }else {
                         Utils.openAlertDialog(OtherProfileActivity.this,message);
+                        iv_add_friend.setEnabled(true);
+                        tv_accept_friend.setEnabled(true);
+                        tv_remove_friend.setEnabled(true);
+                        iv_remove_friend_request.setEnabled(true);
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                     loading_view.setVisibility(View.GONE);
+                    iv_add_friend.setEnabled(true);
+                    tv_accept_friend.setEnabled(true);
+                    tv_remove_friend.setEnabled(true);
+                    iv_remove_friend_request.setEnabled(true);
                 }
 
             }
@@ -1175,6 +1187,10 @@ public class OtherProfileActivity extends AppCompatActivity {
             public void ErrorListener(VolleyError error) {
                 Log.d("response",error.toString());
                 loading_view.setVisibility(View.GONE);
+                iv_add_friend.setEnabled(true);
+                tv_accept_friend.setEnabled(true);
+                tv_remove_friend.setEnabled(true);
+                iv_remove_friend_request.setEnabled(true);
             }
         });
 

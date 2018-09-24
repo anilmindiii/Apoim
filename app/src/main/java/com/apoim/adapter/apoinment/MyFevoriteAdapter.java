@@ -79,7 +79,7 @@ public class MyFevoriteAdapter extends RecyclerView.Adapter<MyFevoriteAdapter.Vi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, OtherProfileActivity.class);
-                intent.putExtra(Constant.userId,favoriteList.get(position).user_id);
+                intent.putExtra(Constant.userId,favoriteList.get(position).favUserId);
                 mContext.startActivity(intent);
             }
         });
