@@ -98,6 +98,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.apoim.helper.Constant.IsGetNotificationValue;
@@ -105,7 +106,7 @@ import static com.apoim.util.Utils.formateDateFromstring;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView header_image;
-    private TextView title_name,tv_days_status;
+    private TextView title_name, tv_days_status;
     ImageView send_msg_button;
     private RelativeLayout ly_popup_menu;
     private FirebaseDatabase firebaseDatabase;
@@ -134,7 +135,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private boolean mIsLoading = false;
     private int mPostsPerPage = 20;
     private boolean isNotification;
-    private RelativeLayout btn_audio_call,btn_video_call;
+    private RelativeLayout btn_audio_call, btn_video_call;
 
     private QbUsersDbManager dbManager;
     protected QBResRequestExecutor requestExecutor;
@@ -162,7 +163,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         myAuthToken = session.getUser().userDetail.authToken;
         myUid = session.getUser().userDetail.userId;
         myName = session.getUser().userDetail.fullName;
-        if(session.getUser().userDetail.profileImage.size() > 0){
+        if (session.getUser().userDetail.profileImage.size() > 0) {
             myProfileImage = session.getUser().userDetail.profileImage.get(0).image;
         }
 
@@ -184,7 +185,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             IsGetNotificationValue = otherUID;
         }
 
-        if(getIntent().getStringExtra("quickBloxId") != null){
+        if (getIntent().getStringExtra("quickBloxId") != null) {
             quickBloxId = getIntent().getStringExtra("quickBloxId");
         }
 
@@ -194,13 +195,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void currentDateStatus(Object timestamp) {
 
-                SimpleDateFormat sd = new  SimpleDateFormat("dd MMMM yyyy");
+               /* SimpleDateFormat sd = new SimpleDateFormat("dd MMMM yyyy");
                 try {
                     String date = sd.format(new Date((Long) timestamp));
                     isTodaysDate(date);
-                }catch (Exception e){
+                } catch (Exception e) {
 
-                }
+                }*/
             }
         });
 
@@ -208,6 +209,28 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recycler_view.setLayoutManager(linearLayoutManager);
+
+        recycler_view.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                ly_popup_menu.setVisibility(View.GONE);
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    tv_days_status.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (linearLayoutManager.findFirstVisibleItemPosition() != -1) {
+                    tv_days_status.setText(chatList.get(linearLayoutManager.findFirstVisibleItemPosition()).banner_date);
+                    tv_days_status.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -247,7 +270,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         firebaseDatabase.getReference().child(Constant.ARG_HISTORY).child(myUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(otherUID)){
+                if (dataSnapshot.hasChild(otherUID)) {
                     firebaseDatabase.getReference().child(Constant.ARG_HISTORY).child(myUid).child(otherUID).child("readBy").setValue("");
                 }
             }
@@ -261,12 +284,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         startLoadUsers();
 
         // Register audio/vidio call
-       // startSignUpNewUser(createUserWithEnteredData(session.getUser().userDetail.fullName, session.getUser().userDetail.email));
+        // startSignUpNewUser(createUserWithEnteredData(session.getUser().userDetail.fullName, session.getUser().userDetail.email));
 
 
     }
 
-    private boolean isTodaysDate(String checkDate){
+    private boolean isTodaysDate(String checkDate) {
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
         String currentDate = df.format(c);
@@ -274,21 +297,21 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         cal.add(Calendar.DATE, -1);
         java.sql.Date yesterday = new java.sql.Date(cal.getTimeInMillis());
-        String beforeOneDay = formateDateFromstring("yyyy-MM-dd", "dd MMMM yyyy",yesterday.toString());
+        String beforeOneDay = formateDateFromstring("yyyy-MM-dd", "dd MMMM yyyy", yesterday.toString());
 
 
-        Log.d("dateA",checkDate);
-        if(currentDate.equals(checkDate)){
+        Log.d("dateA", checkDate);
+        if (currentDate.equals(checkDate)) {
             tv_days_status.setText("Today");
-        }else if(beforeOneDay.equals(checkDate)){
+        } else if (beforeOneDay.equals(checkDate)) {
             tv_days_status.setText("Yesterday");
-        }else tv_days_status.setText(checkDate);
+        } else tv_days_status.setText(checkDate);
 
 
-       // tv_days_status.setVisibility(View.VISIBLE);
+        tv_days_status.setVisibility(View.VISIBLE);
         tv_days_status.postDelayed(new Runnable() {
             public void run() {
-                //tv_days_status.setVisibility(View.GONE);
+                tv_days_status.setVisibility(View.GONE);
             }
         }, 2000);
 
@@ -302,7 +325,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         firebaseDatabase.getReference().child(Constant.ARG_HISTORY).child(myUid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(otherUID)){
+                if (dataSnapshot.hasChild(otherUID)) {
                     firebaseDatabase.getReference().child(Constant.ARG_HISTORY).child(myUid).child(otherUID).child("readBy").setValue("");
                 }
             }
@@ -314,18 +337,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-
     }
 
-    private void isNotification(){
+    private void isNotification() {
         FirebaseDatabase.getInstance().getReference().child(Constant.ARG_USERS).child(otherUID).child(Constant.isNotification).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(String.class) != null){
+                if (dataSnapshot.getValue(String.class) != null) {
                     String isNotificationValue = dataSnapshot.getValue(String.class);
-                    if(isNotificationValue.equals("1")){
+                    if (isNotificationValue.equals("1")) {
                         isNotification = true;
-                    }else {
+                    } else {
                         isNotification = false;
                     }
                 }
@@ -406,7 +428,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         firebaseDatabase.getReference().child(Constant.ARG_HISTORY).child(otherUID).child(myUid).setValue(myChat);
 
 
-        if(isNotification){
+        if (isNotification) {
             if (image_FirebaseURL != null) {
                 if (firebaseToken != null && otherUserInfo != null) {
                     sendPushNotificationToReceiver(myName, "Image", myName, myUid, firebaseToken);
@@ -423,11 +445,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void checkIsSessionExpair(){
+    private void checkIsSessionExpair() {
         FirebaseDatabase.getInstance().getReference().child(Constant.ARG_USERS).child(myUid).child("authToken").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(String.class) != null) {
+                if (dataSnapshot.getValue(String.class) != null) {
                     String authToken = dataSnapshot.getValue(String.class);
                     if (!authToken.equals(myAuthToken)) {
                         showSessionError("session expired", "Your current session has expired, please login again", "Ok");
@@ -458,8 +480,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        if(!isFinishing())
-        {
+        if (!isFinishing()) {
             //show alert
             android.support.v7.app.AlertDialog alertDialog = builder.create();
             alertDialog.show();
@@ -505,6 +526,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             if (chat.deleteby.equals(myUid)) {
                 return;
             } else {
+                chat.banner_date = getDateBanner(chat.timestamp);
                 map.put(key, chat);
                 chatList.clear();
                 Collection<Chat> values = map.values();
@@ -548,32 +570,32 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private void getBlockUserData() {
         firebaseDatabase.getReference().child(Constant.BlockUsers).child(chatNode).child(Constant.blockedBy).
                 addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getValue(String.class) != null) {
-                    blockedId = dataSnapshot.getValue(String.class);
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue(String.class) != null) {
+                            blockedId = dataSnapshot.getValue(String.class);
 
-                    if (blockedId.equals("Both")) {
-                        tv_block_msg.setText("Unblock user");
-                    } else if (blockedId.equals("")) {
-                        tv_block_msg.setText("Block user");
-                    } else if (blockedId.equals(otherUID)) {
-                        tv_block_msg.setText("Block user");
-                    } else if (blockedId.equals(myUid)) {
-                        tv_block_msg.setText("Unblock user");
+                            if (blockedId.equals("Both")) {
+                                tv_block_msg.setText("Unblock user");
+                            } else if (blockedId.equals("")) {
+                                tv_block_msg.setText("Block user");
+                            } else if (blockedId.equals(otherUID)) {
+                                tv_block_msg.setText("Block user");
+                            } else if (blockedId.equals(myUid)) {
+                                tv_block_msg.setText("Unblock user");
+                            }
+
+                        } else {
+                            blockedId = "";
+                            tv_block_msg.setText("Block user");
+                        }
                     }
 
-                } else {
-                    blockedId = "";
-                    tv_block_msg.setText("Block user");
-                }
-            }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+                    }
+                });
 
     }
 
@@ -634,7 +656,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue(UserInfoFCM.class) != null) {
                     otherUserInfo = dataSnapshot.getValue(UserInfoFCM.class);
-                    title_name.setText(otherUserInfo.name+"");
+                    title_name.setText(otherUserInfo.name + "");
                     if (!otherUserInfo.profilePic.equals("")) {
                         otherprofilePic = otherUserInfo.profilePic;
                         if (getApplicationContext() != null)
@@ -723,14 +745,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.btn_audio_call: {
                 if (isLoggedInChat() && otherUserInfo != null) {
-                    if(!TextUtils.isEmpty(otherUserInfo.quickBloxId)){
-                        startCall(false,Integer.parseInt(otherUserInfo.quickBloxId));
-                    }
-                    else if(!TextUtils.isEmpty(quickBloxId)){
-                        startCall(false,Integer.parseInt(quickBloxId));
-                    }
-                    else {
-                        Utils.openAlertDialog(ChatActivity.this,"User is not allowed take audio call");
+                    if (!TextUtils.isEmpty(otherUserInfo.quickBloxId)) {
+                        startCall(false, Integer.parseInt(otherUserInfo.quickBloxId));
+                    } else if (!TextUtils.isEmpty(quickBloxId)) {
+                        startCall(false, Integer.parseInt(quickBloxId));
+                    } else {
+                        Utils.openAlertDialog(ChatActivity.this, "User is not allowed take audio call");
                     }
 
                 }
@@ -742,14 +762,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.btn_video_call: {
                 if (isLoggedInChat() && otherUserInfo != null) {
-                    if(!TextUtils.isEmpty(otherUserInfo.quickBloxId)){
-                        startCall(true,Integer.parseInt(otherUserInfo.quickBloxId));
-                    }
-                    else if(!TextUtils.isEmpty(quickBloxId)){
-                        startCall(true,Integer.parseInt(quickBloxId));
-                    }
-                    else {
-                        Utils.openAlertDialog(ChatActivity.this,"User is not allowed take audio call");
+                    if (!TextUtils.isEmpty(otherUserInfo.quickBloxId)) {
+                        startCall(true, Integer.parseInt(otherUserInfo.quickBloxId));
+                    } else if (!TextUtils.isEmpty(quickBloxId)) {
+                        startCall(true, Integer.parseInt(quickBloxId));
+                    } else {
+                        Utils.openAlertDialog(ChatActivity.this, "User is not allowed take audio call");
                     }
                 }
                 if (checker.lacksPermissions(Consts.PERMISSIONS)) {
@@ -930,7 +948,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("sasa",e+"");
+                Log.d("sasa", e + "");
             }
         });
 
@@ -958,7 +976,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void startCall(boolean isVideoCall,int oppUserId) {
+    private void startCall(boolean isVideoCall, int oppUserId) {
 
         //Log.d(TAG, "startCall()");
         ArrayList<Integer> opponentsList = new ArrayList<>();
@@ -982,7 +1000,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean isLoggedInChat() {
         if (!QBChatService.getInstance().isLoggedIn()) {
-            Toast.makeText(ChatActivity.this,R.string.dlg_signal_error,Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChatActivity.this, R.string.dlg_signal_error, Toast.LENGTH_SHORT).show();
             tryReLoginToChat();
             return false;
         }
@@ -1045,9 +1063,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private QBUser createUserWithEnteredData(String userName,String email) {
+    private QBUser createUserWithEnteredData(String userName, String email) {
         return createQBUserWithCurrentData(userName,
-                "mychatroom",email);
+                "mychatroom", email);
     }
 
     private QBUser createQBUserWithCurrentData(String userName, String chatRoomName, String email) {
@@ -1119,7 +1137,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onSuccess(Void aVoid, Bundle bundle) {
                 UsersUtils.removeUserData(getApplicationContext());
-                startSignUpNewUser(createUserWithEnteredData(app_session.getUser().userDetail.fullName,app_session.getUser().userDetail.email));
+                startSignUpNewUser(createUserWithEnteredData(app_session.getUser().userDetail.fullName, app_session.getUser().userDetail.email));
             }
 
             @Override
@@ -1149,9 +1167,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         infoFCM.name = app_session.getUser().userDetail.fullName;
         infoFCM.isNotification = Constant.Notication_on;
         infoFCM.authToken = app_session.getUser().userDetail.authToken;
-        if(userForSave != null){
+        if (userForSave != null) {
             infoFCM.quickBloxId = userForSave.getId().toString();
-        }else  infoFCM.quickBloxId = "";
+        } else infoFCM.quickBloxId = "";
 
 
         if (app_session.getUser().userDetail.profileImage.size() != 0 && app_session.getUser().userDetail.profileImage != null) {
@@ -1165,7 +1183,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void sendQuickBlockIdToServer(String quickBloxId) {
-       // loading_view.setVisibility(View.VISIBLE);
+        // loading_view.setVisibility(View.VISIBLE);
 
         Map<String, String> map = new HashMap<>();
         map.put("quickBloxId", quickBloxId);
@@ -1200,6 +1218,31 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         });
         service.callSimpleVolley("user/saveCallingUserId", map);
 
+    }
+
+    private String getDateBanner(Object timeStamp) {
+        String banner_date = "";
+        SimpleDateFormat sim = new SimpleDateFormat(" d MMMM yyyy", Locale.US);
+        try {
+            String date_str = sim.format(new Date((Long) timeStamp)).trim();
+            String currentDate = sim.format(Calendar.getInstance().getTime()).trim();
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, -1);
+            String yesterdayDate = sim.format(calendar.getTime()).trim();
+
+            if (date_str.equals(currentDate)) {
+                banner_date = "Today";
+            } else if (date_str.equals(yesterdayDate)) {
+                banner_date = "Yesterday";
+            } else {
+                banner_date = date_str.trim();
+            }
+
+            return banner_date;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return banner_date;
+        }
     }
 
 }

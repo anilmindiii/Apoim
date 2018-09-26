@@ -574,10 +574,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                 final String firstname = object.getString("first_name");
                                 final String lastname = object.getString("last_name");
                                 final String fullname = firstname + " " + lastname;
-                                final String profileImage = "https://graph.facebook.com/" + sSocialId + "/picture?type=large";
+                                final String profileImage = "https://graph.facebook.com/" + sSocialId + "/picture?width=543&height=543";
                                 final String deviceToken = FirebaseInstanceId.getInstance().getToken();
-
-                                Log.e("FB", socialId + "===" + email + "===" + fullname + "===" + profileImage + "===" + deviceToken);
 
                                 if (object.has("email")) {
                                     email = object.getString("email");

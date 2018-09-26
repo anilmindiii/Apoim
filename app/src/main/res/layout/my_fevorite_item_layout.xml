@@ -48,7 +48,8 @@
                 android:fontFamily="@font/nunito_regular"
                 android:gravity="bottom"
                 android:maxLines="1"
-                android:text="student"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:singleLine="true"
                 android:textColor="@color/colorGray"
                 android:textSize="@dimen/text_Small_Size" />
 

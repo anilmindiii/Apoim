@@ -21,4 +21,5 @@ public class Chat implements Serializable {
     public String lastMsg;
 
     public String readBy;
+    public String banner_date;
 }

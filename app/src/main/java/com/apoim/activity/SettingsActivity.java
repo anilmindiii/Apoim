@@ -17,6 +17,7 @@ import com.apoim.R;
 import com.apoim.activity.business.BusinessDetailsActivity;
 import com.apoim.activity.business.BusinessSubscriptionActivity;
 import com.apoim.activity.business.RegisterBusinessActivity;
+import com.apoim.activity.event.EventApoimReviewActivity;
 import com.apoim.app.Apoim;
 import com.apoim.groupchatwebrtc.db.QbUsersDbManager;
 import com.apoim.groupchatwebrtc.services.CallService;
@@ -68,6 +69,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     protected QBResRequestExecutor requestExecutor;
     private QbUsersDbManager dbManager;
     private ImageView iv_event_toggle,iv_apoim_toggle;
+    private RelativeLayout ly_apoim_review;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         iv_apoim_toggle = findViewById(R.id.iv_apoim_toggle);
         iv_event_toggle = findViewById(R.id.iv_event_toggle);
 
+        ly_apoim_review = findViewById(R.id.ly_apoim_review);
+
         ly_subscription.setOnClickListener(this);
         ly_business_page.setOnClickListener(this);
         ly_verification.setOnClickListener(this);
@@ -105,6 +109,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         ly_logout.setOnClickListener(this);
         iv_event_toggle.setOnClickListener(this);
         iv_apoim_toggle.setOnClickListener(this);
+        ly_apoim_review.setOnClickListener(this);
 
         session = new Session(this);
         otherProfileInfo = new GetOtherProfileInfo();
@@ -276,7 +281,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     }
 
                 }
+            }
 
+            case R.id.ly_apoim_review:{
+                intent =  new Intent(SettingsActivity.this, EventApoimReviewActivity.class);
+                startActivity(intent);
+                break;
             }
         }
     }
@@ -559,13 +569,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                             }
                             else iv_event_toggle.setImageResource(R.drawable.ico_set_toggle_off);
                         }
-
-
-
-
-
-
-
                     }
                     else {
                         Utils.openAlertDialog(SettingsActivity.this, message);

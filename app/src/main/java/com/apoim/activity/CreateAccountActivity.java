@@ -72,6 +72,7 @@ import com.apoim.util.InsLoadingView;
 import com.apoim.util.LocationRuntimePermission;
 import com.apoim.util.Utils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -210,7 +211,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     //account_name.setEnabled(false);
 
                     if (!preRegistrationInfo.profileImage.equals("") && preRegistrationInfo.profileImage != null) {
-                        Picasso.with(this)
+                     /*   Picasso.with(this)
                                 .load(preRegistrationInfo.profileImage)
                                 .into(new Target() {
                                     @Override
@@ -228,8 +229,8 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                                     public void onPrepareLoad(Drawable placeHolderDrawable) {
 
                                     }
-                                });
-                        Glide.with(this).load(preRegistrationInfo.profileImage).apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).into(profileImage);
+                                });*/
+                        Glide.with(this).load(preRegistrationInfo.profileImage).apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)).into(profileImage);
                     }
 
                 } else if (preRegistrationInfo.socialType.equals("gmail")) {
@@ -247,7 +248,7 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                     account_name.setText(preRegistrationInfo.fullName);
                     account_name.setSelection(account_name.length());
 
-                    if (!preRegistrationInfo.profileImage.equals("") && preRegistrationInfo.profileImage != null) {
+                   /* if (!preRegistrationInfo.profileImage.equals("") && preRegistrationInfo.profileImage != null) {
                         Picasso.with(this)
                                 .load(preRegistrationInfo.profileImage)
                                 .into(new Target() {
@@ -266,18 +267,17 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
                                     public void onPrepareLoad(Drawable placeHolderDrawable) {
 
                                     }
-                                });
-                        Glide.with(this).load(preRegistrationInfo.profileImage).apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).into(profileImage);
-                    }
-
-
+                                });*/
+                    Glide.with(this).load(preRegistrationInfo.profileImage).apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE)).into(profileImage);
                 }
-            } else {
-                ly_email.setVisibility(View.GONE);
-            }
-        }
 
+
+            }
+        } else {
+            ly_email.setVisibility(View.GONE);
+        }
     }
+
 
     @Override
     protected View getSnackbarAnchorView() {

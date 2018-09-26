@@ -72,7 +72,6 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
     private ImageButton user_profile_back;
     private ListView selector_interest_list_view;
     private RecyclerView user_selected_interest_list_view;
-    private ProgressDialog progressDialog;
     private ArrayList<ProfileInterestInfo> interestList;
     private RelativeLayout rl_select_height, rl_select_weight, rl_select_relationship, rl_select_I_speak;
     private TextView user_height, user_weight, display_selected_unit, weight_unit, user_relationship, user_I_speak;
@@ -123,6 +122,7 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
 
         relationshipInfoList = new ArrayList<>();
         IspeakInfoList = new ArrayList<>();
+        interestList = new ArrayList<>();
 
         // Height List from arrHeight String array
         ArrayList<String> heightList = new ArrayList<>();
@@ -955,6 +955,171 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
 
         selector_interest_list_view = add_interest_dialog.findViewById(R.id.selector_interest_list_view);
 
+       if(interestList.size() != 0){
+           interest_method(add_interest_dialog, interest_search, searched_interest_list_view, rl_add_searched_interest, add_searched_interest_icon);
+       }else {
+           interest_service(add_interest_dialog, interest_search, rl_add_searched_interest, searched_interest_list_view, add_searched_interest_icon);
+       }
+
+        decline_button = add_interest_dialog.findViewById(R.id.interest_decline_button);
+        decline_button.setOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View view) {
+                add_interest_dialog.dismiss();
+            }
+        });
+
+        add_interest_dialog.getWindow().setGravity(Gravity.CENTER);
+        add_interest_dialog.show();
+
+
+    }
+
+    private void interest_service(Dialog add_interest_dialog, EditText interest_search, RelativeLayout rl_add_searched_interest, TextView searched_interest_list_view, ImageView add_searched_interest_icon) {
+        WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    final JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+
+                    if (status.equals("success")) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("interestList");
+                        String interest = null;
+                        interestList = new ArrayList<>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject object = jsonArray.getJSONObject(i);
+
+                            String interestId = object.getString("interestId");
+                            interest = object.getString("interest");
+                            interestList.add(new ProfileInterestInfo(interestId, interest));
+
+                            interest_method(add_interest_dialog, interest_search, searched_interest_list_view, rl_add_searched_interest, add_searched_interest_icon);
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+
+            }
+        });
+        service.callGetSimpleVolley("getInterestList");
+    }
+
+    private void interest_method(Dialog add_interest_dialog, EditText interest_search, TextView searched_interest_list_view, RelativeLayout rl_add_searched_interest, ImageView add_searched_interest_icon) {
+        final AddInterestAdapter adapter = new AddInterestAdapter(UserPersonalProfileActivity.this,
+                interestList, interestInfoList, new ProfileImageAdapterListener() {
+            @Override
+            public void getPosition(int position) {
+                selected_interest = interestList.get(position).interest;
+                user_interests = selected_interest + "," + user_interests;
+                interestInfoList.add(new ProfileInterestInfo(interestList.get(position).interestId, selected_interest));
+                showInterestAdapter.notifyDataSetChanged();
+
+                add_interest_dialog.dismiss();
+            }
+        });
+        selector_interest_list_view.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        // Calling of method to search recycler view locally
+        interest_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i,
+                                          int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i,
+                                      int i1, int i2) {
+                final String getValue = interest_search.getText().toString().replaceAll("( +)", " ").trim();
+
+                if (i2 > 0) {
+
+                    String s = String.valueOf(charSequence.charAt(0)).toUpperCase() + (i2 >= 2 ? charSequence.subSequence(1, i2).toString().toLowerCase() : "");
+                    searched_interest_list_view.setText(s.trim());
+
+                    final ArrayList<ProfileInterestInfo> filtered_list = new ArrayList<>();
+
+                    for (ProfileInterestInfo wp : interestList) {
+                        if (wp.interest.toLowerCase().contains(charSequence)) {
+                            filtered_list.add(wp);
+                        } else {
+                            if (!getValue.equals("")) {
+                                rl_add_searched_interest.setVisibility(View.VISIBLE);
+                            }
+
+                            final String sel_int = searched_interest_list_view.getText().toString();
+
+                            add_searched_interest_icon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (!TextUtils.isEmpty(getValue)) {
+                                        user_interests = getValue + "," + user_interests;
+                                        interestInfoList.add(new ProfileInterestInfo("", getValue));
+                                        showInterestAdapter.notifyDataSetChanged();
+                                    }
+                                    add_interest_dialog.dismiss();
+
+                                }
+                            });
+                        }
+
+                    }
+
+                    AddInterestAdapter demoAdapter = new AddInterestAdapter(UserPersonalProfileActivity.this,
+                            filtered_list, interestInfoList, new ProfileImageAdapterListener() {
+                        @Override
+                        public void getPosition(int position) {
+                            selected_interest = filtered_list.get(position).interest;
+                            user_interests = selected_interest + "," + user_interests;
+
+                            interestInfoList.add(new ProfileInterestInfo(interestList.get(position).interestId, selected_interest));
+                            showInterestAdapter.notifyDataSetChanged();
+
+                            add_interest_dialog.dismiss();
+
+                        }
+                    });
+                    selector_interest_list_view.setAdapter(demoAdapter);
+                    demoAdapter.notifyDataSetChanged();
+                } else {
+                    //hide
+                    rl_add_searched_interest.setVisibility(View.GONE);
+                    searched_interest_list_view.setText("");
+                    selector_interest_list_view.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    showInterestAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    /*private void openAddInterestDialog() {
+        final Dialog add_interest_dialog = new Dialog(this);
+        add_interest_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        add_interest_dialog.setContentView(R.layout.view_add_interest_dialog);
+        add_interest_dialog.setCancelable(false);
+        add_interest_dialog.setCanceledOnTouchOutside(false);
+
+        final EditText interest_search = add_interest_dialog.findViewById(R.id.interest_search);
+        final RelativeLayout rl_add_searched_interest = add_interest_dialog.findViewById(R.id.rl_add_searched_interest);
+        final TextView searched_interest_list_view = add_interest_dialog.findViewById(R.id.searched_interest_list_view);
+        final ImageView add_searched_interest_icon = add_interest_dialog.findViewById(R.id.add_searched_interest_icon);
+
+        selector_interest_list_view = add_interest_dialog.findViewById(R.id.selector_interest_list_view);
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
@@ -981,13 +1146,12 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
                             interest = object.getString("interest");
                             interestList.add(new ProfileInterestInfo(interestId, interest));
 
-                            final AddInterestAdapter adapter = new AddInterestAdapter(UserPersonalProfileActivity.this, interestList, interestInfoList, new ProfileImageAdapterListener() {
+                            final AddInterestAdapter adapter = new AddInterestAdapter(UserPersonalProfileActivity.this,
+                                    interestList, interestInfoList, new ProfileImageAdapterListener() {
                                 @Override
                                 public void getPosition(int position) {
                                     selected_interest = interestList.get(position).interest;
-
                                     user_interests = selected_interest + "," + user_interests;
-
                                     interestInfoList.add(new ProfileInterestInfo(interestList.get(position).interestId, selected_interest));
                                     showInterestAdapter.notifyDataSetChanged();
 
@@ -1104,7 +1268,7 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
         add_interest_dialog.show();
 
 
-    }
+    }*/
 
 
     @Override

@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_days_status"
-        android:layout_width="@dimen/_100sdp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/bg_google_plus_btn"
@@ -17,9 +17,11 @@
         android:gravity="center"
         android:padding="@dimen/_5sdp"
         android:layout_margin="@dimen/_5sdp"
+        android:minWidth="@dimen/_100sdp"
         android:textColor="@color/colorWhite"
-        android:backgroundTint="@color/colorGray"
-        android:textSize="@dimen/text_Medium_Size"
+        android:backgroundTint="@color/mdtp_calendar_selected_date_text"
+        android:textSize="@dimen/text_Small_Size"
+        android:fontFamily="@font/josefinsans_regular"
         android:visibility="gone"
         />
 
@@ -49,6 +51,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:textSize="@dimen/_12sdp"
+                android:fontFamily="@font/nunito_regular"
                 android:background="@drawable/rounded_primary_right_chat_border" />
 
         </RelativeLayout>

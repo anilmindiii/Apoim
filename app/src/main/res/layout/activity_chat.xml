@@ -136,6 +136,26 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_days_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_google_plus_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_51sdp"
+        android:gravity="center"
+        android:minWidth="@dimen/_100sdp"
+        android:padding="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/josefinsans_regular"
+        android:backgroundTint="@color/mdtp_calendar_selected_date_text"
+        android:maxLines="1"
+        android:textSize="@dimen/text_Small_Size"
+        android:visibility="gone"
+
+        />
+
 
     <RelativeLayout
         android:id="@+id/ly_popup_menu"
@@ -300,22 +320,7 @@
         android:clickable="false"
         android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/tv_days_status"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_google_plus_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_55sdp"
-        android:gravity="center"
-        android:padding="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_5sdp"
-        android:textColor="@color/colorWhite"
-        android:backgroundTint="@color/colorGray"
-        android:textSize="@dimen/text_Medium_Size"
-        android:visibility="gone"
 
-        />
 
 
 

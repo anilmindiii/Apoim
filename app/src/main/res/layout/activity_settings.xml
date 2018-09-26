@@ -344,6 +344,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/ly_apoim_review"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
                     android:layout_marginLeft="@dimen/_10sdp">
