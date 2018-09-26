@@ -1001,10 +1001,7 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
                             interest_search.addTextChangedListener(new TextWatcher() {
                                 @Override
                                 public void beforeTextChanged(CharSequence charSequence, int i,
-                                                              int i1, int i2) {
-
-                                }
-
+                                                              int i1, int i2) {}
                                 @Override
                                 public void onTextChanged(CharSequence charSequence, int i,
                                                           int i1, int i2) {
@@ -1047,12 +1044,6 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
                                                 filtered_list, interestInfoList, new ProfileImageAdapterListener() {
                                             @Override
                                             public void getPosition(int position) {
-
-
-
-
-
-
                                                 selected_interest = filtered_list.get(position).interest;
                                                 user_interests = selected_interest + "," + user_interests;
 

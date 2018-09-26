@@ -280,7 +280,7 @@
                 </RelativeLayout>
 
 
-               <!-- <RelativeLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp">
 
@@ -484,7 +484,7 @@
                         android:layout_marginRight="@dimen/_15sdp"
                         android:background="@color/colorLightGray" />
 
-                </RelativeLayout>-->
+                </RelativeLayout>
 
 
                 <RelativeLayout

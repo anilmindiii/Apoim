@@ -1,5 +1,8 @@
 package com.apoim.activity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -64,7 +67,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     SharedPrefsHelper sharedPrefsHelper;
     protected QBResRequestExecutor requestExecutor;
     private QbUsersDbManager dbManager;
-    //private ImageView iv_event_toggle,iv_apoim_toggle;
+    private ImageView iv_event_toggle,iv_apoim_toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +88,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         ly_business_page = findViewById(R.id.ly_business_page);
         ly_subscription = findViewById(R.id.ly_subscription);
 
-        /*iv_apoim_toggle = findViewById(R.id.iv_apoim_toggle);
-        iv_event_toggle = findViewById(R.id.iv_event_toggle);*/
+        iv_apoim_toggle = findViewById(R.id.iv_apoim_toggle);
+        iv_event_toggle = findViewById(R.id.iv_event_toggle);
 
         ly_subscription.setOnClickListener(this);
         ly_business_page.setOnClickListener(this);
@@ -100,8 +103,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         iv_notification_toggle.setOnClickListener(this);
         ly_edit_profile.setOnClickListener(this);
         ly_logout.setOnClickListener(this);
-       /* iv_event_toggle.setOnClickListener(this);
-        iv_apoim_toggle.setOnClickListener(this);*/
+        iv_event_toggle.setOnClickListener(this);
+        iv_apoim_toggle.setOnClickListener(this);
 
         session = new Session(this);
         otherProfileInfo = new GetOtherProfileInfo();
@@ -119,7 +122,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
             }
 
-          /*  if (otherProfileInfo.UserDetail.appointmentType.equals("1")) {
+            if (otherProfileInfo.UserDetail.appointmentType.equals("1")) {
                 iv_apoim_toggle.setImageResource(R.drawable.ico_set_toggle_on);
             }
             else iv_apoim_toggle.setImageResource(R.drawable.ico_set_toggle_off);
@@ -128,7 +131,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             if (otherProfileInfo.UserDetail.eventType.equals("1")) {
                 iv_event_toggle.setImageResource(R.drawable.ico_set_toggle_on);
             }
-            else iv_event_toggle.setImageResource(R.drawable.ico_set_toggle_off);*/
+            else iv_event_toggle.setImageResource(R.drawable.ico_set_toggle_off);
 
         }
 
@@ -157,10 +160,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
+        SignInInfo info = session.getUser();
         switch (view.getId()) {
             case R.id.ly_payment:
-                SignInInfo info = session.getUser();
-
                 if (info.userDetail.bankAccountStatus.equals("1")) {
                     Intent intent = new Intent(SettingsActivity.this, PaymentActivity.class);
                     intent.putExtra("updateBankInfo", "updateBankInfo");
@@ -223,14 +225,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.ly_edit_profile: {
-               /* if (otherProfileInfo.UserDetail.fullName != null) {
-                    intent = new Intent(SettingsActivity.this, ProfileActivity.class);
-                    intent.putExtra("otherProfileInfo", otherProfileInfo);
-                    startActivityForResult(intent, 178);
-                }*/
                 intent = new Intent(SettingsActivity.this, NotificationActivity.class);
                 startActivity(intent);
-
                 break;
             }
             case R.id.ly_business_page: {
@@ -252,16 +248,106 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(intent);
                 break;
             }
-          /*  case R.id.iv_apoim_toggle:{
-                updateApoimOrEventStatus("appointmentType",otherProfileInfo.UserDetail.eventType);
+            case R.id.iv_apoim_toggle:{
+
+                if(otherProfileInfo.UserDetail.appointmentType.equals("1")){ // 1 is the case of paid
+                    updateApoimOrEventStatus("appointmentType","2");
+                }else {
+
+                    if (info.userDetail.bankAccountStatus.equals("1")) {
+                        updateBankInfoDialog(SettingsActivity.this, getString(R.string.do_you_wanna_update_bank_info),"appointmentType");
+                    } else if (info.userDetail.bankAccountStatus.equals("0")) {
+                        AddBankAccDialog(SettingsActivity.this, getString(R.string.need_add_bank),"appointmentType");
+                    }
+                }
 
                 break;
             }
 
             case R.id.iv_event_toggle:{
-                updateApoimOrEventStatus("eventType",otherProfileInfo.UserDetail.appointmentType);
-            }*/
+
+                if(otherProfileInfo.UserDetail.eventType.equals("1")){ // 1 is the case of paid
+                    updateApoimOrEventStatus("eventType","2");
+                }else {
+                    if (info.userDetail.bankAccountStatus.equals("1")) {
+                        updateBankInfoDialog(SettingsActivity.this, getString(R.string.do_you_wanna_update_bank_info),"eventType");
+                    } else if (info.userDetail.bankAccountStatus.equals("0")) {
+                        AddBankAccDialog(SettingsActivity.this, getString(R.string.need_add_bank),"eventType");
+                    }
+
+                }
+
+            }
         }
+    }
+
+    public void AddBankAccDialog(Context context, String message,String type) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Apoim");
+        builder.setCancelable(false);
+        builder.setMessage(message);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent intent = new Intent(SettingsActivity.this, PaymentActivity.class);
+                intent.putExtra("isPaymentDone", isPaymentDone);
+                if(type.equals("appointmentType")){
+                    startActivityForResult(intent, Constant.AddBankAccRequestCode);
+                }else {
+                    startActivityForResult(intent, Constant.EventPayRequestCode);
+                }
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void updateBankInfoDialog(Context context, String message,String type) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Update Bank info");
+        builder.setCancelable(false);
+        builder.setMessage(message);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                if(type.equals("appointmentType")){
+                    updateApoimOrEventStatus("appointmentType","1");
+                }else {
+                    updateApoimOrEventStatus("eventType","1");
+                }
+
+                Intent intent = new Intent(SettingsActivity.this, PaymentActivity.class);
+                intent.putExtra("updateBankInfo", "updateBankInfo");
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if(type.equals("appointmentType")){
+                    updateApoimOrEventStatus("appointmentType","1");
+                }else {
+                    updateApoimOrEventStatus("eventType","1");
+                }
+
+
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 
@@ -276,6 +362,12 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     SignInInfo info = session.getUser();
                     info.userDetail.bankAccountStatus = "1";
                     session.createSession(info);
+
+                    if(requestCode == Constant.AddBankAccRequestCode){
+                        updateApoimOrEventStatus("appointmentType","1");
+                    }else if(requestCode == Constant.EventPayRequestCode){
+                        updateApoimOrEventStatus("eventType","1");
+                    }
                 }
             }
 
@@ -428,7 +520,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             });
     }
 
-   /* void updateApoimOrEventStatus(String key,String value) {
+    void updateApoimOrEventStatus(String key,String value) {
         loading_view.setVisibility(View.VISIBLE);
         HashMap params = new HashMap<>();
         params.put(key, value);
@@ -453,11 +545,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
                             if (otherProfileInfo.UserDetail.appointmentType.equals("1")) {
                                 iv_apoim_toggle.setImageResource(R.drawable.ico_set_toggle_on);
+
                             }
-                            else iv_apoim_toggle.setImageResource(R.drawable.ico_set_toggle_off);
+                            else {
+                                iv_apoim_toggle.setImageResource(R.drawable.ico_set_toggle_off);
+                            }
 
                         }else {
-                            otherProfileInfo.UserDetail.eventType = otherProfileInfoLocal.UserDetail.eventType;
+                            otherProfileInfo.UserDetail.eventType = otherProfileInfoLocal.userDetail.eventType;
 
                             if (otherProfileInfo.UserDetail.eventType.equals("1")) {
                                 iv_event_toggle.setImageResource(R.drawable.ico_set_toggle_on);
@@ -491,5 +586,5 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         });
 
         service.callMultiPartApi("user/updateProfile", params, null);
-    }*/
+    }
 }

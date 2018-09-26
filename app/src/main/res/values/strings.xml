@@ -574,6 +574,9 @@
     <string name="finished_appointment">Finished Appointment</string>
     <string name="sure_edit_apoim">Are you sure you want to edit appointment ?</string>
     <string name="notification_list">Notification List</string>
+    <string name="enter_your_name">Enter Your Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="select_date">Select Date</string>
 
 
 </resources>

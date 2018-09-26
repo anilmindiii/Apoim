@@ -564,7 +564,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                         Utils.openAlertDialog(mContext, message);
                     }
 
- /*..........................................<<<<< view pager >>>>............................................*/
+ /*........................................... <<<<< view pager >>>> ..............................................*/
                     viewPagerAdapter = new ViewPagerAdapter(mContext,otherProfileInfo.UserDetail.profileImage);
                     viewPager.setAdapter(viewPagerAdapter);
 
