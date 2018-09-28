@@ -17,40 +17,28 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MotionEventCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
-import com.apoim.activity.CreateAppointMentActivity;
-import com.apoim.activity.MatchGalleryActivity;
-import com.apoim.activity.OtherProfileActivity;
-import com.apoim.activity.SelectPaymentTypeActivity;
-import com.apoim.activity.SettingsActivity;
-import com.apoim.activity.SubscriptionPayActivity;
-import com.apoim.adapter.newProfile.NewProfileAdapter;
+import com.apoim.activity.appointment.CreateAppointMentActivity;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
+import com.apoim.activity.payment_subscription.SubscriptionPayActivity;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
-import com.apoim.listener.GetNewImageClick;
 import com.apoim.listener.OnInfoWindowElemTouchListener;
 import com.apoim.modal.FilterInfo;
 import com.apoim.modal.GetOtherProfileInfo;
 import com.apoim.modal.OnlineInfo;
-import com.apoim.modal.ProfileInterestInfo;
-import com.apoim.modal.SignInInfo;
 import com.apoim.modal.UserListInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
@@ -79,17 +67,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import cv.MapWrapperLayout;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.graphics.Color.TRANSPARENT;
-import static com.apoim.activity.SubscriptionPayActivity.paymentType;
+import static com.apoim.activity.payment_subscription.SubscriptionPayActivity.paymentType;
 import static com.apoim.app.Apoim.TAG;
 
 /**
@@ -314,7 +300,7 @@ public class MapListFragment extends Fragment  implements OnMapReadyCallback {
                     Point screenPosition = projection.toScreenLocation(markerLocation);
 
                     int position = Integer.parseInt(marker.getTitle());
-                    Intent intent = new Intent(getActivity(), OtherProfileActivity.class);
+                    Intent intent = new Intent(getActivity(), OtherProfileDetailsActivity.class);
                     intent.putExtra("userId",mapBeanArrayList.get(position).userId);
                     startActivity(intent);
                 }

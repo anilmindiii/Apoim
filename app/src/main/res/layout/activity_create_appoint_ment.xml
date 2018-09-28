@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_scrollFlags="scroll|exitUntilCollapsed"
-    tools:context=".activity.CreateAppointMentActivity">
+    tools:context=".activity.appointment.CreateAppointMentActivity">
 
 
 
@@ -237,7 +237,7 @@
                                 android:id="@+id/iv_buz_image"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/hotel"
+                                android:src="@drawable/placeholder_chat_image"
                                 android:layout_margin="0.5dp"
                                 app:siRadius="@dimen/_3sdp" />
 
@@ -361,7 +361,6 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-
                 android:layout_height="match_parent">
 
                 <TextView

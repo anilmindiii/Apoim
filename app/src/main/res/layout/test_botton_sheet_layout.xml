@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_scrollFlags="scroll|exitUntilCollapsed"
-    tools:context="com.apoim.activity.OtherProfileActivity">
+    tools:context="com.apoim.activity.profile.OtherProfileDetailsActivity">
 
     <RelativeLayout
         android:id="@+id/pager_view"
@@ -226,7 +226,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/_75sdp"
                                 android:layout_margin="0.5dp"
-                                android:src="@drawable/hotel"
+                                android:src="@drawable/placeholder_chat_image"
                                 app:siRadius="@dimen/_3sdp" />
 
                         </RelativeLayout>

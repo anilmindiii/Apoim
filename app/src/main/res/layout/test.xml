@@ -19,7 +19,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/flexible.example.collapsing"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="440dp"
             app:title="@string/app_name"
             android:background="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -30,7 +30,7 @@
             <ImageView
                 android:id="@+id/iv_profile"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_205sdp"
+                android:layout_height="@dimen/_240sdp"
                 android:src="@drawable/ico_user_placeholder"
                 android:background="@color/black"
                 android:scaleType="centerCrop" />
@@ -42,7 +42,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_110sdp"
                 android:layout_gravity="bottom"
-                android:background="@color/colorWhite"/>
+                android:background="@color/colorWhite"
+                android:visibility="gone"/>
 
 
 
@@ -92,7 +93,7 @@
                 android:layout_gravity="bottom"
                 android:layout_marginRight="@dimen/_6sdp"
                 android:layout_marginLeft="@dimen/_6sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
                 android:background="@drawable/shadow">
 
                 <LinearLayout
@@ -140,7 +141,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
+                    android:layout_height="@dimen/_55sdp"
                     android:orientation="horizontal"
                     android:weightSum="3">
 
@@ -248,7 +249,9 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1.5dp"
+                    android:layout_height="1.8dp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
                     android:background="@color/mdtp_line_background"/>
 
             </LinearLayout>
@@ -308,9 +311,9 @@
         app:layout_anchor="@+id/flexible.example.appbar"
         app:layout_anchorGravity="bottom"
         app:layout_collapseMode="pin"
-        android:background="@drawable/shadow"
-        android:layout_marginRight="@dimen/_6sdp"
-        android:layout_marginLeft="@dimen/_6sdp"
+        android:background="@drawable/shadow_rounded"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
         app:theme="@style/ThemeOverlay.AppCompat.Light">
 
 
@@ -325,8 +328,8 @@
         app:layout_anchorGravity="bottom"
         app:layout_collapseMode="pin"
         android:background="@color/white"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="12.2dp"
+        android:layout_marginLeft="12.2dp"
         app:theme="@style/ThemeOverlay.AppCompat.Light">
 
 

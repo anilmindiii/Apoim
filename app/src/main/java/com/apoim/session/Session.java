@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import com.apoim.activity.SignInActivity;
+import android.util.Log;
+
+import com.apoim.activity.sign_signup.SignInActivity;
 import com.apoim.modal.FilterInfo;
 import com.apoim.modal.FilterItemInfo;
 import com.apoim.modal.PreRegistrationInfo;
@@ -13,9 +15,13 @@ import com.apoim.modal.ProfileInfo;
 import com.apoim.modal.ProfileInterestInfo;
 import com.apoim.modal.SignInInfo;
 import com.google.gson.Gson;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.facebook.FacebookSdk.getCacheDir;
 
 /**
  * Created by Anil on 16/2/18.
@@ -186,7 +192,36 @@ public class Session {
         showLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         showLogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(showLogin);
+        clearApplicationData();
+    }
 
+    public void clearApplicationData()
+    {
+        File cache = getCacheDir();
+        File appDir = new File(cache.getParent());
+        if (appDir.exists()) {
+            String[] children = appDir.list();
+            for (String s : children) {
+                if (!s.equals("lib")) {
+                    deleteDir(new File(appDir, s));
+                    Log.i("TAG", "**************** File /data/data/APP_PACKAGE/" + s + " DELETED *******************");
+                }
+            }
+        }
+    }
+
+    public static boolean deleteDir(File dir)
+    {
+        if (dir != null && dir.isDirectory()) {
+        String[] children = dir.list();
+        for (int i = 0; i < children.length; i++) {
+            boolean success = deleteDir(new File(dir, children[i]));
+            if (!success) {
+                return false;
+            }
+        }
+    }
+        return dir.delete();
     }
 
     public boolean isLoggedIn() {

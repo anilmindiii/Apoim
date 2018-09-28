@@ -9,10 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apoim.R;
-import com.apoim.activity.UserPersonalProfileActivity;
 import com.apoim.helper.Constant;
 import com.apoim.listener.GetInterestValueListener;
-import com.apoim.listener.ProfileImageAdapterListener;
 import com.apoim.modal.ProfileInterestInfo;
 
 import java.util.ArrayList;

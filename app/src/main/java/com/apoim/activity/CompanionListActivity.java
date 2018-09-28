@@ -4,30 +4,26 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
+import com.apoim.activity.payment_subscription.SubscriptionPayActivity;
 import com.apoim.adapter.apoinment.CompanionListAdapter;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
 import com.apoim.listener.GetCompId;
 import com.apoim.modal.CompanionInfo;
-import com.apoim.modal.InvitedListInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.util.InsLoadingView;
-import com.apoim.util.Utils;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CompanionListActivity extends AppCompatActivity {
     private InsLoadingView loading_view;

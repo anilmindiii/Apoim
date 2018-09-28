@@ -1,33 +1,7 @@
 package com.apoim.helper;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.util.Log;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.apoim.R;
-import com.apoim.activity.ProfileActivity;
-import com.apoim.activity.SettingsActivity;
-import com.apoim.app.Apoim;
-import com.apoim.modal.GetOtherProfileInfo;
-import com.apoim.modal.ImageBean;
-import com.apoim.modal.ProfileInterestInfo;
-import com.apoim.modal.SignInInfo;
-import com.apoim.multipleFileUpload.MultiPartRequest;
-import com.apoim.multipleFileUpload.Template;
-import com.apoim.util.Utils;
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Anil on 2/14/2018.
@@ -207,18 +181,18 @@ public class Constant {
                         addUserFirebaseDatabase();
 
 
-                        Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
+                        Intent intent = new Intent(EditProfileActivity.this, SettingsActivity.class);
                         intent.putExtra("otherProfileInfo", otherProfileInfo);
                         setResult(RESULT_OK, intent);
 
-                        if (ProfileActivity.this != null) {
-                            profileUpdated(ProfileActivity.this, getString(R.string.profile_update));
+                        if (EditProfileActivity.this != null) {
+                            profileUpdated(EditProfileActivity.this, getString(R.string.profile_update));
                         }
 
                     } else if (status.equalsIgnoreCase("authFail")) {
                         //  Constant.showLogOutDialog(AddVehicleInfoActivity.this);
                     } else {
-                        Utils.openAlertDialog(ProfileActivity.this, message);
+                        Utils.openAlertDialog(EditProfileActivity.this, message);
                     }
                     profile_button.setEnabled(false);
                 } catch (JSONException e) {
@@ -228,8 +202,8 @@ public class Constant {
                 }
 
             }
-            //  }, productImages, productImages.size(), params, ProfileActivity.this);
-        }, null, 0, params, ProfileActivity.this, Template.Query.KEY_IMAGE, "user/updateProfile");
+            //  }, productImages, productImages.size(), params, EditProfileActivity.this);
+        }, null, 0, params, EditProfileActivity.this, Template.Query.KEY_IMAGE, "user/updateProfile");
 
         //Set tag
         mMultiPartRequest.setTag("MultiRequest");
@@ -249,10 +223,10 @@ public class Constant {
         } else {
             if (StringParser.getCode(response.toString()).equals(Template.Query.VALUE_CODE_SUCCESS)) {
                 //  Constant.snackbar(mainLayout, StringParser.getMessage(response.toString()));
-                Utils.openAlertDialog(ProfileActivity.this, StringParser.getMessage(response.toString()));
+                Utils.openAlertDialog(EditProfileActivity.this, StringParser.getMessage(response.toString()));
             } else {
                 //  Constant.snackbar(mainLayout, "Error\n" + StringParser.getMessage(response.toString()));
-                Utils.openAlertDialog(ProfileActivity.this, StringParser.getMessage(response.toString()));
+                Utils.openAlertDialog(EditProfileActivity.this, StringParser.getMessage(response.toString()));
             }
         }
     }*/

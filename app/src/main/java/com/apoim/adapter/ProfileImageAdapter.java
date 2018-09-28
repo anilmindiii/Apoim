@@ -1,11 +1,7 @@
 package com.apoim.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,21 +12,13 @@ import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
-import com.apoim.activity.MainActivity;
-import com.apoim.activity.ProfileActivity;
-import com.apoim.activity.SelectMaleFemaleActivity;
-import com.apoim.activity.SignInActivity;
 import com.apoim.app.Apoim;
-import com.apoim.helper.Constant;
 import com.apoim.listener.ProfileImageAdapterListener;
 import com.apoim.modal.ImageBean;
-import com.apoim.modal.SignInInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;

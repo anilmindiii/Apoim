@@ -9,11 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -23,6 +20,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.apoim.R;
+import com.apoim.activity.appointment.AppointmentDirectionActivity;
+import com.apoim.activity.chat.ChatActivity;
+import com.apoim.activity.event.EventDetailsActivity;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.app.Apoim;
 import com.apoim.fragment.AppoinmentFragment;
 import com.apoim.fragment.ChatFragment;
@@ -31,18 +32,15 @@ import com.apoim.fragment.ListorMapFragment;
 import com.apoim.fragment.MyProfileFragment;
 import com.apoim.groupchatwebrtc.activities.BaseActivity;
 import com.apoim.groupchatwebrtc.activities.CallActivity;
-import com.apoim.groupchatwebrtc.activities.OpponentsActivity;
 import com.apoim.groupchatwebrtc.db.QbUsersDbManager;
 import com.apoim.groupchatwebrtc.util.QBResRequestExecutor;
 import com.apoim.groupchatwebrtc.utils.Consts;
-import com.apoim.groupchatwebrtc.utils.PermissionsChecker;
 import com.apoim.groupchatwebrtc.utils.SharedPrefsHelper;
 import com.apoim.groupchatwebrtc.utils.WebRtcSessionManager;
 import com.apoim.helper.Constant;
 import com.apoim.modal.Chat;
 import com.apoim.session.Session;
 import com.apoim.util.Utils;
-import com.facebook.login.LoginManager;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,10 +50,8 @@ import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.users.model.QBUser;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -201,7 +197,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         if (getIntent().getStringExtra("type") != null) {
 
             if (type.equals("friend_request") || type.equals("accept_request") || type.equals("add_like") || type.equals("add_favorite")) {
-                Intent intent = new Intent(MainActivity.this, OtherProfileActivity.class);// other user profile
+                Intent intent = new Intent(MainActivity.this, OtherProfileDetailsActivity.class);// other user profile
                 intent.putExtra("userId", reference_id);
                 startActivity(intent);
             }
@@ -254,7 +250,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         else if (getIntent().getData() != null) {
             Map<String, String> map = Utils.getQueryString(getIntent().getData().toString());
             if (map.containsKey("id")) {
-                Intent intent = new Intent(this, OtherProfileActivity.class);
+                Intent intent = new Intent(this, OtherProfileDetailsActivity.class);
                 try {
 
                     byte[] data = Base64.decode(map.get("id"), Base64.DEFAULT);

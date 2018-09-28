@@ -2,7 +2,6 @@ package com.apoim.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,39 +11,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
-import com.apoim.activity.MainActivity;
-import com.apoim.activity.OtherProfileActivity;
-import com.apoim.activity.ProfileActivity;
-import com.apoim.activity.SignInActivity;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.adapter.userListAdapter.UserListAdapter;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
-import com.apoim.listener.CustomClick;
 import com.apoim.listener.GetUsetItemClick;
 import com.apoim.modal.FilterInfo;
 import com.apoim.modal.OnlineInfo;
-import com.apoim.modal.UserInfoFCM;
 import com.apoim.modal.UserListInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
-import com.apoim.util.Utils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -140,7 +126,7 @@ public class UserListFragment extends Fragment {
         userListAdapter1 = new UserListAdapter(mContext, userList1, new GetUsetItemClick() {
             @Override
             public void userItemClick(String userId) {
-                Intent intent = new Intent(getActivity(), OtherProfileActivity.class);
+                Intent intent = new Intent(getActivity(), OtherProfileDetailsActivity.class);
                 intent.putExtra("userId",userId);
                 startActivity(intent);
             }
@@ -148,7 +134,7 @@ public class UserListFragment extends Fragment {
         userListAdapter2 = new UserListAdapter(mContext, userList2, new GetUsetItemClick() {
             @Override
             public void userItemClick(String userId) {
-                Intent intent = new Intent(getActivity(), OtherProfileActivity.class);
+                Intent intent = new Intent(getActivity(), OtherProfileDetailsActivity.class);
                 intent.putExtra("userId",userId);
                 startActivity(intent);
             }
@@ -156,7 +142,7 @@ public class UserListFragment extends Fragment {
         userListAdapter3 = new UserListAdapter(mContext, userList3, new GetUsetItemClick() {
             @Override
             public void userItemClick(String userId) {
-                Intent intent = new Intent(getActivity(), OtherProfileActivity.class);
+                Intent intent = new Intent(getActivity(), OtherProfileDetailsActivity.class);
                 intent.putExtra("userId",userId);
                 startActivity(intent);
             }

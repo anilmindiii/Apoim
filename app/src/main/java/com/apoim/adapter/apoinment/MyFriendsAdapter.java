@@ -1,9 +1,7 @@
 package com.apoim.adapter.apoinment;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +15,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
-import com.apoim.activity.OtherProfileActivity;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
 import com.apoim.modal.MyFriendListInfo;
@@ -108,7 +106,7 @@ public class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.View
         holder.iv_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                Intent intent = new Intent(mContext, OtherProfileDetailsActivity.class);
                 intent.putExtra(Constant.userId,friendList.get(position).userId);
                 mContext.startActivity(intent);
             }
@@ -139,7 +137,7 @@ public class MyFriendsAdapter extends RecyclerView.Adapter<MyFriendsAdapter.View
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(mContext, OtherProfileActivity.class);
+            Intent intent = new Intent(mContext, OtherProfileDetailsActivity.class);
             intent.putExtra("userId",friendList.get(getAdapterPosition()).userId);
             mContext.startActivity(intent);
         }

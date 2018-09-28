@@ -20,6 +20,7 @@
     <!--<color name="colorRipple">#A6a51d29</color>-->
     <color name="colorRipple">#c23642</color>
     <color name="verification_color">#eff5fb</color>
+    <color name="very_very_light_gray">#ffd1d2d4</color>
 
 
     <!--AudioandVideo-->

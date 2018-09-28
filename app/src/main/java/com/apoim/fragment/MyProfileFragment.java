@@ -1,56 +1,34 @@
 package com.apoim.fragment;
 
 import android.animation.ValueAnimator;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.ablanco.zoomy.Zoomy;
 import com.android.volley.VolleyError;
 import com.apoim.R;
-import com.apoim.activity.ImageGalleryActivity;
 import com.apoim.activity.MatchGalleryActivity;
 import com.apoim.activity.MyFevoriteActivity;
 import com.apoim.activity.MyFriendsActivity;
-import com.apoim.activity.NotificationActivity;
-import com.apoim.activity.OtherProfileActivity;
-import com.apoim.activity.ProfileActivity;
-import com.apoim.activity.SelectPaymentTypeActivity;
+import com.apoim.activity.profile.EditProfileActivity;
 import com.apoim.activity.SettingsActivity;
-import com.apoim.activity.SignInActivity;
 import com.apoim.activity.business.BusinessDetailsActivity;
 import com.apoim.adapter.ShowInterestAdapter;
 import com.apoim.adapter.newProfile.NewProfileAdapter;
-import com.apoim.app.Apoim;
-import com.apoim.groupchatwebrtc.db.QbUsersDbManager;
-import com.apoim.groupchatwebrtc.services.CallService;
-import com.apoim.groupchatwebrtc.util.QBResRequestExecutor;
-import com.apoim.groupchatwebrtc.utils.SharedPrefsHelper;
-import com.apoim.groupchatwebrtc.utils.UsersUtils;
 import com.apoim.helper.Constant;
 import com.apoim.listener.GetInterestValueListener;
 import com.apoim.listener.GetNewImageClick;
@@ -65,15 +43,7 @@ import com.apoim.util.VerticalViewPager;
 import com.apoim.util.ViewPagerAdapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.messages.services.SubscribeService;
-import com.quickblox.users.model.QBUser;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,7 +53,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.apoim.app.Apoim.TAG;
-import static org.webrtc.ContextUtils.getApplicationContext;
 
 /**
  * Created by mindiii on 10/3/18.
@@ -312,7 +281,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                 startActivity(intent);*/
 
                 if (otherProfileInfo.UserDetail.fullName != null) {
-                    Intent intent = new Intent(mContext, ProfileActivity.class);
+                    Intent intent = new Intent(mContext, EditProfileActivity.class);
                     intent.putExtra("otherProfileInfo", otherProfileInfo);
                     startActivityForResult(intent, 178);
                 }
@@ -435,7 +404,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             }
             case R.id.ly_details:{
                 if(isResponceAppear){
-                    intent = new Intent(mContext, OtherProfileActivity.class);
+                    intent = new Intent(mContext, OtherProfileDetailsActivity.class);
                     intent.putExtra("userId",userId);
                     startActivity(intent);
                 }

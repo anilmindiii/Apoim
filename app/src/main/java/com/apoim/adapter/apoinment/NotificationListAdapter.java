@@ -4,16 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +16,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apoim.R;
-import com.apoim.activity.AppointmentDirectionActivity;
-import com.apoim.activity.EventDetailsActivity;
+import com.apoim.activity.appointment.AppointmentDirectionActivity;
+import com.apoim.activity.event.EventDetailsActivity;
 import com.apoim.activity.MainActivity;
-import com.apoim.activity.OtherProfileActivity;
-import com.apoim.fragment.AppoinmentFragment;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.helper.Constant;
 import com.apoim.modal.NotificationInfo;
 import com.apoim.session.Session;
@@ -37,7 +31,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by mindiii on 27/3/18.
@@ -120,8 +113,8 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
         holder.profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, OtherProfileActivity.class);
-                intent.putExtra(Constant.userId,notificationList.get(position).notId);
+                Intent intent = new Intent(mContext, OtherProfileDetailsActivity.class);
+                intent.putExtra(Constant.userId,notificationList.get(position).notificationBy);
                 mContext.startActivity(intent);
             }
         });
@@ -186,7 +179,7 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
 
             }else {
                 if(type.equals("friend_request") || type.equals("accept_request") || type.equals("add_like") || type.equals("add_favorite")){
-                    Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                    Intent intent = new Intent(mContext, OtherProfileDetailsActivity.class);
                     intent.putExtra("userId",reference_id);
                     mContext.startActivity(intent);
                 }

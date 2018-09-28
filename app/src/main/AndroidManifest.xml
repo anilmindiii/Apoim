@@ -34,7 +34,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".activity.SplashActivity"
+            android:name=".activity.sign_signup.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoStatusBar">
             <intent-filter>
@@ -44,27 +44,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SelectMaleFemaleActivity"
+            android:name=".activity.sign_signup.SelectMaleFemaleActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoStatusBar" />
         <activity
-            android:name=".activity.EmailVerifyActivity"
+            android:name=".activity.sign_signup.EmailVerifyActivity"
             android:isScrollContainer="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoStatusBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".activity.ConfirmationCodeActivity"
+            android:name=".activity.sign_signup.ConfirmationCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoStatusBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".activity.CreateAccountActivity"
+            android:name=".activity.sign_signup.CreateAccountActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoStatusBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".activity.SignInActivity"
+            android:name=".activity.sign_signup.SignInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoStatusBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -90,18 +90,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name=".activity.profile.EditProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.UserPersonalProfileActivity"
+            android:name=".activity.profile.UserPersonalProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".activity.LogOutActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -131,17 +128,21 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo" />
+
         <activity
-            android:name=".activity.OtherProfileActivity"
+            android:name=".activity.profile.OtherProfileDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoStatusBar" />
         <activity
-            android:name=".activity.CreateAppointMentActivity"
+            android:name=".activity.appointment.CreateAppointMentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".activity.AppointmentDirectionActivity"
+            android:name=".activity.appointment.AppointmentDirectionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -165,7 +166,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.ChangePasswordActivity"
+            android:name=".activity.sign_signup.ChangePasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -173,11 +174,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.CreateEventActivity"
+            android:name=".activity.event.CreateEventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.EventDetailsActivity"
+            android:name=".activity.event.EventDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -201,19 +202,19 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.PaymentActivity"
+            android:name=".activity.payment_subscription.PaymentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SubscriptionActivity"
+            android:name=".activity.payment_subscription.SubscriptionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SubscriptionPayActivity"
+            android:name=".activity.payment_subscription.SubscriptionPayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SelectPaymentTypeActivity"
+            android:name=".activity.payment_subscription.SelectPaymentTypeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -221,7 +222,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.ChatActivity"
+            android:name=".activity.chat.ChatActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
@@ -335,15 +336,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.VerificationActivity"
+            android:name=".activity.verification.VerificationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SelectContactNoActivity"
+            android:name=".activity.sign_signup.SelectContactNoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.IDwithHandVerifyActivity"
+            android:name=".activity.verification.IDwithHandVerifyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

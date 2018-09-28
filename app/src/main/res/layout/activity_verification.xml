@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/verification_color"
-    tools:context="com.apoim.activity.VerificationActivity">
+    tools:context="com.apoim.activity.verification.VerificationActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

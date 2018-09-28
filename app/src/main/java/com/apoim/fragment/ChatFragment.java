@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.apoim.R;
-import com.apoim.activity.ChatActivity;
 import com.apoim.adapter.chat.ChatHistoryAdapter;
 import com.apoim.helper.Constant;
 import com.apoim.modal.Chat;

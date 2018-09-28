@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.apoim.activity.OtherProfileActivity">
+    tools:context="com.apoim.activity.profile.OtherProfileDetailsActivity">
 
     <RelativeLayout
         android:id="@+id/pager_view"

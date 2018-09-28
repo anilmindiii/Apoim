@@ -1,6 +1,7 @@
 package com.apoim.adapter.apoinment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.apoim.R;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
+import com.apoim.helper.Constant;
 import com.apoim.modal.ApoimReviewInfo;
 import com.apoim.util.TimeAgo;
 import com.squareup.picasso.Picasso;
@@ -52,6 +55,15 @@ public class ApoimReviewAdapter extends RecyclerView.Adapter<ApoimReviewAdapter.
         holder.ratingBar.setRating(Float.parseFloat(info.rating));
 
         holder.tv_date.setText(TimeAgo.toRelative(info.crd, currentDate));
+
+        holder.iv_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, OtherProfileDetailsActivity.class);
+                intent.putExtra(Constant.userId,reviewList.get(position).userId);
+                mContext.startActivity(intent);
+            }
+        });
 
         if (!info.profileImage.equals(""))
             Picasso.with(mContext).load(info.profileImage).placeholder(R.drawable.ico_user_placeholder).into(holder.iv_profile);

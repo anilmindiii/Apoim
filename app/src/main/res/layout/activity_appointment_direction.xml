@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.apoim.activity.AppointmentDirectionActivity">
+    tools:context="com.apoim.activity.appointment.AppointmentDirectionActivity">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

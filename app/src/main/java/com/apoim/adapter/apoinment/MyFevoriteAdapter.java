@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
-import com.apoim.activity.OtherProfileActivity;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
 import com.apoim.modal.MyFavoriteListInfo;
@@ -78,7 +78,7 @@ public class MyFevoriteAdapter extends RecyclerView.Adapter<MyFevoriteAdapter.Vi
         holder.iv_favorite_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                Intent intent = new Intent(mContext, OtherProfileDetailsActivity.class);
                 intent.putExtra(Constant.userId,favoriteList.get(position).favUserId);
                 mContext.startActivity(intent);
             }

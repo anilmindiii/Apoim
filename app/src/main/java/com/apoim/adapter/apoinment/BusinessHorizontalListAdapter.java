@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apoim.R;
-import com.apoim.activity.CreateAppointMentActivity;
 import com.apoim.listener.PositionListner;
 import com.apoim.modal.BusinessListInfo;
 import com.squareup.picasso.Picasso;

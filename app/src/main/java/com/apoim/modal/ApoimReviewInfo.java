@@ -21,6 +21,7 @@ public class ApoimReviewInfo implements Serializable{
         public String crd;
         public String fullName;
         public String profileImage;
-        
+        public String userId;
+
     }
 }

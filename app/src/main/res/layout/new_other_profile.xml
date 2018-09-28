@@ -6,6 +6,8 @@
     android:id="@+id/annonce.main.coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:backgroundTint="@color/white"
     tools:ignore="RtlHardcoded"
     >
 
@@ -18,7 +20,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/flexible.example.collapsing"
             android:layout_width="match_parent"
-            android:layout_height="425dp"
+            android:layout_height="465dp"
             app:title="@string/app_name"
             android:background="@color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -29,7 +31,7 @@
             <ImageView
                 android:id="@+id/iv_profile_image"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_200sdp"
+                android:layout_height="@dimen/_240sdp"
                 android:src="@drawable/ico_user_placeholder"
                 android:background="@color/black"
                 android:scaleType="centerCrop" />
@@ -40,15 +42,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:background="@null"
                 android:src="@drawable/ico_back" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_155sdp"
+                android:layout_height="@dimen/_250sdp"
                 android:layout_gravity="bottom"
-                android:background="@color/colorWhite"/>
+                android:background="@color/black"
+                android:visibility="gone"/>
 
 
 
@@ -282,7 +285,7 @@
                    android:layout_width="match_parent"
                    android:layout_height="0.8dp"
                    android:layout_gravity="bottom"
-                   android:layout_marginTop="@dimen/_5sdp"
+                   android:layout_marginTop="@dimen/_3sdp"
                    android:background="@color/mdtp_line_background"/>
 
 
@@ -427,13 +430,13 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="@dimen/_54sdp"
         app:layout_anchor="@+id/flexible.example.appbar"
         app:layout_anchorGravity="bottom"
         app:layout_collapseMode="pin"
-        android:background="@drawable/shadow"
-        android:layout_marginRight="@dimen/_6sdp"
-        android:layout_marginLeft="@dimen/_6sdp"
+        android:background="@drawable/shadow_rounded"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
         app:theme="@style/ThemeOverlay.AppCompat.Light">
 
     </View>
@@ -455,6 +458,7 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_marginBottom="@dimen/_7sdp"
             android:orientation="horizontal">
 
             <ImageView
@@ -489,13 +493,14 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar1"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="@dimen/_54sdp"
         app:layout_anchor="@+id/flexible.example.appbar"
         app:layout_anchorGravity="bottom"
         app:layout_collapseMode="pin"
         android:background="@color/white"
-        android:layout_marginRight="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="12.2dp"
+        android:layout_marginLeft="12.2dp"
+
         app:theme="@style/ThemeOverlay.AppCompat.Light">
 
 

@@ -58,6 +58,11 @@
         </style>
 
 
+    <style name="MyAppTranparentStatusTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+
     //material design
 
     <style name="ToolBarWithNavigationBack">

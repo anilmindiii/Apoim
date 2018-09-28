@@ -15,11 +15,8 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
-import com.apoim.activity.ProfileActivity;
-import com.apoim.activity.SelectPaymentTypeActivity;
-import com.apoim.activity.SettingsActivity;
-import com.apoim.activity.SubscriptionActivity;
-import com.apoim.activity.SubscriptionPayActivity;
+import com.apoim.activity.profile.EditProfileActivity;
+import com.apoim.activity.payment_subscription.SubscriptionPayActivity;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
 import com.apoim.modal.SignInInfo;
@@ -27,7 +24,6 @@ import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
 import com.apoim.util.Utils;
-import com.google.android.gms.stats.internal.G;
 import com.stripe.Stripe;
 import com.stripe.exception.APIConnectionException;
 import com.stripe.exception.APIException;
@@ -42,8 +38,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static com.apoim.activity.SubscriptionPayActivity.paymentType;
 
 public class BusinessSubscriptionActivity extends AppCompatActivity {
     InsLoadingView loadingView;
@@ -83,7 +77,7 @@ public class BusinessSubscriptionActivity extends AppCompatActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BusinessSubscriptionActivity.this, ProfileActivity.class);
+                Intent intent = new Intent(BusinessSubscriptionActivity.this, EditProfileActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -180,6 +174,14 @@ public class BusinessSubscriptionActivity extends AppCompatActivity {
 
         bizSubscriptionId = session.getUser().userDetail.bizSubscriptionId;
         bizSubscriptionStatus = session.getUser().userDetail.bizSubscriptionStatus;
+
+        if(bizSubscriptionId == null){
+            bizSubscriptionId  = "";
+        }
+
+        if(bizSubscriptionStatus == null){
+            bizSubscriptionStatus = "0";
+        }
 
         BusinessSubscriptionActivity.GetPlan getPlan = new BusinessSubscriptionActivity.GetPlan();
         getPlan.execute();

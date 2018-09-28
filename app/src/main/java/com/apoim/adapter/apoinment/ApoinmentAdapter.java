@@ -21,10 +21,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apoim.R;
-import com.apoim.activity.OtherProfileActivity;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.helper.Constant;
 import com.apoim.listener.AppointmentReqStatus;
 import com.apoim.modal.AppointmentListInfo;
@@ -38,8 +37,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-
-import static com.apoim.app.Apoim.TAG;
 
 /**
  * Created by mindiii on 14/3/18.
@@ -423,7 +420,7 @@ public class ApoinmentAdapter extends RecyclerView.Adapter<ApoinmentAdapter.View
 
                 case R.id.iv_profile:{
 
-                    Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                    Intent intent = new Intent(mContext, OtherProfileDetailsActivity.class);
 
                     if (apomList.get(getAdapterPosition()).appointById.equals(myUserId)) {
                         intent.putExtra(Constant.userId,apomList.get(getAdapterPosition()).appointForId);

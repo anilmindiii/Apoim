@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,10 +13,12 @@ import android.widget.RelativeLayout;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
-import com.apoim.activity.business.BusinessDetailsActivity;
-import com.apoim.activity.business.BusinessSubscriptionActivity;
 import com.apoim.activity.business.RegisterBusinessActivity;
 import com.apoim.activity.event.EventApoimReviewActivity;
+import com.apoim.activity.payment_subscription.PaymentActivity;
+import com.apoim.activity.payment_subscription.SelectPaymentTypeActivity;
+import com.apoim.activity.sign_signup.ChangePasswordActivity;
+import com.apoim.activity.verification.VerificationActivity;
 import com.apoim.app.Apoim;
 import com.apoim.groupchatwebrtc.db.QbUsersDbManager;
 import com.apoim.groupchatwebrtc.services.CallService;
@@ -26,17 +27,12 @@ import com.apoim.groupchatwebrtc.utils.SharedPrefsHelper;
 import com.apoim.groupchatwebrtc.utils.UsersUtils;
 import com.apoim.helper.Constant;
 import com.apoim.modal.GetOtherProfileInfo;
-import com.apoim.modal.MyFriendListInfo;
-import com.apoim.modal.ProfileInterestInfo;
 import com.apoim.modal.SignInInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
 import com.apoim.util.Utils;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.quickblox.core.QBEntityCallback;
@@ -47,12 +43,10 @@ import com.quickblox.users.model.QBUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.apoim.app.Apoim.TAG;
-import static org.webrtc.ContextUtils.getApplicationContext;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView iv_notification_toggle;
@@ -281,6 +275,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     }
 
                 }
+                break;
             }
 
             case R.id.ly_apoim_review:{

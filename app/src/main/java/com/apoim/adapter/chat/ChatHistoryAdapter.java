@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apoim.R;
-import com.apoim.activity.ChatActivity;
-import com.apoim.activity.OtherProfileActivity;
+import com.apoim.activity.chat.ChatActivity;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.helper.Constant;
 import com.apoim.modal.Chat;
 import com.apoim.session.Session;
@@ -74,7 +74,7 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
         holder.iv_favorite_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, OtherProfileActivity.class);
+                Intent intent = new Intent(mContext, OtherProfileDetailsActivity.class);
                 intent.putExtra(Constant.userId,historyList.get(position).uid);
                 mContext.startActivity(intent);
             }

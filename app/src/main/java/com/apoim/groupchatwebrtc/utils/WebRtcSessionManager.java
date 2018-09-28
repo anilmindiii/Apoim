@@ -3,12 +3,9 @@ package com.apoim.groupchatwebrtc.utils;
 import android.content.Context;
 import android.util.Log;
 
-import com.apoim.activity.ChatActivity;
 import com.apoim.activity.MainActivity;
 import com.quickblox.videochat.webrtc.QBRTCSession;
 import com.quickblox.videochat.webrtc.callbacks.QBRTCClientSessionCallbacksImpl;
-
-import com.apoim.groupchatwebrtc.activities.OpponentsActivity;
 
 /**
  * Created by tereha on 16.05.16.

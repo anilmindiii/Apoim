@@ -1,26 +1,12 @@
 package com.apoim.util;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.apoim.R;
-import com.apoim.activity.CreateAccountActivity;
-import com.apoim.activity.SignInActivity;
 import com.apoim.helper.Constant;
 
 /**

@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apoim.R;
-import com.apoim.activity.EventDetailsActivity;
+import com.apoim.activity.event.EventDetailsActivity;
 import com.apoim.helper.Constant;
 import com.apoim.modal.EventRequestInfo;
 import com.apoim.util.Utils;

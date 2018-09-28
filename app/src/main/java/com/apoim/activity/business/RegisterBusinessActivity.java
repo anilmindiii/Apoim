@@ -24,7 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.apoim.ImagePickerPackge.ImagePicker;
 import com.apoim.R;
-import com.apoim.activity.ProfileActivity;
+import com.apoim.activity.profile.EditProfileActivity;
 import com.apoim.app.Apoim;
 import com.apoim.cropper.CropImage;
 import com.apoim.cropper.CropImageView;
@@ -150,7 +150,7 @@ public class RegisterBusinessActivity extends AppCompatActivity implements View.
                 break;
 
             case R.id.skip:
-                intent = new Intent(this, ProfileActivity.class);
+                intent = new Intent(this, EditProfileActivity.class);
                 startActivity(intent);
                 finish();
                 break;

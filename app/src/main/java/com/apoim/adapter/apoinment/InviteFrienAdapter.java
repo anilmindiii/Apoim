@@ -7,19 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apoim.R;
-import com.apoim.activity.CreateEventActivity;
+import com.apoim.activity.event.CreateEventActivity;
 import com.apoim.modal.MyFriendListInfo;
-import com.apoim.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
-import static com.apoim.activity.CreateEventActivity.friendsIds;
+import static com.apoim.activity.event.CreateEventActivity.friendsIds;
 
 /**
  * Created by Anil on 4/4/18.
