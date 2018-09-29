@@ -35,6 +35,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -116,7 +117,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private ProfileImageAdapter imageAdapter;
     private RelativeLayout profile_layout;
     private int mYear, mMonth, mDay;
-    private RelativeLayout rl_select_work, rl_select_education, rl_about_you;
+    private RelativeLayout rl_select_work, rl_select_education;
     private Session session;
     private SignInInfo signInInfo;
 
@@ -166,10 +167,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private String username = "";
     int checker = 0;
 
+    LinearLayout ly_basic_info,ly_more_info;
+    TextView tv_basic_info,tv_more_info;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.new_edit_profile_layout);
 
         initView();
         gender = rg_profile_gender.getCheckedRadioButtonId() == R.id.profile_male_radio ? Constant.PROFILE_MALE : Constant.PROFILE_FEMALE;
@@ -256,7 +260,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             profile_action_bar.setText(R.string.edit_profile);
             profile_skip.setVisibility(View.GONE);
             iv_back.setVisibility(View.VISIBLE);
-            setup_profile_text.setVisibility(View.GONE);
+            setup_profile_text.setVisibility(View.VISIBLE);
 
             // Set gender
             if (otherProfileInfo.UserDetail.gender.equals(Constant.REGISTER_MALE)) {
@@ -384,10 +388,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         profile_birthday.setOnClickListener(this);
         rl_select_work.setOnClickListener(this);
         rl_select_education.setOnClickListener(this);
-        rl_about_you.setOnClickListener(this);
         profile_button.setOnClickListener(this);
         profile_skip.setOnClickListener(this);
         iv_back.setOnClickListener(this);
+
+        tv_basic_info.setOnClickListener(this);
+        tv_more_info.setOnClickListener(this);
 
     }
 
@@ -481,8 +487,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         rl_select_education = findViewById(R.id.rl_select_education);
         profile_select_education = findViewById(R.id.profile_select_education);
 
-        rl_about_you = findViewById(R.id.rl_about_you);
-
         rg_profile_show_map = findViewById(R.id.rg_profile_show_map);
         profile_map_yes_radio = findViewById(R.id.profile_map_yes_radio);
         profile_map_no_radio = findViewById(R.id.profile_map_no_radio);
@@ -496,6 +500,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         profile_action_bar = findViewById(R.id.profile_action_bar);
         iv_back = findViewById(R.id.iv_back);
         setup_profile_text = findViewById(R.id.setup_profile_text);
+
+        ly_more_info = findViewById(R.id.ly_more_info);
+        ly_basic_info = findViewById(R.id.ly_basic_info);
+        tv_basic_info = findViewById(R.id.tv_basic_info);
+        tv_more_info = findViewById(R.id.tv_more_info);
 
 
         profile_name.addTextChangedListener(new TextWatcher() {
@@ -564,12 +573,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
 
-            case R.id.rl_about_you:
+         /*   case R.id.rl_about_you:
                 startActivityForResult(new Intent(EditProfileActivity.this, UserPersonalProfileActivity.class).putExtra("otherProfileInfo", otherProfileInfo),
                         Constant.PROFILE_REQUEST_CODE);
                 //overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 break;
-
+*/
             case R.id.profile_button:
                 if (Utils.IsNetPresent(EditProfileActivity.this)) {
                     if (isValidData()) {
@@ -593,6 +602,16 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.iv_back:
                 onBackPressed();
+                break;
+
+                case R.id.tv_basic_info:
+                    ly_more_info.setVisibility(View.GONE);
+                    ly_basic_info.setVisibility(View.VISIBLE);
+                break;
+
+                case R.id.tv_more_info:
+                    ly_basic_info.setVisibility(View.GONE);
+                    ly_more_info.setVisibility(View.VISIBLE);
                 break;
         }
     }

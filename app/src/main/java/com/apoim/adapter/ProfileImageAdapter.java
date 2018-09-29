@@ -49,14 +49,13 @@ public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapte
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        CircleImageView circular_profile_image;
-        ImageView camera_icon, cancel_icon;
+     ImageView circular_profile_image;
+        ImageView  cancel_icon;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
             circular_profile_image = itemView.findViewById(R.id.circular_profile_image);
-            camera_icon = itemView.findViewById(R.id.camera_icon);
             cancel_icon = itemView.findViewById(R.id.cancel_icon);
 
             itemView.setOnClickListener(this);
@@ -83,14 +82,12 @@ public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapte
     @Override
     public void onBindViewHolder(final ProfileImageAdapter.MyViewHolder holder, final int position) {
         if (position == 0) {
-            holder.camera_icon.setVisibility(View.VISIBLE);
             holder.cancel_icon.setVisibility(View.GONE);
-            holder.circular_profile_image.setImageResource(R.drawable.ico_user_placeholder);
+            holder.circular_profile_image.setImageResource(R.drawable.placeholder_chat_image);
         } else if (position > 0) {
 
             ImageBean imageBean = list.get(position);
             holder.cancel_icon.setVisibility(View.VISIBLE);
-            holder.camera_icon.setVisibility(View.GONE);
 
 
             if (imageBean != null)

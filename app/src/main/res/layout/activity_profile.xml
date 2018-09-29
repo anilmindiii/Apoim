@@ -304,14 +304,6 @@
                                 android:layout_height="match_parent" />
                         </RelativeLayout>
 
-                        <ImageView
-                            android:layout_width="@dimen/_17sdp"
-                            android:layout_height="@dimen/_17sdp"
-                            android:src="@drawable/gps"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/_10sdp"/>
 
                     </RelativeLayout>
 
