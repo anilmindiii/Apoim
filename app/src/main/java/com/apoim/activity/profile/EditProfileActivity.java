@@ -22,9 +22,11 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -33,6 +35,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +45,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,15 +54,22 @@ import com.apoim.ImagePickerPackge.ImagePicker;
 import com.apoim.R;
 import com.apoim.activity.MainActivity;
 import com.apoim.activity.SettingsActivity;
+import com.apoim.adapter.AddInterestAdapter;
 import com.apoim.adapter.ProfileEducationAdapter;
+import com.apoim.adapter.ProfileHeightAdapter;
+import com.apoim.adapter.ProfileISpeakAdapter;
 import com.apoim.adapter.ProfileImageAdapter;
+import com.apoim.adapter.ProfileRelationshipAdapter;
 import com.apoim.adapter.ProfileWorkAdapter;
+import com.apoim.adapter.ShowInterestAdapter;
 import com.apoim.app.Apoim;
 import com.apoim.cropper.CropImage;
 import com.apoim.cropper.CropImageView;
 import com.apoim.helper.Constant;
 import com.apoim.helper.Validation;
+import com.apoim.listener.GetInterestValueListener;
 import com.apoim.listener.ProfileImageAdapterListener;
+import com.apoim.listener.ProfileRelationListener;
 import com.apoim.modal.GetOtherProfileInfo;
 import com.apoim.modal.ImageBean;
 import com.apoim.modal.ProfileInfo;
@@ -99,6 +112,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -122,7 +136,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private SignInInfo signInInfo;
 
     private TextView profile_birthday, profile_select_location, profile_select_work,
-            profile_select_education, profile_select_about_you, profile_skip, profile_action_bar, setup_profile_text;
+            profile_select_education, profile_skip, profile_action_bar, setup_profile_text;
     private EditText profile_name;
     private RadioGroup rg_profile_gender, rg_profile_show_map;
     private RadioButton profile_male_radio, profile_female_radio, profile_transgender_radio, profile_map_yes_radio, profile_map_no_radio;
@@ -145,35 +159,62 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private static int FASTEST_INTERVAL = 5000; // 5 sec
     private static int DISPLACEMENT = 10; // 10 meters
 
-    ArrayList<ProfileItemInfo> workList;
-    ArrayList<ProfileItemInfo> educationList;
+    private ArrayList<ProfileItemInfo> workList;
+    private ArrayList<ProfileItemInfo> educationList;
     private DatePickerDialog fromDate;
 
     private MultiPartRequest mMultiPartRequest;
-    Map<String, String> params;
+    private Map<String, String> params;
 
-    TextView profile_button;
-    String user_about_you, user_height, user_weight, user_relationship, user_I_speak, user_interest, allDetailsFilled;
-    String gender, showOnMap, educationId, workId;
+    private TextView profile_button;
+    private String user_about_you, user_height, user_weight, user_relationship, user_I_speak, user_interest, allDetailsFilled;
+    private String gender, showOnMap, educationId, workId;
 
-    InsLoadingView loading_view;
-    SupportPlaceAutocompleteFragment autocompleteFragment;
+    private InsLoadingView loading_view;
+    private SupportPlaceAutocompleteFragment autocompleteFragment;
     private String latitude, longitude, address;
-    GetOtherProfileInfo otherProfileInfo;
+    private GetOtherProfileInfo otherProfileInfo;
 
     private List<ImageBean> imageBeans;
 
-    String appointmentType = "2", eventType = "2";
     private String username = "";
-    int checker = 0;
+    private int checker = 0;
 
-    LinearLayout ly_basic_info,ly_more_info;
-    TextView tv_basic_info,tv_more_info;
+    private LinearLayout ly_basic_info, ly_more_info;
+    private TextView tv_basic_info, tv_more_info;
+
+    /*...........user personal profile ........*/
+    private RelativeLayout rl_select_height, rl_select_weight, rl_select_relationship, rl_select_I_speak;
+    private TextView tv_user_height, tv_user_weight, tv_display_selected_unit, tv_weight_unit, tv_user_relationship, tv_user_I_speak;
+    private ArrayList<ProfileItemInfo> heightInfoList;
+    private ArrayList<String> weightInfoList;
+    private ArrayList<ProfileItemInfo> relationshipInfoList;
+    private ArrayList<ProfileItemInfo> IspeakInfoList;
+    private String[] arrHeight = {"121.92 (4 feet 0 inches)", "127.00 (4 feet 1 inches)", "129.54 (4 feet 2 inches)", "132.08 (4 feet 3 inches)", "134.62 (4 feet 4 inches)", "137.16 (4 feet 5 inches)", "139.70 (4 feet 6 inches)", "142.24 (4 feet 7 inches)", "144.78 (4 feet 8 inches)", "147.32 (4 feet 9 inches)", "149.86 (4 feet 10 inches)", "149.86 (4 feet 11 inches)", "152.40 (5 feet 0 inches)", "154.94 (5 feet 1 inches)", "157.48 (5 feet 2 inches)", "160.02 (5 feet 3 inches)", "162.56 (5 feet 4 inches)", "165.10 (5 feet 5 inches)", "167.64 (5 feet 6 inches)", "170.18 (5 feet 7 inches)", "172.72 (5 feet 8 inches)", "175.26 (5 feet 9 inches)", "177.80 (5 feet 10 inches)", "180.34 (5 feet 11 inches)", "182.88 (6 feet 0 inches)", "185.42 (6 feet 1 inches)", "185.42 (6 feet 2 inches)", "190.50 (6 feet 3 inches)", "193.04 (6 feet 4 inches)", "195.58 (6 feet 5 inches)", "198.12 (6 feet 6 inches)", "200.66 (6 feet 7 inches)", "203.20 (6 feet 8 inches)", "208.28 (6 feet 9 inches)", "214.36 (6 feet 10 inches)", "220.44 (6 feet 11 inches)", "221.52 (7 feet 0 inches)", "232.60 (7 feet 1 inches)", "237.68 (7 feet 2 inches)", "244.76 (7 feet 3 inches)", "250.84 (7 feet 4 inches)", "256.92 (7 feet 5 inches)", "263.00 (7 feet 6 inches)", "268.08 (7 feet 7 inches)", "273.16 (7 feet 8 inches)", "278.24 (7 feet 9 inches)", "283.32 (7 feet 10 inches)", "288.40 (7 feet 11 inches)", "293.48 (8 feet 0 inches)", "298.56 (8 feet 1 inches)", "303.64 (8 feet 2 inches)", "308.72 (8 feet 3 inches)", "313.80 (8 feet 4 inches)", "318.88 (8 feet 5 inches)", "323.96 (8 feet 6 inches)", "329.04 (8 feet 7 inches)", "334.12 (8 feet 8 inches)", "339.20 (8 feet 9 inches)", "344.28 (8 feet 10 inches)", "349.28 (8 feet 11 inches)", "354.36 (9 feet 0 inches)", "359.44 (9 feet 1 inches)", "364.52 (9 feet 2 inches)", "369.60 (9 feet 3 inches)", "374.68 (9 feet 4 inches)", "379.76 (9 feet 5 inches)", "384.84 (9 feet 6 inches)", "389.92 (9 feet 7 inches)", "395.00 (9 feet 8 inches)", "400.08 (9 feet 9 inches)", "405.16 (9 feet 10 inches)", "410.24 (9 feet 11 inches)", "415.32 (10 feet 0 inches)"};
+    private String[] arrRelatioship = {"Single", "Married", "Divorced", "Widowed"};
+    private String[] arrISpeak = {"English", "Spanish", "French"};
+    private String language = "", relationId = "", unit = "";
+    private EditText ed_about_you;
+    private ImageView user_add_interest;
+    private ListView selector_interest_list_view;
+    private ArrayList<ProfileInterestInfo> interestList;
+    private ArrayList<ProfileInterestInfo> interestInfoList;
+    private String selected_interest;
+    private String user_interests = "";
+    private ShowInterestAdapter showInterestAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_edit_profile_layout);
+
+
+        myUriList = new ArrayList<>();
+        educationList = new ArrayList<>();
+        workList = new ArrayList<>();
+        imageBeans = new ArrayList<>();
+        interestList = new ArrayList<>();
+        interestInfoList = new ArrayList<>();
 
         initView();
         gender = rg_profile_gender.getCheckedRadioButtonId() == R.id.profile_male_radio ? Constant.PROFILE_MALE : Constant.PROFILE_FEMALE;
@@ -184,10 +225,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         profile_horizontal_recycler.setHasFixedSize(true);
 
-        myUriList = new ArrayList<>();
-        educationList = new ArrayList<>();
-        workList = new ArrayList<>();
-        imageBeans = new ArrayList<>();
 
         imageBeans.add(0, null);
 
@@ -233,10 +270,102 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
             otherProfileInfo = (GetOtherProfileInfo) getIntent().getSerializableExtra("otherProfileInfo");
 
+
+            ed_about_you.setText(otherProfileInfo.UserDetail.about);
+            tv_user_height.setText(otherProfileInfo.UserDetail.height);
+            tv_user_weight.setText(otherProfileInfo.UserDetail.weight);
+
+            user_interests = otherProfileInfo.UserDetail.interest;
+
+            if (otherProfileInfo.UserDetail.relationship != null) {
+                switch (otherProfileInfo.UserDetail.relationship) {
+                    case "1": {
+                        tv_user_relationship.setText("Single");
+                        break;
+                    }
+                    case "2": {
+                        tv_user_relationship.setText("Married");
+                        break;
+                    }
+                    case "3": {
+                        tv_user_relationship.setText("Divorced");
+                        break;
+                    }
+                    case "4": {
+                        tv_user_relationship.setText("Widowed");
+                        break;
+                    }
+                }
+            }
+
+
+            if (otherProfileInfo.UserDetail.language != null) {
+
+                if (otherProfileInfo.UserDetail.language.contains(", ") || otherProfileInfo.UserDetail.language.contains(",")) {
+                    List<String> result = Arrays.asList(otherProfileInfo.UserDetail.language.split("\\s*,\\s*"));
+
+                    for (int i = 0; i < IspeakInfoList.size(); i++) {
+                        for (int j = 0; j < result.size(); j++) {
+                            if (IspeakInfoList.get(i).name.equals(result.get(j))) {
+                                language = IspeakInfoList.get(j).name + ", " + language;
+                                IspeakInfoList.get(j).isChecked = true;
+                            }
+                        }
+                    }
+
+                    if (language.endsWith(", ")) {
+                        language = language.substring(0, language.length() - 2);
+                    }
+
+                    tv_user_I_speak.setText(language);
+
+
+                } else {
+                    switch (otherProfileInfo.UserDetail.language) {
+                        case "English": {
+                            tv_user_I_speak.setText("English");
+                            language = "English";
+                            //languageId = "1";
+                            IspeakInfoList.get(0).isChecked = true;
+                            break;
+                        }
+                        case "Spanish": {
+                            tv_user_I_speak.setText("Spanish");
+                            language = "Spanish";
+                            // languageId = "2";
+                            IspeakInfoList.get(1).isChecked = true;
+                            break;
+                        }
+                        case "French": {
+                            tv_user_I_speak.setText("French");
+                            language = "French";
+                            // languageId = "3";
+                            IspeakInfoList.get(2).isChecked = true;
+                            break;
+                        }
+                    }
+                }
+
+
+            }
+
+
+            if (!otherProfileInfo.UserDetail.interest.equals("")) {
+                interestInfoList.clear();
+                List<String> interestList = Arrays.asList(otherProfileInfo.UserDetail.interest.split(","));
+                for (int i = 0; i < interestList.size(); i++) {
+                    ProfileInterestInfo interestInfo = new ProfileInterestInfo();
+                    interestInfo.interest = interestList.get(i);
+                    interestInfoList.add(interestInfo);
+                }
+                showInterestAdapter.notifyDataSetChanged();
+
+            }
+
+
             profile_name.setText(otherProfileInfo.UserDetail.fullName);
             profile_select_work.setText(otherProfileInfo.UserDetail.work);
             profile_select_education.setText(otherProfileInfo.UserDetail.education);
-            profile_select_about_you.setText(otherProfileInfo.UserDetail.about);
             profile_select_location.setText(otherProfileInfo.UserDetail.address);
             profile_birthday.setText(otherProfileInfo.UserDetail.birthday);
             educationId = otherProfileInfo.UserDetail.eduId;
@@ -252,10 +381,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             address = otherProfileInfo.UserDetail.address;
             latitude = otherProfileInfo.UserDetail.latitude;
             longitude = otherProfileInfo.UserDetail.longitude;
-
-            if (otherProfileInfo.UserDetail.isProfileUpdate.equals("1")) {
-                profile_select_about_you.setText(getResources().getString(R.string.all_details_are_filled));
-            }
 
             profile_action_bar.setText(R.string.edit_profile);
             profile_skip.setVisibility(View.GONE);
@@ -292,6 +417,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             }
 
             loadImages();
+
 
         } else {
             signInInfo = session.getUser();
@@ -395,6 +521,14 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         tv_basic_info.setOnClickListener(this);
         tv_more_info.setOnClickListener(this);
 
+        /*....other profile......*/
+        rl_select_height.setOnClickListener(this);
+        rl_select_weight.setOnClickListener(this);
+        rl_select_relationship.setOnClickListener(this);
+        rl_select_I_speak.setOnClickListener(this);
+        user_add_interest.setOnClickListener(this);
+
+        interest_service(null, null, null, null, null,"");
     }
 
     private void getProfileDetails(String userId) {
@@ -410,10 +544,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
                         if (otherProfileInfo.UserDetail.profileImage.size() != 0 && otherProfileInfo.UserDetail.profileImage != null) {
 
-                           for(int i = 0 ; i <otherProfileInfo.UserDetail.profileImage.size() ; i++ ){
-                               imageBeans.add((i+1), new ImageBean(otherProfileInfo.UserDetail.profileImage.get(i).image,null,
-                                       otherProfileInfo.UserDetail.profileImage.get(i).userImgId));
-                           }
+                            for (int i = 0; i < otherProfileInfo.UserDetail.profileImage.size(); i++) {
+                                imageBeans.add((i + 1), new ImageBean(otherProfileInfo.UserDetail.profileImage.get(i).image, null,
+                                        otherProfileInfo.UserDetail.profileImage.get(i).userImgId));
+                            }
                             imageAdapter.notifyDataSetChanged();
 
                            /* if (imageBeans.size() < 6) {
@@ -433,7 +567,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             }
 
             @Override
-            public void ErrorListener(VolleyError error) {}
+            public void ErrorListener(VolleyError error) {
+            }
         });
         service.callGetSimpleVolley("user/getUserProfile?userId=" + userId + "");
 
@@ -473,7 +608,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         profile_horizontal_recycler = findViewById(R.id.profile_horizontal_recycler);
         profile_name = findViewById(R.id.profile_name);
         profile_birthday = findViewById(R.id.profile_birthday);
-        profile_select_about_you = findViewById(R.id.profile_select_about_you);
         loading_view = findViewById(R.id.loading_view);
 
         rg_profile_gender = findViewById(R.id.rg_profile_gender);
@@ -492,7 +626,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         profile_map_no_radio = findViewById(R.id.profile_map_no_radio);
 
         profile_select_location = findViewById(R.id.profile_select_location);
-
         profile_layout = findViewById(R.id.profile_layout);
 
         profile_button = findViewById(R.id.profile_button);
@@ -506,6 +639,96 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         tv_basic_info = findViewById(R.id.tv_basic_info);
         tv_more_info = findViewById(R.id.tv_more_info);
 
+        /*................ another profile...........*/
+        ed_about_you = findViewById(R.id.ed_about_you);
+        user_add_interest = findViewById(R.id.user_add_interest);
+
+        rl_select_height = findViewById(R.id.rl_select_height);
+        tv_user_height = findViewById(R.id.tv_user_height);
+
+        rl_select_weight = findViewById(R.id.rl_select_weight);
+        tv_user_weight = findViewById(R.id.tv_user_weight);
+
+        rl_select_relationship = findViewById(R.id.rl_select_relationship);
+        tv_user_relationship = findViewById(R.id.tv_user_relationship);
+
+        rl_select_I_speak = findViewById(R.id.rl_select_I_speak);
+        tv_user_I_speak = findViewById(R.id.tv_user_I_speak);
+
+        RecyclerView user_selected_interest_list_view = findViewById(R.id.user_selected_interest_list_view);
+        int numberOfColumns = 2;
+        user_selected_interest_list_view.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
+
+
+        relationshipInfoList = new ArrayList<>();
+        IspeakInfoList = new ArrayList<>();
+        heightInfoList = new ArrayList<>();
+        weightInfoList = new ArrayList<>();
+
+
+        weightInfoList.add("Weight");
+        weightInfoList.add("Kg");
+        weightInfoList.add("Lbs");
+        weightInfoList.add("Pounds");
+
+        // Height List from arrHeight String array
+        ArrayList<String> heightList = new ArrayList<>();
+        for (int i = 0; i < arrHeight.length; i++) {
+            ProfileItemInfo profileHeightInfo = new ProfileItemInfo();
+            arrHeight[i].split(",");
+            heightList = new ArrayList<String>((Arrays.asList(arrHeight)));
+            profileHeightInfo.name = heightList.get(i);
+            profileHeightInfo.isChecked = false;
+            heightInfoList.add(profileHeightInfo);
+        }
+
+        // Relation List from arrRelatioship String array
+        ArrayList<String> relationList = new ArrayList<>();
+        for (int i = 0; i < arrRelatioship.length; i++) {
+            ProfileItemInfo profileRelationshipInfo = new ProfileItemInfo();
+            arrRelatioship[i].split(",");
+            relationList = new ArrayList<String>((Arrays.asList(arrRelatioship)));
+            profileRelationshipInfo.name = relationList.get(i);
+            profileRelationshipInfo.isChecked = false;
+            relationshipInfoList.add(profileRelationshipInfo);
+        }
+
+        // I Speak List from arrISpeak String array
+        ArrayList<String> ISpeakList = new ArrayList<>();
+        for (int i = 0; i < arrISpeak.length; i++) {
+            ProfileItemInfo profileISpeakInfo = new ProfileItemInfo();
+            arrISpeak[i].split(",");
+            ISpeakList = new ArrayList<String>((Arrays.asList(arrISpeak)));
+            profileISpeakInfo.name = ISpeakList.get(i);
+            profileISpeakInfo.Id = i + 1 + "";
+            profileISpeakInfo.isChecked = false;
+            IspeakInfoList.add(profileISpeakInfo);
+        }
+
+        for (int i = 0; i < relationshipInfoList.size(); i++) {
+            if (relationshipInfoList.get(i).name.equals(tv_user_relationship.getText().toString())) {
+                relationId = i + 1 + "";
+            }
+        }
+
+        showInterestAdapter = new ShowInterestAdapter(Constant.UserPersonalProfile, EditProfileActivity.this, interestInfoList, new GetInterestValueListener() {
+
+            @Override
+            public void getInterestValue(String value) {
+                if (user_interests.contains(value + ",")) {
+                    user_interests = user_interests.replace(value + ",", "");
+                } else if (user_interests.contains("," + value)) {
+                    user_interests = user_interests.replace("," + value, "");
+                }
+
+
+                if (user_interests.endsWith(",")) {
+                    user_interests = user_interests.substring(0, user_interests.length() - 1);
+                    user_interest = user_interests;
+                }
+            }
+        });
+        user_selected_interest_list_view.setAdapter(showInterestAdapter);
 
         profile_name.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -604,14 +827,42 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 onBackPressed();
                 break;
 
-                case R.id.tv_basic_info:
-                    ly_more_info.setVisibility(View.GONE);
-                    ly_basic_info.setVisibility(View.VISIBLE);
+            case R.id.tv_basic_info:
+                ly_more_info.setVisibility(View.GONE);
+                ly_basic_info.setVisibility(View.VISIBLE);
+                tv_basic_info.setTextColor(ContextCompat.getColor(this,R.color.black));
+                tv_more_info.setTextColor(ContextCompat.getColor(this,R.color.colorGray));
                 break;
 
-                case R.id.tv_more_info:
-                    ly_basic_info.setVisibility(View.GONE);
-                    ly_more_info.setVisibility(View.VISIBLE);
+            case R.id.tv_more_info:
+                ly_basic_info.setVisibility(View.GONE);
+                ly_more_info.setVisibility(View.VISIBLE);
+                tv_more_info.setTextColor(ContextCompat.getColor(this,R.color.black));
+                tv_basic_info.setTextColor(ContextCompat.getColor(this,R.color.colorGray));
+                break;
+                /*..........other profile......*/
+            case R.id.rl_select_height:
+                openSelectHeightDialog(heightInfoList);
+                break;
+
+            case R.id.rl_select_weight:
+                openEnterWeightDialog(weightInfoList);
+                break;
+
+            case R.id.rl_select_relationship:
+                openSelectRelationshipDialog(relationshipInfoList);
+                break;
+
+            case R.id.rl_select_I_speak:
+                openSelectISpeakDialog(IspeakInfoList);
+                break;
+
+            case R.id.user_add_interest:
+                if (Utils.IsNetPresent(EditProfileActivity.this)) {
+                    openAddInterestDialog();
+                } else {
+                    Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_network_check));
+                }
                 break;
         }
     }
@@ -623,7 +874,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             Utils.openAlertDialog(EditProfileActivity.this, "Atleast one image should be select");
             return false;
         }*/
-         if (!v.isNullValue(profile_name.getText().toString().trim())) {
+        if (!v.isNullValue(profile_name.getText().toString().trim())) {
             Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_name_null));
             return false;
         } else if (!v.isLength3Minimum(profile_name.getText().toString().trim())) {
@@ -635,16 +886,31 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         } else if (!v.isNullValue(profile_birthday.getText().toString().trim())) {
             Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_birthday_null));
             return false;
-        } else if (!v.isNullValue(profile_select_work.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_work_null));
+        } else if (!v.isNullValue(tv_user_relationship.getText().toString().trim())) {
+            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_relation_null));
+            return false;
+        }else if (!v.isNullValue(tv_user_height.getText().toString().trim())) {
+            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_height_null));
+            return false;
+        } else if (!v.isNullValue(tv_user_weight.getText().toString().trim())) {
+            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_weight_null));
             return false;
         } else if (!v.isNullValue(profile_select_education.getText().toString().trim())) {
             Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_education_null));
             return false;
-        } else if (!v.isNullValue(profile_select_about_you.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_about_you_null));
+        }
+        else if (!v.isNullValue(profile_select_work.getText().toString().trim())) {
+            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_work_null));
             return false;
-        } else
+        }else if (!v.isNullValue(tv_user_I_speak.getText().toString().trim())) {
+            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_I_speak_null));
+            return false;
+        }else if (interestInfoList.size() == 0) {
+            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_interest_null));
+            return false;
+        }
+
+        else
             return true;
     }
 
@@ -734,7 +1000,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 } catch (JSONException e) {
                     e.printStackTrace();
                     loading_view.setVisibility(View.GONE);
-
                 }
             }
 
@@ -944,37 +1209,37 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                /* mGoogleApiClient.disconnect();
                 stopLocationUpdates();*/
 
-               if((mGoogleApiClient) != null){
-                   mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                if ((mGoogleApiClient) != null) {
+                    mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-                   if (mLastLocation != null) {
-                       double latitude = mLastLocation.getLatitude();
-                       double longitude = mLastLocation.getLongitude();
-
-
-                       Geocoder geocoder = new Geocoder(EditProfileActivity.this, Locale.getDefault());
-                       try {
-                           List<Address> addressList = geocoder.getFromLocation(
-                                   latitude, longitude, 1);
-                           if (addressList != null && addressList.size() > 0) {
-                               Address address = addressList.get(0);
-                               String user_address = address.getAddressLine(0);
-                               if (profile_select_location.getText().toString().trim().equals("")) {
-                                   profile_select_location.setText(user_address);
-                                   this.latitude = String.valueOf(latitude);
-                                   this.longitude = String.valueOf(longitude);
-                               }
-
-                               Log.e("Address", user_address);
-
-                           }
+                    if (mLastLocation != null) {
+                        double latitude = mLastLocation.getLatitude();
+                        double longitude = mLastLocation.getLongitude();
 
 
-                       } catch (IOException e) {
-                           Log.e(Apoim.TAG, "Unable connect to Geocoder", e);
-                       }
-                   }
-               }
+                        Geocoder geocoder = new Geocoder(EditProfileActivity.this, Locale.getDefault());
+                        try {
+                            List<Address> addressList = geocoder.getFromLocation(
+                                    latitude, longitude, 1);
+                            if (addressList != null && addressList.size() > 0) {
+                                Address address = addressList.get(0);
+                                String user_address = address.getAddressLine(0);
+                                if (profile_select_location.getText().toString().trim().equals("")) {
+                                    profile_select_location.setText(user_address);
+                                    this.latitude = String.valueOf(latitude);
+                                    this.longitude = String.valueOf(longitude);
+                                }
+
+                                Log.e("Address", user_address);
+
+                            }
+
+
+                        } catch (IOException e) {
+                            Log.e(Apoim.TAG, "Unable connect to Geocoder", e);
+                        }
+                    }
+                }
 
             }
         }
@@ -1155,30 +1420,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 if (bitmap != null) {
                     if (imageBeans.size() < 6) {
                         String userId = session.getUser().userDetail.userId;
-                        imageUploadTask(userId,bitmap);
+                        imageUploadTask(userId, bitmap);
                     }
-
-             /*   //Uri imageUri = ImagePicker.getImageURIFromResult(EditProfileActivity.this, requestCode, resultCode, data);
-
-                try {
-
-                        //bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-
-
-              *//*      if (bitmap != null) {
-                        bitmap = ImagePicker.getImageFromResult(EditProfileActivity.this, requestCode, resultCode, data);
-                        bitmap = ImageRotator.rotateImageIfRequired(bitmap, imageUri);
-
-                        if (imageBeans.size() < 6) {
-                            imageBeans.add(1, new ImageBean(null, bitmap, ""));
-                            imageAdapter.notifyDataSetChanged();
-                        }
-                    }*//*
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*/
                 }
             }
             if (resultCode != RESULT_CANCELED) {
@@ -1200,8 +1443,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                         allDetailsFilled = data.getStringExtra("allDetailsFilled");
                         user_interest = data.getStringExtra("interest_key");
 
-                        eventType = data.getStringExtra("eventType");
-                        appointmentType = data.getStringExtra("appointmentType");
 
                         if (otherProfileInfo != null) {
                             otherProfileInfo.UserDetail.about = user_about_you;
@@ -1212,9 +1453,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                             otherProfileInfo.UserDetail.interest = user_interest;
                         }
 
-                        if (allDetailsFilled.equals("true")) {
-                            profile_select_about_you.setText(getResources().getString(R.string.all_details_are_filled));
-                        }
                     }
                 }
 
@@ -1264,12 +1502,21 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
 
-
     void updateProfileTask() {
         profile_button.setEnabled(false);
         loading_view.setVisibility(View.VISIBLE);
         String date = profile_birthday.getText().toString();
         String name = profile_name.getText().toString().replaceAll("( )+", " ");
+
+        user_about_you = Utils.convertStringToUTF8SendToserver(ed_about_you.getText().toString().trim());
+        user_height = tv_user_height.getText().toString().trim();
+        user_weight = tv_user_weight.getText().toString().trim();
+        user_I_speak = language;
+        if (user_I_speak.contains(" ")) {
+            user_I_speak = user_I_speak.replace(" ", "");
+        }
+
+
         String aboutYou = user_about_you.replaceAll("( )+", " ");
 
         if (aboutYou.equals("")) {
@@ -1287,14 +1534,16 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         params.put("language", user_I_speak);
         params.put("eduId", educationId);
         params.put("workId", workId);
+
+        if (user_interest.endsWith(",")) {
+            user_interest = user_interest.substring(0, user_interest.length() - 1);
+        }
         params.put("interestId", user_interest);
 
         params.put("address", profile_select_location.getText().toString().trim());
         params.put("latitude", latitude);
         params.put("longitude", longitude);
 
-        params.put("eventType", eventType);
-        params.put("appointmentType", appointmentType);
 
         WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
             @Override
@@ -1420,13 +1669,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
 
-    private void imageUploadTask(final String userId,final Bitmap bitmap) {
+    private void imageUploadTask(final String userId, final Bitmap bitmap) {
         loading_view.setVisibility(View.VISIBLE);
         Map<String, String> map = new HashMap<>();
         map.put("userId", userId);
 
-        Map<String , Bitmap> bitmapMap = new HashMap<>();
-        bitmapMap.put("image",bitmap);
+        Map<String, Bitmap> bitmapMap = new HashMap<>();
+        bitmapMap.put("image", bitmap);
 
         WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
 
@@ -1471,9 +1720,480 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 loading_view.setVisibility(View.GONE);
             }
         });
-        service.callMultiPartApi("user/uploadUserImage", map,bitmapMap);
+        service.callMultiPartApi("user/uploadUserImage", map, bitmapMap);
     }
 
+    /*................user personal profile .....................*/
+    private void openSelectHeightDialog(final ArrayList<ProfileItemInfo> heightInfoList) {
+        rl_select_height.setEnabled(false);
+        final Dialog height_dialog = new Dialog(this);
+        height_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        height_dialog.setContentView(R.layout.view_custom_dialog_profile);
+        height_dialog.setCancelable(false);
+        height_dialog.setCanceledOnTouchOutside(false);
+
+        TextView dialog_header = height_dialog.findViewById(R.id.dialog_header);
+        dialog_header.setText(getResources().getString(R.string.heading_select_height_dialog));
+
+        ImageView iv_refrence = height_dialog.findViewById(R.id.iv_refrence);
+        iv_refrence.setImageResource(R.drawable.height);
+
+        ListView profile_dialog_listView = height_dialog.findViewById(R.id.profile_dialog_listView);
+        final ImageView education_decline_button = height_dialog.findViewById(R.id.interest_decline_button);
+
+        education_decline_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                height_dialog.dismiss();
+            }
+        });
+
+        String height = tv_user_height.getText().toString();
+
+
+        ProfileHeightAdapter profileHeightAdapter = new ProfileHeightAdapter(EditProfileActivity.this, heightInfoList, height, new ProfileImageAdapterListener() {
+            @Override
+            public void getPosition(final int position) {
+                tv_user_height.setText(heightInfoList.get(position).name);
+                height_dialog.dismiss();
+            }
+        });
+
+        profile_dialog_listView.setAdapter(profileHeightAdapter);
+        profileHeightAdapter.notifyDataSetChanged();
+
+        height_dialog.getWindow().setGravity(Gravity.CENTER);
+        height_dialog.show();
+
+        height_dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                rl_select_height.setEnabled(true);
+            }
+        });
+
+    }
+
+    private void openEnterWeightDialog(final ArrayList<String> weightInfoList) {
+        rl_select_weight.setEnabled(false);
+
+        final Dialog weight_dialog = new Dialog(this);
+        weight_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        weight_dialog.setContentView(R.layout.view_profile_weight_dialog);
+        weight_dialog.setCancelable(false);
+        weight_dialog.setCanceledOnTouchOutside(false);
+
+        TextView dialog_header = weight_dialog.findViewById(R.id.dialog_header);
+        dialog_header.setText(getResources().getString(R.string.heading_select_weight_dialog));
+
+        final EditText enter_weight = weight_dialog.findViewById(R.id.enter_weight);
+        Utils utils = new Utils();
+        utils.inputFilter(enter_weight);
+        tv_display_selected_unit = weight_dialog.findViewById(R.id.display_selected_unit);
+        final TextView weight_unit = weight_dialog.findViewById(R.id.weight_unit);
+
+        final Spinner weight_unit_spinner = weight_dialog.findViewById(R.id.weight_unit_spinner);
+        ImageView weight_decline_button = weight_dialog.findViewById(R.id.weight_decline_button);
+        Button enter_weight_button = weight_dialog.findViewById(R.id.enter_weight_button);
+
+        weight_decline_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                weight_dialog.dismiss();
+            }
+        });
+
+        weight_dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                rl_select_weight.setEnabled(true);
+            }
+        });
+
+        enter_weight_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String weight = enter_weight.getText().toString().trim();
+
+
+                if (!weight.equals("")) {
+                    Double d = Double.valueOf(weight);
+                    if (d != 0.0) {
+
+
+                        if (weight_unit.getText().toString().equals("weight")) {
+                            Utils.openAlertDialog(EditProfileActivity.this, "Select units");
+                        } else {
+
+                            if (!weight_unit.getText().toString().equals("Units")) {
+                                weight_dialog.dismiss();
+                                tv_user_weight.setText(weight + " " + weight_unit.getText().toString());
+                            } else Utils.openAlertDialog(EditProfileActivity.this, "Select units");
+
+                        }
+
+                    } else {
+                        Utils.openAlertDialog(EditProfileActivity.this, "Weight can't zero");
+
+                    }
+
+                } else {
+                    Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_weight_null));
+                }
+
+
+                Utils.hideSoftKeyboard(EditProfileActivity.this);
+
+            }
+        });
+
+
+        String temp_weight[] = tv_user_weight.getText().toString().split(" ");
+        String weight = temp_weight[0];
+
+        if (temp_weight.length == 2) {
+            unit = temp_weight[1];
+        }
+
+        enter_weight.setText(weight);
+        weight_unit.setText(unit);
+
+
+        weight_unit_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //display_selected_unit.setText(adapterView.getItemAtPosition(0).toString());
+                tv_display_selected_unit.setText("Weight");
+
+
+                String select = adapterView.getItemAtPosition(i).toString();
+
+                if (select.equals("Weight")) {
+                    if (!unit.equals("") && unit != null) {
+                        weight_unit.setText(unit);
+                    } else {
+                        if (select.equals("Weight")) {
+                            weight_unit.setText("Units");
+                        } else {
+                            weight_unit.setText(adapterView.getItemAtPosition(i).toString());
+                        }
+
+                    }
+
+                } else {
+                    weight_unit.setText(adapterView.getItemAtPosition(i).toString());
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(EditProfileActivity.this, android.R.layout.simple_spinner_item, weightInfoList);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        weight_unit_spinner.setAdapter(arrayAdapter);
+
+        weight_dialog.getWindow().setGravity(Gravity.CENTER);
+        weight_dialog.show();
+    }
+
+    private void openSelectRelationshipDialog(final ArrayList<ProfileItemInfo> relationshipInfoList) {
+        rl_select_relationship.setEnabled(false);
+        final Dialog relation_dialog = new Dialog(this);
+        relation_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        relation_dialog.setContentView(R.layout.view_custom_dialog_profile);
+        relation_dialog.setCancelable(false);
+        relation_dialog.setCanceledOnTouchOutside(false);
+
+        TextView dialog_header = relation_dialog.findViewById(R.id.dialog_header);
+        dialog_header.setText(getResources().getString(R.string.heading_select_relationship_dialog));
+
+        ImageView iv_refrence = relation_dialog.findViewById(R.id.iv_refrence);
+        iv_refrence.setImageResource(R.drawable.give_heart);
+
+        ListView profile_dialog_listView = relation_dialog.findViewById(R.id.profile_dialog_listView);
+        final ImageView education_decline_button = relation_dialog.findViewById(R.id.interest_decline_button);
+
+        education_decline_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                relation_dialog.dismiss();
+            }
+        });
+
+        String relation_name = tv_user_relationship.getText().toString();
+
+        ProfileRelationshipAdapter profileRelationshipAdapter = new ProfileRelationshipAdapter(EditProfileActivity.this, relationshipInfoList, relation_name, new ProfileRelationListener() {
+            @Override
+            public void getPosition(int position, int relId) {
+                tv_user_relationship.setText(relationshipInfoList.get(position).name);
+                relationId = relId + "";
+                user_relationship = relationId;
+                relation_dialog.dismiss();
+            }
+        });
+
+        profile_dialog_listView.setAdapter(profileRelationshipAdapter);
+        profileRelationshipAdapter.notifyDataSetChanged();
+
+        relation_dialog.getWindow().setGravity(Gravity.CENTER);
+        relation_dialog.show();
+
+        relation_dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                rl_select_relationship.setEnabled(true);
+            }
+        });
+    }
+
+    private void openSelectISpeakDialog(final ArrayList<ProfileItemInfo> ispeakInfoList) {
+        rl_select_I_speak.setEnabled(false);
+        final Dialog I_speak_dialog = new Dialog(this);
+        I_speak_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        I_speak_dialog.setContentView(R.layout.view_custom_dialog_profile);
+        I_speak_dialog.setCancelable(false);
+        I_speak_dialog.setCanceledOnTouchOutside(false);
+
+        TextView dialog_header = I_speak_dialog.findViewById(R.id.dialog_header);
+        dialog_header.setText(getResources().getString(R.string.heading_select_I_speak_dialog));
+
+        ImageView iv_refrence = I_speak_dialog.findViewById(R.id.iv_refrence);
+        iv_refrence.setImageResource(R.drawable.speak);
+
+        ListView profile_dialog_listView = I_speak_dialog.findViewById(R.id.profile_dialog_listView);
+        final ImageView education_decline_button = I_speak_dialog.findViewById(R.id.interest_decline_button);
+
+        education_decline_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                I_speak_dialog.dismiss();
+            }
+        });
+
+        String I_speak_name = tv_user_I_speak.getText().toString();
+
+        ProfileISpeakAdapter profileISpeakAdapter = new ProfileISpeakAdapter(EditProfileActivity.this, ispeakInfoList, I_speak_name, new ProfileRelationListener() {
+            @Override
+            public void getPosition(int position, int langId) {
+
+                if (language.contains(ispeakInfoList.get(position).name + ", ")) {
+                    language = language.replace(ispeakInfoList.get(position).name + ", ", "");
+                } else if (language.contains(", " + ispeakInfoList.get(position).name)) {
+                    language = language.replace(", " + ispeakInfoList.get(position).name, "");
+                } else if (language.contains(ispeakInfoList.get(position).name)) {
+                    language = language.replace(ispeakInfoList.get(position).name, "");
+                } else {
+                    language = ispeakInfoList.get(position).name + ", " + language;
+                }
+
+
+                if (language.endsWith(", ")) {
+                    language = language.substring(0, language.length() - 2);
+                }
+
+
+                tv_user_I_speak.setText(language);
+
+                I_speak_dialog.dismiss();
+
+            }
+
+        });
+
+        profile_dialog_listView.setAdapter(profileISpeakAdapter);
+        profileISpeakAdapter.notifyDataSetChanged();
+
+        I_speak_dialog.getWindow().setGravity(Gravity.CENTER);
+        I_speak_dialog.show();
+
+        I_speak_dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                rl_select_I_speak.setEnabled(true);
+            }
+        });
+    }
+
+    private void openAddInterestDialog() {
+        final Dialog add_interest_dialog = new Dialog(this);
+        add_interest_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        add_interest_dialog.setContentView(R.layout.view_add_interest_dialog);
+        add_interest_dialog.setCancelable(false);
+        add_interest_dialog.setCanceledOnTouchOutside(false);
+
+        final EditText interest_search = add_interest_dialog.findViewById(R.id.interest_search);
+        final RelativeLayout rl_add_searched_interest = add_interest_dialog.findViewById(R.id.rl_add_searched_interest);
+        final TextView searched_interest_list_view = add_interest_dialog.findViewById(R.id.searched_interest_list_view);
+        final ImageView add_searched_interest_icon = add_interest_dialog.findViewById(R.id.add_searched_interest_icon);
+
+        selector_interest_list_view = add_interest_dialog.findViewById(R.id.selector_interest_list_view);
+
+        if (interestList.size() != 0) {
+            interest_method(add_interest_dialog, interest_search, searched_interest_list_view, rl_add_searched_interest, add_searched_interest_icon);
+        } else {
+            interest_service(add_interest_dialog, interest_search, rl_add_searched_interest, searched_interest_list_view, add_searched_interest_icon,"dialog");
+        }
+
+        ImageView decline_button = add_interest_dialog.findViewById(R.id.interest_decline_button);
+        decline_button.setOnClickListener(new View.OnClickListener()
+
+        {
+            @Override
+            public void onClick(View view) {
+                add_interest_dialog.dismiss();
+            }
+        });
+
+        add_interest_dialog.getWindow().setGravity(Gravity.CENTER);
+        add_interest_dialog.show();
+
+
+    }
+
+    private void interest_service(Dialog add_interest_dialog,
+                                  EditText interest_search,
+                                  RelativeLayout rl_add_searched_interest,
+                                  TextView searched_interest_list_view,
+                                  ImageView add_searched_interest_icon,
+                                  String type) {
+
+        WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    final JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+
+                    if (status.equals("success")) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("interestList");
+                        String interest = null;
+                        interestList = new ArrayList<>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject object = jsonArray.getJSONObject(i);
+
+                            String interestId = object.getString("interestId");
+                            interest = object.getString("interest");
+                            interestList.add(new ProfileInterestInfo(interestId, interest));
+
+                            if (type.equals("dialog"))
+                                interest_method(add_interest_dialog, interest_search, searched_interest_list_view, rl_add_searched_interest, add_searched_interest_icon);
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+
+            }
+        });
+        service.callGetSimpleVolley("getInterestList");
+    }
+
+    private void interest_method(Dialog add_interest_dialog, EditText interest_search, TextView searched_interest_list_view, RelativeLayout rl_add_searched_interest, ImageView add_searched_interest_icon) {
+        final AddInterestAdapter adapter = new AddInterestAdapter(EditProfileActivity.this,
+                interestList, interestInfoList, new ProfileImageAdapterListener() {
+            @Override
+            public void getPosition(int position) {
+                selected_interest = interestList.get(position).interest;
+                user_interests = selected_interest + "," + user_interests;
+                user_interest = user_interests;
+                interestInfoList.add(new ProfileInterestInfo(interestList.get(position).interestId, selected_interest));
+                showInterestAdapter.notifyDataSetChanged();
+
+                add_interest_dialog.dismiss();
+            }
+        });
+        selector_interest_list_view.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        // Calling of method to search recycler view locally
+        interest_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i,
+                                          int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i,
+                                      int i1, int i2) {
+                final String getValue = interest_search.getText().toString().replaceAll("( +)", " ").trim();
+
+                if (i2 > 0) {
+
+                    String s = String.valueOf(charSequence.charAt(0)).toUpperCase() + (i2 >= 2 ? charSequence.subSequence(1, i2).toString().toLowerCase() : "");
+                    searched_interest_list_view.setText(s.trim());
+
+                    final ArrayList<ProfileInterestInfo> filtered_list = new ArrayList<>();
+
+                    for (ProfileInterestInfo wp : interestList) {
+                        if (wp.interest.toLowerCase().contains(charSequence)) {
+                            filtered_list.add(wp);
+                        } else {
+                            if (!getValue.equals("")) {
+                                rl_add_searched_interest.setVisibility(View.VISIBLE);
+                            }
+
+                            final String sel_int = searched_interest_list_view.getText().toString();
+
+                            add_searched_interest_icon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (!TextUtils.isEmpty(getValue)) {
+                                        user_interests = getValue + "," + user_interests;
+                                        user_interest = user_interests;
+                                        interestInfoList.add(new ProfileInterestInfo("", getValue));
+                                        showInterestAdapter.notifyDataSetChanged();
+                                    }
+                                    add_interest_dialog.dismiss();
+
+                                }
+                            });
+                        }
+
+                    }
+
+                    AddInterestAdapter demoAdapter = new AddInterestAdapter(EditProfileActivity.this,
+                            filtered_list, interestInfoList, new ProfileImageAdapterListener() {
+                        @Override
+                        public void getPosition(int position) {
+                            selected_interest = filtered_list.get(position).interest;
+                            user_interests = selected_interest + "," + user_interests;
+
+                            interestInfoList.add(new ProfileInterestInfo(interestList.get(position).interestId, selected_interest));
+                            showInterestAdapter.notifyDataSetChanged();
+
+                            add_interest_dialog.dismiss();
+
+                        }
+                    });
+                    selector_interest_list_view.setAdapter(demoAdapter);
+                    demoAdapter.notifyDataSetChanged();
+                } else {
+                    //hide
+                    rl_add_searched_interest.setVisibility(View.GONE);
+                    searched_interest_list_view.setText("");
+                    selector_interest_list_view.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    showInterestAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
 
 
 }

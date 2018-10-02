@@ -94,7 +94,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     private TextView tv_visittxt;
     private TextView tv_no_user_image_found;
     private boolean isResponceAppear = false;
-    private LinearLayout ly_my_fevorite, ly_photo_view, ly_business;
+    private LinearLayout ly_my_fevorite, ly_photo_view, ly_business,ly_appType_eventType;
 
 
     NestedScrollView bottom_sheet;
@@ -160,10 +160,11 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         tv_interest = view.findViewById(R.id.tv_interest);
         tv_no_interest_found = view.findViewById(R.id.tv_no_interest_found);
 
-
         profile_action_bar = view.findViewById(R.id.profile_action_bar);
     //    user_selected_interest_list_view = view.findViewById(R.id.user_selected_interest_list_view);
         ly_business = view.findViewById(R.id.ly_business);
+        ly_appType_eventType = view.findViewById(R.id.ly_appType_eventType);
+        ly_appType_eventType.setVisibility(View.GONE);
 
         iv_mobile_veri = view.findViewById(R.id.iv_mobile_veri);
         iv_id_hand_veri = view.findViewById(R.id.iv_id_hand_veri);

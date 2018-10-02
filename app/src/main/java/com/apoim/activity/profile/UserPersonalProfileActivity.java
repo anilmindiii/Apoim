@@ -74,7 +74,7 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
     private RecyclerView user_selected_interest_list_view;
     private ArrayList<ProfileInterestInfo> interestList;
     private RelativeLayout rl_select_height, rl_select_weight, rl_select_relationship, rl_select_I_speak;
-    private TextView user_height, user_weight, display_selected_unit, weight_unit, user_relationship, user_I_speak;
+    private TextView user_height, user_weight, display_selected_unit, weight_unit, tv_user_relationship, user_I_speak;
     private Session session;
     private ArrayList<ProfileItemInfo> heightInfoList;
     private ArrayList<String> weightInfoList;
@@ -193,19 +193,19 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
             if (otherProfileInfo.UserDetail.relationship != null) {
                 switch (otherProfileInfo.UserDetail.relationship) {
                     case "1": {
-                        user_relationship.setText("Single");
+                        tv_user_relationship.setText("Single");
                         break;
                     }
                     case "2": {
-                        user_relationship.setText("Married");
+                        tv_user_relationship.setText("Married");
                         break;
                     }
                     case "3": {
-                        user_relationship.setText("Divorced");
+                        tv_user_relationship.setText("Divorced");
                         break;
                     }
                     case "4": {
-                        user_relationship.setText("Widowed");
+                        tv_user_relationship.setText("Widowed");
                         break;
                     }
                 }
@@ -306,7 +306,7 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
                     user_select_about_you.setText(Utils.convertUTF8ToStringSetText(profileInfo.userData.about));
                     user_height.setText(profileInfo.userData.height);
                     user_weight.setText(profileInfo.userData.weight);
-                    user_relationship.setText(profileInfo.userData.relationship);
+                    tv_user_relationship.setText(profileInfo.userData.relationship);
                     user_I_speak.setText(profileInfo.userData.language);
                 }
             }
@@ -318,7 +318,7 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
         }
 
         for (int i = 0; i < relationshipInfoList.size(); i++) {
-            if (relationshipInfoList.get(i).name.equals(user_relationship.getText().toString())) {
+            if (relationshipInfoList.get(i).name.equals(tv_user_relationship.getText().toString())) {
                 relationId = i + 1 + "";
             }
         }
@@ -500,7 +500,7 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
         user_weight = findViewById(R.id.user_weight);
 
         rl_select_relationship = findViewById(R.id.rl_select_relationship);
-        user_relationship = findViewById(R.id.user_relationship);
+        tv_user_relationship = findViewById(R.id.tv_user_relationship);
 
         rl_select_I_speak = findViewById(R.id.rl_select_I_speak);
         user_I_speak = findViewById(R.id.user_I_speak);
@@ -587,7 +587,7 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
                         intent.putExtra("user_about_you", Utils.convertStringToUTF8SendToserver(user_select_about_you.getText().toString()));
                         intent.putExtra("user_height", user_height.getText().toString());
                         intent.putExtra("user_weight", user_weight.getText().toString());
-                        intent.putExtra("user_relationship", relationId);
+                        intent.putExtra("tv_user_relationship", relationId);
                         intent.putExtra("user_I_speak", language);
                         intent.putExtra("user_interest", user_interests);
                         intent.putExtra("allDetailsFilled", "true");
@@ -599,7 +599,7 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
                         profileInfo.userData.about = Utils.convertStringToUTF8SendToserver(user_select_about_you.getText().toString());
                         profileInfo.userData.height = user_height.getText().toString();
                         profileInfo.userData.weight = user_weight.getText().toString();
-                        profileInfo.userData.relationship = user_relationship.getText().toString().trim();
+                        profileInfo.userData.relationship = tv_user_relationship.getText().toString().trim();
                         profileInfo.userData.language = user_I_speak.getText().toString().trim();
                         profileInfo.userData.interest = user_interests;
 
@@ -635,7 +635,7 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
         } else if (!v.isNullValue(user_weight.getText().toString().trim())) {
             Utils.openAlertDialog(UserPersonalProfileActivity.this, getResources().getString(R.string.alert_weight_null));
             return false;
-        } else if (!v.isNullValue(user_relationship.getText().toString().trim())) {
+        } else if (!v.isNullValue(tv_user_relationship.getText().toString().trim())) {
             Utils.openAlertDialog(UserPersonalProfileActivity.this, getResources().getString(R.string.alert_relation_null));
             return false;
         } else if (!v.isNullValue(user_I_speak.getText().toString().trim())) {
@@ -849,12 +849,12 @@ public class UserPersonalProfileActivity extends AppCompatActivity implements Vi
             }
         });
 
-        String relation_name = user_relationship.getText().toString();
+        String relation_name = tv_user_relationship.getText().toString();
 
         ProfileRelationshipAdapter profileRelationshipAdapter = new ProfileRelationshipAdapter(UserPersonalProfileActivity.this, relationshipInfoList, relation_name, new ProfileRelationListener() {
             @Override
             public void getPosition(int position, int relId) {
-                user_relationship.setText(relationshipInfoList.get(position).name);
+                tv_user_relationship.setText(relationshipInfoList.get(position).name);
                 relationId = relId + "";
                 relation_dialog.dismiss();
             }

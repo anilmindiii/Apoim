@@ -18,7 +18,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/ioexample.collapsing"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="@dimen/_120sdp"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -76,7 +76,7 @@
                 android:gravity="center"
                 android:text="@string/profile_welcome_text"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_Medium_Size" />
+                android:textSize="@dimen/text_Large_Size" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -92,7 +92,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="40dp"
             android:animateLayoutChanges="true"
             android:background="@color/colorWhite"
             android:orientation="vertical">
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -294,7 +294,7 @@
                         android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:id="@+id/user_relationship"
+                            android:id="@+id/tv_user_relationship"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/nunito_light"
@@ -344,7 +344,7 @@
                         android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:id="@+id/user_height"
+                            android:id="@+id/tv_user_height"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/nunito_light"
@@ -393,7 +393,7 @@
                         android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:id="@+id/user_weight"
+                            android:id="@+id/tv_user_weight"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/nunito_light"
@@ -427,7 +427,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -546,7 +546,7 @@
                         android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:id="@+id/user_I_speak"
+                            android:id="@+id/tv_user_I_speak"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/nunito_light"
@@ -765,7 +765,7 @@
                         android:layout_marginTop="@dimen/_10sdp">
 
                         <EditText
-                            android:id="@+id/user_select_about_you"
+                            android:id="@+id/ed_about_you"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@null"
@@ -778,65 +778,12 @@
                             android:padding="@dimen/_10sdp"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/text_Medium_Size" />
+
                     </RelativeLayout>
 
                 </RelativeLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/profile_about_you"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_semibold"
-                        android:text="@string/about_you_text"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/text_Medium_Size" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_10sdp">
-
-                        <TextView
-                            android:id="@+id/profile_select_about_you"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_20sdp"
-                            android:layout_marginRight="@dimen/_20sdp"
-                            android:background="@null"
-                            android:fontFamily="@font/nunito_light"
-                            android:hint="@string/profile_hint_select_about_you"
-                            android:textColor="@color/colorBlack"
-                            android:textSize="@dimen/text_Medium_Size" />
-
-                        <ImageView
-                            android:id="@+id/profile_select_about_you_arrow"
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen/_15sdp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ico_left_arrow" />
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.8dp"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:background="@color/colorBlack" />
-                </LinearLayout>
-
-
             </LinearLayout>
-
-
 
             <TextView
                 android:id="@+id/profile_button"

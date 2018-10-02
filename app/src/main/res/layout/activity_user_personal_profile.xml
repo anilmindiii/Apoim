@@ -226,7 +226,7 @@
                         android:layout_marginTop="@dimen/_10sdp">
 
                         <TextView
-                            android:id="@+id/user_relationship"
+                            android:id="@+id/tv_user_relationship"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_light"
