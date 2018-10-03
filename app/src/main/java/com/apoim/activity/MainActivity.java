@@ -26,7 +26,7 @@ import com.apoim.activity.event.EventDetailsActivity;
 import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.app.Apoim;
 import com.apoim.fragment.AppoinmentFragment;
-import com.apoim.fragment.ChatFragment;
+import com.apoim.fragment.chatFragment.ChatFragment;
 import com.apoim.fragment.EventFragment;
 import com.apoim.fragment.ListorMapFragment;
 import com.apoim.fragment.MyProfileFragment;
@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     String compId = "";
     String opponentChatId = "";
     ImageView iv_unread_msg_tab;
-    Map<String, String> isMsgFoundMap;
+    Map<String, Integer> isMsgFoundMap;
 
     private boolean isRunForCall;
     private WebRtcSessionManager webRtcSessionManager;
@@ -376,7 +376,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         iv_profile_tab = findViewById(R.id.iv_profile_tab);
         iv_unread_msg_tab = findViewById(R.id.iv_unread_msg_tab);
 
-
         ///facebook_logout = findViewById(R.id.facebook_logout);
     }
 
@@ -385,32 +384,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.getValue(Chat.class) != null) {
-                    String readBy = dataSnapshot.getValue(Chat.class).readBy;
+                    int unreadCount = dataSnapshot.getValue(Chat.class).unreadCount;
 
-                    if (readBy != null) {
-                        isMsgFoundMap.put(dataSnapshot.getKey(), readBy);
-
-                        if (isMsgFoundMap.containsValue(myUserId)) {
+                    if (unreadCount > 0 ) {
+                        isMsgFoundMap.put(dataSnapshot.getKey(), unreadCount);
+                        iv_unread_msg_tab.setVisibility(View.VISIBLE);
+                        /*if (isMsgFoundMap.containsValue(myUserId)) {
                             iv_unread_msg_tab.setVisibility(View.VISIBLE);
                             return;
-                        } else iv_unread_msg_tab.setVisibility(View.GONE);
+                        } else iv_unread_msg_tab.setVisibility(View.GONE);*/
 
 
-                    }
-
+                    }else iv_unread_msg_tab.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.getValue(Chat.class) != null) {
-                    String readBy = dataSnapshot.getValue(Chat.class).readBy;
-                    if (readBy != null) {
-                        isMsgFoundMap.put(dataSnapshot.getKey(), readBy);
-                        if (isMsgFoundMap.containsValue(myUserId)) {
+                    int unreadCount = dataSnapshot.getValue(Chat.class).unreadCount;
+                    if (unreadCount > 0) {
+                        isMsgFoundMap.put(dataSnapshot.getKey(), unreadCount);
+                        iv_unread_msg_tab.setVisibility(View.VISIBLE);
+
+                       /* if (isMsgFoundMap.containsValue(myUserId)) {
                             iv_unread_msg_tab.setVisibility(View.VISIBLE);
                             return;
-                        } else iv_unread_msg_tab.setVisibility(View.GONE);
+                        } else iv_unread_msg_tab.setVisibility(View.GONE);*/
                     }
                 }
 
@@ -419,14 +419,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue(Chat.class) != null) {
-                    String readBy = dataSnapshot.getValue(Chat.class).readBy;
-                    if (readBy != null) {
-                        isMsgFoundMap.put(dataSnapshot.getKey(), readBy);
-                        if (isMsgFoundMap.containsValue(myUserId)) {
+                    int unreadCount = dataSnapshot.getValue(Chat.class).unreadCount;
+                    if (unreadCount > 0) {
+                        isMsgFoundMap.put(dataSnapshot.getKey(), unreadCount);
+                        iv_unread_msg_tab.setVisibility(View.VISIBLE);
+
+                       /* if (isMsgFoundMap.containsValue(myUserId)) {
                             iv_unread_msg_tab.setVisibility(View.VISIBLE);
                             return;
-                        } else iv_unread_msg_tab.setVisibility(View.GONE);
-                    }
+                        } else iv_unread_msg_tab.setVisibility(View.GONE);*/
+                    }else iv_unread_msg_tab.setVisibility(View.GONE);
 
                 }
             }

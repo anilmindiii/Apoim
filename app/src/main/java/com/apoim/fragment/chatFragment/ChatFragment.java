@@ -1,4 +1,4 @@
-package com.apoim.fragment;
+package com.apoim.fragment.chatFragment;
 
 import android.app.Activity;
 import android.content.Context;

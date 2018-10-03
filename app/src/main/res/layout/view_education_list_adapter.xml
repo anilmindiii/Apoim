@@ -40,7 +40,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_3sdp"
-            android:background="@color/colorGray" />
+            android:background="@color/very_very_light_gray" />
 
 
     </RelativeLayout>

@@ -20,6 +20,7 @@ public class Chat implements Serializable {
     public String uid;
     public String lastMsg;
 
-    public String readBy;
+    public int unreadCount;
     public String banner_date;
+    public int isMsgReadTick;
 }

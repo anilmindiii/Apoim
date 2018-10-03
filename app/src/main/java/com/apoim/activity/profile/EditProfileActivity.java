@@ -136,7 +136,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private SignInInfo signInInfo;
 
     private TextView profile_birthday, profile_select_location, profile_select_work,
-            profile_select_education, profile_skip, profile_action_bar, setup_profile_text;
+            profile_select_education, profile_skip, profile_action_bar;
     private EditText profile_name;
     private RadioGroup rg_profile_gender, rg_profile_show_map;
     private RadioButton profile_male_radio, profile_female_radio, profile_transgender_radio, profile_map_yes_radio, profile_map_no_radio;
@@ -202,6 +202,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private String selected_interest;
     private String user_interests = "";
     private ShowInterestAdapter showInterestAdapter;
+    private View basic_info_border, more_info_border;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -385,7 +386,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             profile_action_bar.setText(R.string.edit_profile);
             profile_skip.setVisibility(View.GONE);
             iv_back.setVisibility(View.VISIBLE);
-            setup_profile_text.setVisibility(View.VISIBLE);
 
             // Set gender
             if (otherProfileInfo.UserDetail.gender.equals(Constant.REGISTER_MALE)) {
@@ -528,7 +528,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         rl_select_I_speak.setOnClickListener(this);
         user_add_interest.setOnClickListener(this);
 
-        interest_service(null, null, null, null, null,"");
+        interest_service(null, null, null, null, null, "");
+        selectWorkTask("no");
+        selectEducationTask("no");
     }
 
     private void getProfileDetails(String userId) {
@@ -632,7 +634,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         profile_skip = findViewById(R.id.profile_skip);
         profile_action_bar = findViewById(R.id.profile_action_bar);
         iv_back = findViewById(R.id.iv_back);
-        setup_profile_text = findViewById(R.id.setup_profile_text);
+
+        more_info_border = findViewById(R.id.more_info_border);
+        basic_info_border = findViewById(R.id.basic_info_border);
 
         ly_more_info = findViewById(R.id.ly_more_info);
         ly_basic_info = findViewById(R.id.ly_basic_info);
@@ -777,7 +781,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     if (workList.size() > 0) {
                         openProfileSelectWorkDialog(workList);
                     } else {
-                        selectWorkTask();
+                        selectWorkTask("yes");
                     }
                 } else {
                     Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_network_check));
@@ -789,7 +793,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     if (educationList.size() > 0) {
                         openProfileSelectEducationDialog(educationList);
                     } else {
-                        selectEducationTask();
+                        selectEducationTask("yes");
                     }
                 } else {
                     Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_network_check));
@@ -830,15 +834,20 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             case R.id.tv_basic_info:
                 ly_more_info.setVisibility(View.GONE);
                 ly_basic_info.setVisibility(View.VISIBLE);
-                tv_basic_info.setTextColor(ContextCompat.getColor(this,R.color.black));
-                tv_more_info.setTextColor(ContextCompat.getColor(this,R.color.colorGray));
+                tv_basic_info.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                tv_more_info.setTextColor(ContextCompat.getColor(this, R.color.colorGray));
+                basic_info_border.setVisibility(View.VISIBLE);
+                more_info_border.setVisibility(View.GONE);
                 break;
 
             case R.id.tv_more_info:
                 ly_basic_info.setVisibility(View.GONE);
                 ly_more_info.setVisibility(View.VISIBLE);
-                tv_more_info.setTextColor(ContextCompat.getColor(this,R.color.black));
-                tv_basic_info.setTextColor(ContextCompat.getColor(this,R.color.colorGray));
+                tv_more_info.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+                tv_basic_info.setTextColor(ContextCompat.getColor(this, R.color.colorGray));
+                basic_info_border.setVisibility(View.GONE);
+                more_info_border.setVisibility(View.VISIBLE);
+
                 break;
                 /*..........other profile......*/
             case R.id.rl_select_height:
@@ -889,7 +898,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         } else if (!v.isNullValue(tv_user_relationship.getText().toString().trim())) {
             Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_relation_null));
             return false;
-        }else if (!v.isNullValue(tv_user_height.getText().toString().trim())) {
+        } else if (!v.isNullValue(tv_user_height.getText().toString().trim())) {
             Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_height_null));
             return false;
         } else if (!v.isNullValue(tv_user_weight.getText().toString().trim())) {
@@ -898,19 +907,16 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         } else if (!v.isNullValue(profile_select_education.getText().toString().trim())) {
             Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_education_null));
             return false;
-        }
-        else if (!v.isNullValue(profile_select_work.getText().toString().trim())) {
+        } else if (!v.isNullValue(profile_select_work.getText().toString().trim())) {
             Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_work_null));
             return false;
-        }else if (!v.isNullValue(tv_user_I_speak.getText().toString().trim())) {
+        } else if (!v.isNullValue(tv_user_I_speak.getText().toString().trim())) {
             Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_I_speak_null));
             return false;
-        }else if (interestInfoList.size() == 0) {
+        } else if (interestInfoList.size() == 0) {
             Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_interest_null));
             return false;
-        }
-
-        else
+        } else
             return true;
     }
 
@@ -967,9 +973,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    private void selectEducationTask() {
-        rl_select_education.setEnabled(false);
-        loading_view.setVisibility(View.VISIBLE);
+    private void selectEducationTask(String isPopupOpen) {
+        if (isPopupOpen.equals("yes")){
+            rl_select_education.setEnabled(false);
+            loading_view.setVisibility(View.VISIBLE);
+        }
+
 
         WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
             @Override
@@ -994,18 +1003,20 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
                             educationList.add(profileItemInfo);
                         }
-
-                        openProfileSelectEducationDialog(educationList);
+                        if (isPopupOpen.equals("yes"))
+                            openProfileSelectEducationDialog(educationList);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     loading_view.setVisibility(View.GONE);
+                    rl_select_education.setEnabled(true);
                 }
             }
 
             @Override
             public void ErrorListener(VolleyError error) {
                 loading_view.setVisibility(View.GONE);
+                rl_select_education.setEnabled(true);
             }
         });
         service.callGetSimpleVolley("getEducationList");
@@ -1061,9 +1072,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
-    private void selectWorkTask() {
-        rl_select_work.setEnabled(false);
-        loading_view.setVisibility(View.VISIBLE);
+    private void selectWorkTask(String isOpenDialog) {
+        if (isOpenDialog.equals("yes")){
+            rl_select_work.setEnabled(false);
+            loading_view.setVisibility(View.VISIBLE);
+        }
+
 
         WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
             @Override
@@ -1088,18 +1102,22 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                             workList.add(workInfo);
                         }
 
-                        openProfileSelectWorkDialog(workList);
+                        if (isOpenDialog.equals("yes")) {
+                            openProfileSelectWorkDialog(workList);
+                        }
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     loading_view.setVisibility(View.GONE);
-
+                    rl_select_work.setEnabled(true);
                 }
             }
 
             @Override
             public void ErrorListener(VolleyError error) {
                 loading_view.setVisibility(View.GONE);
+                rl_select_work.setEnabled(true);
             }
         });
         service.callGetSimpleVolley("getWorkList");
@@ -2036,7 +2054,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         if (interestList.size() != 0) {
             interest_method(add_interest_dialog, interest_search, searched_interest_list_view, rl_add_searched_interest, add_searched_interest_icon);
         } else {
-            interest_service(add_interest_dialog, interest_search, rl_add_searched_interest, searched_interest_list_view, add_searched_interest_icon,"dialog");
+            interest_service(add_interest_dialog, interest_search, rl_add_searched_interest, searched_interest_list_view, add_searched_interest_icon, "dialog");
         }
 
         ImageView decline_button = add_interest_dialog.findViewById(R.id.interest_decline_button);

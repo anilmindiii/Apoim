@@ -279,8 +279,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             }
 
             case R.id.ly_apoim_review:{
-                intent =  new Intent(SettingsActivity.this, EventApoimReviewActivity.class);
-                startActivity(intent);
+                /*intent =  new Intent(SettingsActivity.this, EventApoimReviewActivity.class);
+                startActivity(intent);*/
                 break;
             }
         }

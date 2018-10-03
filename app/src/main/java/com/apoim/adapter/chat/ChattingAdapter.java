@@ -101,7 +101,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView my_message,my_date_time_;
         RelativeLayout ly_my_image_view;
-        ImageView iv_my_side_img;
+        ImageView iv_my_side_img,iv_msg_tick;
         TextView tv_days_status;
 
         public MyViewHolder(View itemView) {
@@ -111,6 +111,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             iv_my_side_img = itemView.findViewById(R.id.iv_my_side_img);
             my_date_time_ = itemView.findViewById(R.id.my_date_time_);
             tv_days_status = itemView.findViewById(R.id.tv_days_status);
+            iv_msg_tick = itemView.findViewById(R.id.iv_msg_tick);
 
         }
 
@@ -123,6 +124,15 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ly_my_image_view.setVisibility(View.GONE);
                 my_message.setVisibility(View.VISIBLE);
                 my_message.setText(chat.message);
+            }
+
+
+            if(chat.isMsgReadTick == 1){
+                iv_msg_tick.setImageResource(R.drawable.ico_msg_received);
+            }else if(chat.isMsgReadTick == 2){
+
+            }else {
+                iv_msg_tick.setImageResource(R.drawable.ico_msg_sent);
             }
 
 

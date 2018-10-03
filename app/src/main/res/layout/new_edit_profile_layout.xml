@@ -18,7 +18,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/ioexample.collapsing"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_120sdp"
+            android:layout_height="@dimen/_65sdp"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -63,20 +63,6 @@
                     android:tint="@color/colorPrimary"
                     android:visibility="gone" />
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/setup_profile_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:fontFamily="@font/josefinsans_semibold"
-                android:gravity="center"
-                android:text="@string/profile_welcome_text"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_Large_Size" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -518,6 +504,17 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/text_Medium_Size" />
 
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:tint="@color/very_very_light_gray"
+                            android:src="@drawable/ico_down_arrow" />
+
+
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -724,7 +721,8 @@
                             android:id="@+id/user_add_interest"
                             android:layout_width="@dimen/_27sdp"
                             android:layout_height="@dimen/_27sdp"
-                            android:padding="@dimen/_5sdp"
+                            android:padding="@dimen/_4sdp"
+                            android:layout_marginRight="@dimen/_5sdp"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/ico_add" />
@@ -797,7 +795,7 @@
                 android:background="@drawable/bg_login_btn"
                 android:fontFamily="@font/josefinsans_semibold"
                 android:gravity="center"
-                android:text="@string/user_profile_done_button"
+                android:text="Update"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_Large_Size" />
@@ -842,12 +840,12 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:fontFamily="@font/nunito_bold"
+                    android:fontFamily="@font/josefinsans_semibold"
                     android:gravity="center"
                     android:text="Basic Info"
                     android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_Large_Size" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_XLarge_Size" />
 
                 <View
                     android:layout_width="0.7dp"
@@ -861,11 +859,11 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:fontFamily="@font/nunito_bold"
+                    android:fontFamily="@font/josefinsans_semibold"
                     android:gravity="center"
                     android:text="More Info"
                     android:textColor="@color/colorGray"
-                    android:textSize="@dimen/text_Large_Size" />
+                    android:textSize="@dimen/text_XLarge_Size" />
 
             </LinearLayout>
 
@@ -874,6 +872,24 @@
                 android:layout_height="0.7dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/very_very_light_gray" />
+
+            <View
+                android:id="@+id/basic_info_border"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="1.3dp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:background="@color/colorPrimary"
+                android:layout_alignParentBottom="true"/>
+
+            <View
+                android:id="@+id/more_info_border"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="1.3dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:background="@color/colorPrimary"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 

@@ -138,7 +138,7 @@ public class ListorMapFragment extends Fragment implements View.OnClickListener 
 
             switch (from) {
                 case "UserListFragment":
-                    replaceFragment(UserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
+                    replaceFragment(NewUserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                     break;
                 case "MapListFragment":
                     isMapOpen = true;
@@ -146,7 +146,7 @@ public class ListorMapFragment extends Fragment implements View.OnClickListener 
                     replaceFragment(MapListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                     break;
                 default:
-                    replaceFragment(UserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
+                    replaceFragment(NewUserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                     break;
             }
         }
@@ -200,7 +200,7 @@ public class ListorMapFragment extends Fragment implements View.OnClickListener 
                     isMapOpen = false;
                     list_map_togle.setImageResource(R.drawable.ico_map);
                     from = "UserListFragment";
-                    replaceFragment(UserListFragment.newInstance(filterInfo,current_lat,current_lng),false,R.id.fragment_place_fragment);
+                    replaceFragment(NewUserListFragment.newInstance(filterInfo,current_lat,current_lng),false,R.id.fragment_place_fragment);
                 }else {
                     isMapOpen = true;
                     list_map_togle.setImageResource(R.drawable.ico_list);
@@ -251,7 +251,7 @@ public class ListorMapFragment extends Fragment implements View.OnClickListener 
             if(session.getLatlng() == null){
                 switch (from) {
                     case "UserListFragment":
-                        replaceFragment(UserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
+                        replaceFragment(NewUserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                         break;
                     case "MapListFragment":
                         isMapOpen = true;
@@ -259,7 +259,7 @@ public class ListorMapFragment extends Fragment implements View.OnClickListener 
                         replaceFragment(MapListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                         break;
                     default:
-                        replaceFragment(UserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
+                        replaceFragment(NewUserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                         break;
                 }
             }
@@ -293,7 +293,7 @@ public class ListorMapFragment extends Fragment implements View.OnClickListener 
 
             switch (from) {
                 case "UserListFragment":
-                    replaceFragment(UserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
+                    replaceFragment(NewUserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                     break;
                 case "MapListFragment":
                     isMapOpen = true;
@@ -301,7 +301,7 @@ public class ListorMapFragment extends Fragment implements View.OnClickListener 
                     replaceFragment(MapListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                     break;
                 default:
-                    replaceFragment(UserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
+                    replaceFragment(NewUserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                     break;
             }
         }

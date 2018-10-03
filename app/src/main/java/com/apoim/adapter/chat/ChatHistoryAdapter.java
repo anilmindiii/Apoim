@@ -60,16 +60,18 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
         Glide.with(mContext).load(chat.profilePic).apply(new RequestOptions()
                 .placeholder(R.drawable.ico_user_placeholder)).into(holder.iv_favorite_image);
 
-        if (chat.readBy != null)
-            if (chat.readBy.equals(myUid)) {
-                holder.iv_unread_msg.setVisibility(View.VISIBLE);
-                Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
-                holder.tv_favorite_work.setTypeface(boldTypeface);
-            } else {
-                holder.iv_unread_msg.setVisibility(View.GONE);
-                Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.NORMAL);
-                holder.tv_favorite_work.setTypeface(boldTypeface);
-            }
+        if (chat.unreadCount > 0){
+            holder.tv_unread_msg.setVisibility(View.VISIBLE);
+            holder.tv_unread_msg.setText(chat.unreadCount+"");
+            Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
+            holder.tv_favorite_work.setTypeface(boldTypeface);
+        }else {
+            holder.tv_unread_msg.setVisibility(View.GONE);
+            Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.NORMAL);
+            holder.tv_favorite_work.setTypeface(boldTypeface);
+        }
+
+
 
         holder.iv_favorite_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +90,8 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_favorite_name;
-        TextView tv_favorite_work;
-        ImageView iv_favorite_image, iv_favorite, iv_unread_msg;
+        TextView tv_favorite_work,tv_unread_msg;
+        ImageView iv_favorite_image, iv_favorite;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -98,7 +100,7 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
             tv_favorite_work = itemView.findViewById(R.id.tv_favorite_work);
             iv_favorite_image = itemView.findViewById(R.id.iv_favorite_image);
             iv_favorite = itemView.findViewById(R.id.iv_favorite);
-            iv_unread_msg = itemView.findViewById(R.id.iv_unread_msg);
+            tv_unread_msg = itemView.findViewById(R.id.tv_unread_msg);
         }
 
         @Override

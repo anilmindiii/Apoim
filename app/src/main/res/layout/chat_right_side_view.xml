@@ -64,7 +64,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/_35sdp"
             android:layout_marginRight="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp">
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:visibility="gone">
 
             <View
                 android:layout_width="@dimen/_160sdp"
@@ -89,17 +90,40 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/my_date_time_"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="25/12/2017 800 pm"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_10sdp"
+        android:orientation="horizontal"
         android:layout_gravity="right"
-        android:gravity="right|top"
-        android:layout_marginTop="@dimen/_2sdp"
-        android:fontFamily="@font/nunito_regular"
-        android:layout_marginRight="@dimen/_5sdp"/>
+        android:gravity="right"
+        android:weightSum="2">
+
+        <ImageView
+            android:id="@+id/iv_msg_tick"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ico_msg_sent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_gravity="right" />
+
+
+        <TextView
+            android:id="@+id/my_date_time_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="25/12/2017 800 pm"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_10sdp"
+            android:layout_gravity="right"
+            android:gravity="right|top"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/nunito_regular"
+            android:layout_marginRight="@dimen/_5sdp" />
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

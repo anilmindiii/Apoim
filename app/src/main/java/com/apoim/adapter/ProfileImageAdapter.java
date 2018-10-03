@@ -19,6 +19,7 @@ import com.apoim.server_task.WebService;
 import com.apoim.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,7 +84,7 @@ public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapte
     public void onBindViewHolder(final ProfileImageAdapter.MyViewHolder holder, final int position) {
         if (position == 0) {
             holder.cancel_icon.setVisibility(View.GONE);
-            holder.circular_profile_image.setImageResource(R.drawable.placeholder_chat_image);
+            holder.circular_profile_image.setImageResource(R.drawable.photo_camera);
         } else if (position > 0) {
 
             ImageBean imageBean = list.get(position);
@@ -92,14 +93,14 @@ public class ProfileImageAdapter extends RecyclerView.Adapter<ProfileImageAdapte
 
             if (imageBean != null)
                 if (!TextUtils.isEmpty(imageBean.url)) {
-                    Glide.with(holder.circular_profile_image.getContext())
+                    /*Glide.with(holder.circular_profile_image.getContext())
                             .applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).load(imageBean.url)
-                            .into(holder.circular_profile_image);
+                            .into(holder.circular_profile_image);*/
 
-              /*  Picasso.with(holder.circular_profile_image.getContext())
+                Picasso.with(holder.circular_profile_image.getContext())
                         .load(imageBean.url)
-                        .resize(100,100)
-                        .into(holder.circular_profile_image);*/
+                        .placeholder(R.drawable.ico_user_placeholder)
+                        .into(holder.circular_profile_image);
                 } else if (imageBean.bitmap != null) {
                     holder.circular_profile_image.setImageBitmap(imageBean.bitmap);
                 }

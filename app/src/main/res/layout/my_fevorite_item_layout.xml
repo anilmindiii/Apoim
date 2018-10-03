@@ -67,14 +67,18 @@
         android:layout_centerInParent="true"
         android:src="@drawable/ico_favourite_active" />
 
-    <ImageView
-        android:id="@+id/iv_unread_msg"
-        android:layout_width="@dimen/_10sdp"
-        android:layout_height="@dimen/_10sdp"
+    <TextView
+        android:id="@+id/tv_unread_msg"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/_15sdp"
         android:layout_centerInParent="true"
-        android:src="@drawable/active_dot"
+        android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/circle_solid"
+        android:text="0"
+        android:textColor="@color/colorWhite"
+        android:gravity="center"
         android:visibility="gone"/>
 
     <View

@@ -121,7 +121,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/_5sdp"
-                            android:layout_weight="1">
+                            android:layout_weight="0.6">
 
                             <EditText
                                 android:id="@+id/enter_weight"
@@ -152,7 +152,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_5sdp"
-                            android:layout_weight="1">
+                            android:layout_weight="1.4">
                             <TextView
                                 android:id="@+id/weight_unit"
                                 android:layout_width="match_parent"
