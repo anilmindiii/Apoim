@@ -1717,7 +1717,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                         imageAdapter.notifyDataSetChanged();
 
                         SignInInfo signInInfo = session.getUser();
-                        signInInfo.userDetail.profileImage.get(0).image = image;
+                        SignInInfo.UserDetailBean.ProfileImageBean imageBean = new SignInInfo.UserDetailBean.ProfileImageBean();
+                        imageBean.image = image;
+                        imageBean.userImgId = userImgId;
+
+                        signInInfo.userDetail.profileImage.add(0,imageBean);
                         session.createSession(signInInfo);
 
                         addUserFirebaseDatabase();

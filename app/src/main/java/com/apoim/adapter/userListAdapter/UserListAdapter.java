@@ -13,6 +13,8 @@ import com.apoim.R;
 import com.apoim.helper.Constant;
 import com.apoim.listener.GetUsetItemClick;
 import com.apoim.modal.UserListInfo;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -69,7 +71,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
 
         //if(!userList.get(position).profileImage.equals(""))
         String str = userList.get(position).profileImage;
-        Picasso.with(mContext).load(str).placeholder(R.drawable.ico_user_placeholder).into(holder.imageView);
+        Glide.with(mContext).load(str).apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).into(holder.imageView);
+       // Picasso.with(mContext).load(str).placeholder(R.drawable.ico_user_placeholder).into(holder.imageView);
 
     }
 

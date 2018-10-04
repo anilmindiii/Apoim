@@ -130,7 +130,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if(chat.isMsgReadTick == 1){
                 iv_msg_tick.setImageResource(R.drawable.ico_msg_received);
             }else if(chat.isMsgReadTick == 2){
-
+                iv_msg_tick.setImageResource(R.drawable.ico_msg_read);
             }else {
                 iv_msg_tick.setImageResource(R.drawable.ico_msg_sent);
             }

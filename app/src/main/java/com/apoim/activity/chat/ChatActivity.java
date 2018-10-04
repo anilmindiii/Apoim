@@ -101,7 +101,7 @@ import static com.apoim.util.Utils.formateDateFromstring;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
     private ImageView header_image;
-    private TextView title_name, tv_days_status,tv_show_typing;
+    private TextView title_name, tv_days_status, tv_show_typing;
     ImageView send_msg_button;
     private RelativeLayout ly_popup_menu;
     private FirebaseDatabase firebaseDatabase;
@@ -143,9 +143,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private QBUser userForSave;
     private boolean isTyping = true;
     private boolean isOtherUserOnline;
-    private Handler handler ;
-
-
+    private Handler handler;
+    ChildEventListener eventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,8 +226,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
-
         recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
 
@@ -266,7 +263,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         firebaseDatabase.getReference().child(Constant.ARG_HISTORY).child(otherUID).child(myUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(Chat.class) != null){
+                if (dataSnapshot.getValue(Chat.class) != null) {
                     Chat chat = dataSnapshot.getValue(Chat.class);
                     Count = chat.unreadCount;
                 }
@@ -296,6 +293,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    private void tickAllOtherStatus2(String key){
+            firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).child(key).child("isMsgReadTick").setValue(2);
+
+
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -314,7 +317,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-
+        firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).removeEventListener(eventListener);
 
     }
 
@@ -397,6 +400,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         myChat.lastMsg = myUid;
         myChat.unreadCount = ++Count;
 
+        if (isOtherUserOnline) {
+            myChat.isMsgReadTick = 1;
+        } else {
+            myChat.isMsgReadTick = 0;
+        }
+
+
         firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).child(pushkey).setValue(myChat);
         firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).child(pushkey).setValue(myChat);
 
@@ -466,47 +476,39 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void getChat() {
-        firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).orderByKey()
+        eventListener =  firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).orderByKey()
                 .addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Chat chat = dataSnapshot.getValue(Chat.class);
-                getChatDataInmap(dataSnapshot.getKey(), chat);
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Chat chat = dataSnapshot.getValue(Chat.class);
+                        getChatDataInmap(dataSnapshot.getKey(), chat);
+                    }
 
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Chat chat = dataSnapshot.getValue(Chat.class);
+                        getChatDataInmap(dataSnapshot.getKey(), chat);
+                    }
 
-            }
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Chat chat = dataSnapshot.getValue(Chat.class);
-                getChatDataInmap(dataSnapshot.getKey(), chat);
-            }
+                    }
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            }
+                    }
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+                    }
+                });
     }
 
     private void getChatDataInmap(String key, Chat chat) {
         if (chat != null) {
-
-            if(isOtherUserOnline){
-                chat.isMsgReadTick = 1;
-            }
-
-
             if (chat.deleteby.equals(myUid)) {
                 return;
             } else {
@@ -519,7 +521,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 recycler_view.scrollToPosition(map.size() - 1);
                 chattingAdapter.notifyDataSetChanged();
             }
+
         }
+        tickAllOtherStatus2(key);
         shortList();
     }
 
@@ -1238,7 +1242,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                if(isTyping){
+                if (isTyping) {
                     Typing typing = new Typing();
                     typing.isTyping = 1;
                     typing.senderId = myUid;
@@ -1247,7 +1251,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 isTyping = false;
                 handler.removeCallbacks(runnable);
-                handler.postDelayed(runnable,3000);
+                handler.postDelayed(runnable, 3000);
             }
 
             @Override
@@ -1277,13 +1281,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    private void getIstypingUser(){
-        FirebaseDatabase.getInstance().getReference().child("isTyping").child(otherUID + "_" + myUid ).addValueEventListener(new ValueEventListener() {
+    private void getIstypingUser() {
+        FirebaseDatabase.getInstance().getReference().child("isTyping").child(otherUID + "_" + myUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(Typing.class) != null){
+                if (dataSnapshot.getValue(Typing.class) != null) {
                     tv_show_typing.setVisibility(View.VISIBLE);
-                }else  tv_show_typing.setVisibility(View.GONE);
+                } else tv_show_typing.setVisibility(View.GONE);
 
             }
 
@@ -1298,13 +1302,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseDatabase.getInstance().getReference().child(Constant.online).child(otherUID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(OnlineInfo.class) != null){
+                if (dataSnapshot.getValue(OnlineInfo.class) != null) {
                     OnlineInfo onlineInfo = dataSnapshot.getValue(OnlineInfo.class);
-                    if(onlineInfo.lastOnline.equals(Constant.online)){
+                    if (onlineInfo.lastOnline.equals(Constant.online)) {
                         isOtherUserOnline = true;
-                    }else {
+                        for (String key : map.keySet()) {
+
+                            if(map.get(key).isMsgReadTick != 2){
+                                firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).child(key).child("isMsgReadTick").setValue(1);
+                            }
+
+                        }
+                    } else {
                         isOtherUserOnline = false;
                     }
+
+
                 }
             }
 
@@ -1322,5 +1335,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseDatabase.getInstance().getReference().child("isTyping").child(myUid + "_" + otherUID).setValue(null);
         isTyping = true;
     }
+
+
+    /*private void setOtherUserChatRead(){
+        FirebaseDatabase.getInstance().getReference().child()
+    }*/
 
 }

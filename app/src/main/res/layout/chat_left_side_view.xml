@@ -20,7 +20,7 @@
         android:layout_margin="@dimen/_5sdp"
         android:textColor="@color/colorWhite"
         android:fontFamily="@font/josefinsans_regular"
-        android:backgroundTint="@color/mdtp_calendar_selected_date_text"
+        android:backgroundTint="@color/grey"
         android:textSize="@dimen/text_Medium_Size"
         android:visibility="gone"
         />
