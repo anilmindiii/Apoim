@@ -143,6 +143,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private QBUser userForSave;
     private boolean isTyping = true;
     private boolean isOtherUserOnline;
+   // private boolean isOnChatScreen = false;
     private Handler handler;
     ChildEventListener eventListener;
 
@@ -151,7 +152,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         init();
-
+       // isOnChatScreen= true;
         Session session = new Session(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         map = new HashMap<>();
@@ -294,9 +295,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void tickAllOtherStatus2(String key){
-            firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).child(key).child("isMsgReadTick").setValue(2);
-
-
+      //  if (isOnChatScreen)
+        firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).child(key).child("isMsgReadTick").setValue(2);
     }
 
 
@@ -317,8 +317,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-        firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).removeEventListener(eventListener);
+        firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).removeEventListener(eventListener);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).addChildEventListener(eventListener);
     }
 
     private void isNotification() {
@@ -344,7 +349,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private void sendMessage() {
 
-        String pushkey = firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(chatNode).push().getKey();
+        String pushkey = firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).push().getKey();
         String msg = ed_message.getText().toString().trim();
         String firebase_id = "";
         String firebaseToken = FirebaseInstanceId.getInstance().getToken();
@@ -474,9 +479,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     private void getChat() {
-        eventListener =  firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).orderByKey()
+        firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).orderByKey()
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -488,6 +492,35 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         Chat chat = dataSnapshot.getValue(Chat.class);
                         getChatDataInmap(dataSnapshot.getKey(), chat);
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+        //Todo create by hemant
+        eventListener =  firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).orderByKey()
+                .addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        if (dataSnapshot.exists())tickAllOtherStatus2(dataSnapshot.getKey());
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        if (dataSnapshot.exists())tickAllOtherStatus2(dataSnapshot.getKey());
                     }
 
                     @Override
@@ -523,7 +556,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         }
-        tickAllOtherStatus2(key);
+      //Todo comment by hemant  tickAllOtherStatus2(key);
         shortList();
     }
 
@@ -1304,11 +1337,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue(OnlineInfo.class) != null) {
                     OnlineInfo onlineInfo = dataSnapshot.getValue(OnlineInfo.class);
+
                     if (onlineInfo.lastOnline.equals(Constant.online)) {
                         isOtherUserOnline = true;
+
                         for (String key : map.keySet()) {
 
                             if(map.get(key).isMsgReadTick != 2){
+
                                 firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).child(key).child("isMsgReadTick").setValue(1);
                             }
 
@@ -1334,11 +1370,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
         FirebaseDatabase.getInstance().getReference().child("isTyping").child(myUid + "_" + otherUID).setValue(null);
         isTyping = true;
+        firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).removeEventListener(eventListener);
+       // isOnChatScreen=false;
     }
 
-
-    /*private void setOtherUserChatRead(){
-        FirebaseDatabase.getInstance().getReference().child()
-    }*/
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+       // isOnChatScreen=false;
+    }
 
 }
