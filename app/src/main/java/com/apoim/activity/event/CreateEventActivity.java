@@ -1174,14 +1174,8 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
 
     private void inputFilter(final EditText et) {
         et.addTextChangedListener(new TextWatcher() {
-            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
-            }
-
-            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-
-            }
-
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
             public void afterTextChanged(Editable arg0) {
                 if (arg0.length() > 0) {
                     String str = et.getText().toString();

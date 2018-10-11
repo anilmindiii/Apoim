@@ -2,6 +2,8 @@ package com.apoim.adapter.chat;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,7 +22,11 @@ import com.apoim.modal.Chat;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
 
@@ -36,12 +43,12 @@ import static com.apoim.util.Utils.formateDateFromstring;
 
 public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private int VIEW_TYPE_ME  = 1;
+    private int VIEW_TYPE_ME = 1;
     private int VIEW_TYPE_OTHER = 2;
 
     Context context;
     ArrayList<Chat> chatList;
-    String myUid ;
+    String myUid;
     GetDateStatus getDateStatus;
     String isDateChange = "";
 
@@ -56,15 +63,15 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
 
-        if(viewType == VIEW_TYPE_ME){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_right_side_view,parent,false);
+        if (viewType == VIEW_TYPE_ME) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_right_side_view, parent, false);
             return new MyViewHolder(view);
-        }else if(viewType == VIEW_TYPE_OTHER) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_left_side_view,parent,false);
+        } else if (viewType == VIEW_TYPE_OTHER) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_left_side_view, parent, false);
             return new OtherViewHolder(view);
         }
 
-        return  new OtherViewHolder(view);
+        return new OtherViewHolder(view);
     }
 
     @Override
@@ -74,10 +81,10 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         int pos = position - 1;
         int tempPos = (pos == -1) ? pos + 1 : pos;
 
-        if(TextUtils.equals(chat.uid,myUid)){
-            ((MyViewHolder)holder).myBindData(chat,tempPos);
-        }else {
-            ((OtherViewHolder)holder).otherBindData(chat,tempPos);
+        if (TextUtils.equals(chat.uid, myUid)) {
+            ((MyViewHolder) holder).myBindData(chat, tempPos);
+        } else {
+            ((OtherViewHolder) holder).otherBindData(chat, tempPos);
         }
 
 
@@ -86,7 +93,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if (TextUtils.equals(chatList.get(position).uid,myUid )) {
+        if (TextUtils.equals(chatList.get(position).uid, myUid)) {
             return VIEW_TYPE_ME;
         } else {
             return VIEW_TYPE_OTHER;
@@ -98,11 +105,12 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return chatList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView my_message,my_date_time_;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView my_message, my_date_time_;
         RelativeLayout ly_my_image_view;
-        ImageView iv_my_side_img,iv_msg_tick;
+        ImageView iv_my_side_img, iv_msg_tick;
         TextView tv_days_status;
+        ProgressBar my_progress;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -112,46 +120,65 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             my_date_time_ = itemView.findViewById(R.id.my_date_time_);
             tv_days_status = itemView.findViewById(R.id.tv_days_status);
             iv_msg_tick = itemView.findViewById(R.id.iv_msg_tick);
+            my_progress = itemView.findViewById(R.id.my_progress);
 
         }
 
-         void myBindData(final Chat chat, int tempPos){
-            if(chat.image == 1){
+        void myBindData(final Chat chat, int tempPos) {
+            if (chat.image == 1) {
+
                 ly_my_image_view.setVisibility(View.VISIBLE);
                 my_message.setVisibility(View.GONE);
-                Glide.with(context).load(chat.imageUrl).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(iv_my_side_img);
-            }else {
+
+                my_progress.setVisibility(View.VISIBLE);
+
+                Glide.with(context).load(chat.imageUrl).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        my_progress.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        my_progress.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(iv_my_side_img);
+
+
+            } else {
                 ly_my_image_view.setVisibility(View.GONE);
                 my_message.setVisibility(View.VISIBLE);
                 my_message.setText(chat.message);
             }
 
 
-            if(chat.isMsgReadTick == 1){
+            if (chat.isMsgReadTick == 1) {
                 iv_msg_tick.setImageResource(R.drawable.ico_msg_received);
-            }else if(chat.isMsgReadTick == 2){
+            } else if (chat.isMsgReadTick == 2) {
                 iv_msg_tick.setImageResource(R.drawable.ico_msg_read);
-            }else {
+            } else {
                 iv_msg_tick.setImageResource(R.drawable.ico_msg_sent);
             }
 
 
-            SimpleDateFormat sd = new  SimpleDateFormat("hh:mm a");
+            SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
             try {
                 String date = sd.format(new Date((Long) chat.timestamp));
                 my_date_time_.setText(date);
 
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
 
-             iv_my_side_img.setOnClickListener(new View.OnClickListener() {
-                 @Override
-                 public void onClick(View view) {
-                     full_screen_photo_dialog(chat.imageUrl);
-                 }
-             });
-             getDateStatus.currentDateStatus(chat.timestamp);
+            iv_my_side_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    full_screen_photo_dialog(chat.imageUrl);
+                }
+            });
+            getDateStatus.currentDateStatus(chat.timestamp);
 
             /* SimpleDateFormat sd1 = new  SimpleDateFormat("dd MMMM yyyy");
              try {
@@ -162,16 +189,16 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
              }
 */
 
-             if (!chat.banner_date.equals(chatList.get(tempPos).banner_date)) {
-                 tv_days_status.setText(chat.banner_date);
-                 tv_days_status.setVisibility(View.VISIBLE);
-             } else {
-                 tv_days_status.setVisibility(View.GONE);
-             }
+            if (!chat.banner_date.equals(chatList.get(tempPos).banner_date)) {
+                tv_days_status.setText(chat.banner_date);
+                tv_days_status.setVisibility(View.VISIBLE);
+            } else {
+                tv_days_status.setVisibility(View.GONE);
+            }
         }
 
-        public void full_screen_photo_dialog(String image_url){
-            final Dialog openDialog = new Dialog(context,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        public void full_screen_photo_dialog(String image_url) {
+            final Dialog openDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
             openDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             openDialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
             openDialog.setContentView(R.layout.full_image_view_dialog);
@@ -184,7 +211,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
 
             PhotoView photoView = openDialog.findViewById(R.id.photo_view);
-            if(!image_url.equals("")){
+            if (!image_url.equals("")) {
                 Glide.with(context).load(image_url).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(photoView);
             }
             openDialog.show();
@@ -192,11 +219,12 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public class OtherViewHolder extends RecyclerView.ViewHolder{
-        TextView other_message,other_date_time_;
+    public class OtherViewHolder extends RecyclerView.ViewHolder {
+        TextView other_message, other_date_time_;
         RelativeLayout ly_other_image_view;
         ImageView iv_other_side_img;
         TextView tv_days_status;
+        ProgressBar other_progress;
 
         public OtherViewHolder(View itemView) {
             super(itemView);
@@ -205,26 +233,42 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             iv_other_side_img = itemView.findViewById(R.id.iv_other_side_img);
             other_date_time_ = itemView.findViewById(R.id.other_date_time_);
             tv_days_status = itemView.findViewById(R.id.tv_days_status);
+            other_progress = itemView.findViewById(R.id.other_progress);
         }
 
-        public void otherBindData(final Chat chat, int tempPos){
+        public void otherBindData(final Chat chat, int tempPos) {
 
-            if(chat.image == 1){
+            if (chat.image == 1) {
+
                 ly_other_image_view.setVisibility(View.VISIBLE);
                 other_message.setVisibility(View.GONE);
-                Glide.with(context).load(chat.imageUrl).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(iv_other_side_img);
-            }else {
+
+                other_progress.setVisibility(View.VISIBLE);
+                Glide.with(context).load(chat.imageUrl).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        other_progress.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        other_progress.setVisibility(View.GONE);
+                        return false;
+                    }
+                }).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(iv_other_side_img);
+            } else {
                 ly_other_image_view.setVisibility(View.GONE);
                 other_message.setVisibility(View.VISIBLE);
                 other_message.setText(chat.message);
             }
 
-            SimpleDateFormat sd = new  SimpleDateFormat("hh:mm a");
+            SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
             try {
                 String date = sd.format(new Date((Long) chat.timestamp));
                 other_date_time_.setText(date);
 
-            }catch (Exception ignored){
+            } catch (Exception ignored) {
 
             }
 
@@ -255,8 +299,8 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         }
 
-        public void full_screen_photo_dialog(String image_url){
-            final Dialog openDialog = new Dialog(context,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        public void full_screen_photo_dialog(String image_url) {
+            final Dialog openDialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
             openDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             openDialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
             openDialog.setContentView(R.layout.full_image_view_dialog);
@@ -269,7 +313,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
 
             PhotoView photoView = openDialog.findViewById(R.id.photo_view);
-            if(!image_url.equals("")){
+            if (!image_url.equals("")) {
                 Glide.with(context).load(image_url).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(photoView);
 
             }
@@ -278,29 +322,4 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public boolean isTodaysDate(String checkDate, TextView tv_days_status){
-        Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy");
-        String currentDate = df.format(c);
-        Calendar cal = Calendar.getInstance();
-
-        cal.add(Calendar.DATE, -1);
-        java.sql.Date yesterday = new java.sql.Date(cal.getTimeInMillis());
-        String beforeOneDay = formateDateFromstring("yyyy-MM-dd", "dd MMMM yyyy",yesterday.toString());
-
-        if(!isDateChange.equals(checkDate)){
-            isDateChange = checkDate;
-            tv_days_status.setVisibility(View.VISIBLE);
-        }else {
-            tv_days_status.setVisibility(View.GONE);
-        }
-
-        Log.d("dateA",checkDate);
-        if(currentDate.equals(checkDate)){
-            tv_days_status.setText("Today");
-        }else if(beforeOneDay.equals(checkDate)){
-            tv_days_status.setText("Yesterday");
-        }else tv_days_status.setText(checkDate);
-        return false;
-    }
 }

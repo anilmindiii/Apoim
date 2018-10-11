@@ -60,30 +60,32 @@
 
         <RelativeLayout
             android:id="@+id/ly_my_image_view"
-            android:layout_width="@dimen/_160sdp"
-            android:layout_height="@dimen/_160sdp"
+            android:layout_width="@dimen/_190sdp"
+            android:layout_height="@dimen/_190sdp"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="@dimen/_35sdp"
             android:layout_marginRight="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:visibility="gone">
+            android:visibility="visible">
 
-            <View
-                android:layout_width="@dimen/_160sdp"
-                android:layout_height="@dimen/_160sdp"
-                android:background="@drawable/rounded_primary_right_chat_border"/>
 
             <com.github.siyamed.shapeimageview.RoundedImageView
                 android:id="@+id/iv_my_side_img"
-                android:layout_width="@dimen/_159sdp"
-                android:layout_height="@dimen/_159sdp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:src="@drawable/ico_user_placeholder"
                 app:siRadius="@dimen/_5sdp"
-                app:siBorderWidth="@dimen/_3sdp"
-                app:siBorderColor="@color/colorPrimary"
+                app:siBorderWidth="1dp"
+                app:siBorderColor="@color/white"
                 app:siSquare="true"
                 />
 
+            <ProgressBar
+                android:id="@+id/my_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 

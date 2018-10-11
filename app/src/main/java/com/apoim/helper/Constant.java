@@ -55,6 +55,7 @@ public class Constant {
     public final static int PROFILE_REQUEST_CODE = 111;
     public final static int AddBankAccRequestCode = 555;
     public final static int EventPayRequestCode = 444;
+    public final static int EventPlaceRequestCode = 666;
 
    public static boolean isSocial = false;
 

@@ -321,7 +321,6 @@ public class AppoinmentFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     loading_view.setVisibility(View.GONE);
-
                 }
             }
 

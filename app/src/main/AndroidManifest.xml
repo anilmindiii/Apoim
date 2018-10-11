@@ -32,7 +32,6 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:hardwareAccelerated="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activity.sign_signup.SplashActivity"
@@ -100,7 +99,6 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -128,10 +126,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <meta-data
+      <!--  <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/logo" />
+            android:resource="@drawable/logo" />-->
 
         <activity
             android:name=".activity.profile.OtherProfileDetailsActivity"
@@ -310,7 +307,7 @@
         -->
 
 
-        <!-- ................................................. -->
+        <!-- .................................................-->
 
         <service android:name="com.quickblox.messages.services.fcm.QBFcmPushListenerService">
             <intent-filter>
@@ -369,10 +366,14 @@
             android:name=".activity.event.EventPlaceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".activity.event.EventApoimReviewActivity"
+        <activity
+            android:name=".activity.event.EventApoimReviewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".activity.event.SelectEventPlaceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

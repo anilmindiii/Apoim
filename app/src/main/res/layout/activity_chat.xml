@@ -26,6 +26,7 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/header_image"
             android:layout_toLeftOf="@+id/iv_popup_menu"
+            android:animateLayoutChanges="true"
             android:gravity="start|center"
             android:layout_marginLeft="@dimen/_5sdp"
             android:orientation="vertical">
@@ -59,16 +60,26 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/ly_goto_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/iv_back"
+            android:layout_toLeftOf="@+id/iv_popup_menu">
+
+
+        </RelativeLayout>
+
 
 
         <ImageView
             android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_43sdp"
+            android:layout_height="match_parent"
             android:src="@drawable/ico_back"
             android:tint="@color/colorPrimary"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/_10sdp"/>
+            android:padding="@dimen/_10sdp"/>
 
         <ImageView
             android:id="@+id/iv_popup_menu"

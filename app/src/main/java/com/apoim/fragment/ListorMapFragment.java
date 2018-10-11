@@ -293,7 +293,7 @@ public class ListorMapFragment extends Fragment implements View.OnClickListener 
 
             switch (from) {
                 case "UserListFragment":
-                    replaceFragment(NewUserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
+                    //replaceFragment(NewUserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                     break;
                 case "MapListFragment":
                     isMapOpen = true;
@@ -301,7 +301,7 @@ public class ListorMapFragment extends Fragment implements View.OnClickListener 
                     replaceFragment(MapListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                     break;
                 default:
-                    replaceFragment(NewUserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
+                    //replaceFragment(NewUserListFragment.newInstance(filterInfo, current_lat, current_lng), false, R.id.fragment_place_fragment);
                     break;
             }
         }

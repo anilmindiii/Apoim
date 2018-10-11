@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apoim.R;
+import com.apoim.adapter.newEvent.InviteMemberEventAdapter;
 
 /**
  * Created by mindiii on 14/9/18.
@@ -24,6 +27,8 @@ public class ThiredFragment extends Fragment {
     private TextView tv_next_thired,tv_select_background_three,tv_three;
     private ImageView iv_right_three;
     private Context mContext;
+    private InviteMemberEventAdapter adapter;
+    private RecyclerView recycler_view;
 
     private TextView tv_select_background_two,tv_two;
     private ImageView iv_right_two;
@@ -50,8 +55,16 @@ public class ThiredFragment extends Fragment {
         tv_two = getActivity().findViewById(R.id.tv_two);
         iv_right_two = getActivity().findViewById(R.id.iv_right_two);
 
+        recycler_view = view.findViewById(R.id.recycler_view);
+
         tv_select_background_three.setBackgroundResource(R.drawable.primary_circle_solid);
         tv_three.setTextColor(ContextCompat.getColor(mContext,R.color.white));
+
+        adapter = new InviteMemberEventAdapter();
+        LinearLayoutManager manager = new LinearLayoutManager(mContext);
+        recycler_view.setLayoutManager(manager);
+        recycler_view.setAdapter(adapter);
+
 
         tv_next_thired.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +75,7 @@ public class ThiredFragment extends Fragment {
                 addFragment(new FourthScreenFragment(), true, R.id.event_fragment_place);
             }
         });
+
         return view;
     }
 

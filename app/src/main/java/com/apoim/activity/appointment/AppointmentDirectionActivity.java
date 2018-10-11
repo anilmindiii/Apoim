@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -147,7 +148,7 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
         loadingView = findViewById(R.id.loadingView___);
         if (getIntent().getStringExtra(Constant.appointment_details) != null) {
             appId = getIntent().getStringExtra(Constant.appointment_details);
-            appointmentDetails(appId);
+            //appointmentDetails(appId);
         }
 
         gd = new GoogleDirection(this);
@@ -160,6 +161,15 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        int secondsDelayed = 1;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                appointmentDetails(appId);
+            }
+        }, secondsDelayed * 3500);
+
 
     }
 
@@ -542,11 +552,12 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
 
                     if (status.equals("success")) {
                         finish_meeting_button.setVisibility(View.GONE);
                         review_button.setVisibility(View.VISIBLE);
-                    }
+                    }else Utils.openAlertDialog(AppointmentDirectionActivity.this,message);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1000,6 +1011,8 @@ public class AppointmentDirectionActivity extends AppCompatActivity implements O
                 } else {
                     ly_counter.setVisibility(View.VISIBLE); // if free then gone if paid then visible
                 }
+
+                ly_accept_reject.setVisibility(View.GONE);
             }
 
         }

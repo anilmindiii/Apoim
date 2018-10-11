@@ -55,7 +55,6 @@
 
         </LinearLayout>
 
-
     </LinearLayout>
 
     <ImageView
@@ -67,16 +66,18 @@
         android:layout_centerInParent="true"
         android:src="@drawable/ico_favourite_active" />
 
+
     <TextView
         android:id="@+id/tv_unread_msg"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_14sdp"
         android:layout_centerInParent="true"
         android:backgroundTint="@color/colorPrimary"
         android:background="@drawable/circle_solid"
-        android:text="0"
+        android:maxLines="1"
+        android:fontFamily="@font/nunito_regular"
         android:textColor="@color/colorWhite"
         android:gravity="center"
         android:visibility="gone"/>

@@ -193,7 +193,6 @@ public class UserListFragment extends Fragment {
                 filterInfo.filterBy = "";
             }
 
-
             param.put("latitude",filterInfo.latitude);
             param.put("longitude",filterInfo.longitude);
             param.put("showMe",filterInfo.showMe);
@@ -208,7 +207,6 @@ public class UserListFragment extends Fragment {
             param.put("ageStart","");
             param.put("ageEnd","");
         }
-
 
 
         WebService service = new WebService(mContext, Apoim.TAG, new WebService.LoginRegistrationListener(){

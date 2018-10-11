@@ -187,17 +187,13 @@ public class ChatFragment extends Fragment {
                             chat.firebaseToken = userInfoFCM.firebaseToken;
                             chat.uid = key;
                         }
-
                     }
-
                     mapList.put(chat.uid, chat);
                     historyList.clear();
                     Collection<Chat> values = mapList.values();
                     historyList.addAll(values);
                     shortList();
                 }
-
-
             }
 
             @Override

@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -33,6 +35,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.apoim.ImagePickerPackge.ImagePicker;
 import com.apoim.R;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.adapter.chat.ChattingAdapter;
 import com.apoim.app.Apoim;
 import com.apoim.fcm.FcmNotificationBuilder;
@@ -85,6 +88,7 @@ import com.quickblox.videochat.webrtc.QBRTCTypes;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -100,6 +104,7 @@ import static com.apoim.helper.Constant.IsGetNotificationValue;
 import static com.apoim.util.Utils.formateDateFromstring;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
+
     private ImageView header_image;
     private TextView title_name, tv_days_status, tv_show_typing;
     ImageView send_msg_button;
@@ -130,7 +135,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private boolean mIsLoading = false;
     private int mPostsPerPage = 20;
     private boolean isNotification;
-    private RelativeLayout btn_audio_call, btn_video_call;
+    private RelativeLayout btn_audio_call, btn_video_call, ly_goto_details;
 
     private QbUsersDbManager dbManager;
     protected QBResRequestExecutor requestExecutor;
@@ -143,18 +148,23 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private QBUser userForSave;
     private boolean isTyping = true;
     private boolean isOtherUserOnline;
-   // private boolean isOnChatScreen = false;
+    // private boolean isOnChatScreen = false;
     private Handler handler;
     ChildEventListener eventListener;
+
+    String holdKeyForImage = "";
+    boolean isImageLoaded = false;
+    private ArrayList<String> keyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         init();
-       // isOnChatScreen= true;
+        // isOnChatScreen= true;
         Session session = new Session(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
+        keyList = new ArrayList<>();
         map = new HashMap<>();
         handler = new Handler();
         myAuthToken = session.getUser().userDetail.authToken;
@@ -163,6 +173,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         if (session.getUser().userDetail.profileImage.size() > 0) {
             myProfileImage = session.getUser().userDetail.profileImage.get(0).image;
         }
+
 
         loading_view = findViewById(R.id.loading_view);
         // video audio call init
@@ -294,8 +305,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void tickAllOtherStatus2(String key){
-      //  if (isOnChatScreen)
+    private void tickAllOtherStatus2(String key) {
+        //  if (isOnChatScreen)
         firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).child(key).child("isMsgReadTick").setValue(2);
     }
 
@@ -392,6 +403,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             myChat.imageUrl = image_FirebaseURL.toString();
             myChat.message = "";
             myChat.image = 1;
+            holdKeyForImage = pushkey;
         } else {
             myChat.imageUrl = "";
             myChat.message = msg;
@@ -491,7 +503,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         Chat chat = dataSnapshot.getValue(Chat.class);
-                        getChatDataInmap(dataSnapshot.getKey(), chat);
+                        if (!keyList.contains(dataSnapshot.getKey())) {
+                            getChatDataInmap(dataSnapshot.getKey(), chat);
+                        } else {
+                            updategetChatDataInmap(dataSnapshot.getKey(), chat);
+                        }
                     }
 
                     @Override
@@ -511,16 +527,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 });
 
         //Todo create by hemant
-        eventListener =  firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).orderByKey()
+        eventListener = firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).orderByKey()
                 .addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        if (dataSnapshot.exists())tickAllOtherStatus2(dataSnapshot.getKey());
+                        if (dataSnapshot.exists()) tickAllOtherStatus2(dataSnapshot.getKey());
                     }
 
                     @Override
                     public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        if (dataSnapshot.exists())tickAllOtherStatus2(dataSnapshot.getKey());
+                        if (dataSnapshot.exists()) tickAllOtherStatus2(dataSnapshot.getKey());
                     }
 
                     @Override
@@ -542,21 +558,44 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private void getChatDataInmap(String key, Chat chat) {
         if (chat != null) {
+            if (chat.deleteby != null){
+
+                if (chat.deleteby.equals(myUid)) {
+                    return;
+                } else {
+                    chat.banner_date = getDateBanner(chat.timestamp);
+
+                    map.put(key, chat);
+                    chatList.clear();
+                    Collection<Chat> values = map.values();
+                    chatList.addAll(values);
+                    recycler_view.scrollToPosition(map.size() - 1);
+                    // chattingAdapter.notifyDataSetChanged();
+                }
+            }
+
+        }
+        shortList();
+    }
+
+    private void updategetChatDataInmap(String key, Chat chat) {
+        if (chat != null) {
             if (chat.deleteby.equals(myUid)) {
                 return;
             } else {
                 chat.banner_date = getDateBanner(chat.timestamp);
+
+
+                chat.imageUrl = map.get(key).imageUrl;
 
                 map.put(key, chat);
                 chatList.clear();
                 Collection<Chat> values = map.values();
                 chatList.addAll(values);
                 recycler_view.scrollToPosition(map.size() - 1);
-                chattingAdapter.notifyDataSetChanged();
+                // chattingAdapter.notifyDataSetChanged();
             }
-
         }
-      //Todo comment by hemant  tickAllOtherStatus2(key);
         shortList();
     }
 
@@ -654,6 +693,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         btn_audio_call = findViewById(R.id.btn_audio_call);
         RelativeLayout main_view = findViewById(R.id.main_view);
         tv_show_typing = findViewById(R.id.tv_show_typing);
+        ly_goto_details = findViewById(R.id.ly_goto_details);
 
         btn_video_call.setOnClickListener(this);
         btn_audio_call.setOnClickListener(this);
@@ -664,6 +704,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         camera_btn.setOnClickListener(this);
         ly_delete_chat.setOnClickListener(this);
         main_view.setOnClickListener(this);
+        ly_goto_details.setOnClickListener(this);
 
 
     }
@@ -679,7 +720,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         otherprofilePic = otherUserInfo.profilePic;
                         if (getApplicationContext() != null)
                             Glide.with(getApplicationContext()).load(otherprofilePic).apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).into(header_image);
-
                     }
                 }
 
@@ -794,6 +834,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 ly_popup_menu.setVisibility(View.GONE);
                 break;
             }
+
+            case R.id.ly_goto_details:
+                Intent intent = new Intent(this, OtherProfileDetailsActivity.class);
+                intent.putExtra(Constant.userId, otherUID);
+                startActivity(intent);
+                break;
         }
 
     }
@@ -955,8 +1001,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        image_FirebaseURL = uri;
-                        send_msg_button.callOnClick();
+                        /*image_FirebaseURL = uri;
+                        send_msg_button.callOnClick();*/
+                        //holdKeyForImage
+
+                        firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).child(holdKeyForImage).child("imageUrl").setValue(uri.toString());
+                        firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).child(holdKeyForImage).child("imageUrl").setValue(uri.toString());
+
+                        firebaseDatabase.getReference().child(Constant.ARG_HISTORY).child(myUid).child(otherUID).child("imageUrl").setValue(uri.toString());
+                        firebaseDatabase.getReference().child(Constant.ARG_HISTORY).child(otherUID).child(myUid).child("imageUrl").setValue(uri.toString());
+
+                        keyList.add(holdKeyForImage);
+                        holdKeyForImage = "";
                     }
                 });
 
@@ -1035,7 +1091,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private void startPermissionsActivity(boolean checkOnlyAudio) {
         PermissionsActivity.startActivity(this, checkOnlyAudio, Consts.PERMISSIONS);
     }
-
 
     /*................................................video call start ...........................................................*/
 
@@ -1123,10 +1178,29 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         if (resultCode == RESULT_OK) {
             if (requestCode == 234) {
                 Uri imageUri = ImagePicker.getImageURIFromResult(ChatActivity.this, requestCode, resultCode, data);
+                image_FirebaseURL = imageUri;
+
+                if (image_FirebaseURL.toString().startsWith("file:///storage/emulated")) {
+                    Bitmap bitmap = ImagePicker.getImageFromResult(ChatActivity.this, requestCode, resultCode, data);
+                    image_FirebaseURL = getImageUri(ChatActivity.this, bitmap);
+                } else {
+
+                }
+
+
+                isImageLoaded = true;
+                send_msg_button.callOnClick();
                 creatFirebaseProfilePicUrl(imageUri);
-                loading_view.setVisibility(View.VISIBLE);
+
             }
         }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        //inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     private void signInCreatedUser(final QBUser user, final boolean deleteCurrentUser) {
@@ -1280,7 +1354,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     typing.isTyping = 1;
                     typing.senderId = myUid;
                     typing.receiverId = otherUID;
-                    FirebaseDatabase.getInstance().getReference().child("isTyping").child(myUid + "_" + otherUID).setValue(typing);
+
+
+                    if (blockedId.equals(myUid) || blockedId.equals(otherUID) || blockedId.equals("Both")) {
+
+                        return;
+
+                    } else {
+                        FirebaseDatabase.getInstance().getReference().child("isTyping").child(myUid + "_" + otherUID).setValue(typing);
+
+                    }
+
+
                 }
                 isTyping = false;
                 handler.removeCallbacks(runnable);
@@ -1300,6 +1385,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     //got focus
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("isTyping").child(myUid + "_" + otherUID).setValue(null);
+
                     isTyping = true;
                 }
             }
@@ -1319,6 +1405,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue(Typing.class) != null) {
+                    tv_show_typing.setVisibility(View.VISIBLE);
+                    tv_show_typing.setText("typing...");
+                } else if(isOtherUserOnline){
+                    tv_show_typing.setText("online");
                     tv_show_typing.setVisibility(View.VISIBLE);
                 } else tv_show_typing.setVisibility(View.GONE);
 
@@ -1343,17 +1433,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                         for (String key : map.keySet()) {
 
-                            if(map.get(key).isMsgReadTick != 2){
+                            if (map.get(key).isMsgReadTick != 2) {
 
                                 firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).child(key).child("isMsgReadTick").setValue(1);
                             }
-
                         }
+
+                        tv_show_typing.setText("online");
+                        tv_show_typing.setVisibility(View.VISIBLE);
                     } else {
                         isOtherUserOnline = false;
+                        tv_show_typing.setVisibility(View.GONE);
                     }
-
-
                 }
             }
 
@@ -1371,13 +1462,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseDatabase.getInstance().getReference().child("isTyping").child(myUid + "_" + otherUID).setValue(null);
         isTyping = true;
         firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(otherUID).child(myUid).removeEventListener(eventListener);
-       // isOnChatScreen=false;
+        // isOnChatScreen=false;
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-       // isOnChatScreen=false;
+        // isOnChatScreen=false;
     }
 
 }

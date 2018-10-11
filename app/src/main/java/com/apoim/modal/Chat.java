@@ -1,5 +1,7 @@
 package com.apoim.modal;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 /**
@@ -23,4 +25,5 @@ public class Chat implements Serializable {
     public int unreadCount;
     public String banner_date;
     public int isMsgReadTick;
+    public Uri imgURI;
 }

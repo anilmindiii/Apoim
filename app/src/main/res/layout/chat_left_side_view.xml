@@ -51,27 +51,29 @@
 
         <RelativeLayout
             android:id="@+id/ly_other_image_view"
-            android:layout_width="@dimen/_160sdp"
-            android:layout_height="@dimen/_160sdp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
             android:layout_marginRight="@dimen/_35sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_5sdp"
           >
 
-            <View
-                android:layout_width="@dimen/_160sdp"
-                android:layout_height="@dimen/_160sdp"
-                android:background="@drawable/rounded_primary_left_chat_border"/>
 
             <com.github.siyamed.shapeimageview.RoundedImageView
                 android:id="@+id/iv_other_side_img"
-                android:layout_width="@dimen/_159sdp"
-                android:layout_height="@dimen/_159sdp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:src="@drawable/ico_user_placeholder"
                 app:siRadius="@dimen/_5sdp"
-                app:siBorderWidth="@dimen/_3sdp"
-                app:siBorderColor="@color/chatGray"
+                app:siBorderWidth="1dp"
+                app:siBorderColor="@color/white"
                 app:siSquare="true" />
+
+            <ProgressBar
+                android:id="@+id/other_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
 
 
         </RelativeLayout>

@@ -50,7 +50,7 @@ public class ChatHistoryAdapter extends RecyclerView.Adapter<ChatHistoryAdapter.
 
         holder.iv_favorite.setVisibility(View.GONE);
 
-        if (chat.imageUrl.startsWith("https://firebasestorage.googleapis.com/")) {
+        if (chat.image == 1) {
             holder.tv_favorite_work.setText("Image");
         } else {
             holder.tv_favorite_work.setText(chat.message);

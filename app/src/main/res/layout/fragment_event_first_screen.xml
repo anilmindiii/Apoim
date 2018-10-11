@@ -44,7 +44,8 @@
                     android:fontFamily="@font/nunito_light"
                     android:hint="Event Name"
                     android:maxLines="1"
-                    android:imeOptions="actionNext"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/text_Medium_Size" />
 
@@ -63,6 +64,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/ly_event_start_date_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
@@ -103,6 +105,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/ly_event_end_date_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
@@ -185,12 +188,13 @@
 
 
                 <TextView
-                    android:id="@+id/tv_buz_location"
+                    android:id="@+id/tv_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_regular"
-                    android:text="Select Your Event Venue"
-                    android:textColor="@color/colorGray"
+                    android:hint="Select Your Event Venue"
+                    android:textColorHint="@color/grey"
+                    android:textColor="@color/colorBlack"
                     android:textSize="@dimen/text_Small_Size" />
 
             </LinearLayout>

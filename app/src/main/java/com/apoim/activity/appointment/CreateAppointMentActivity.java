@@ -750,12 +750,25 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
                     appointDate = year + "-" + (monthOfYear + 1) + "-0" + dayOfMonth;
                 } else if ((dayOfMonth >= 10) && (monthOfYear + 1) <= 10) {
                     //profile_birthday.setText(dayOfMonth + "/0" + (monthOfYear + 1) + "/" + (year));
-                    appointDate = year + "-0" + (monthOfYear + 1) + "-" + dayOfMonth;
+                    appointDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                 } else {
                     //profile_birthday.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + (year));
                     appointDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                 }
 
+              /*  if (monthOfYear + 1 < 10) {
+                    monthOfYear = Integer.parseInt("0" + (monthOfYear + 1));
+                } else {
+                    monthOfYear = Integer.parseInt(String.valueOf((monthOfYear + 1)));
+                }
+
+                if (dayOfMonth < 10) {
+                    dayOfMonth = Integer.parseInt("0" + (dayOfMonth));
+                } else {
+                    dayOfMonth = Integer.parseInt(String.valueOf(dayOfMonth));
+                }*/
+
+               // appointDate = year + "-" + (monthOfYear+1) + "-" + dayOfMonth;
 
                 setTimeField(view, appointDate, year, monthOfYear, dayOfMonth);
             }
@@ -784,7 +797,6 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
         int currentHour = tDate.getHours(); //calendar.get(Calendar.HOUR);
         int currentMinutes = tDate.getMinutes(); //calendar.get(Calendar.MINUTE);
         int currentSeconds = tDate.getSeconds(); //calendar.get(Calendar.SECOND);
-
 
         myTime = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -1029,7 +1041,6 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
     public void onLocationChanged(Location location) {
         // Assign the new location
         mLastLocation = location;
-
         // Displaying the new location on UI
         displayCurrentLocation();
     }
@@ -1038,7 +1049,6 @@ public class CreateAppointMentActivity extends AppCompatActivity implements OnMa
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         displayCurrentLocation();
-
         if (mRequestingLocationUpdates) {
             startLocationUpdates();
         }
