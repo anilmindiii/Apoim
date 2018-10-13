@@ -177,6 +177,8 @@ public class SelectEventPlaceActivity extends AppCompatActivity implements OnMap
             public void onClick(View view) {
                 Intent intent = new Intent(SelectEventPlaceActivity.this,CreateNewEventActivity.class);
                 intent.putExtra("eventAddress",eventAddress);
+                intent.putExtra("eventlatitude",appointLatitude);
+                intent.putExtra("eventlogitude",appointLongitude);
                 setResult(Activity.RESULT_OK,intent);
                 finish();
             }

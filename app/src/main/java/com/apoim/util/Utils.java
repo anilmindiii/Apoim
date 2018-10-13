@@ -32,6 +32,7 @@ import com.apoim.modal.OnlineInfo;
 import com.apoim.session.Session;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -81,6 +82,7 @@ public class Utils {
                 OnlineInfo onlineInfo = new OnlineInfo();
                 onlineInfo.lastOnline = status;
                 onlineInfo.email = session.getUser().userDetail.email;
+                onlineInfo.timestamp = ServerValue.TIMESTAMP;
 
 
                 database.child(Constant.online)
@@ -283,7 +285,12 @@ public class Utils {
             }
         });
         AlertDialog alert = builder.create();
-        alert.show();
+
+        if(!((Activity) context).isFinishing())
+        {
+            alert.show();
+        }
+
     }
 
     public static byte[] getImageBytes(Bitmap bitmap) {

@@ -66,6 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_10sdp"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <ImageView
@@ -87,7 +88,7 @@
                     android:textSize="@dimen/text_Medium_Size" />
 
                 <ImageView
-                    android:id="@+id/iv_notification_toggle"
+                    android:id="@+id/iv_groupchat_toggle"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_32sdp"
                     android:src="@drawable/ico_set_toggle_on"

@@ -121,6 +121,7 @@ dependencies {
     compile "com.stripe:stripe-java:5.50.0"
     compile 'com.github.IsPra94:EasyGifView:1.0.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+    compile 'com.github.captain-miao:optroundcardview:1.0.0'
 
     compile 'com.ablanco.zoomy:zoomy:1.1.0'
 

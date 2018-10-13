@@ -3,7 +3,6 @@ package com.apoim.activity.chat;
 import android.Manifest;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,13 +24,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.VolleyError;
 import com.apoim.ImagePickerPackge.ImagePicker;
 import com.apoim.R;
@@ -55,7 +52,6 @@ import com.apoim.listener.GetDateStatus;
 import com.apoim.modal.Chat;
 import com.apoim.modal.OnlineInfo;
 import com.apoim.modal.UserInfoFCM;
-import com.apoim.pagination.EndlessRecyclerViewScrollListener;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
@@ -84,7 +80,6 @@ import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCClient;
 import com.quickblox.videochat.webrtc.QBRTCSession;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -155,6 +150,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     String holdKeyForImage = "";
     boolean isImageLoaded = false;
     private ArrayList<String> keyList;
+    private long lastseenTimestamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1410,7 +1406,17 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 } else if(isOtherUserOnline){
                     tv_show_typing.setText("online");
                     tv_show_typing.setVisibility(View.VISIBLE);
-                } else tv_show_typing.setVisibility(View.GONE);
+                } else{
+                    //tv_show_typing.setVisibility(View.GONE);
+                    SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
+                    try {
+                        String date = sd.format(new Date(lastseenTimestamp));
+                        tv_show_typing.setText(date);
+
+                    } catch (Exception e) {
+
+                    }
+                }
 
             }
 
@@ -1430,20 +1436,25 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                     if (onlineInfo.lastOnline.equals(Constant.online)) {
                         isOtherUserOnline = true;
-
                         for (String key : map.keySet()) {
-
-                            if (map.get(key).isMsgReadTick != 2) {
-
+                            if (map.get(key).isMsgReadTick != 2)
                                 firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).child(myUid).child(otherUID).child(key).child("isMsgReadTick").setValue(1);
-                            }
                         }
-
                         tv_show_typing.setText("online");
                         tv_show_typing.setVisibility(View.VISIBLE);
                     } else {
                         isOtherUserOnline = false;
-                        tv_show_typing.setVisibility(View.GONE);
+                        if(onlineInfo.timestamp != null){
+                            lastseenTimestamp  = (long) onlineInfo.timestamp;
+                            SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
+                            try {
+                                String date = sd.format(new Date((Long) onlineInfo.timestamp));
+                                tv_show_typing.setText(date);
+
+                            } catch (Exception e) {
+
+                            }
+                        }
                     }
                 }
             }

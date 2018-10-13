@@ -5,5 +5,5 @@ package com.apoim.listener;
  */
 
 public interface DeleteListner {
-    void deleteItem(String eventId,int position);
+     void deleteItem(String eventId,int position);
 }

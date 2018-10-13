@@ -44,6 +44,7 @@ public class EventDetailsInfo {
         public String companionMemberCount;
         public String invitedMemberCount ;
         public String confirmedCount ;
+        public String groupChat ;
 
     }
 

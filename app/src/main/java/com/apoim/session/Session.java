@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.apoim.activity.sign_signup.SignInActivity;
+import com.apoim.modal.EventDetailsInfo;
 import com.apoim.modal.FilterInfo;
 import com.apoim.modal.FilterItemInfo;
 import com.apoim.modal.PreRegistrationInfo;
@@ -41,6 +42,7 @@ public class Session {
     private static final String FILTER_LIST = "filter_list";
     private static final String SAVELATLNG = "savelatlng";
     private static final String PASSWORD = "password";
+    private static final String CREATeEVENtINFO = "create_event_info";
 
 
     public Session(Context context, Activity activity) {
@@ -91,16 +93,15 @@ public class Session {
         editor.commit();
     }
 
-    public List<ProfileInterestInfo> getuserInterestList(){
+    public List<ProfileInterestInfo> getuserInterestList() {
         Gson gson = new Gson();
-        String str = sharedPreferences.getString(USER_INTEREST_LIST,"");
-        if (!str.isEmpty()){
+        String str = sharedPreferences.getString(USER_INTEREST_LIST, "");
+        if (!str.isEmpty()) {
 
             ProfileInterestInfo[] interestInfo = gson.fromJson(str, ProfileInterestInfo[].class);
             List<ProfileInterestInfo> interestInfos = Arrays.asList(interestInfo);
-            return  interestInfos;
-        }
-        else return null;
+            return interestInfos;
+        } else return null;
     }
 
     public void saveFilterList(ArrayList<FilterItemInfo> filterItemInfoList) {
@@ -115,29 +116,28 @@ public class Session {
         editor.commit();
     }
 
-    public String getPassword(){
-        return sharedPreferences.getString(PASSWORD,"");
+    public String getPassword() {
+        return sharedPreferences.getString(PASSWORD, "");
     }
 
-    public ArrayList<FilterItemInfo> getFilterList(){
+    public ArrayList<FilterItemInfo> getFilterList() {
         Gson gson = new Gson();
-        String str = sharedPreferences.getString(FILTER_LIST,"");
-        if (!str.isEmpty()){
+        String str = sharedPreferences.getString(FILTER_LIST, "");
+        if (!str.isEmpty()) {
 
             FilterItemInfo[] filterInfo = gson.fromJson(str, FilterItemInfo[].class);
             List<FilterItemInfo> filterList = Arrays.asList(filterInfo);
 
-            ArrayList<FilterItemInfo>  infos= new ArrayList<>();
+            ArrayList<FilterItemInfo> infos = new ArrayList<>();
 
-            for (int i =0;i<filterList.size();i++){
+            for (int i = 0; i < filterList.size(); i++) {
                 infos.add(filterList.get(i));
             }
 
             // infos.add(infos)
 
-            return  infos;
-        }
-        else return null;
+            return infos;
+        } else return null;
     }
 
     public void createProfileInfo(ProfileInfo profileInfo) {
@@ -147,9 +147,9 @@ public class Session {
         editor.commit();
     }
 
-    public ProfileInfo getProfileInfo(){
+    public ProfileInfo getProfileInfo() {
         Gson gson = new Gson();
-        String str = sharedPreferences.getString(PROFILEINFO,"");
+        String str = sharedPreferences.getString(PROFILEINFO, "");
         if (!str.isEmpty())
             return gson.fromJson(str, ProfileInfo.class);
         else return null;
@@ -163,14 +163,14 @@ public class Session {
         else return null;
     }
 
-    public void setFilterSession(FilterInfo filterInfo){
+    public void setFilterSession(FilterInfo filterInfo) {
         Gson gson = new Gson();
         String json = gson.toJson(filterInfo);
         editor.putString(FILTERINFO, json);
         editor.commit();
     }
 
-    public FilterInfo getFilterInfo(){
+    public FilterInfo getFilterInfo() {
         Gson gson = new Gson();
         String string = sharedPreferences.getString(FILTERINFO, "");
         if (!string.isEmpty())
@@ -182,7 +182,20 @@ public class Session {
         return sharedPreferences.getString("authToken", "");
     }
 
+    /*...........................................................................................*/
+    public void createEventInfo(EventDetailsInfo.DetailBean detailBean) {
+        Gson gson = new Gson();
+        String json = gson.toJson(detailBean);
+        editor.putString(CREATeEVENtINFO, json);
+        editor.commit();
+    }
 
+    public EventDetailsInfo.DetailBean  getcreateEventInfo() {
+        Gson gson = new Gson();
+        String string = sharedPreferences.getString(CREATeEVENtINFO, "");
+        return gson.fromJson(string, EventDetailsInfo.DetailBean.class);
+    }
+/*.............................................................................................*/
 
     public void logout() {
         editor.clear();
@@ -195,8 +208,7 @@ public class Session {
         clearApplicationData();
     }
 
-    public void clearApplicationData()
-    {
+    public void clearApplicationData() {
         File cache = getCacheDir();
         File appDir = new File(cache.getParent());
         if (appDir.exists()) {
@@ -210,17 +222,16 @@ public class Session {
         }
     }
 
-    public static boolean deleteDir(File dir)
-    {
+    public static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
-        String[] children = dir.list();
-        for (int i = 0; i < children.length; i++) {
-            boolean success = deleteDir(new File(dir, children[i]));
-            if (!success) {
-                return false;
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
             }
         }
-    }
         return dir.delete();
     }
 
@@ -228,12 +239,12 @@ public class Session {
         return sharedPreferences.getBoolean(IS_LOGGEDIN, false);
     }
 
-    public void saveLatLng(Double lat,Double lng){
-        editor.putString(SAVELATLNG,lat+","+lng);
+    public void saveLatLng(Double lat, Double lng) {
+        editor.putString(SAVELATLNG, lat + "," + lng);
         editor.commit();
     }
 
-    public String getLatlng(){
+    public String getLatlng() {
         String string = sharedPreferences.getString(SAVELATLNG, "");
 
         if (!string.isEmpty())

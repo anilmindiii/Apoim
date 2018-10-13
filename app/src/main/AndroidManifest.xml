@@ -357,7 +357,9 @@
         <activity
             android:name=".activity.event.CreateNewEventActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan"/>
+
         <activity
             android:name=".activity.ImageGalleryActivity"
             android:screenOrientation="portrait"

@@ -1009,9 +1009,6 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
                 try {
                     final JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("status");
-
-                    Log.e("FRIEND LIST RESPONSE", response);
-
                     friendList.clear();
 
                     if (status.equals("success")) {

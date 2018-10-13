@@ -7,4 +7,5 @@ package com.apoim.modal;
 public class OnlineInfo {
     public String lastOnline;
     public String email;
+    public Object timestamp;
 }

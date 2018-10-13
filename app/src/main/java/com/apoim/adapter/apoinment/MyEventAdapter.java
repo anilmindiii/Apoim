@@ -38,7 +38,8 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
     private DeleteListner listner;
     private String currentDate;
 
-    public MyEventAdapter(Context mContext,String currentDate, ArrayList<MyEventInfo.ListBean> myEventList,DeleteListner listner) {
+    public MyEventAdapter(Context mContext,String currentDate, ArrayList<MyEventInfo.ListBean> myEventList,
+                          DeleteListner listner) {
         this.mContext = mContext;
         this.myEventList = myEventList;
         this.listner = listner;

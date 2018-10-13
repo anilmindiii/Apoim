@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apoim.R;
@@ -49,9 +50,9 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
         MyFriendListInfo.ListBean bean = friendList.get(position);
         if(bean.isSelected){
-            holder.item_check.setImageResource(R.drawable.ico_not_checked);
+            holder.item_check.setImageResource(R.drawable.check_item);
         }else {
-            holder.item_check.setImageResource(R.drawable.ico_not_unchecked);
+            holder.item_check.setImageResource(R.drawable.uncheck_item);
         }
 
         holder.main_view.setEnabled(false);
@@ -170,7 +171,7 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView profile_image,item_check;
         TextView tv_name,status;
-        LinearLayout main_view;
+        RelativeLayout main_view;
 
         public ViewHolder(View itemView) {
             super(itemView);

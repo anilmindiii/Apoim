@@ -1,51 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_register_buss"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Lorem Ipsum is simply"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/text_Large_Size"
-        android:fontFamily="@font/nunito_semibold"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/_10sdp"/>
-
-    <TextView
-        android:id="@+id/text_register_discrip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:text="Printing and typesetting industry. Lorem Ipsum has been the industry's standerd sd"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/text_Small_Size"
-        android:fontFamily="@font/nunito_regular"
-        android:layout_gravity="center"
-        android:gravity="center"
-        />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:layout_marginLeft="@dimen/_12sdp"
-        android:layout_marginRight="@dimen/_12sdp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/photo"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorWhite">
 
         <TextView
+            android:id="@+id/text_register_buss"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Lorem Ipsum is simply"
@@ -53,37 +21,91 @@
             android:textSize="@dimen/text_Large_Size"
             android:fontFamily="@font/nunito_semibold"
             android:layout_gravity="center"
-            android:gravity="center|start"
-            android:layout_marginLeft="@dimen/_7sdp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"/>
+
+        <TextView
+            android:id="@+id/text_register_discrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:text="Printing and typesetting industry. Lorem Ipsum has been the industry's standerd sd"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/text_Small_Size"
+            android:fontFamily="@font/nunito_regular"
+            android:layout_gravity="center"
+            android:gravity="center"
             />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginRight="@dimen/_12sdp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/photo"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lorem Ipsum is simply"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_Large_Size"
+                android:fontFamily="@font/nunito_semibold"
+                android:layout_gravity="center"
+                android:gravity="center|start"
+                android:layout_marginLeft="@dimen/_7sdp"
+                />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/event_horizontal_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal"
+            android:scrollbars="none"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+        <TextView
+            android:id="@+id/tv_invite_n_create_friend"
+            android:layout_width="@dimen/_170sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:background="@drawable/bg_login_btn"
+            android:fontFamily="@font/josefinsans_semibold"
+            android:text="Create event"
+            android:textAllCaps="false"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_Large_Size" />
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/profile_horizontal_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_80sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:orientation="horizontal"
-        android:scrollbars="none"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
-
-    <TextView
-        android:id="@+id/tv_invite_n_create_friend"
-        android:layout_width="@dimen/_170sdp"
-        android:layout_height="@dimen/_35sdp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/_15sdp"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/_30sdp"
-        android:background="@drawable/bg_login_btn"
-        android:fontFamily="@font/josefinsans_semibold"
-        android:text="Create event"
-        android:textAllCaps="false"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/text_Large_Size" />
 
 
-</LinearLayout>
+
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

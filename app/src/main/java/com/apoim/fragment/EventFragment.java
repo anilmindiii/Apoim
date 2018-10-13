@@ -140,10 +140,10 @@ public class EventFragment extends Fragment implements View.OnClickListener{
                 btn_even_request.setEnabled(false);
 
 
-                btn_my_even.setBackground(ContextCompat.getDrawable(mContext,R.drawable.primary_right_side_round));
-                btn_my_even.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+                btn_my_even.setBackground(ContextCompat.getDrawable(mContext,R.drawable.rounded_pink));
+                btn_my_even.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
 
-                btn_even_request.setBackground(ContextCompat.getDrawable(mContext,R.drawable.white_left_round));
+                btn_even_request.setBackground(ContextCompat.getDrawable(mContext,R.color.white));
                 btn_even_request.setTextColor(ContextCompat.getColor(mContext, R.color.colorBlack));
 
                 recycler_view.setAdapter(myEventAdapter);
@@ -164,11 +164,11 @@ public class EventFragment extends Fragment implements View.OnClickListener{
                 btn_even_request.setEnabled(false);
                 btn_my_even.setEnabled(false);
 
-                btn_my_even.setBackground(ContextCompat.getDrawable(mContext,R.drawable.white_right_round));
+                btn_my_even.setBackground(ContextCompat.getDrawable(mContext,R.color.white));
                 btn_my_even.setTextColor(ContextCompat.getColor(mContext, R.color.colorBlack));
 
-                btn_even_request.setBackground(ContextCompat.getDrawable(mContext,R.drawable.primary_left_side_round));
-                btn_even_request.setTextColor(ContextCompat.getColor(mContext, R.color.colorWhite));
+                btn_even_request.setBackground(ContextCompat.getDrawable(mContext,R.drawable.rounded_pink));
+                btn_even_request.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
 
                 recycler_view.setAdapter(eventRequestAdapter);
 

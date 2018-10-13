@@ -1,45 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_67sdp"
     android:id="@+id/main_view"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_gravity="center">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_30sdp"
-            android:layout_centerVertical="true"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
             app:civ_border_color="@color/mdtp_dark_gray"
             app:civ_border_width="0.5dp"
-            android:src="@drawable/ico_user_placeholder"/>
+            android:src="@drawable/ico_user_placeholder"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_gravity="top"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/_40sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:padding="@dimen/_2sdp"
             android:layout_marginRight="@dimen/_40sdp"
             android:gravity="center"
+            android:layout_gravity="center"
+            android:minWidth="@dimen/_200sdp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vijay sharmahyyhyhy"
-                android:fontFamily="@font/nunito_regular"
-                android:textColor="@color/colorBlack"
-                android:gravity="start"
+                android:gravity="center|start"
+                android:layout_gravity="start"
+                android:fontFamily="@font/nunito_semibold"
                 android:maxLines="1"
-                android:ellipsize="end"
-                android:textSize="@dimen/text_Medium_Size"
-                />
+                android:text="dummy text"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_Medium_Size"/>
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:attr/ratingBarStyleSmall"
+                android:progressTint="@color/coloryellow"
+                android:rating="3"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:layout_gravity="start"
+                android:gravity="bottom"
+                android:transformPivotX="0dp"
+                android:transformPivotY="0dp"
+                android:max="5"/>
 
             <TextView
                 android:id="@+id/status"
@@ -57,27 +76,25 @@
 
         </LinearLayout>
 
+    </LinearLayout>
 
-
-        <ImageView
-            android:id="@+id/item_check"
-            android:layout_width="@dimen/_14sdp"
-            android:layout_height="@dimen/_14sdp"
-            android:src="@drawable/ico_not_unchecked"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:visibility="gone"/>
-
-
-    </RelativeLayout>
-
-
+    <ImageView
+        android:id="@+id/item_check"
+        android:layout_width="@dimen/_22sdp"
+        android:layout_height="@dimen/_22sdp"
+        android:src="@drawable/uncheck_item"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center"
+        android:layout_marginRight="@dimen/_15sdp"/>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="@dimen/_3sdp"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorGray"/>
+        android:layout_width="match_parent"
+        android:layout_height="0.4dp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginLeft="@dimen/_55sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:background="@color/colorBlack" />
 
-</LinearLayout>
+</RelativeLayout>

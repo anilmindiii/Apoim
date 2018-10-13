@@ -27,6 +27,8 @@ import com.apoim.R;
 import com.apoim.activity.event.SelectEventPlaceActivity;
 import com.apoim.helper.Constant;
 import com.apoim.helper.Validation;
+import com.apoim.modal.EventDetailsInfo;
+import com.apoim.session.Session;
 import com.apoim.util.Utils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -55,6 +57,8 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
     private Calendar now, nowEnd;
     private TimePickerDialog myTime, myEndTime;
     private int hour, min, sec;
+    private Session session;
+
 
     @Nullable
     @Override
@@ -76,6 +80,8 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
         ly_event_start_date_time.setOnClickListener(this);
         ly_event_end_date_time.setOnClickListener(this);
 
+        session = new Session(mContext);
+
         tv_one.setVisibility(View.VISIBLE);
         iv_right_one.setVisibility(View.GONE);
 
@@ -85,9 +91,20 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
         tv_next_first.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isValid()){
+                if( isValid()){
                     tv_one.setVisibility(View.GONE);
                     iv_right_one.setVisibility(View.VISIBLE);
+
+                    EventDetailsInfo.DetailBean bean = new EventDetailsInfo.DetailBean();
+                    bean.eventName = ed_event_name.getText().toString().trim();
+                    bean.eventStartDate = eventStartDate;
+                    bean.eventEndDate = eventEndDate;
+                    bean.eventLatitude = latitude;
+                    bean.eventLongitude = longitude;
+                    bean.eventPlace = eventPlace;
+
+                    session.createEventInfo(bean);
+
                     addFragment(new SecandScreenFragment(), true, R.id.event_fragment_place);
                 }
 
@@ -114,7 +131,12 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
 
             if(requestCode == Constant.EventPlaceRequestCode){
                 String eventAddress = data.getStringExtra("eventAddress");
+                String eventlatitude = data.getStringExtra("eventlatitude");
+                String eventlogitude = data.getStringExtra("eventlogitude");
                 tv_location.setText(eventAddress);
+                eventPlace = eventAddress;
+                latitude = eventlatitude;
+                longitude = eventlogitude;
             }
         }
     }

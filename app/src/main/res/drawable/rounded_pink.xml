@@ -9,7 +9,7 @@
         android:color="@color/light_pink"
         />
 
-    <corners android:radius="@dimen/_30sdp" />
+    <corners android:radius="@dimen/_180sdp" />
 
 
 

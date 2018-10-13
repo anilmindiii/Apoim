@@ -72,7 +72,6 @@
         android:layout_gravity="center"
         android:layout_marginRight="@dimen/_15sdp"/>
 
-
     <View
         android:layout_below="@+id/main_view"
         android:layout_width="match_parent"

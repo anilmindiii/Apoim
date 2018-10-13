@@ -33,6 +33,7 @@ import com.apoim.activity.payment_subscription.PaymentActivity;
 import com.apoim.helper.Constant;
 import com.apoim.helper.Validation;
 import com.apoim.modal.CurrencyInfo;
+import com.apoim.modal.EventDetailsInfo;
 import com.apoim.modal.SignInInfo;
 import com.apoim.session.Session;
 import com.apoim.util.Utils;
@@ -76,6 +77,8 @@ public class SecandScreenFragment extends Fragment {
     private RelativeLayout ly_currency;
     private ArrayList<CurrencyInfo> currencyList;
     private int count = -1;
+    private ImageView iv_groupchat_toggle;
+    private String groupChat = "1";
 
     public static SecandScreenFragment newInstance() {
         Bundle args = new Bundle();
@@ -105,7 +108,20 @@ public class SecandScreenFragment extends Fragment {
                 tv_select_background_two.setBackgroundResource(R.drawable.primary_circle_solid);
                 iv_right_two.setVisibility(View.VISIBLE);
                 tv_two.setVisibility(View.GONE);
-                addFragment(new ThiredFragment(), true, R.id.event_fragment_place);
+
+                EventDetailsInfo.DetailBean info = session.getcreateEventInfo();
+                info.userLimit = ed_user_limite.getText().toString().trim();
+                info.privacy = privacy;
+                info.eventUserType = eventUserType;
+                info.payment = payment;
+                info.currencyCode = currencyCode;
+                info.currencySymbol = currencySymbol;
+                info.eventAmount = ed_amount.getText().toString().trim();
+                info.groupChat = groupChat;
+
+                session.createEventInfo(info);
+
+                addFragment(ThiredFragment.newInstance(eventUserType,privacy), true, R.id.event_fragment_place);
             }
 
         });
@@ -191,6 +207,18 @@ public class SecandScreenFragment extends Fragment {
             selectCurrency();
         });
 
+        iv_groupchat_toggle.setOnClickListener(view1 -> {
+
+            if(groupChat.equals("1")){
+                groupChat = "0";
+                iv_groupchat_toggle.setImageResource(R.drawable.ico_set_toggle_off);
+            }
+            else {
+                groupChat = "1";
+                iv_groupchat_toggle.setImageResource(R.drawable.ico_set_toggle_on);
+            }
+        });
+
         return view;
     }
 
@@ -210,6 +238,7 @@ public class SecandScreenFragment extends Fragment {
         tv_currency_name = view.findViewById(R.id.tv_currency_name);
         ly_currency = view.findViewById(R.id.ly_currency);
         ed_amount = view.findViewById(R.id.ed_amount);
+        iv_groupchat_toggle = view.findViewById(R.id.iv_groupchat_toggle);
 
         rb_male = view.findViewById(R.id.rb_male);
         rb_female = view.findViewById(R.id.rb_female);
