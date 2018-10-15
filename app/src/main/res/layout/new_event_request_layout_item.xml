@@ -3,26 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_8sdp"
+    android:layout_margin="@dimen/_5sdp"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.github.captain_miao.optroundcardview.OptRoundCardView
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:optRoundCardCornerRadius="20dp"
-            app:optRoundCardBottomEdges="false"
-            app:optRoundCardElevation="@dimen/_10sdp"
-            android:fadingEdgeLength="@dimen/_10sdp"
-            app:optRoundCardMaxElevation="@dimen/_10sdp"
             android:elevation="@dimen/_10sdp"
-            app:optRoundCardLeftEdges="true"
-            android:layout_margin="@dimen/_10sdp"
-            android:requiresFadingEdge="vertical"
-            android:minHeight="@dimen/_140sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:minHeight="@dimen/_140sdp"
+            app:cardCornerRadius="@dimen/_10sdp">
 
             <LinearLayout
                 android:id="@+id/ly_main_view"
@@ -32,113 +29,142 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_105sdp"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_100sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_92sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tv_name"
+                            android:id="@+id/tv_event_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/nunito_bold"
-                            android:maxLines="1"
-                            android:text="Rachal smith"
+                            android:maxLines="2"
+                            android:text="Rachal smith New Event For All Girls And Boys"
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/text_Medium_Size" />
 
+
+
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:elevation="@dimen/_8sdp"
                             android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/tv_date"
+                            <ImageView
+                                android:layout_width="@dimen/_16sdp"
+                                android:layout_height="@dimen/_16sdp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ico_event" />
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nunito_regular"
-                                android:maxLines="1"
-                                android:text="10 Feb 2018,"
-                                android:textColor="@color/colorBlack"
-                                android:textSize="@dimen/text_Small_Size" />
+                                android:layout_height="@dimen/_22sdp"
+                                android:layout_marginLeft="@dimen/_4sdp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_day"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/text_Small_Size"
+                                    android:textColor="@color/colorBlack"
+                                    android:fontFamily="@font/nunito_regular"
+                                    android:layout_gravity="center"
+                                    android:text="00"/>
+
+                                <TextView
+                                    android:id="@+id/tv_th"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/nunito_regular"
+                                    android:textSize="@dimen/text_very_Small_Size"
+                                    android:textColor="@color/colorBlack"
+                                    android:gravity="top"
+                                    android:text="th"/>
+
+                                <TextView
+                                    android:id="@+id/tv_start_date_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/text_Small_Size"
+                                    android:gravity="center"
+                                    android:layout_marginLeft="@dimen/_2sdp"
+                                    android:layout_gravity="center"
+                                    android:textColor="@color/colorBlack"
+                                    android:fontFamily="@font/nunito_regular"
+                                    android:text="March 2018"/>
+
+
+
+                            </LinearLayout>
+
+
+                            <View
+                                android:layout_width="0.8dp"
+                                android:layout_height="@dimen/_17sdp"
+                                android:layout_gravity="center"
+                                android:background="@color/very_very_light_gray"
+                                android:layout_marginLeft="@dimen/_5sdp"/>
+
+                            <ImageView
+                                android:layout_width="@dimen/_16sdp"
+                                android:layout_height="@dimen/_16sdp"
+                                android:src="@drawable/ico_app_time"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/_5sdp"/>
 
                             <TextView
                                 android:id="@+id/tv_time"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|left"
+                                android:textSize="@dimen/text_Small_Size"
+                                android:textColor="@color/black"
+                                android:maxLines="1"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_centerInParent="true"
+                                android:layout_alignParentEnd="true"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="00:00 PM" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_17sdp"
+                                android:layout_height="@dimen/_17sdp"
+                                android:src="@drawable/ico_event_loc"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:tint="@color/colorPrimary"
+                                />
+
+
+                            <TextView
+                                android:id="@+id/tv_address"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/nunito_regular"
                                 android:maxLines="1"
-                                android:text=" 03:30 PM"
+                                android:layout_gravity="top"
+                                android:gravity="top"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:text="502 mindiii system pvt limited piplihana, Indore "
                                 android:textColor="@color/colorGray"
-                                android:textSize="@dimen/text_Small_Size" />
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/tv_location"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:fontFamily="@font/nunito_regular"
-                            android:maxLines="2"
-                            android:text="mindiii system pvt limited piplihana, Indore "
-                            android:textColor="@color/colorGray"
-                            android:textSize="@dimen/text_Small_Size" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nunito_regular"
-                                android:text="Offer price:"
-                                android:textColor="@color/colorPrimaryDark"
-                                android:textSize="@dimen/text_Small_Size" />
-
-                            <TextView
-                                android:id="@+id/tv_offer_price"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:fontFamily="@font/nunito_semibold"
-                                android:text="Free"
-                                android:textColor="@color/colorBlack"
-                                android:textSize="@dimen/text_Small_Size" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/ly_counter_price"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nunito_regular"
-                                android:text="Counter price:"
-                                android:textColor="@android:color/holo_orange_dark"
-                                android:textSize="@dimen/text_Small_Size" />
-
-                            <TextView
-                                android:id="@+id/tv_coounter_price"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:fontFamily="@font/nunito_semibold"
-                                android:text="Free"
-                                android:textColor="@color/colorBlack"
                                 android:textSize="@dimen/text_Small_Size" />
 
                         </LinearLayout>
@@ -147,36 +173,175 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_time_ago"
+
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_22sdp"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:elevation="@dimen/_5sdp"
-                    android:fontFamily="@font/nunito_regular"
-                    android:maxLines="2"
-                    android:text="2 day ago"
-                    android:textColor="@color/colorGray"
-                    android:textSize="@dimen/text_Small_Size" />
+                    android:layout_height="wrap_content">
 
-                <com.github.captain_miao.optroundcardview.OptRoundCardView
-                    android:id="@+id/top_card_view"
-                    android:layout_width="@dimen/_150sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    app:optRoundCardCornerRadius="16dp"
-                    android:layout_gravity="right"
-                    app:optRoundCardLeftBottomCorner="false"
-                    app:optRoundCardRightTopCorner="false"
-                    app:optRoundCardElevation="@dimen/_5sdp"
-
-                    >
+                    <TextView
+                        android:id="@+id/tv_privacy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_centerVertical="true"
+                        android:elevation="@dimen/_5sdp"
+                        android:layout_gravity="left|center"
+                        android:fontFamily="@font/nunito_regular"
+                        android:maxLines="1"
+                        android:text="Public"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_Medium_Size" />
 
 
-                </com.github.captain_miao.optroundcardview.OptRoundCardView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+
+
+
+                        <TextView
+                            android:id="@+id/tv_payment_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_Medium_Size"
+                            android:textColor="@color/colorBlack"
+                            android:maxLines="1"
+                            android:fontFamily="@font/nunito_regular"
+                            android:text="Paid"/>
+
+                        <Space
+                            android:layout_width="@dimen/_5sdp"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:id="@+id/tv_paid_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_Medium_Size"
+                            android:textColor="@color/colorPrimary"
+                            android:maxLines="1"
+                            android:fontFamily="@font/nunito_semibold"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:text="$000"/>
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+
+
+
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="right">
+
+                    <com.github.captain_miao.optroundcardview.OptRoundCardView
+                        android:id="@+id/top_card_view"
+                        android:layout_width="@dimen/_160sdp"
+                        android:layout_gravity="right"
+                        android:layout_height="match_parent"
+                        app:optRoundCardCornerRadius="10dp"
+                        app:optRoundCardLeftBottomCorner="false"
+                        app:optRoundCardRightTopCorner="false"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:elevation="@dimen/_10sdp"
+                        app:optRoundCardElevation="@dimen/_8sdp"
+                        app:optRoundCardBottomEdges="false">
+
+
+
+                    </com.github.captain_miao.optroundcardview.OptRoundCardView>
+
+                    <TextView
+                        android:id="@+id/event_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:textColor="@color/colorPrimary"
+                        android:maxLines="1"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Event passed"
+                        android:visibility="gone"/>
+
+                    <LinearLayout
+                        android:id="@+id/ly_edit_delete"
+                        android:layout_width="@dimen/_145sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentEnd="true"
+                        android:gravity="center"
+                        android:elevation="@dimen/_8sdp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_edit_event"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:src="@drawable/edit"
+                            android:layout_gravity="center"
+                            android:tint="@color/colorGray"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="@dimen/text_Medium_Size"
+                            android:textColor="@color/black"
+                            android:maxLines="1"
+                            android:layout_centerInParent="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:fontFamily="@font/nunito_regular"
+                            android:text="Edit" />
+
+                        <View
+                            android:layout_width="0.8dp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_gravity="center"
+                            android:background="@color/very_very_light_gray"
+                            android:layout_marginLeft="@dimen/_10sdp"/>
+
+                        <ImageView
+                            android:id="@+id/iv_delete_myevent"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:src="@drawable/ico_event_delete"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/_10sdp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textSize="@dimen/text_Medium_Size"
+                            android:textColor="@color/black"
+                            android:maxLines="1"
+                            android:layout_centerInParent="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:fontFamily="@font/nunito_regular"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:text="Delete" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
 
 
@@ -186,12 +351,12 @@
             </LinearLayout>
 
 
-        </com.github.captain_miao.optroundcardview.OptRoundCardView>
+        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/cvuserImg"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_95sdp"
+            android:layout_width="@dimen/_95sdp"
+            android:layout_height="@dimen/_105sdp"
             android:elevation="@dimen/_4sdp"
             app:cardCornerRadius="@dimen/_8sdp"
             app:cardElevation="@dimen/_4sdp">

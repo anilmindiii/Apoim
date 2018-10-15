@@ -221,5 +221,17 @@
     </LinearLayout>
 
 
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"/>
+
+
+
 
 </RelativeLayout>

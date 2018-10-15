@@ -23,15 +23,25 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.apoim.R;
+import com.apoim.activity.event.CreateNewEventActivity;
 import com.apoim.activity.event.SelectEventPlaceActivity;
+import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
 import com.apoim.helper.Validation;
+import com.apoim.modal.CurrencyInfo;
 import com.apoim.modal.EventDetailsInfo;
+import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
+import com.apoim.util.InsLoadingView;
 import com.apoim.util.Utils;
+import com.google.gson.Gson;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,18 +49,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static com.apoim.util.Utils.formateDateFromstring;
+
 /**
  * Created by mindiii on 11/9/18.
  */
 
-public class FirstScreenFragment extends Fragment implements View.OnClickListener{
-    private TextView tv_next_first,tv_one;
+public class FirstScreenFragment extends Fragment implements View.OnClickListener {
+    private TextView tv_next_first, tv_one;
     private ImageView iv_right_one;
     private Context mContext;
     private LinearLayout ly_is_buz_added;
     private EditText ed_event_name;
-    private TextView tv_start_date_time,tv_end_date_time,tv_location;
-    private RelativeLayout ly_event_start_date_time,ly_event_end_date_time;
+    private TextView tv_start_date_time, tv_end_date_time, tv_location;
+    private RelativeLayout ly_event_start_date_time, ly_event_end_date_time;
     private DatePickerDialog fromDate;
     private String latitude = "", longitude = "", privacy = "", payment = "", eventUserType = "", eventPlace = "", eventStartDate = "", eventEndDate = "", editEvent = "", eventId = "";
     private String yearsOfMonth = "", day, years = "", startSeelectedDate = "", nextDayDate = "", currencySymbol = "", currencyCode = "";
@@ -58,40 +70,35 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
     private TimePickerDialog myTime, myEndTime;
     private int hour, min, sec;
     private Session session;
+    private InsLoadingView loadingView;
+
+    public static FirstScreenFragment newInstance(String eventId) {
+
+        Bundle args = new Bundle();
+
+        FirstScreenFragment fragment = new FirstScreenFragment();
+        fragment.setArguments(args);
+        args.putString("eventId", eventId);
+        return fragment;
+    }
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_first_screen, container, false);
+        init(view);
 
-        tv_next_first = view.findViewById(R.id.tv_next_first);
-        tv_one = getActivity().findViewById(R.id.tv_one);
-        iv_right_one = getActivity().findViewById(R.id.iv_right_one);
-
-        ly_is_buz_added = view.findViewById(R.id.ly_is_buz_added);
-        ed_event_name = view.findViewById(R.id.ed_event_name);
-        tv_end_date_time = view.findViewById(R.id.tv_end_date_time);
-        tv_start_date_time = view.findViewById(R.id.tv_start_date_time);
-        tv_location = view.findViewById(R.id.tv_location);
-        ly_event_start_date_time = view.findViewById(R.id.ly_event_start_date_time);
-        ly_event_end_date_time = view.findViewById(R.id.ly_event_end_date_time);
-
-        ly_event_start_date_time.setOnClickListener(this);
-        ly_event_end_date_time.setOnClickListener(this);
-
-        session = new Session(mContext);
-
-        tv_one.setVisibility(View.VISIBLE);
-        iv_right_one.setVisibility(View.GONE);
-
-        now = Calendar.getInstance();
-        nowEnd = Calendar.getInstance();
+        if (CreateNewEventActivity.isForUpdateEvent) {
+            eventId = getArguments().getString(Constant.eventId);
+            if (eventId != null)
+                myEventRequestEvent(eventId);
+        }
 
         tv_next_first.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if( isValid()){
+                if (isValid()) {
                     tv_one.setVisibility(View.GONE);
                     iv_right_one.setVisibility(View.VISIBLE);
 
@@ -103,8 +110,9 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
                     bean.eventLongitude = longitude;
                     bean.eventPlace = eventPlace;
 
-                    session.createEventInfo(bean);
-
+                    if (!CreateNewEventActivity.isForUpdateEvent) {
+                        session.createEventInfo(bean);
+                    }
                     addFragment(new SecandScreenFragment(), true, R.id.event_fragment_place);
                 }
 
@@ -114,7 +122,7 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
         ly_is_buz_added.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext,SelectEventPlaceActivity.class);
+                Intent intent = new Intent(mContext, SelectEventPlaceActivity.class);
                 startActivityForResult(intent, Constant.EventPlaceRequestCode);
             }
         });
@@ -122,14 +130,40 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
+    private void init(View view) {
+        tv_next_first = view.findViewById(R.id.tv_next_first);
+        tv_one = getActivity().findViewById(R.id.tv_one);
+        iv_right_one = getActivity().findViewById(R.id.iv_right_one);
+
+        ly_is_buz_added = view.findViewById(R.id.ly_is_buz_added);
+        ed_event_name = view.findViewById(R.id.ed_event_name);
+        tv_end_date_time = view.findViewById(R.id.tv_end_date_time);
+        tv_start_date_time = view.findViewById(R.id.tv_start_date_time);
+        tv_location = view.findViewById(R.id.tv_location);
+        ly_event_start_date_time = view.findViewById(R.id.ly_event_start_date_time);
+        ly_event_end_date_time = view.findViewById(R.id.ly_event_end_date_time);
+        loadingView = view.findViewById(R.id.loadingView);
+
+        ly_event_start_date_time.setOnClickListener(this);
+        ly_event_end_date_time.setOnClickListener(this);
+
+        session = new Session(mContext);
+
+        tv_one.setVisibility(View.VISIBLE);
+        iv_right_one.setVisibility(View.GONE);
+
+        now = Calendar.getInstance();
+        nowEnd = Calendar.getInstance();
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
 
-            if(requestCode == Constant.EventPlaceRequestCode){
+            if (requestCode == Constant.EventPlaceRequestCode) {
                 String eventAddress = data.getStringExtra("eventAddress");
                 String eventlatitude = data.getStringExtra("eventlatitude");
                 String eventlogitude = data.getStringExtra("eventlogitude");
@@ -142,10 +176,9 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
     }
 
 
-
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.ly_event_start_date_time:
                 setStartEventDate(tv_start_date_time);
                 break;
@@ -430,10 +463,9 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        FirstScreenFragment  youTubePlayerFragment = (FirstScreenFragment) getChildFragmentManager().findFragmentById(R.id.event_fragment_place);
+        FirstScreenFragment youTubePlayerFragment = (FirstScreenFragment) getChildFragmentManager().findFragmentById(R.id.event_fragment_place);
 
-        if (youTubePlayerFragment != null)
-        {
+        if (youTubePlayerFragment != null) {
             getChildFragmentManager().beginTransaction().remove(youTubePlayerFragment).commitAllowingStateLoss();
         }
     }
@@ -443,18 +475,79 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
         if (!v.isNull(ed_event_name)) {
             Utils.openAlertDialog(mContext, getString(R.string.enter_event_name));
             return false;
-        }
-        else if (!v.isNull(tv_start_date_time)) {
+        } else if (!v.isNull(tv_start_date_time)) {
             Utils.openAlertDialog(mContext, getString(R.string.start_event_date_time));
             return false;
         } else if (!v.isNull(tv_end_date_time)) {
             Utils.openAlertDialog(mContext, getString(R.string.end_event_date_time));
             return false;
-        }
-        else if (!v.isNull(tv_location)) {
+        } else if (!v.isNull(tv_location)) {
             Utils.openAlertDialog(mContext, getString(R.string.event_location));
             return false;
         }
         return true;
+    }
+
+    private void myEventRequestEvent(final String eventId) {
+        loadingView.setVisibility(View.VISIBLE);
+
+        WebService service = new WebService(mContext, Apoim.TAG, new WebService.LoginRegistrationListener() {
+            @Override
+            public void onResponse(String response) {
+                loadingView.setVisibility(View.GONE);
+                try {
+                    final JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+
+                    if (status.equals("success")) {
+                        Gson gson = new Gson();
+                        EventDetailsInfo detailsInfo = gson.fromJson(response, EventDetailsInfo.class);
+                        session.createEventInfo(detailsInfo.Detail);
+
+                        EventDetailsInfo.DetailBean bean = session.getcreateEventInfo();
+
+                        eventStartDate = formateDateFromstring("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd hh:mm a", bean.eventStartDate);
+                        eventEndDate = formateDateFromstring("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd hh:mm a", bean.eventEndDate);
+                        tv_start_date_time.setText(eventStartDate);
+                        tv_end_date_time.setText(eventEndDate);
+
+                        years = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "yyyy", bean.eventStartDate);
+                        yearsOfMonth = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "MM", bean.eventStartDate);
+                        day = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "dd", bean.eventStartDate);
+
+                        hour = Integer.parseInt(formateDateFromstring("yyyy-MM-dd hh:mm:ss", "HH", bean.eventStartDate));
+                        min = Integer.parseInt(formateDateFromstring("yyyy-MM-dd hh:mm:ss", "mm", bean.eventStartDate));
+                        sec = Integer.parseInt(formateDateFromstring("yyyy-MM-dd hh:mm:ss", "ss", bean.eventStartDate));
+
+                        startSeelectedDate = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "yyyy-MM-dd", bean.eventStartDate);
+
+                        latitude = bean.eventLatitude;
+                        longitude = bean.eventLongitude;
+                        eventPlace = bean.eventPlace;
+
+                        tv_location.setText(eventPlace);
+                        ed_event_name.setText(bean.eventName);
+                        ed_event_name.setSelection(bean.eventName.length());
+
+                        /*
+                        }*/
+
+                    } else {
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    loadingView.setVisibility(View.GONE);
+
+                }
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+                loadingView.setVisibility(View.GONE);
+            }
+        });
+        service.callGetSimpleVolley("event/getEventDetail?eventId=" + eventId + "&detailType=" + "myEvent" + "");
     }
 }

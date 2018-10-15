@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.apoim.R;
 import com.apoim.activity.event.CreateEventActivity;
+import com.apoim.activity.event.CreateNewEventActivity;
 import com.apoim.activity.payment_subscription.PaymentActivity;
 import com.apoim.helper.Constant;
 import com.apoim.helper.Validation;
@@ -101,6 +102,66 @@ public class SecandScreenFragment extends Fragment {
 
         currencyList = new ArrayList<>();
         currencyList = Utils.loadCurrency(mContext);
+
+        if (CreateNewEventActivity.isForUpdateEvent) {
+            // for update event
+            EventDetailsInfo.DetailBean bean = session.getcreateEventInfo();
+
+            rb_private.setClickable(false);
+            rb_public.setClickable(false);
+            rb_paid.setClickable(false);
+            rb_free.setClickable(false);
+            ed_user_limite.setEnabled(false);
+
+            rb_male.setClickable(false);
+            rb_female.setClickable(false);
+            rb_both.setClickable(false);
+
+
+            if (bean.privacy.equals("Public")) {
+                rb_public.setChecked(true);
+                privacy = "1";
+            } else if (bean.privacy.equals("Private")) {
+
+                rb_private.setChecked(true);
+                privacy = "2";
+            }
+
+            if (bean.eventUserType.equals("Male")) {
+                rb_male.setChecked(true);
+                eventUserType = "1";
+            } else if (bean.eventUserType.equals("Female")) {
+                rb_female.setChecked(true);
+                eventUserType = "2";
+            } else if (bean.eventUserType.equals("Both")) {
+                rb_both.setChecked(true);
+                eventUserType = "3";
+            }
+
+            if (bean.payment.equals("Paid")) {
+                payment = "1";
+                rb_paid.setChecked(true);
+                ly_paid_view.setVisibility(View.VISIBLE);
+                ly_currency.setEnabled(false);
+                ed_amount.setEnabled(false);
+                ed_user_limite.setEnabled(false);
+
+            } else if (bean.payment.equals("Free")) {
+                payment = "2";
+                rb_free.setChecked(true);
+            }
+
+
+            ed_user_limite.setText(bean.userLimit);
+
+            ed_amount.setText(bean.eventAmount);
+
+            for (CurrencyInfo info : currencyList) {
+                if (info.code.equals(bean.currencyCode)) {
+                    tv_currency_name.setText(info.name_plural);
+                }
+            }
+        }
 
         tv_next_secand.setOnClickListener(view1 -> {
 

@@ -48,7 +48,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_event_layout_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_event_request_layout_item,parent,false);
         return new ViewHolder(view);
     }
 
@@ -96,12 +96,14 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             String timeLong = bean.eventStartDate;
 
             SimpleDateFormat formatLong = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-            SimpleDateFormat formatShort = new SimpleDateFormat("MMM yyyy, hh:mm aa", Locale.US);
+            SimpleDateFormat formatShort = new SimpleDateFormat("MMM yyyy", Locale.US);
+            SimpleDateFormat formatShortTime = new SimpleDateFormat("hh:mm aa", Locale.US);
             SimpleDateFormat formatShort1 = new SimpleDateFormat("dd", Locale.US);
             Log.v("timeLong", formatShort1.format(formatLong.parse(timeLong)));
 
             holder.tv_day.setText(formatShort1.format(formatLong.parse(timeLong)));
             holder.tv_start_date_time.setText(formatShort.format(formatLong.parse(timeLong)));
+            holder.tv_time.setText(formatShortTime.format(formatLong.parse(timeLong)));
             holder.tv_th.setText(getDayOfMonthSuffix(Integer.parseInt(formatShort1.format(formatLong.parse(timeLong)))));
 
             holder.iv_delete_myevent.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +157,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tv_event_name,tv_address,tv_payment_status,tv_paid_amount,
-                tv_privacy,tv_start_date_time,tv_day,tv_th,event_status;
+                tv_privacy,tv_start_date_time,tv_day,tv_th,event_status,tv_time;
 
         ImageView iv_edit_event;
 
@@ -169,6 +171,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             tv_paid_amount = itemView.findViewById(R.id.tv_paid_amount);
             tv_privacy = itemView.findViewById(R.id.tv_privacy);
             tv_start_date_time = itemView.findViewById(R.id.tv_start_date_time);
+            tv_time = itemView.findViewById(R.id.tv_time);
             tv_day = itemView.findViewById(R.id.tv_day);
             tv_th = itemView.findViewById(R.id.tv_th);
             iv_delete_myevent = itemView.findViewById(R.id.iv_delete_myevent);

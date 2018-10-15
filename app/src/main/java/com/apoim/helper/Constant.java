@@ -75,6 +75,7 @@ public class Constant {
     public static String UserPersonalProfile = "UserPersonalProfile";
     public static String editEvent = "editEvent";
     public static String userId = "userId";
+    public static String eventId = "eventId";
 
     public static final String Confirmed_payment = "1";
     public static final String Joined_Payment_is_pending = "2";

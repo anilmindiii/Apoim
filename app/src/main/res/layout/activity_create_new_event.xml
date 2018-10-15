@@ -228,7 +228,7 @@
                 android:id="@+id/event_fragment_place"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_15sdp"/>
+                android:layout_marginTop="@dimen/_10sdp"/>
 
 
         </LinearLayout>
@@ -237,7 +237,15 @@
     </android.support.v7.widget.CardView>
 
 
-
+    <com.apoim.util.InsLoadingView
+        android:id="@+id/loadingView"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:src="@drawable/app_icon"
+        android:layout_centerInParent="true"
+        android:clickable="false"
+        android:elevation="@dimen/_5sdp"
+        android:visibility="gone"/>
 
     
 </RelativeLayout>

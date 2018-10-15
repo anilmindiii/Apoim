@@ -1,6 +1,12 @@
 package com.apoim.fragment.eventFragments;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,9 +20,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.apoim.ImagePickerPackge.ImagePicker;
 import com.apoim.R;
 import com.apoim.activity.event.CreateEventActivity;
+import com.apoim.activity.profile.EditProfileActivity;
+import com.apoim.adapter.newEvent.EventImgeUploadAdapter;
 import com.apoim.app.Apoim;
+import com.apoim.helper.Constant;
+import com.apoim.listener.ProfileImageAdapterListener;
 import com.apoim.modal.EventDetailsInfo;
 import com.apoim.modal.ImageBean;
 import com.apoim.server_task.WebService;
@@ -31,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
 import static com.apoim.activity.event.CreateEventActivity.friendsIds;
 
 /**
@@ -45,8 +57,10 @@ public class FourthScreenFragment extends Fragment {
     private ImageView iv_right_three;
     private InsLoadingView loadingView;
     private Session session;
-    RecyclerView event_horizontal_recycler;
+    private RecyclerView event_horizontal_recycler;
     private List<ImageBean> imageBeans;
+    private Bitmap bitmap;
+    private EventImgeUploadAdapter adapter;
 
     public static FourthScreenFragment newInstance() {
 
@@ -69,6 +83,7 @@ public class FourthScreenFragment extends Fragment {
         tv_three = getActivity().findViewById(R.id.tv_three);
         iv_right_three = getActivity().findViewById(R.id.iv_right_three);
         loadingView = view.findViewById(R.id.loadingView);
+        event_horizontal_recycler = view.findViewById(R.id.event_horizontal_recycler);
 
         tv_select_background_four.setBackgroundResource(R.drawable.primary_circle_solid);
         tv_four.setTextColor(ContextCompat.getColor(mContext,R.color.white));
@@ -76,8 +91,52 @@ public class FourthScreenFragment extends Fragment {
         imageBeans = new ArrayList<>();
         imageBeans.add(0, null);
 
-
+        adapter = new EventImgeUploadAdapter(imageBeans, new ProfileImageAdapterListener() {
+            @Override
+            public void getPosition(int position) {
+                if (position == 0) {
+                    getPermissionAndPicImage();
+                }
+            }
+        });
+        event_horizontal_recycler.setAdapter(adapter);
         return view;
+    }
+
+    public void getPermissionAndPicImage() {
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (mContext.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                        new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        Constant.MY_PERMISSIONS_REQUEST_CEMERA_OR_GALLERY);
+            } else {
+                ImagePicker.pickImage(this);
+            }
+        } else {
+            ImagePicker.pickImage(this);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 234) {
+
+                bitmap = ImagePicker.getImageFromResult(mContext, requestCode, resultCode, data);
+
+                if (bitmap != null) {
+                    if (imageBeans.size() < 6) {
+                        String userId = session.getUser().userDetail.userId;
+                        //imageUploadTask(userId, bitmap);
+                        imageBeans.add(1, new ImageBean(null, bitmap, "0"));
+                        adapter.notifyDataSetChanged();
+                        createEvent();
+                    }
+                }
+            }
+    }
     }
 
     @Override
