@@ -7,8 +7,7 @@
     android:id="@+id/annonce.main.coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="RtlHardcoded"
-    >
+    tools:ignore="RtlHardcoded">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/flexible.example.appbar"

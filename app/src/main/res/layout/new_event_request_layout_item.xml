@@ -49,8 +49,6 @@
                             android:textColor="@color/colorBlack"
                             android:textSize="@dimen/text_Medium_Size" />
 
-
-
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -59,22 +57,22 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="@dimen/_16sdp"
-                                android:layout_height="@dimen/_16sdp"
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ico_event" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/_22sdp"
-                                android:layout_marginLeft="@dimen/_4sdp"
+                                android:layout_marginLeft="@dimen/_5sdp"
                                 android:orientation="horizontal">
 
                                 <TextView
                                     android:id="@+id/tv_day"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textSize="@dimen/text_Small_Size"
+                                    android:textSize="@dimen/Small_Size"
                                     android:textColor="@color/colorBlack"
                                     android:fontFamily="@font/nunito_regular"
                                     android:layout_gravity="center"
@@ -94,7 +92,7 @@
                                     android:id="@+id/tv_start_date_time"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textSize="@dimen/text_Small_Size"
+                                    android:textSize="@dimen/Small_Size"
                                     android:gravity="center"
                                     android:layout_marginLeft="@dimen/_2sdp"
                                     android:layout_gravity="center"
@@ -111,26 +109,28 @@
                                 android:layout_width="0.8dp"
                                 android:layout_height="@dimen/_17sdp"
                                 android:layout_gravity="center"
+                                android:layout_marginRight="@dimen/_8sdp"
+                                android:layout_marginLeft="@dimen/_8sdp"
                                 android:background="@color/very_very_light_gray"
-                                android:layout_marginLeft="@dimen/_5sdp"/>
+                                />
 
                             <ImageView
-                                android:layout_width="@dimen/_16sdp"
-                                android:layout_height="@dimen/_16sdp"
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
                                 android:src="@drawable/ico_app_time"
                                 android:tint="@color/colorPrimary"
                                 android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/_5sdp"/>
+                                />
 
                             <TextView
                                 android:id="@+id/tv_time"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center|left"
-                                android:textSize="@dimen/text_Small_Size"
+                                android:textSize="@dimen/Small_Size"
                                 android:textColor="@color/black"
                                 android:maxLines="1"
-                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:layout_marginLeft="@dimen/_5sdp"
                                 android:layout_centerInParent="true"
                                 android:layout_alignParentEnd="true"
                                 android:fontFamily="@font/nunito_regular"
@@ -162,10 +162,11 @@
                                 android:maxLines="1"
                                 android:layout_gravity="top"
                                 android:gravity="top"
+                                android:ellipsize="end"
                                 android:layout_marginLeft="@dimen/_3sdp"
                                 android:text="502 mindiii system pvt limited piplihana, Indore "
                                 android:textColor="@color/colorGray"
-                                android:textSize="@dimen/text_Small_Size" />
+                                android:textSize="@dimen/Small_Size" />
 
                         </LinearLayout>
 

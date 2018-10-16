@@ -30,7 +30,6 @@ import com.google.android.gms.maps.model.Marker;
 public class EventPlaceActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-
     // Location updates intervals in sec
     private static int UPDATE_INTERVAL = 10000; // 10 sec
     private static int FASTEST_INTERVAL = 5000; // 5 sec
@@ -109,7 +108,6 @@ public class EventPlaceActivity extends AppCompatActivity implements OnMapReadyC
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
                 Utils.openAlertDialog(EventPlaceActivity.this, getResources().getString(R.string.alert_play_services_check));
-
                 finish();
             }
             return false;

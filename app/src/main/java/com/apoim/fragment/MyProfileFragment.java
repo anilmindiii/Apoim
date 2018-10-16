@@ -67,26 +67,21 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     private LinearLayout ly_notifications;
     private LinearLayout ly_subscription;
     private ImageView iv_edit_profile;*/
-
     private VerticalViewPager viewPager;
     private LinearLayout sliderDotspanel,ly_uper_view;
     private int dotscount;
     private ImageView[] dots;
     private ViewPagerAdapter viewPagerAdapter;
-
     private ImageView iv_mobile_veri, iv_id_hand_veri, iv_face_detection_veri;
     private ImageView iv_mobile_veri_active, iv_id_hand_veri_active, iv_face_detection_veri_active;
     private TextView tv_mobile_veri, tv_id_hand_veri, tv_face_detection_veri;
     private RelativeLayout ly_mobile_veri, ly_id_hand_veri, ly_face_detection_veri;
-
     private LinearLayout ly_friends;
-
     private Session session;
     private GetOtherProfileInfo otherProfileInfo;
     private InsLoadingView loading_view;
     private ArrayList<ProfileInterestInfo> interestArrayList;
     private ImageView iv_profile;
-    // private TextView tv_email;
     private TextView tv_friend_count;
     private TextView tv_visits_count;
     private TextView tv_friendstxt;
@@ -95,25 +90,20 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     private TextView tv_no_user_image_found;
     private boolean isResponceAppear = false;
     private LinearLayout ly_my_fevorite, ly_photo_view, ly_business,ly_appType_eventType;
-
-
-    NestedScrollView bottom_sheet;
-
-    String userId;
-
+    private NestedScrollView bottom_sheet;
+    private String userId;
     private TextView tv_basic_info, tv_more_info;
     private LinearLayout ly_basic_info, ly_more_info;
     private TextView tv_fullName, tv_address, tv_about, tv_work, tv_education,
             tv_height, tv_weight, tv_marrige_status, tv_languge, tv_like_count, tv_age,tv_no_interest_found,
             profile_action_bar;
     private RecyclerView profile_horizontal_recycler;
-   // private RecyclerView user_selected_interest_list_view;
     private ShowInterestAdapter showInterestAdapter;
     private NewProfileAdapter newProfileImageAdapter;
-    TextView tv_appoim_type, tv_event_type,tv_interest;
+    private TextView tv_appoim_type, tv_event_type,tv_interest;
     private ImageView iv_settings, iv_edit_profile;
-    String typeNotification = "";
-    RelativeLayout pager_main_layout;
+    private String typeNotification = "";
+    private RelativeLayout pager_main_layout;
 
     public static MyProfileFragment newInstance(String type) {
 

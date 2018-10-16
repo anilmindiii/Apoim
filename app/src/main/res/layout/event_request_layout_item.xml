@@ -1,195 +1,370 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_250sdp"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_250sdp">
-
-        <View
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/circle_solid_gray"
-            android:layout_centerHorizontal="true"
-            />
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_200sdp"
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="5dp">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginTop="@dimen/_20sdp">
-
-                <ImageView
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:src="@drawable/bg_event_type"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_privacy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/s_public"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_centerInParent="true"
-                    android:textSize="@dimen/text_Small_Size"/>
-
-            </RelativeLayout>
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:minHeight="@dimen/_140sdp"
+            app:cardCornerRadius="@dimen/_10sdp">
 
             <LinearLayout
+                android:id="@+id/ly_main_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_20sdp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_22sdp"
-                    android:layout_marginRight="@dimen/_75sdp"
-                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_height="@dimen/_105sdp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_day"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_Medium_Size"
-                        android:textColor="@color/colorBlack"
-                        android:fontFamily="@font/nunito_regular"
-                        android:layout_gravity="center"
-                        android:text="20"/>
+                        android:layout_marginLeft="@dimen/_92sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tv_th"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_regular"
-                        android:textSize="@dimen/text_very_Small_Size"
-                        android:textColor="@color/colorBlack"
-                        android:gravity="top"
-                        android:text="th"/>
+                        <TextView
+                            android:id="@+id/tv_event_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/nunito_bold"
+                            android:maxLines="2"
+                            android:text="Rachal smith New Event For All Girls And Boys"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/text_Medium_Size" />
+
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:elevation="@dimen/_8sdp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ico_event" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_22sdp"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_day"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/Small_Size"
+                                    android:textColor="@color/colorBlack"
+                                    android:fontFamily="@font/nunito_regular"
+                                    android:layout_gravity="center"
+                                    android:text="00"/>
+
+                                <TextView
+                                    android:id="@+id/tv_th"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/nunito_regular"
+                                    android:textSize="@dimen/text_very_Small_Size"
+                                    android:textColor="@color/colorBlack"
+                                    android:gravity="top"
+                                    android:text="th"/>
+
+                                <TextView
+                                    android:id="@+id/tv_start_date_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/Small_Size"
+                                    android:gravity="center"
+                                    android:layout_marginLeft="@dimen/_2sdp"
+                                    android:layout_gravity="center"
+                                    android:textColor="@color/colorBlack"
+                                    android:fontFamily="@font/nunito_regular"
+                                    android:text="March 2018"/>
+
+
+
+                            </LinearLayout>
+
+
+                            <View
+                                android:layout_width="0.8dp"
+                                android:layout_height="@dimen/_17sdp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="@dimen/_8sdp"
+                                android:layout_marginLeft="@dimen/_8sdp"
+                                android:background="@color/very_very_light_gray"
+                               />
+
+                            <ImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:src="@drawable/ico_app_time"
+                                android:tint="@color/colorPrimary"
+                                android:layout_gravity="center"
+                                />
+
+                            <TextView
+                                android:id="@+id/tv_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center|left"
+                                android:textSize="@dimen/Small_Size"
+                                android:textColor="@color/black"
+                                android:maxLines="1"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_centerInParent="true"
+                                android:layout_alignParentEnd="true"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="00:00 PM" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_17sdp"
+                                android:layout_height="@dimen/_17sdp"
+                                android:src="@drawable/ico_event_loc"
+                                android:layout_gravity="center|top"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:tint="@color/colorPrimary"
+                                />
+
+
+                            <TextView
+                                android:id="@+id/tv_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito_regular"
+                                android:maxLines="1"
+                                android:layout_gravity="top"
+                                android:gravity="top"
+                                android:ellipsize="end"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:text="502 mindiii system pvt limited piplihana, Indore "
+                                android:textColor="@color/colorGray"
+                                android:textSize="@dimen/Small_Size" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_start_date_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_Small_Size"
-                    android:textColor="@color/colorGray"
-                    android:fontFamily="@font/nunito_regular"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:text="March 2018,03:00 PM"/>
-
-                <TextView
-                    android:id="@+id/tv_event_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_Medium_Size"
-                    android:textColor="@color/colorBlack"
-                    android:maxLines="1"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:fontFamily="@font/nunito_semibold"
-                    android:text="Celebrate Overwatch's One-Year "/>
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_8sdp">
+                    android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_width="@dimen/_16sdp"
-                        android:layout_height="@dimen/_16sdp"
-                        android:src="@drawable/ico_event_loc"
-                        android:layout_centerVertical="true"/>
-
-                    <TextView
-                        android:id="@+id/tv_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_Small_Size"
-                        android:textColor="@color/colorGray"
-                        android:maxLines="1"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/_20sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:fontFamily="@font/nunito_regular"
-                        android:text="502,krishana tower mindiii system pvt limited"/>
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_payment_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_Medium_Size"
-                        android:textColor="@color/colorPrimary"
-                        android:maxLines="2"
-                        android:fontFamily="@font/nunito_regular"
-                        android:text="Paid"/>
-
-                    <Space
-                        android:layout_width="@dimen/_5sdp"
-                        android:layout_height="match_parent" />
-
-
-                    <TextView
-                        android:id="@+id/tv_paid_amount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_Medium_Size"
-                        android:textColor="@color/colorPrimary"
-                        android:maxLines="1"
-                        android:fontFamily="@font/nunito_semibold"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:text="$150"/>
-
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/event_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_Medium_Size"
-                        android:textColor="@color/colorPrimary"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_9sdp"
-                        android:fontFamily="@font/nunito_regular"
-                        android:layout_marginRight="@dimen/_120sdp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:layout_marginTop="@dimen/_9sdp"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/event_status"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_Medium_Size"
+                            android:textColor="@color/colorPrimary"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:gravity="right"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:text="Join new event"
+                            android:fontFamily="@font/nunito_regular"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:layout_centerVertical="true"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tv_payment_status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/text_Medium_Size"
+                                android:textColor="@color/colorBlack"
+                                android:maxLines="1"
+                                android:layout_gravity="right"
+                                android:gravity="right"
+                                android:fontFamily="@font/nunito_regular"
+                                android:text="Paid"/>
+
+                            <Space
+                                android:layout_width="@dimen/_5sdp"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                android:id="@+id/tv_paid_amount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/text_Medium_Size"
+                                android:textColor="@color/colorPrimary"
+                                android:maxLines="1"
+                                android:layout_gravity="right"
+                                android:gravity="right"
+                                android:fontFamily="@font/nunito_semibold"
+                                android:text="$000"/>
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+
+                    <TextView
+                        android:id="@+id/tv_privacy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_centerVertical="true"
+                        android:elevation="@dimen/_5sdp"
+                        android:layout_gravity="left|center"
+                        android:fontFamily="@font/nunito_regular"
+                        android:maxLines="1"
+                        android:text="Public"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorGray"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:id="@+id/ly_accept"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <ImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:src="@drawable/accept" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:text="Accept"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/text_Small_Size" />
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="@color/colorLightGray" />
+
+                        <LinearLayout
+                            android:id="@+id/ly_reject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <ImageView
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:src="@drawable/reject" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:text="Reject"
+                                android:textColor="@color/colorBlack"
+                                android:textSize="@dimen/text_Small_Size" />
+
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:background="@color/colorLightGray" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right|center"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginRight="@dimen/_5sdp"
                         android:orientation="horizontal">
 
@@ -206,8 +381,9 @@
                                 android:textColor="@color/colorBlack"
                                 android:maxLines="1"
                                 android:layout_gravity="right"
+                                android:ellipsize="end"
                                 android:fontFamily="@font/nunito_regular"
-                                android:layout_marginLeft="@dimen/_210sdp"
+                                android:layout_marginLeft="@dimen/_205sdp"
                                 />
 
                             <TextView
@@ -224,10 +400,10 @@
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/profile_image"
-                            android:layout_width="@dimen/_28sdp"
-                            android:layout_height="@dimen/_28sdp"
+                            android:layout_width="@dimen/_35sdp"
+                            android:layout_height="@dimen/_35sdp"
                             android:src="@drawable/ico_user_placeholder"
-                            app:civ_border_color="@color/colorLightGray"
+                            app:civ_border_color="@color/white"
                             app:civ_border_width="0.5dp"
                             android:layout_marginLeft="@dimen/_10sdp"/>
 
@@ -240,26 +416,25 @@
 
         </android.support.v7.widget.CardView>
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvuserImg"
+            android:layout_width="@dimen/_95sdp"
+            android:layout_height="@dimen/_105sdp"
+            android:elevation="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardElevation="@dimen/_4sdp">
 
-        <View
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/circle_border"
-            android:layout_centerHorizontal="true"
-            android:elevation="@dimen/_10sdp"
-            />
+            <com.github.siyamed.shapeimageview.RoundedImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ico_user_placeholder"
+                app:siRadius="@dimen/_8sdp" />
+
+
+        </android.support.v7.widget.CardView>
 
     </RelativeLayout>
-
-    <ImageView
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ico_event"
-
-        />
 
 
 
