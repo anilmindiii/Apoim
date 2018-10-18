@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apoim.R;
 import com.apoim.activity.event.CreateEventActivity;
+import com.apoim.modal.AllUserForEventInfo;
 import com.apoim.modal.MyFriendListInfo;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -26,12 +28,12 @@ import static com.apoim.activity.event.CreateEventActivity.friendsIds;
 
 public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<MyFriendListInfo.ListBean> friendList;
+    private ArrayList<AllUserForEventInfo.DataBean.UserBean> friendList;
     private CreateEventActivity.FriedsIdsListner friedsIdsListner;
     private String privacy = ""; // 1 for public , 2 for private
 
     public InviteFrienAdapter(Context mContext,String privacy
-            ,ArrayList<MyFriendListInfo.ListBean> friendList,String friendsIds,
+            ,ArrayList<AllUserForEventInfo.DataBean.UserBean> friendList,String friendsIds,
                               CreateEventActivity.FriedsIdsListner friedsIdsListner) {
 
         this.mContext = mContext;
@@ -48,12 +50,16 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        MyFriendListInfo.ListBean bean = friendList.get(position);
+        AllUserForEventInfo.DataBean.UserBean bean = friendList.get(position);
+
         if(bean.isSelected){
             holder.item_check.setImageResource(R.drawable.check_item);
         }else {
             holder.item_check.setImageResource(R.drawable.uncheck_item);
         }
+
+        holder.ratingBar.setRating(Float.parseFloat(bean.total_rating));
+
 
         holder.main_view.setEnabled(false);
 
@@ -172,6 +178,7 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
         ImageView profile_image,item_check;
         TextView tv_name,status;
         RelativeLayout main_view;
+        RatingBar ratingBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -181,6 +188,7 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
             item_check = itemView.findViewById(R.id.item_check);
             status = itemView.findViewById(R.id.status);
             main_view = itemView.findViewById(R.id.main_view);
+            ratingBar = itemView.findViewById(R.id.ratingBar);
         }
 
         @Override

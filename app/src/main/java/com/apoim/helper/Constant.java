@@ -74,6 +74,7 @@ public class Constant {
     public static String OtherProfile = "OtherProfile";
     public static String UserPersonalProfile = "UserPersonalProfile";
     public static String editEvent = "editEvent";
+    public static int eventFilter = 87;
     public static String userId = "userId";
     public static String eventId = "eventId";
 

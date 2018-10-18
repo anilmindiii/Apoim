@@ -1,9 +1,14 @@
 package com.apoim.fragment.eventFragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +18,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +30,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.apoim.ImagePickerPackge.ImagePicker;
 import com.apoim.R;
 import com.apoim.activity.event.CreateNewEventActivity;
 import com.apoim.activity.event.SelectEventPlaceActivity;
+import com.apoim.activity.sign_signup.CreateAccountActivity;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
 import com.apoim.helper.Validation;
@@ -36,6 +44,8 @@ import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
 import com.apoim.util.Utils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -43,12 +53,14 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import static android.app.Activity.RESULT_OK;
 import static com.apoim.util.Utils.formateDateFromstring;
 
 /**
@@ -71,6 +83,9 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
     private int hour, min, sec;
     private Session session;
     private InsLoadingView loadingView;
+    private Bitmap bitmap;
+    ImageView eventImage, camera_icon,event_place_image;
+    String base64Image;
 
     public static FirstScreenFragment newInstance(String eventId) {
 
@@ -89,11 +104,20 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_event_first_screen, container, false);
         init(view);
 
+        eventImage = view.findViewById(R.id.eventImage);
+        camera_icon = view.findViewById(R.id.camera_icon);
+        event_place_image = view.findViewById(R.id.event_place_image);
+
         if (CreateNewEventActivity.isForUpdateEvent) {
             eventId = getArguments().getString(Constant.eventId);
             if (eventId != null)
                 myEventRequestEvent(eventId);
         }
+
+
+        eventImage.setOnClickListener(view1 -> {
+            getPermissionAndPicImage();
+        });
 
         tv_next_first.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +133,7 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
                     bean.eventLatitude = latitude;
                     bean.eventLongitude = longitude;
                     bean.eventPlace = eventPlace;
+                    bean.firstImage = base64Image;
 
                     if (!CreateNewEventActivity.isForUpdateEvent) {
                         session.createEventInfo(bean);
@@ -161,20 +186,61 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == RESULT_OK) {
 
             if (requestCode == Constant.EventPlaceRequestCode) {
                 String eventAddress = data.getStringExtra("eventAddress");
                 String eventlatitude = data.getStringExtra("eventlatitude");
                 String eventlogitude = data.getStringExtra("eventlogitude");
+                String eventplaceImage = data.getStringExtra("eventplaceImage");
                 tv_location.setText(eventAddress);
                 eventPlace = eventAddress;
                 latitude = eventlatitude;
                 longitude = eventlogitude;
+                if(eventplaceImage != null){
+                    Glide.with(mContext).load(eventplaceImage).apply(new RequestOptions().placeholder(R.drawable.map_event)).into(event_place_image);
+
+                }else {
+                    event_place_image.setImageResource(R.drawable.map_event);
+                }
+            }
+        }
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 234) {
+                camera_icon.setVisibility(View.GONE);
+                bitmap = ImagePicker.getImageFromResult(mContext, requestCode, resultCode, data);
+
+                if (bitmap != null) {
+                    eventImage.setImageBitmap(bitmap);
+                    base64Image = setBitmap(bitmap);
+                }
             }
         }
     }
 
+
+    private String setBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos); //bm is the bitmap object
+        byte[] b = baos.toByteArray();
+        return Base64.encodeToString(b, Base64.DEFAULT);
+    }
+
+
+
+    public void getPermissionAndPicImage() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (mContext.checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                        new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        Constant.MY_PERMISSIONS_REQUEST_CEMERA_OR_GALLERY);
+            } else {
+                ImagePicker.pickImage(this);
+            }
+        } else {
+            ImagePicker.pickImage(this);
+        }
+    }
 
     @Override
     public void onClick(View view) {
@@ -472,7 +538,11 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
 
     private boolean isValid() {
         Validation v = new Validation();
-        if (!v.isNull(ed_event_name)) {
+
+        if (bitmap == null) {
+            Utils.openAlertDialog(mContext, "Please select event image");
+            return false;
+        } else if (!v.isNull(ed_event_name)) {
             Utils.openAlertDialog(mContext, getString(R.string.enter_event_name));
             return false;
         } else if (!v.isNull(tv_start_date_time)) {

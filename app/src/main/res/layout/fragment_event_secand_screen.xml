@@ -224,8 +224,22 @@
                             android:theme="@style/MyRadioButton3"
                             android:checked="false" />
 
+
+
                         <RadioButton
                             android:id="@+id/rb_both"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/trasnsgender"
+                            android:theme="@style/MyRadioButton2"
+                            android:textSize="@dimen/text_Medium_Size"
+                            android:textColor="@color/colorPrimary"
+                            android:fontFamily="@font/nunito_light"
+                            android:visibility="gone"/>
+
+
+                        <RadioButton
+                            android:id="@+id/rb_all"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/both"
@@ -235,6 +249,7 @@
                             android:textColor="@color/colorPrimary"
                             android:fontFamily="@font/nunito_light"
                             android:checked="true" />
+
 
                     </RadioGroup>
 

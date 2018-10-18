@@ -13,6 +13,7 @@
         android:id="@+id/card"
         android:elevation="2dp"
         app:cardElevation="2dp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginRight="@dimen/_15sdp"
         android:layout_height="@dimen/_35sdp">
 
@@ -62,7 +63,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_50sdp"/>
 
         <TextView
@@ -74,7 +75,7 @@
             android:gravity="center"
             android:background="@drawable/bg_login_btn"
             android:fontFamily="@font/josefinsans_semibold"
-            android:text="Next"
+            android:text="Create Event"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:textColor="@color/colorWhite"

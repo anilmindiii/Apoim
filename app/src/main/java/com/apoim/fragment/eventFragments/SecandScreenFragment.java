@@ -35,6 +35,7 @@ import com.apoim.helper.Constant;
 import com.apoim.helper.Validation;
 import com.apoim.modal.CurrencyInfo;
 import com.apoim.modal.EventDetailsInfo;
+import com.apoim.modal.EventFilterData;
 import com.apoim.modal.SignInInfo;
 import com.apoim.session.Session;
 import com.apoim.util.Utils;
@@ -44,6 +45,8 @@ import com.orhanobut.dialogplus.OnItemClickListener;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
+import static com.apoim.activity.event.CreateEventActivity.RattingIds;
+import static com.apoim.activity.event.CreateEventActivity.friendsIds;
 
 /**
  * Created by mindiii on 14/9/18.
@@ -64,6 +67,7 @@ public class SecandScreenFragment extends Fragment {
     private RadioButton rb_male;
     private RadioButton rb_female;
     private RadioButton rb_both;
+    private RadioButton rb_all;
     private RadioButton rb_private;
     private RadioButton rb_public;
     private RadioButton rb_paid;
@@ -93,7 +97,6 @@ public class SecandScreenFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event_secand_screen, container, false);
 
-
         session = new Session(mContext);
         init(view);
 
@@ -116,6 +119,7 @@ public class SecandScreenFragment extends Fragment {
             rb_male.setClickable(false);
             rb_female.setClickable(false);
             rb_both.setClickable(false);
+            rb_all.setClickable(false);
 
 
             if (bean.privacy.equals("Public")) {
@@ -136,6 +140,9 @@ public class SecandScreenFragment extends Fragment {
             } else if (bean.eventUserType.equals("Both")) {
                 rb_both.setChecked(true);
                 eventUserType = "3";
+            } else if(bean.eventUserType.equals("")){
+                rb_all.setChecked(true);
+                eventUserType = "";
             }
 
             if (bean.payment.equals("Paid")) {
@@ -181,6 +188,10 @@ public class SecandScreenFragment extends Fragment {
                 info.groupChat = groupChat;
 
                 session.createEventInfo(info);
+                EventFilterData data = new EventFilterData();
+                session.createFilterData(data);
+                RattingIds = "";
+                friendsIds = "";
 
                 addFragment(ThiredFragment.newInstance(eventUserType,privacy), true, R.id.event_fragment_place);
             }
@@ -193,6 +204,7 @@ public class SecandScreenFragment extends Fragment {
                     rb_female.setTextColor(getResources().getColor(R.color.colorBlack));
                     rb_male.setTextColor(getResources().getColor(R.color.colorPrimary));
                     rb_both.setTextColor(getResources().getColor(R.color.colorBlack));
+                    rb_all.setTextColor(getResources().getColor(R.color.colorBlack));
                     eventUserType = "1";
                     break;
                 }
@@ -200,6 +212,7 @@ public class SecandScreenFragment extends Fragment {
                     rb_female.setTextColor(getResources().getColor(R.color.colorPurple));
                     rb_male.setTextColor(getResources().getColor(R.color.colorBlack));
                     rb_both.setTextColor(getResources().getColor(R.color.colorBlack));
+                    rb_all.setTextColor(getResources().getColor(R.color.colorBlack));
                     eventUserType = "2";
                     break;
                 }
@@ -207,7 +220,16 @@ public class SecandScreenFragment extends Fragment {
                     rb_female.setTextColor(getResources().getColor(R.color.colorBlack));
                     rb_male.setTextColor(getResources().getColor(R.color.colorBlack));
                     rb_both.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    rb_all.setTextColor(getResources().getColor(R.color.colorBlack));
                     eventUserType = "3";
+                    break;
+                }
+                case R.id.rb_all: {
+                    rb_female.setTextColor(getResources().getColor(R.color.colorBlack));
+                    rb_male.setTextColor(getResources().getColor(R.color.colorBlack));
+                    rb_both.setTextColor(getResources().getColor(R.color.colorBlack));
+                    rb_all.setTextColor(getResources().getColor(R.color.colorPrimary));
+                    eventUserType = "";
                     break;
                 }
             }
@@ -308,11 +330,12 @@ public class SecandScreenFragment extends Fragment {
         rb_public = view.findViewById(R.id.rb_public);
         rb_paid = view.findViewById(R.id.rb_paid);
         rb_free = view.findViewById(R.id.rb_free);
+        rb_all = view.findViewById(R.id.rb_all);
 
         // by default parameter...
         privacy = "1";
         payment = "2";
-        eventUserType = "3";
+        eventUserType = "";
         inputFilter(ed_amount);
     }
 

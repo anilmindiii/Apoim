@@ -277,7 +277,8 @@
     <string name="event_name">Event name</string>
     <string name="select_event_location">Select event location</string>
     <string name="event_start_date_and_time">Event start date and time</string>
-    <string name="select_date_and_time">Select date and time</string>
+    <string name="event_end_date_and_time">Event end date and time</string>
+    <string name="select_date_and_time">Event date and time</string>
     <string name="privacy">Privacy</string>
     <string name="paid">Paid</string>
     <string name="free">Free</string>
@@ -578,6 +579,7 @@
     <string name="birthday">Birthday</string>
     <string name="select_date">Select Date</string>
     <string name="event_date_time"><![CDATA[Event date & Time]]></string>
+    <string name="filter">Filter</string>
 
 
 </resources>

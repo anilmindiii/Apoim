@@ -27,6 +27,7 @@ public class MyEventInfo {
         public String eventAmount;
         public String currencySymbol;
         public String status;
+        public String eventImage;
 
 
     }

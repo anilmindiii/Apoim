@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="-20dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RatingBar
+            android:id="@+id/ratting_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/ratingBarStyleIndicator"
+            android:progressTint="@color/coloryellow"
+            android:rating="5"
+            android:isIndicator="true"
+            android:stepSize="1"
+            android:numStars="5"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:clickable="false"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_gravity="start"
+            android:max="5"/>
+
+
+        <ImageView
+            android:id="@+id/iv_checkbox"
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:src="@drawable/ico_not_checked"/>
+
+        <View
+            android:layout_below="@+id/ratting_bar"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@color/colorGray" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,16 +1,19 @@
 package com.apoim.activity.event;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.apoim.ImagePickerPackge.ImagePicker;
 import com.apoim.R;
 import com.apoim.app.Apoim;
 import com.apoim.fragment.eventFragments.FirstScreenFragment;
@@ -31,6 +34,8 @@ public class CreateNewEventActivity extends AppCompatActivity {
     private InsLoadingView loadingView;
     private Session session;
     private String eventId = null;
+    private Bitmap bitmap;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +67,7 @@ public class CreateNewEventActivity extends AppCompatActivity {
         addFragment(FirstScreenFragment.newInstance(eventId), false, R.id.event_fragment_place);
 
 
-        iv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        iv_back.setOnClickListener(view -> onBackPressed());
     }
 
     private void myEventRequestEvent(final String eventId) {
@@ -163,7 +163,7 @@ public class CreateNewEventActivity extends AppCompatActivity {
 
     public void addFragment(Fragment fragment, boolean addToBackStack, int containerId) {
         String backStackName = fragment.getClass().getName();
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         boolean fragmentPopped = fragmentManager.popBackStackImmediate(backStackName, 0);
         if (!fragmentPopped) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -175,13 +175,33 @@ public class CreateNewEventActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 234) {
+                bitmap = ImagePicker.getImageFromResult(CreateNewEventActivity.this, requestCode, resultCode, data);
+            }
+        }
     }
+
+
+
+
+    @Override
+    public void onBackPressed() {
+
+        Fragment fr = fragmentManager.findFragmentById(R.id.event_fragment_place);
+        if(fr!=null){
+            Log.e("fragment=", fr.getClass().getSimpleName());
+
+            if( fr.getClass().getSimpleName().equals("FourthScreenFragment")){
+                finish();
+            }
+        }
+
+        super.onBackPressed();
+    }
+
 }

@@ -209,7 +209,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_edit_profile_layout);
 
-
         myUriList = new ArrayList<>();
         educationList = new ArrayList<>();
         workList = new ArrayList<>();
@@ -1461,7 +1460,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                         allDetailsFilled = data.getStringExtra("allDetailsFilled");
                         user_interest = data.getStringExtra("interest_key");
 
-
                         if (otherProfileInfo != null) {
                             otherProfileInfo.UserDetail.about = user_about_you;
                             otherProfileInfo.UserDetail.height = user_height;
@@ -1470,10 +1468,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                             otherProfileInfo.UserDetail.language = user_I_speak;
                             otherProfileInfo.UserDetail.interest = user_interest;
                         }
-
                     }
                 }
-
             }
         }
     }

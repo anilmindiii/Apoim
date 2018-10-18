@@ -102,6 +102,7 @@ public class SelectEventPlaceActivity extends AppCompatActivity implements OnMap
 
     private String businessId = "";
     private TextView tv_location,tv_selectAddr;
+    private String eventplaceImage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +127,8 @@ public class SelectEventPlaceActivity extends AppCompatActivity implements OnMap
                     Double d = Double.valueOf(bean.distance);
                     tv_buz_distance.setText(String.format("%.2f", d)+" Km");
                 }
+
+                eventplaceImage = bean.businessImage;
 
                 Picasso.with(SelectEventPlaceActivity.this).load(bean
                         .businessImage).into(iv_buz_image);
@@ -179,6 +182,7 @@ public class SelectEventPlaceActivity extends AppCompatActivity implements OnMap
                 intent.putExtra("eventAddress",eventAddress);
                 intent.putExtra("eventlatitude",appointLatitude);
                 intent.putExtra("eventlogitude",appointLongitude);
+                intent.putExtra("eventplaceImage",eventplaceImage);
                 setResult(Activity.RESULT_OK,intent);
                 finish();
             }

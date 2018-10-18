@@ -36,5 +36,6 @@ public class EventRequestInfo {
         public String fullName;
         public String profileImage;
         public String ownerType;
+        public String eventImage;
     }
 }

@@ -126,9 +126,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-      <!--  <meta-data
+        <!--
+            <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/logo" />-->
+            android:resource="@drawable/logo" />
+        -->
 
         <activity
             android:name=".activity.profile.OtherProfileDetailsActivity"
@@ -307,7 +309,7 @@
         -->
 
 
-        <!-- .................................................-->
+        <!-- ................................................. -->
 
         <service android:name="com.quickblox.messages.services.fcm.QBFcmPushListenerService">
             <intent-filter>
@@ -358,8 +360,7 @@
             android:name=".activity.event.CreateNewEventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.ImageGalleryActivity"
             android:screenOrientation="portrait"
@@ -372,10 +373,14 @@
             android:name=".activity.event.EventApoimReviewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".activity.event.SelectEventPlaceActivity"
+        <activity
+            android:name=".activity.event.SelectEventPlaceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".activity.event.FilterEventActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

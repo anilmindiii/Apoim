@@ -147,7 +147,7 @@
                             <ImageView
                                 android:layout_width="@dimen/_17sdp"
                                 android:layout_height="@dimen/_17sdp"
-                                android:src="@drawable/ico_event_loc"
+                                android:src="@drawable/placeholder"
                                 android:layout_gravity="center|top"
                                 android:layout_marginTop="@dimen/_2sdp"
                                 android:tint="@color/colorPrimary"
@@ -287,11 +287,17 @@
                         android:layout_centerInParent="true"
                         android:layout_alignParentEnd="true"
                         android:gravity="center"
-                        android:elevation="@dimen/_8sdp"
+                        android:elevation="@dimen/_10sdp"
+                        android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:id="@+id/ly_edit_event"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/iv_edit_event"
                             android:layout_width="@dimen/_18sdp"
                             android:layout_height="@dimen/_18sdp"
                             android:src="@drawable/edit"
@@ -311,6 +317,7 @@
                             android:fontFamily="@font/nunito_regular"
                             android:text="Edit" />
 
+
                         <View
                             android:layout_width="0.8dp"
                             android:layout_height="@dimen/_20sdp"
@@ -318,27 +325,43 @@
                             android:background="@color/very_very_light_gray"
                             android:layout_marginLeft="@dimen/_10sdp"/>
 
-                        <ImageView
-                            android:id="@+id/iv_delete_myevent"
-                            android:layout_width="@dimen/_18sdp"
-                            android:layout_height="@dimen/_18sdp"
-                            android:src="@drawable/ico_event_delete"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/_10sdp"/>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:textSize="@dimen/text_Medium_Size"
-                            android:textColor="@color/black"
-                            android:maxLines="1"
-                            android:layout_centerInParent="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginLeft="@dimen/_5sdp"
-                            android:fontFamily="@font/nunito_regular"
-                            android:layout_marginRight="@dimen/_5sdp"
-                            android:text="Delete" />
+                    </LinearLayout>
+
+
+
+                      <LinearLayout
+                          android:id="@+id/ly_delete_myevent"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal"
+                          android:layout_marginLeft="@dimen/_10sdp">
+
+                          <ImageView
+
+                              android:layout_width="@dimen/_18sdp"
+                              android:layout_height="@dimen/_18sdp"
+                              android:src="@drawable/ico_event_delete"
+                              android:layout_gravity="center"/>
+
+                          <TextView
+                              android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:gravity="center"
+                              android:textSize="@dimen/text_Medium_Size"
+                              android:textColor="@color/black"
+                              android:maxLines="1"
+                              android:layout_centerInParent="true"
+                              android:layout_alignParentEnd="true"
+                              android:layout_marginLeft="@dimen/_5sdp"
+                              android:fontFamily="@font/nunito_regular"
+                              android:layout_marginRight="@dimen/_5sdp"
+                              android:text="Delete" />
+
+
+                      </LinearLayout>
+
+
 
                     </LinearLayout>
 
@@ -355,7 +378,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/cvuserImg"
+            android:id="@+id/event_imdsg"
             android:layout_width="@dimen/_95sdp"
             android:layout_height="@dimen/_105sdp"
             android:elevation="@dimen/_4sdp"
@@ -363,7 +386,7 @@
             app:cardElevation="@dimen/_4sdp">
 
             <com.github.siyamed.shapeimageview.RoundedImageView
-                android:id="@+id/iv_profile"
+                android:id="@+id/event_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ico_user_placeholder"

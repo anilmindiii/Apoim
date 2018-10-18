@@ -20,17 +20,6 @@
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/_18ssp" />
 
-        <ImageView
-            android:id="@+id/create_event"
-            android:layout_width="@dimen/_23sdp"
-            android:layout_height="@dimen/_23sdp"
-            android:src="@drawable/ico_add"
-            android:tint="@color/colorPrimary"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/_10sdp"/>
-
     </RelativeLayout>
 
     <android.support.v7.widget.CardView
@@ -103,8 +92,6 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
-
-
 
     <RelativeLayout
         android:id="@+id/ly_no_record_found"
@@ -179,6 +166,18 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_197sdp"
         android:visibility="gone"/>
+
+
+    <ImageView
+        android:id="@+id/create_event"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:src="@drawable/add_event"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_alignParentRight="true" />
+
 
 
 </RelativeLayout>

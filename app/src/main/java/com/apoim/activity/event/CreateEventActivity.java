@@ -95,6 +95,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
     private ArrayList<MyFriendListInfo.ListBean> friendList;
     private ArrayList<CurrencyInfo> currencyList;
     public static String friendsIds = "";
+    public static String RattingIds = "";
     private boolean isCheckedAll;
     private InsLoadingView loadingView;
     private EditText ed_event_name, ed_user_limite, ed_amount;
@@ -434,8 +435,8 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         map.put("eventId", eventId);
         map.put("eventName", ed_event_name.getText().toString().trim());
         map.put("eventStartDate", eventStartDate);
-        map.put("eventEndDate", eventEndDate);
         map.put("eventPlace", eventPlace);
+        map.put("eventEndDate", eventEndDate);
         map.put("eventLatitude", latitude);
         map.put("eventLongitude", longitude);
 
@@ -885,12 +886,12 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         }
 */
 
-        final InviteFrienAdapter adapter = new InviteFrienAdapter(this, privacy, friendList, friendsIds, new FriedsIdsListner() {
+       /* final InviteFrienAdapter adapter = new InviteFrienAdapter(this, privacy, friendList, friendsIds, new FriedsIdsListner() {
             @Override
             public void getIds(String ids) {
                 friendsIds = ids;
             }
-        });
+        });*/
 
 
         rl_invite_all.setOnClickListener(new View.OnClickListener() {
@@ -946,7 +947,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
                     isCheckedAll = false;
                 }
                 if (friendsIds.length() != 0) friendsIds = removeLastChar(friendsIds);
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
             }
 
             private void removeNotAllowedIds(int i) {
@@ -961,7 +962,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         });
 
         friendList.clear();
-        showFriendList(loading_view, adapter, ly_no_friend_found, recycler_view);
+        //showFriendList(loading_view, adapter, ly_no_friend_found, recycler_view);
 
         cancel_popup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -984,7 +985,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
 
             }
         });
-        recycler_view.setAdapter(adapter);
+       // recycler_view.setAdapter(adapter);
         dialog.getWindow().setGravity(Gravity.CENTER);
         dialog.show();
     }

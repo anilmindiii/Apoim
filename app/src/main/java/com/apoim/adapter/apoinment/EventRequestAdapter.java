@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.apoim.R;
@@ -61,10 +62,15 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
             holder.tv_paid_amount.setVisibility(View.VISIBLE);
             holder.tv_paid_amount.setText((bean.currencySymbol + bean.eventAmount));
             holder.tv_payment_status.setText(bean.payment);
+            holder.space.setVisibility(View.VISIBLE);
         }else {
             holder.tv_paid_amount.setVisibility(View.GONE);
+            holder.space.setVisibility(View.GONE);
             holder.tv_payment_status.setText(bean.payment);
         }
+
+        Glide.with(mContext).load(bean.eventImage).apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).into(holder.event_img);
+
 
         Date date1 = getDateFromString(currentDate);
         Date date2 = getDateFromString(bean.eventEndDate);
@@ -135,7 +141,8 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tv_event_name,tv_address,tv_payment_status,tv_paid_amount,
                 tv_privacy,tv_event_creater_name,tv_start_date_time,tv_day,user_status,event_status,tv_th,tv_time;
-        ImageView profile_image;
+        ImageView profile_image,event_img;
+        Space space;
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -152,12 +159,14 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
             event_status = itemView.findViewById(R.id.event_status);
             tv_th = itemView.findViewById(R.id.tv_th);
             tv_time = itemView.findViewById(R.id.tv_time);
+            space = itemView.findViewById(R.id.space);
+            event_img = itemView.findViewById(R.id.event_img);
 
         }
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(mContext, EventDetailsActivity.class);
+          /*  Intent intent = new Intent(mContext, EventDetailsActivity.class);
             intent.putExtra("from","eventRequest");
             intent.putExtra("eventId",eventList.get(getAdapterPosition()).eventId);
             intent.putExtra("ownerType",eventList.get(getAdapterPosition()).ownerType);
@@ -167,7 +176,7 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
                 intent.putExtra("id",eventList.get(getAdapterPosition()).compId);
             }
 
-            mContext.startActivity(intent);
+            mContext.startActivity(intent);*/
         }
     }
 

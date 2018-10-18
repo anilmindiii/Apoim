@@ -7,219 +7,252 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="@dimen/_22sdp"
-                android:layout_height="@dimen/_22sdp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/party"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_30sdp"
-                android:orientation="vertical">
-
-                <EditText
-                    android:id="@+id/ed_event_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:background="@null"
-                    android:fontFamily="@font/nunito_light"
-                    android:hint="Event Name"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_Medium_Size" />
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:background="@color/colorBlack" />
-
-            </LinearLayout>
-
-
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/ly_event_start_date_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="@dimen/_22sdp"
-                android:layout_height="@dimen/_22sdp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ico_event_date"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_30sdp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_start_date_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:background="@null"
-                    android:fontFamily="@font/nunito_light"
-                    android:hint="@string/select_date_and_time"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_Medium_Size" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:background="@color/colorBlack" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/ly_event_end_date_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_10sdp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="@dimen/_22sdp"
-                android:layout_height="@dimen/_22sdp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ico_event_date"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_30sdp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_end_date_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:background="@null"
-                    android:fontFamily="@font/nunito_light"
-                    android:hint="@string/select_date_and_time"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_Medium_Size" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.8dp"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:background="@color/colorBlack" />
-
-            </LinearLayout>
-
-        </RelativeLayout>
+        android:scrollbars="none"
+        android:overScrollMode="never">
 
         <LinearLayout
-            android:id="@+id/ly_is_buz_added"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_18sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="@dimen/_75sdp"
-                android:layout_height="@dimen/_75sdp"
-                android:backgroundTint="@color/colorLightGray"
-                android:background="@drawable/rectangular_image_shap">
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_90sdp"
+                android:layout_gravity="center">
 
+                <com.github.siyamed.shapeimageview.RoundedImageView
+                    android:id="@+id/eventImage"
+                    android:layout_width="@dimen/_80sdp"
+                    android:layout_height="@dimen/_80sdp"
+                    android:src="@drawable/placeholder_chat_image"
+                    app:siRadius="@dimen/_5sdp"
+                    app:siBorderColor="@color/colorGray"
+                    app:siBorderWidth="0.5dp"
+                    android:layout_gravity="center"/>
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/camera_icon"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:src="@drawable/ico_camera"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_12sdp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/party"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/map_event"/>
+                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/ed_event_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_light"
+                        android:hint="Event Name"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@color/very_very_light_gray" />
+
+                </LinearLayout>
+
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ly_event_start_date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_12sdp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ico_event_date"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_start_date_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_light"
+                        android:hint="@string/event_start_date_and_time"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@color/very_very_light_gray" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/ly_event_end_date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_12sdp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/ico_event_date"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_end_date_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:background="@null"
+                        android:fontFamily="@font/nunito_light"
+                        android:hint="@string/event_end_date_and_time"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Medium_Size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.8dp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@color/very_very_light_gray" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/ly_is_buz_added"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:gravity="center|top"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/_18sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="match_parent"
+
+                <com.github.siyamed.shapeimageview.RoundedImageView
+                    android:id="@+id/event_place_image"
+                    android:layout_width="@dimen/_65sdp"
+                    android:layout_height="@dimen/_65sdp"
+                    android:src="@drawable/map_event"
+                    app:siBorderColor="@color/colorBlack"
+                    android:background="@drawable/rectangular_gray_bg"
+                    app:siRadius="@dimen/_10sdp" />
+
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_regular"
-                    android:text="Event Venue"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_Small_Size" />
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:gravity="center|top"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:text="Event Venue"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_Small_Size" />
 
 
 
-                <TextView
-                    android:id="@+id/tv_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_regular"
-                    android:hint="Select Your Event Venue"
-                    android:textColorHint="@color/grey"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/text_Small_Size" />
+                    <TextView
+                        android:id="@+id/tv_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_regular"
+                        android:hint="Select Your Event Venue"
+                        android:textColorHint="@color/colorGray"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/text_Small_Size" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/tv_next_first"
+                android:layout_width="@dimen/_170sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:background="@drawable/bg_login_btn"
+                android:fontFamily="@font/josefinsans_semibold"
+                android:text="Next"
+                android:textAllCaps="false"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_Large_Size" />
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_next_first"
-            android:layout_width="@dimen/_170sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/_15sdp"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/_35sdp"
-            android:background="@drawable/bg_login_btn"
-            android:fontFamily="@font/josefinsans_semibold"
-            android:text="Next"
-            android:textAllCaps="false"
-            android:layout_marginLeft="@dimen/_20sdp"
-            android:layout_marginRight="@dimen/_20sdp"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/text_Large_Size" />
-
-    </LinearLayout>
-
+    </ScrollView>
 
     <com.apoim.util.InsLoadingView
         android:id="@+id/loadingView"
@@ -230,8 +263,5 @@
         android:clickable="false"
         android:elevation="@dimen/_5sdp"
         android:visibility="gone"/>
-
-
-
 
 </RelativeLayout>

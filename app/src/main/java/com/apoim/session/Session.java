@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.apoim.activity.sign_signup.SignInActivity;
 import com.apoim.modal.EventDetailsInfo;
+import com.apoim.modal.EventFilterData;
 import com.apoim.modal.FilterInfo;
 import com.apoim.modal.FilterItemInfo;
 import com.apoim.modal.PreRegistrationInfo;
@@ -43,6 +44,7 @@ public class Session {
     private static final String SAVELATLNG = "savelatlng";
     private static final String PASSWORD = "password";
     private static final String CREATeEVENtINFO = "create_event_info";
+    private static final String FilterData = "filterData";
 
 
     public Session(Context context, Activity activity) {
@@ -190,11 +192,27 @@ public class Session {
         editor.commit();
     }
 
+
     public EventDetailsInfo.DetailBean  getcreateEventInfo() {
         Gson gson = new Gson();
         String string = sharedPreferences.getString(CREATeEVENtINFO, "");
         return gson.fromJson(string, EventDetailsInfo.DetailBean.class);
     }
+
+
+    public void createFilterData(EventFilterData filterData) {
+        Gson gson = new Gson();
+        String json = gson.toJson(filterData);
+        editor.putString(FilterData, json);
+        editor.commit();
+    }
+
+    public EventFilterData  getFilterData() {
+        Gson gson = new Gson();
+        String string = sharedPreferences.getString(FilterData, "");
+        return gson.fromJson(string, EventFilterData.class);
+    }
+
 /*.............................................................................................*/
 
     public void logout() {

@@ -99,8 +99,13 @@ public class EventImgeUploadAdapter extends RecyclerView.Adapter<EventImgeUpload
             holder.cancel_icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     int pos = holder.getAdapterPosition();
+
+                    if(pos == 1){
+                        Utils.openAlertDialog(context,"You should have atleast one image for event");
+                        return;
+
+                    }
 
                     if (!list.get(pos).imageId.equals("")) {
                         deleteImages(list.get(pos).imageId);
@@ -139,7 +144,7 @@ public class EventImgeUploadAdapter extends RecyclerView.Adapter<EventImgeUpload
         //loadingView.setVisibility(View.VISIBLE);
 
         Map<String, String> map = new HashMap<>();
-        map.put("userImgId", userImgId);
+        map.put("eventImageId", userImgId);
 
         WebService service = new WebService(context, Apoim.TAG, new WebService.LoginRegistrationListener() {
 
@@ -169,7 +174,7 @@ public class EventImgeUploadAdapter extends RecyclerView.Adapter<EventImgeUpload
 
             }
         });
-        service.callSimpleVolley("user/deleteUserImage", map);
+        service.callSimpleVolley("event/removeEventImage", map);
 
     }
 

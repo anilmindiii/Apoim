@@ -11,13 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.apoim.R;
 import com.apoim.activity.event.CreateEventActivity;
 import com.apoim.activity.event.EventDetailsActivity;
 import com.apoim.helper.Constant;
 import com.apoim.listener.DeleteListner;
 import com.apoim.modal.MyEventInfo;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -38,7 +43,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
     private DeleteListner listner;
     private String currentDate;
 
-    public MyEventAdapter(Context mContext,String currentDate, ArrayList<MyEventInfo.ListBean> myEventList,
+    public MyEventAdapter(Context mContext, String currentDate, ArrayList<MyEventInfo.ListBean> myEventList,
                           DeleteListner listner) {
         this.mContext = mContext;
         this.myEventList = myEventList;
@@ -48,18 +53,18 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_event_request_layout_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.new_event_request_layout_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         MyEventInfo.ListBean bean = myEventList.get(position);
-        if(bean.payment.equals("Paid")){
+        if (bean.payment.equals("Paid")) {
             holder.tv_paid_amount.setVisibility(View.VISIBLE);
             holder.tv_paid_amount.setText((bean.currencySymbol + bean.eventAmount));
             holder.tv_payment_status.setText(bean.payment);
-        }else {
+        } else {
             holder.tv_paid_amount.setVisibility(View.GONE);
             holder.tv_payment_status.setText(bean.payment);
         }
@@ -68,18 +73,21 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
         holder.tv_event_name.setText(bean.eventName);
         holder.tv_address.setText(bean.eventPlace);
 
-        day_time(position,holder, bean);
+        day_time(position, holder, bean);
 
-        if(!TextUtils.isEmpty(currentDate) && !TextUtils.isEmpty(bean.eventEndDate)){
+        if (!bean.eventImage.equals(""))
+            Picasso.with(mContext).load(bean.eventImage).placeholder(R.drawable.ico_user_placeholder).fit().into(holder.event_img);
+
+        if (!TextUtils.isEmpty(currentDate) && !TextUtils.isEmpty(bean.eventEndDate)) {
             Date date1 = getDateFromString(currentDate);
             Date date2 = getDateFromString(bean.eventEndDate);
 
-            if(date1.after(date2)){
+            if (date1.after(date2)) {
                 //Do Something else
-                holder.iv_edit_event.setVisibility(View.GONE);
+                holder.ly_edit_event.setVisibility(View.GONE);
                 //holder.event_status.setVisibility(View.VISIBLE);
-            }else {
-                holder.iv_edit_event.setVisibility(View.VISIBLE);
+            } else {
+                holder.ly_edit_event.setVisibility(View.VISIBLE);
                 //holder.event_status.setVisibility(View.GONE);
             }
         }
@@ -87,7 +95,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
 
     }
 
-    public void getData(String currentDate){
+    public void getData(String currentDate) {
         this.currentDate = currentDate;
     }
 
@@ -106,21 +114,19 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             holder.tv_time.setText(formatShortTime.format(formatLong.parse(timeLong)));
             holder.tv_th.setText(getDayOfMonthSuffix(Integer.parseInt(formatShort1.format(formatLong.parse(timeLong)))));
 
-            holder.iv_delete_myevent.setOnClickListener(new View.OnClickListener() {
+
+            holder.ly_delete_myevent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openAlertDialog(position,bean.eventId,mContext,mContext.getString(R.string.delete_event_msg));
+                    openAlertDialog(position, bean.eventId, mContext, mContext.getString(R.string.delete_event_msg));
                 }
             });
 
-            holder.iv_edit_event.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext,CreateEventActivity.class);
-                    intent.putExtra(Constant.editEvent, Constant.editEvent);
-                    intent.putExtra("eventId", bean.eventId);
-                    mContext.startActivity(intent);
-                }
+            holder.ly_edit_event.setOnClickListener(view -> {
+                /*Intent intent = new Intent(mContext,CreateEventActivity.class);
+                intent.putExtra(Constant.editEvent, Constant.editEvent);
+                intent.putExtra("eventId", bean.eventId);
+                mContext.startActivity(intent);*/
             });
 
         } catch (ParseException e) {
@@ -128,7 +134,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
         }
     }
 
-    public  void openAlertDialog(final int position,final String eventId, Context context, String message) {
+    public void openAlertDialog(final int position, final String eventId, Context context, String message) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Apoim");
         builder.setCancelable(false);
@@ -136,7 +142,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                listner.deleteItem(eventId,position);
+                listner.deleteItem(eventId, position);
             }
         });
 
@@ -156,12 +162,12 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tv_event_name,tv_address,tv_payment_status,tv_paid_amount,
-                tv_privacy,tv_start_date_time,tv_day,tv_th,event_status,tv_time;
+        TextView tv_event_name, tv_address, tv_payment_status, tv_paid_amount,
+                tv_privacy, tv_start_date_time, tv_day, tv_th, event_status, tv_time;
 
-        ImageView iv_edit_event;
+        LinearLayout ly_edit_event, ly_delete_myevent;
+        ImageView event_img;
 
-        ImageView iv_delete_myevent;
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -174,17 +180,18 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             tv_time = itemView.findViewById(R.id.tv_time);
             tv_day = itemView.findViewById(R.id.tv_day);
             tv_th = itemView.findViewById(R.id.tv_th);
-            iv_delete_myevent = itemView.findViewById(R.id.iv_delete_myevent);
-            iv_edit_event = itemView.findViewById(R.id.iv_edit_event);
+            ly_delete_myevent = itemView.findViewById(R.id.ly_delete_myevent);
+            ly_edit_event = itemView.findViewById(R.id.ly_edit_event);
             event_status = itemView.findViewById(R.id.event_status);
+            event_img = itemView.findViewById(R.id.event_img);
         }
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(mContext, EventDetailsActivity.class);
+           /* Intent intent = new Intent(mContext, EventDetailsActivity.class);
             intent.putExtra("from","myEvent");
             intent.putExtra("eventId",myEventList.get(getAdapterPosition()).eventId);
-            mContext.startActivity(intent);
+            mContext.startActivity(intent);*/
         }
     }
 
@@ -194,14 +201,18 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             return "th";
         }
         switch (n % 10) {
-            case 1:  return "st";
-            case 2:  return "nd";
-            case 3:  return "rd";
-            default: return "th";
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
         }
     }
 
-    private Date getDateFromString(String startDateString){
+    private Date getDateFromString(String startDateString) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startDate = null;
         try {
