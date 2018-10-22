@@ -61,9 +61,11 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
         holder.ratingBar.setRating(Float.parseFloat(bean.total_rating));
 
 
-        holder.main_view.setEnabled(false);
 
-        if(privacy.equals("1")){ // for public case
+
+      /*
+          holder.main_view.setEnabled(false);
+       if(privacy.equals("1")){ // for public case
 
             if(bean.gender.equals("2")){
 
@@ -126,7 +128,7 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
             holder.main_view.setEnabled(true);
             holder.status.setVisibility(View.GONE);
         }
-
+*/
 /*....................................................................................*/
 
 
@@ -176,7 +178,7 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView profile_image,item_check;
-        TextView tv_name,status;
+        TextView tv_name;
         RelativeLayout main_view;
         RatingBar ratingBar;
 
@@ -186,7 +188,6 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
             tv_name = itemView.findViewById(R.id.tv_name);
             profile_image = itemView.findViewById(R.id.profile_image);
             item_check = itemView.findViewById(R.id.item_check);
-            status = itemView.findViewById(R.id.status);
             main_view = itemView.findViewById(R.id.main_view);
             ratingBar = itemView.findViewById(R.id.ratingBar);
         }

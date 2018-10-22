@@ -89,7 +89,7 @@ public class EventImgeUploadAdapter extends RecyclerView.Adapter<EventImgeUpload
 
                     Picasso.with(holder.circular_profile_image.getContext())
                             .load(imageBean.url)
-                            .placeholder(R.drawable.ico_user_placeholder)
+                            .placeholder(R.drawable.placeholder_chat_image).fit()
                             .into(holder.circular_profile_image);
                 } else if (imageBean.bitmap != null) {
                     holder.circular_profile_image.setImageBitmap(imageBean.bitmap);
@@ -101,11 +101,16 @@ public class EventImgeUploadAdapter extends RecyclerView.Adapter<EventImgeUpload
                 public void onClick(View view) {
                     int pos = holder.getAdapterPosition();
 
-                    if(pos == 1){
-                        Utils.openAlertDialog(context,"You should have atleast one image for event");
-                        return;
 
+                    if(list.size() == 2){
+                        if(pos == 1){
+                            Utils.openAlertDialog(context,"You should have atleast one image for event");
+                            return;
+
+                        }
                     }
+
+
 
                     if (!list.get(pos).imageId.equals("")) {
                         deleteImages(list.get(pos).imageId);

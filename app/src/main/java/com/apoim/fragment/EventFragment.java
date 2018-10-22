@@ -47,22 +47,23 @@ public class EventFragment extends Fragment implements View.OnClickListener{
     private EventRequestAdapter eventRequestAdapter;
     private RecyclerView recycler_view;
     private MyEventAdapter myEventAdapter;
-    InsLoadingView loading_view;
-    ArrayList<EventRequestInfo.ListBean> eventList;
-    ArrayList<MyEventInfo.ListBean> myEventList;
-    RelativeLayout ly_no_record_found;
-    int fromBack = 0;
-    Session session;
+    private InsLoadingView loading_view;
+    private ArrayList<EventRequestInfo.ListBean> eventList;
+    private ArrayList<MyEventInfo.ListBean> myEventList;
+    private RelativeLayout ly_no_record_found;
+    private int fromBack = 0;
+    private Session session;
     private EndlessRecyclerViewScrollListener scrollListener;
-    String currentDate = "";
+    private String currentDate = "";
     private int startCount = 0;
-    int eventType;
+    private int eventType;
+    private ImageView create_event;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.event_fragment_layout,container,false);
 
-        ImageView create_event = view.findViewById(R.id.create_event);
+        create_event = view.findViewById(R.id.create_event);
         btn_my_even = view.findViewById(R.id.btn_my_even);
         btn_even_request = view.findViewById(R.id.btn_even_request);
         recycler_view = view.findViewById(R.id.recycler_view);
@@ -93,6 +94,7 @@ public class EventFragment extends Fragment implements View.OnClickListener{
         eventType = 2;
         recycler_view.addOnScrollListener(scrollListener);
         recycler_view.setAdapter(eventRequestAdapter);
+        create_event.setVisibility(View.GONE);
 
         create_event.setOnClickListener(this);
         btn_my_even.setOnClickListener(this);
@@ -136,6 +138,7 @@ public class EventFragment extends Fragment implements View.OnClickListener{
 
             case R.id.btn_my_even:{
 
+                create_event.setVisibility(View.VISIBLE);
                 btn_my_even.setEnabled(false);
                 btn_even_request.setEnabled(false);
 
@@ -160,7 +163,7 @@ public class EventFragment extends Fragment implements View.OnClickListener{
             }
 
             case R.id.btn_even_request:{
-
+                create_event.setVisibility(View.GONE);
                 btn_even_request.setEnabled(false);
                 btn_my_even.setEnabled(false);
 

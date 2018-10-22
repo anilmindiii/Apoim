@@ -76,7 +76,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
         day_time(position, holder, bean);
 
         if (!bean.eventImage.equals(""))
-            Picasso.with(mContext).load(bean.eventImage).placeholder(R.drawable.ico_user_placeholder).fit().into(holder.event_img);
+            Picasso.with(mContext).load(bean.eventImage).placeholder(R.drawable.placeholder_chat_image).fit().into(holder.event_img);
 
         if (!TextUtils.isEmpty(currentDate) && !TextUtils.isEmpty(bean.eventEndDate)) {
             Date date1 = getDateFromString(currentDate);

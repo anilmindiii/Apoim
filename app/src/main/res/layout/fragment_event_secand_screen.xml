@@ -8,6 +8,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         android:scrollbars="none">
 
         <LinearLayout
@@ -46,7 +47,7 @@
                         android:inputType="number"
                         android:imeOptions="actionDone"
                         android:fontFamily="@font/nunito_light"
-                        android:hint="Enter user limit"
+                        android:hint="Max. user limit to join event"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/text_Medium_Size" />
 

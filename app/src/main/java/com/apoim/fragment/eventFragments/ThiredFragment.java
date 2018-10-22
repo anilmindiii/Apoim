@@ -1,7 +1,9 @@
 package com.apoim.fragment.eventFragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -417,7 +419,7 @@ public class ThiredFragment extends Fragment {
                     RattingIds = "";
 
                     if (status.equals("success")) {
-                        addFragment(FourthScreenFragment.newInstance(eventId, imageId), true, R.id.event_fragment_place);
+                        successDialog(mContext,"Event created successfully");
                     } else {
                         Utils.openAlertDialog(mContext, message);
                     }
@@ -467,6 +469,27 @@ public class ThiredFragment extends Fragment {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public  void successDialog(Context context, String message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Apoim");
+        builder.setCancelable(false);
+        builder.setMessage(message);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                addFragment(FourthScreenFragment.newInstance(eventId, imageId), true, R.id.event_fragment_place);
+            }
+        });
+        AlertDialog alert = builder.create();
+
+        if(!((Activity) context).isFinishing())
+        {
+            alert.show();
+        }
+
     }
 
 

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="-20dp">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_45sdp"
+    >
 
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+       android:layout_centerVertical="true"
+        android:layout_marginLeft="-20dp">
 
         <RatingBar
             android:id="@+id/ratting_bar"
@@ -33,17 +36,18 @@
             android:layout_height="@dimen/_17sdp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:src="@drawable/ico_not_checked"/>
-
-        <View
-            android:layout_below="@+id/ratting_bar"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/colorGray" />
+            android:layout_marginRight="@dimen/_13sdp"
+            android:src="@drawable/ico_not_unchecked"/>
 
     </RelativeLayout>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginRight="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@color/colorGray" />
 
 </RelativeLayout>

@@ -69,7 +69,7 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
             holder.tv_payment_status.setText(bean.payment);
         }
 
-        Glide.with(mContext).load(bean.eventImage).apply(new RequestOptions().placeholder(R.drawable.ico_user_placeholder)).into(holder.event_img);
+        Glide.with(mContext).load(bean.eventImage).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(holder.event_img);
 
 
         Date date1 = getDateFromString(currentDate);

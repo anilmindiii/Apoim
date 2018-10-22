@@ -206,7 +206,7 @@
                     android:layout_marginLeft="@dimen/_8sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:gravity="center|top"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:orientation="vertical">
 
                     <TextView

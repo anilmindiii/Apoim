@@ -25,6 +25,7 @@
         android:layout_height="@dimen/_120sdp"
         android:background="@color/colorPrimary"
         android:elevation="3dp"
+        app:cardCornerRadius="@dimen/_10sdp"
         android:layout_margin="5dp">
 
         <RelativeLayout
@@ -35,7 +36,7 @@
                 android:id="@+id/buz_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:siRadius="@dimen/_2sdp"
+                app:siRadius="@dimen/_10sdp"
                 android:src="@drawable/placeholder_chat_image"/>
 
             <View

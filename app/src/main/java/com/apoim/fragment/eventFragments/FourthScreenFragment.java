@@ -118,12 +118,9 @@ public class FourthScreenFragment extends Fragment {
         }
 
 
-        adapter = new EventImgeUploadAdapter(imageBeans, new ProfileImageAdapterListener() {
-            @Override
-            public void getPosition(int position) {
-                if (position == 0) {
-                    getPermissionAndPicImage();
-                }
+        adapter = new EventImgeUploadAdapter(imageBeans, position -> {
+            if (position == 0) {
+                getPermissionAndPicImage();
             }
         });
         event_horizontal_recycler.setAdapter(adapter);
@@ -171,8 +168,8 @@ public class FourthScreenFragment extends Fragment {
                     if (imageBeans.size() < 6) {
 
                         imageUploadTask(eventId, bitmap);
-                        imageBeans.add(1, new ImageBean(null, bitmap, "0"));
-                        adapter.notifyDataSetChanged();
+                       // imageBeans.add(1, new ImageBean(null, bitmap, "0"));
+
                     }
                 }
             }
@@ -226,11 +223,12 @@ public class FourthScreenFragment extends Fragment {
                     JSONObject object_ = jsonObject.getJSONObject("data");
                     JSONObject imgObj = object_.getJSONObject("event");
                     String imgId  =  imgObj.getString("eventImgId");
+                    String eventImage  =  imgObj.getString("eventImage");
 
                     if (status.equals("success")) {
 
-                        imageBeans.add(1, new ImageBean(null, bitmap, imgId));
-
+                        imageBeans.add(1, new ImageBean(eventImage, null, imgId));
+                        adapter.notifyDataSetChanged();
                     } else {
                         Utils.openAlertDialog(mContext, message);
                     }

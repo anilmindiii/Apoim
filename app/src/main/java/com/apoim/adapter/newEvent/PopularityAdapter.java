@@ -70,7 +70,7 @@ public class PopularityAdapter extends RecyclerView.Adapter<PopularityAdapter.Vi
 
         if(position == 3){
             holder.ratting_bar.setNumStars(2);
-            lp.setMargins(50, 0, 0, 0);
+            lp.setMargins(45, 0, 0, 0);
             holder.ratting_bar.setLayoutParams(lp);
         }
 
@@ -106,7 +106,7 @@ public class PopularityAdapter extends RecyclerView.Adapter<PopularityAdapter.Vi
 
         @Override
         public void onClick(View view) {
-            
+
             int position = getAdapterPosition();
 /*
 
@@ -144,14 +144,14 @@ public class PopularityAdapter extends RecyclerView.Adapter<PopularityAdapter.Vi
 
             friedsIdsListner.getIds(RattingIds);
             notifyDataSetChanged();
-            
-            
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
+
+
 
 
 

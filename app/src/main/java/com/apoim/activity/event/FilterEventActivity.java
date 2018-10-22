@@ -101,6 +101,10 @@ public class FilterEventActivity extends AppCompatActivity {
             }
 
             RattingIds = "";
+            ratting = null;
+            latitude = null;
+            longitude = null;
+            address = null;
 
             EventFilterData data = new EventFilterData();
             session.createFilterData(data);
@@ -109,6 +113,13 @@ public class FilterEventActivity extends AppCompatActivity {
         });
 
         tv_apply.setOnClickListener(view -> {
+
+            if(ratting != null){
+                if(ratting.equals("")){
+                    ratting = null;
+                }
+            }
+
             Intent intent = new Intent(FilterEventActivity.this, CreateNewEventActivity.class);
             intent.putExtra("latitude", latitude);
             intent.putExtra("longitude", longitude);
@@ -148,6 +159,7 @@ public class FilterEventActivity extends AppCompatActivity {
             latitude = filterData.latitude;
             longitude = filterData.longitude;
             ratting = filterData.rating;
+            address  = filterData.address;
 
             if (ratting != null) {
                 List<String> tempList = new ArrayList<String>(Arrays.asList(ratting.split(",")));
