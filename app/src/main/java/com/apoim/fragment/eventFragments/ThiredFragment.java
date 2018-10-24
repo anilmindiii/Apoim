@@ -369,6 +369,7 @@ public class ThiredFragment extends Fragment {
         map.put("privacy", bean.privacy);
         map.put("payment", bean.payment);
         map.put("userLimit", bean.userLimit);
+        map.put("businessId", bean.businessId);
 
         if(bean.eventUserType.equals("")){
             map.put("eventUserType", "4");

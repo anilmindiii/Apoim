@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.apoim.R;
 import com.apoim.listener.GetNewImageClick;
+import com.apoim.modal.EventDetailsInfo;
 import com.apoim.modal.GetOtherProfileInfo;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mindiii on 8/8/18.
@@ -24,11 +26,19 @@ public class NewProfileAdapter extends RecyclerView.Adapter<NewProfileAdapter.Vi
 
     Context mContext;
     ArrayList<GetOtherProfileInfo.UserDetailBean.ImagesBean> imagesBeans;
+    List<EventDetailsInfo.EventImage> imagesList;
     GetNewImageClick imageClick;
 
-    public NewProfileAdapter(Context mContext, ArrayList<GetOtherProfileInfo.UserDetailBean.ImagesBean> imagesBeans, GetNewImageClick imageClick) {
+    public NewProfileAdapter(Context mContext, ArrayList<GetOtherProfileInfo.UserDetailBean.ImagesBean> imagesBeans,
+                             GetNewImageClick imageClick) {
         this.mContext = mContext;
         this.imagesBeans = imagesBeans;
+        this.imageClick = imageClick;
+    }
+
+ public NewProfileAdapter(List<EventDetailsInfo.EventImage> eventImage,Context mContext,GetNewImageClick imageClick) {
+        this.mContext = mContext;
+        this.imagesList = eventImage;
         this.imageClick = imageClick;
     }
 
@@ -42,15 +52,32 @@ public class NewProfileAdapter extends RecyclerView.Adapter<NewProfileAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        if(imagesBeans.get(position).image != null)
-            Picasso.with(mContext)
-                    .load(imagesBeans.get(position).image).placeholder(R.drawable.ico_user_placeholder)
-                    .into(holder.circular_profile_image);
+       if(imagesBeans == null){
+
+           if(imagesList.get(position).eventImage != null)
+               Picasso.with(mContext)
+                       .load(imagesList.get(position).eventImage).placeholder(R.drawable.ico_user_placeholder)
+                       .into(holder.circular_profile_image);
+
+       }else {
+           if(imagesBeans.get(position).image != null)
+               Picasso.with(mContext)
+                       .load(imagesBeans.get(position).image).placeholder(R.drawable.ico_user_placeholder)
+                       .into(holder.circular_profile_image);
+       }
+
+
+
+
 
     }
 
     @Override
     public int getItemCount() {
+        if(imagesBeans == null){
+           return imagesList.size();
+        }
+
         return imagesBeans.size();
     }
 

@@ -166,7 +166,7 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
 
         @Override
         public void onClick(View view) {
-          /*  Intent intent = new Intent(mContext, EventDetailsActivity.class);
+            Intent intent = new Intent(mContext, EventDetailsActivity.class);
             intent.putExtra("from","eventRequest");
             intent.putExtra("eventId",eventList.get(getAdapterPosition()).eventId);
             intent.putExtra("ownerType",eventList.get(getAdapterPosition()).ownerType);
@@ -176,7 +176,7 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
                 intent.putExtra("id",eventList.get(getAdapterPosition()).compId);
             }
 
-            mContext.startActivity(intent);*/
+            mContext.startActivity(intent);
         }
     }
 

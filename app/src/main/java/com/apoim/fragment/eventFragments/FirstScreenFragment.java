@@ -76,7 +76,7 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
     private TextView tv_start_date_time, tv_end_date_time, tv_location;
     private RelativeLayout ly_event_start_date_time, ly_event_end_date_time;
     private DatePickerDialog fromDate;
-    private String latitude = "", longitude = "", privacy = "", payment = "", eventUserType = "", eventPlace = "", eventStartDate = "", eventEndDate = "", editEvent = "", eventId = "";
+    private String latitude = "", longitude = "", businessId = "", payment = "", eventUserType = "", eventPlace = "", eventStartDate = "", eventEndDate = "", editEvent = "", eventId = "";
     private String yearsOfMonth = "", day, years = "", startSeelectedDate = "", nextDayDate = "", currencySymbol = "", currencyCode = "";
     private Calendar now, nowEnd;
     private TimePickerDialog myTime, myEndTime;
@@ -119,37 +119,32 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
             getPermissionAndPicImage();
         });
 
-        tv_next_first.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isValid()) {
-                    tv_one.setVisibility(View.GONE);
-                    iv_right_one.setVisibility(View.VISIBLE);
+        tv_next_first.setOnClickListener(view12 -> {
+            if (isValid()) {
+                tv_one.setVisibility(View.GONE);
+                iv_right_one.setVisibility(View.VISIBLE);
 
-                    EventDetailsInfo.DetailBean bean = new EventDetailsInfo.DetailBean();
-                    bean.eventName = ed_event_name.getText().toString().trim();
-                    bean.eventStartDate = eventStartDate;
-                    bean.eventEndDate = eventEndDate;
-                    bean.eventLatitude = latitude;
-                    bean.eventLongitude = longitude;
-                    bean.eventPlace = eventPlace;
-                    bean.firstImage = base64Image;
+                EventDetailsInfo.DetailBean bean = new EventDetailsInfo.DetailBean();
+                bean.eventName = ed_event_name.getText().toString().trim();
+                bean.eventStartDate = eventStartDate;
+                bean.eventEndDate = eventEndDate;
+                bean.eventLatitude = latitude;
+                bean.eventLongitude = longitude;
+                bean.eventPlace = eventPlace;
+                bean.firstImage = base64Image;
+                bean.businessId = businessId;
 
-                    if (!CreateNewEventActivity.isForUpdateEvent) {
-                        session.createEventInfo(bean);
-                    }
-                    addFragment(new SecandScreenFragment(), true, R.id.event_fragment_place);
+                if (!CreateNewEventActivity.isForUpdateEvent) {
+                    session.createEventInfo(bean);
                 }
-
+                addFragment(new SecandScreenFragment(), true, R.id.event_fragment_place);
             }
+
         });
 
-        ly_is_buz_added.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, SelectEventPlaceActivity.class);
-                startActivityForResult(intent, Constant.EventPlaceRequestCode);
-            }
+        ly_is_buz_added.setOnClickListener(view13 -> {
+            Intent intent = new Intent(mContext, SelectEventPlaceActivity.class);
+            startActivityForResult(intent, Constant.EventPlaceRequestCode);
         });
 
         return view;
@@ -193,10 +188,14 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
                 String eventlatitude = data.getStringExtra("eventlatitude");
                 String eventlogitude = data.getStringExtra("eventlogitude");
                 String eventplaceImage = data.getStringExtra("eventplaceImage");
+                businessId = data.getStringExtra("businessId");
+
                 tv_location.setText(eventAddress);
                 eventPlace = eventAddress;
                 latitude = eventlatitude;
                 longitude = eventlogitude;
+
+
                 if(eventplaceImage != null){
                     Glide.with(mContext).load(eventplaceImage).apply(new RequestOptions().placeholder(R.drawable.map_event)).into(event_place_image);
 

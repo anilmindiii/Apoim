@@ -123,10 +123,10 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             });
 
             holder.ly_edit_event.setOnClickListener(view -> {
-                /*Intent intent = new Intent(mContext,CreateEventActivity.class);
+                Intent intent = new Intent(mContext,CreateEventActivity.class);
                 intent.putExtra(Constant.editEvent, Constant.editEvent);
                 intent.putExtra("eventId", bean.eventId);
-                mContext.startActivity(intent);*/
+                mContext.startActivity(intent);
             });
 
         } catch (ParseException e) {
@@ -188,10 +188,10 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-           /* Intent intent = new Intent(mContext, EventDetailsActivity.class);
+            Intent intent = new Intent(mContext, EventDetailsActivity.class);
             intent.putExtra("from","myEvent");
             intent.putExtra("eventId",myEventList.get(getAdapterPosition()).eventId);
-            mContext.startActivity(intent);*/
+            mContext.startActivity(intent);
         }
     }
 

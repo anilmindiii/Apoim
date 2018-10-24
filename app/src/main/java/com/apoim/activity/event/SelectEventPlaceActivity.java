@@ -154,6 +154,7 @@ public class SelectEventPlaceActivity extends AppCompatActivity implements OnMap
                 appointLatitude = String.valueOf(place.getLatLng().latitude);
                 appointLongitude = String.valueOf(place.getLatLng().longitude);
                 eventAddress = String.valueOf(place.getAddress());
+                businessId = "";
 
                 if (current_latitude != 0 && current_longitude != 0) {
                     LatLng start = new LatLng(current_latitude, current_longitude);
@@ -183,6 +184,7 @@ public class SelectEventPlaceActivity extends AppCompatActivity implements OnMap
                 intent.putExtra("eventlatitude",appointLatitude);
                 intent.putExtra("eventlogitude",appointLongitude);
                 intent.putExtra("eventplaceImage",eventplaceImage);
+                intent.putExtra("businessId",businessId);
                 setResult(Activity.RESULT_OK,intent);
                 finish();
             }

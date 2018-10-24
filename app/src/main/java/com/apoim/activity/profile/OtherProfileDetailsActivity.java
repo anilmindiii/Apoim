@@ -75,7 +75,7 @@ public class OtherProfileDetailsActivity extends AppCompatActivity {
     private ArrayList<ProfileInterestInfo> interestArrayList;
     private ShowInterestAdapter showInterestAdapter;
     private RecyclerView profile_horizontal_recycler;
-   // private RecyclerView user_selected_interest_list_view;
+    // private RecyclerView user_selected_interest_list_view;
     private TextView tv_basic_info,tv_more_info;
     private LinearLayout ly_basic_info,ly_more_info,ly_request_accept_reject,ly_photo_view;
 
@@ -94,8 +94,8 @@ public class OtherProfileDetailsActivity extends AppCompatActivity {
     private TextView tv_about_me,tv_friend_status;
     private LinearLayout scr_shot_view;
     private NewProfileAdapter newProfileImageAdapter;
-    LinearLayout ly_my_fevorite,ly_business;
-    TextView tv_appoim_type,tv_event_type;
+    private LinearLayout ly_my_fevorite,ly_business;
+    private TextView tv_appoim_type,tv_event_type;
 
     private ImageView iv_mobile_veri, iv_id_hand_veri, iv_face_detection_veri;
     private ImageView iv_mobile_veri_active, iv_id_hand_veri_active, iv_face_detection_veri_active;

@@ -53,7 +53,7 @@ import static com.apoim.activity.event.CreateEventActivity.friendsIds;
 
 /**
  * Created by mindiii on 14/9/18.
- */
+ **/
 
 public class FourthScreenFragment extends Fragment {
     private TextView tv_select_background_four, tv_four;

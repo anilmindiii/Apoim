@@ -109,11 +109,6 @@ public class BusinessDetailsActivity extends AppCompatActivity {
         String API_KEY = "AIzaSyDI-QUWEEWFiV1W90w4PW2UWpIt04_DsmA";
         String url = "https://maps.googleapis.com/maps/api/staticmap?center=" + "&zoom=13&size=1280x600&maptype=roadmap" +
                 "&markers=color:red%7Clabel:S%7C" + businessDetail.businesslat + "," + businessDetail.businesslong + "&key=" + API_KEY;
-
-
-
-
-
         Glide.with(BusinessDetailsActivity.this).load(url).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image))
                 .into(iv_map_img);
     }

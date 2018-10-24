@@ -12,7 +12,7 @@ public class EventDetailsInfo {
     public String status;
     public String message;
     public String currentDate;
-    public DetailBean Detail;
+    public DetailBean Detail = new DetailBean();
     public List<JoinedMemberBean> joinedMember = new ArrayList<>();
     public List<InvitedMember> invitedMember = new ArrayList<>();
     public List<CompanionMember> companionMember = new ArrayList<>();
@@ -46,6 +46,16 @@ public class EventDetailsInfo {
         public String confirmedCount ;
         public String groupChat ;
         public String firstImage;
+        public String businessId;
+
+        public List<EventImage> eventImage;
+
+    }
+
+    public static class EventImage {
+
+        public String eventImage;
+        public String eventImgId;
 
     }
 

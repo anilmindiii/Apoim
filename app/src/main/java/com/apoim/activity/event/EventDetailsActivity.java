@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -27,12 +28,16 @@ import com.apoim.R;
 import com.apoim.activity.CompanionListActivity;
 import com.apoim.activity.InvidedEventActivity;
 import com.apoim.activity.JoinedEventActivity;
+import com.apoim.activity.business.BusinessDetailsActivity;
 import com.apoim.activity.payment_subscription.SubscriptionPayActivity;
 import com.apoim.adapter.apoinment.EventDetailsMemberAdapter;
 import com.apoim.adapter.apoinment.ShareEventJoinAdapter;
+import com.apoim.adapter.newProfile.NewProfileAdapter;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
+import com.apoim.listener.GetNewImageClick;
 import com.apoim.listener.ShareListner;
+import com.apoim.modal.BussinessInfo;
 import com.apoim.modal.EventDetailsInfo;
 import com.apoim.modal.MyFriendListInfo;
 import com.apoim.server_task.WebService;
@@ -68,7 +73,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView tv_start_date_time;
     private TextView tv_max_user;
     private TextView tv_paid_amount;
-    private TextView tv_share;
+    private TextView tv_share_event;
     private TextView tv_pay;
     private TextView tv_end_day;
     private TextView tv_end_date_time;
@@ -79,15 +84,16 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView tv_privacy;
     private TextView tv_joined_count;
     private TextView tv_invite_count;
-    private TextView tv_join;
+    private LinearLayout ly_accept;
     private TextView tv_joined_member_txt;
     private TextView tv_payment_status;
-    private TextView tv_accept;
-    private TextView tv_reject;
+    private TextView tv_time_To,tv_time_From;
+    private CardView cv_accept_companion;
+    private CardView cv_reject_companion;
     private TextView tv_comp_count;
-    private ImageView iv_profile;
-    private LinearLayout ly_edit_delete, ly_accept_reject;
-    private RelativeLayout ly_companion;
+    private ImageView iv_profile,map_image;
+    private LinearLayout ly_edit_delete;
+    private RelativeLayout ly_companion,ly_accept_reject,ly_join_accept_reject;
     private InsLoadingView loading_view;
     private String eventId = "";
     private String id = "";
@@ -103,16 +109,17 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private String userId = "", memberId = "", currencyCode = "", eventAmount = "", eventPrivacy = "", currentDate = "", eventMemId = "", eventOrgnizarId = "", ownerType;
     private ImageView iv_edit_profile;
     private EventDetailsInfo detailsInfo;
-    private CardView cv_companion_view;
+    private LinearLayout cv_companion_view;
     private boolean isExpaireDate;
     private boolean isLimitOver = false;
     private boolean isEventPaymentDone = false;
-
+    private NewProfileAdapter eventImageAdapter;
+    private RecyclerView rcv_event_images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_details);
+        setContentView(R.layout.test_for_layout);
         init();
 
         friendList = new ArrayList<>();
@@ -137,8 +144,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
             if (from.equals("myEvent")) {
                 tv_pay.setVisibility(View.GONE);
-                tv_share.setVisibility(View.GONE);
-                tv_join.setVisibility(View.GONE);
+                tv_share_event.setVisibility(View.GONE);
+                ly_join_accept_reject.setVisibility(View.GONE);
 
                 ly_edit_delete.setVisibility(View.VISIBLE);
                 tv_invite_member_txt.setVisibility(View.VISIBLE);
@@ -152,15 +159,19 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             }
         }
 
-        tv_join.setOnClickListener(this);
+
+
+
+
+        ly_accept.setOnClickListener(this);
         iv_back.setOnClickListener(this);
-        tv_share.setOnClickListener(this);
+        tv_share_event.setOnClickListener(this);
         ly_join_member.setOnClickListener(this);
         ly_invited_member.setOnClickListener(this);
         iv_delete_myevent.setOnClickListener(this);
         tv_pay.setOnClickListener(this);
-        tv_accept.setOnClickListener(this);
-        tv_reject.setOnClickListener(this);
+        cv_accept_companion.setOnClickListener(this);
+        cv_reject_companion.setOnClickListener(this);
         iv_edit_profile.setOnClickListener(this);
         ly_companion.setOnClickListener(this);
 
@@ -189,14 +200,15 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         tv_invite_member_txt = findViewById(R.id.tv_invite_member_txt);
         ly_edit_delete = findViewById(R.id.ly_edit_delete);
         loading_view = findViewById(R.id.loading_view);
-        tv_share = findViewById(R.id.tv_share);
+        tv_share_event = findViewById(R.id.tv_share_event);
         tv_invite_count = findViewById(R.id.tv_invite_count);
-        tv_join = findViewById(R.id.tv_join);
+        ly_accept = findViewById(R.id.ly_accept);
         tv_joined_member_txt = findViewById(R.id.tv_joined_member_txt);
         tv_payment_status = findViewById(R.id.tv_payment_status);
-        tv_reject = findViewById(R.id.tv_reject);
-        tv_accept = findViewById(R.id.tv_accept);
+        cv_reject_companion = findViewById(R.id.cv_reject_companion);
+        cv_accept_companion = findViewById(R.id.cv_accept_companion);
         tv_comp_count = findViewById(R.id.tv_comp_count);
+        map_image = findViewById(R.id.map_image);
 
         cv_companion_view = findViewById(R.id.cv_companion_view);
         ly_companion = findViewById(R.id.ly_companion);
@@ -206,6 +218,9 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         tv_start_th = findViewById(R.id.tv_start_th);
         tv_end_th = findViewById(R.id.tv_end_th);
         ly_joined = findViewById(R.id.ly_joined);
+        ly_join_accept_reject = findViewById(R.id.ly_join_accept_reject);
+
+
         iv_delete_myevent = findViewById(R.id.iv_delete_myevent);
 
         iv_edit_profile = findViewById(R.id.iv_edit_profile);
@@ -229,15 +244,19 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         rcv_companion = findViewById(R.id.rcv_companion);
         iv_back = findViewById(R.id.iv_back);
         tv_joined_count = findViewById(R.id.tv_joined_count);
+        tv_time_From = findViewById(R.id.tv_time_From);
+        tv_time_To = findViewById(R.id.tv_time_To);
+
+        rcv_event_images = findViewById(R.id.rcv_event_images);
     }
 
     public void setData(EventDetailsInfo.DetailBean detail) {
         tv_address.setText(detail.eventPlace);
-
-        day_time(tv_start_th, tv_day, tv_start_date_time, detail.eventStartDate);
+        openGoogleMap(detail,this,map_image);
+        day_time(tv_start_th, tv_day, tv_start_date_time, detail.eventStartDate,tv_time_From);
 
         tv_paid_amount.setText(detail.currencySymbol + detail.eventAmount);
-        day_time(tv_end_th, tv_end_day, tv_end_date_time, detail.eventEndDate);
+        day_time(tv_end_th, tv_end_day, tv_end_date_time, detail.eventEndDate,tv_time_To);
 
         if (detail.eventUserType.equals("Male")) {
             userGenderType = "1";
@@ -317,28 +336,28 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             switch (detail.memberStatus) {
                 case Constant.Confirmed:
                     tv_pay.setVisibility(View.GONE);
-                    tv_share.setVisibility(View.VISIBLE);
-                    tv_join.setVisibility(View.GONE);
+                    tv_share_event.setVisibility(View.VISIBLE);
+                    ly_join_accept_reject.setVisibility(View.GONE);
                     joined_view_visible();
                     break;
                 case Constant.Pending_request:
-                    tv_join.setVisibility(View.VISIBLE);
-                    tv_share.setVisibility(View.GONE);
+                    ly_join_accept_reject.setVisibility(View.VISIBLE);
+                    tv_share_event.setVisibility(View.GONE);
                     tv_pay.setVisibility(View.GONE);
 
                     tv_joined_count.setVisibility(View.GONE);
                     break;
                 case Constant.Confirmed_payment:
                     tv_pay.setVisibility(View.GONE);
-                    tv_share.setVisibility(View.VISIBLE);
-                    tv_join.setVisibility(View.GONE);
+                    tv_share_event.setVisibility(View.VISIBLE);
+                    ly_join_accept_reject.setVisibility(View.GONE);
 
                     joined_view_visible();
                     break;
                 case Constant.Joined_Payment_is_pending:
                     tv_pay.setVisibility(View.VISIBLE);
-                    tv_share.setVisibility(View.GONE);
-                    tv_join.setVisibility(View.GONE);
+                    tv_share_event.setVisibility(View.GONE);
+                    ly_join_accept_reject.setVisibility(View.GONE);
                     joined_view_visible();
                     break;
             }
@@ -375,32 +394,32 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     all_view_hide();
                 } else {
                     ly_accept_reject.setVisibility(View.VISIBLE);
-                    tv_join.setVisibility(View.GONE);
+                    ly_join_accept_reject.setVisibility(View.GONE);
                     tv_pay.setVisibility(View.GONE);
-                    tv_share.setVisibility(View.GONE);
+                    tv_share_event.setVisibility(View.GONE);
 
                 }
                 cv_companion_view.setVisibility(View.GONE);
             } else if (detail.ownerType.equals("Administrator")
                     && Integer.parseInt(detail.companionMemberCount) > 0) {
-                tv_share.setVisibility(View.GONE);
+                tv_share_event.setVisibility(View.GONE);
                 cv_companion_view.setVisibility(View.VISIBLE);
             }
 
             if (isExpaireDate(currentDate, detail.eventEndDate)) {
                 //All view should be gone
-                tv_share.setVisibility(View.GONE);
+                tv_share_event.setVisibility(View.GONE);
                 tv_pay.setVisibility(View.GONE);
                 ly_accept_reject.setVisibility(View.GONE);
-                tv_join.setVisibility(View.GONE);
+                ly_join_accept_reject.setVisibility(View.GONE);
             }
 
             /*if(detail.joinedMemberCount == Integer.parseInt(detail.userLimit)){
                 //All view should be gone
-                tv_share.setVisibility(View.GONE);
+                tv_share_event.setVisibility(View.GONE);
                 tv_pay.setVisibility(View.GONE);
                 ly_accept_reject.setVisibility(View.GONE);
-                tv_join.setVisibility(View.GONE);
+                ly_accept.setVisibility(View.GONE);
             }*/
         }
 
@@ -410,21 +429,32 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    private void openGoogleMap(EventDetailsInfo.DetailBean detail,Context context,ImageView iv_map_img) {
+        // val API_KEY = "AIzaSyBnFGTrGe8dJKMnrcinn1edleHCB_yZI5U"
+        String API_KEY = "AIzaSyDI-QUWEEWFiV1W90w4PW2UWpIt04_DsmA";
+        String url = "https://maps.googleapis.com/maps/api/staticmap?center=" + "&zoom=16&size=800x800&maptype=roadmap" +
+                "&markers=color:red%7Clabel:S%7C" + detail.eventLatitude + "," + detail.eventLongitude + "&key=" + API_KEY;
+        Glide.with(context).load(url).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image))
+                .into(iv_map_img);
+    }
+
     private void all_view_hide() {
         ly_accept_reject.setVisibility(View.GONE);
-        tv_share.setVisibility(View.GONE);
+        tv_share_event.setVisibility(View.GONE);
         tv_pay.setVisibility(View.GONE);
     }
 
-    private void day_time(TextView th, TextView day, TextView date_time, String eventdate) {
+    private void day_time(TextView th, TextView day, TextView date_time, String eventdate,TextView time) {
         try {
             String timeLong = eventdate;
 
             SimpleDateFormat formatLong = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-            SimpleDateFormat formatShort = new SimpleDateFormat("MMM yyyy, hh:mm aa", Locale.US);
+            SimpleDateFormat formatShort = new SimpleDateFormat("MMM yyyy,", Locale.US);
+            SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm aa", Locale.US);
             SimpleDateFormat formatShort1 = new SimpleDateFormat("dd", Locale.US);
             Log.v("timeLong", formatShort1.format(formatLong.parse(timeLong)));
 
+            time.setText(formatTime.format(formatLong.parse(timeLong)));
             day.setText(formatShort1.format(formatLong.parse(timeLong)));
             date_time.setText(formatShort.format(formatLong.parse(timeLong)));
             th.setText(getDayOfMonthSuffix(Integer.parseInt(formatShort1.format(formatLong.parse(timeLong)))));
@@ -654,6 +684,14 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                         currentDate = detailsInfo.currentDate;
                         setData(detailsInfo.Detail);
 
+                        eventImageAdapter = new NewProfileAdapter(detailsInfo.Detail.eventImage, EventDetailsActivity.this, new GetNewImageClick() {
+                            @Override
+                            public void imageClick(int position) {
+
+                            }
+                        });
+                        rcv_event_images.setAdapter(eventImageAdapter);
+                        eventImageAdapter.notifyDataSetChanged();
 
                     } else {
 
@@ -705,7 +743,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         Intent intent = null;
         switch (view.getId()) {
-            case R.id.tv_join:
+            case R.id.ly_accept:
                 if (isLimitOver) {
                     //if(invitedMemberList.size() !=0)
                     joinEvent(eventId);
@@ -719,7 +757,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 onBackPressed();
                 break;
 
-            case R.id.tv_share:
+            case R.id.tv_share_event:
                 if (isLimitOver) {
                     //if(invitedMemberList.size() !=0)
                     eventJoinMenberDialog();
@@ -772,7 +810,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
 
-            case R.id.tv_accept:
+            case R.id.cv_accept_companion:
                 if (isLimitOver) {
                     if (!TextUtils.isEmpty(eventId))
                         accptRejectReq(eventId, "1", eventMemId);
@@ -781,7 +819,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
 
-            case R.id.tv_reject:
+            case R.id.cv_reject_companion:
                 if (isLimitOver) {
                     if (!TextUtils.isEmpty(eventId))
                         accptRejectReq(eventId, "2", eventMemId);
@@ -836,8 +874,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void accptRejectReq(String eventId, String status, String eventMemId) {
-        tv_accept.setEnabled(false);
-        tv_reject.setEnabled(false);
+        cv_accept_companion.setEnabled(false);
+        cv_reject_companion.setEnabled(false);
         loading_view.setVisibility(View.VISIBLE);
         Map<String, String> param = new HashMap<>();
         param.put("eventId", eventId);
@@ -847,8 +885,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
             @Override
             public void onResponse(String response) {
-                tv_accept.setEnabled(true);
-                tv_reject.setEnabled(true);
+                cv_accept_companion.setEnabled(true);
+                cv_reject_companion.setEnabled(true);
                 loading_view.setVisibility(View.GONE);
                 try {
                     JSONObject object = new JSONObject(response);
@@ -865,8 +903,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    tv_accept.setEnabled(true);
-                    tv_reject.setEnabled(true);
+                    cv_accept_companion.setEnabled(true);
+                    cv_reject_companion.setEnabled(true);
                     loading_view.setVisibility(View.GONE);
                 }
 
@@ -876,8 +914,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             public void ErrorListener(VolleyError error) {
                 Log.d("response", error.toString());
                 loading_view.setVisibility(View.GONE);
-                tv_accept.setEnabled(true);
-                tv_reject.setEnabled(true);
+                cv_accept_companion.setEnabled(true);
+                cv_reject_companion.setEnabled(true);
             }
         });
 
@@ -1019,7 +1057,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void joinEvent(final String eventId) {
-        tv_join.setEnabled(false);
+        ly_accept.setEnabled(false);
         Session session = new Session(this, this);
         loading_view.setVisibility(View.VISIBLE);
 
@@ -1032,14 +1070,14 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             public void onResponse(String response) {
                 loading_view.setVisibility(View.GONE);
                 Log.e("SIGN IN RESPONSE", response);
-                tv_join.setEnabled(true);
+                ly_accept.setEnabled(true);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
 
                     if (status.equals("success")) {
-                        tv_join.setVisibility(View.GONE);
+                        ly_join_accept_reject.setVisibility(View.GONE);
                         joined_view_visible();
                         myEventRequestEvent(eventId, from);
 
@@ -1048,14 +1086,14 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    tv_join.setEnabled(true);
+                    ly_accept.setEnabled(true);
                     loading_view.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void ErrorListener(VolleyError error) {
-                tv_join.setEnabled(true);
+                ly_accept.setEnabled(true);
                 loading_view.setVisibility(View.GONE);
             }
         });
