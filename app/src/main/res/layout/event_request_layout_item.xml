@@ -283,6 +283,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/ly_join_accept_reject"
                         android:layout_width="@dimen/_150sdp"
                         android:layout_height="match_parent"
                         android:gravity="center"

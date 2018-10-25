@@ -10,23 +10,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.apoim.R;
 import com.apoim.activity.event.EventDetailsActivity;
+import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
 import com.apoim.modal.EventRequestInfo;
+import com.apoim.server_task.WebService;
+import com.apoim.session.Session;
+import com.apoim.util.InsLoadingView;
 import com.apoim.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static com.bumptech.glide.util.Preconditions.checkArgument;
 
@@ -38,10 +49,12 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
     Context mContext;
     ArrayList<EventRequestInfo.ListBean> eventList;
     String currentDate;
+    InsLoadingView loading_view;
 
-    public EventRequestAdapter(Context mContext, ArrayList<EventRequestInfo.ListBean> eventList) {
+    public EventRequestAdapter(Context mContext, ArrayList<EventRequestInfo.ListBean> eventList, InsLoadingView loading_view) {
         this.mContext = mContext;
         this.eventList = eventList;
+        this.loading_view = loading_view;
     }
 
     public void setCurrentDate(String date){
@@ -111,6 +124,25 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
         Glide.with(holder.profile_image.getContext()).load(bean.profileImage).apply(options).into(holder.profile_image);
 
         day_time(holder, bean);
+
+
+        if(bean.memberStatus.equals(Constant.Pending_request)){
+            if(holder.event_status.getText().toString().equals("Event passed") || !bean.ownerType.equals("Administrator")){
+
+                holder.ly_join_accept_reject.setVisibility(View.GONE);
+            }else {
+                holder.ly_join_accept_reject.setVisibility(View.VISIBLE);
+            }
+
+        }else holder.ly_join_accept_reject.setVisibility(View.GONE);
+
+        holder.ly_accept.setOnClickListener(view -> {
+            joinEvent(bean.eventId,holder.ly_accept,holder.ly_join_accept_reject,loading_view,position,"1");
+        });
+
+        holder.ly_reject.setOnClickListener(view -> {
+            joinEvent(bean.eventId,holder.ly_accept,holder.ly_join_accept_reject,loading_view,position,"2");
+        });
     }
 
 
@@ -143,6 +175,8 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
                 tv_privacy,tv_event_creater_name,tv_start_date_time,tv_day,user_status,event_status,tv_th,tv_time;
         ImageView profile_image,event_img;
         Space space;
+        LinearLayout ly_join_accept_reject,ly_accept,ly_reject;
+
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -161,6 +195,9 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
             tv_time = itemView.findViewById(R.id.tv_time);
             space = itemView.findViewById(R.id.space);
             event_img = itemView.findViewById(R.id.event_img);
+            ly_join_accept_reject = itemView.findViewById(R.id.ly_join_accept_reject);
+            ly_accept = itemView.findViewById(R.id.ly_accept);
+            ly_reject = itemView.findViewById(R.id.ly_reject);
 
         }
 
@@ -203,7 +240,70 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return startDate;
+    }
+
+    private void joinEvent(final String eventId,
+                           LinearLayout ly_accept,
+                           LinearLayout ly_join_accept_reject,
+                           InsLoadingView loading_view,
+                           int position,
+                           String status) {
+        ly_accept.setEnabled(false);
+        Session session = new Session(mContext);
+        loading_view.setVisibility(View.VISIBLE);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("status", status);
+        map.put("eventId", eventId);
+        map.put("memberId", session.getUser().userDetail.userId);
+
+        WebService service = new WebService(mContext, Apoim.TAG, new WebService.LoginRegistrationListener() {
+            @Override
+            public void onResponse(String response) {
+                loading_view.setVisibility(View.GONE);
+                Log.e("SIGN IN RESPONSE", response);
+                ly_accept.setEnabled(true);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String apiStatus = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+
+                    if (apiStatus.equals("success")) {
+                        ly_join_accept_reject.setVisibility(View.GONE);
+
+                    } else {
+                        Utils.openAlertDialog(mContext, message);
+                    }
+
+                    if(eventList.get(position).payment.equals("Free")){
+                        eventList.get(position).memberStatus = Constant.Confirmed;
+
+                    }else { // paid
+                        eventList.get(position).memberStatus = Constant.Joined_Payment_is_pending;
+                    }
+
+                    if(status.equals("2")){
+                        eventList.remove(position);
+                        notifyDataSetChanged();
+                    }else {
+                        notifyItemChanged(position);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    ly_accept.setEnabled(true);
+                    loading_view.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+                ly_accept.setEnabled(true);
+                loading_view.setVisibility(View.GONE);
+            }
+        });
+        service.callSimpleVolley("event/joinMember", map);
     }
 }

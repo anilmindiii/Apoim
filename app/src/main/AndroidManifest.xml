@@ -180,7 +180,7 @@
         <activity
             android:name=".activity.event.EventDetailsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoStatusBar" />
 
         <provider
             android:name=".ImagePickerPackge.MyFileProvider"

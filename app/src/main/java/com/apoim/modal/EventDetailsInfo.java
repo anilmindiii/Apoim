@@ -48,6 +48,12 @@ public class EventDetailsInfo {
         public String firstImage;
         public String businessId;
 
+        public String businessName;
+        public String businessAddress;
+        public String businesslat;
+        public String businesslong;
+        public String businessImage;
+
         public List<EventImage> eventImage;
 
     }

@@ -74,7 +74,7 @@ public class EventFragment extends Fragment implements View.OnClickListener{
         eventList = new ArrayList<>();
         myEventList = new ArrayList<>();
 
-        eventRequestAdapter = new EventRequestAdapter(mContext,eventList);
+        eventRequestAdapter = new EventRequestAdapter(mContext,eventList,loading_view);
 
         myEventAdapter = new MyEventAdapter(mContext,currentDate, myEventList, new DeleteListner() {
             @Override

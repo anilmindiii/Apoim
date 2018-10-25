@@ -56,7 +56,7 @@ public class NewProfileAdapter extends RecyclerView.Adapter<NewProfileAdapter.Vi
 
            if(imagesList.get(position).eventImage != null)
                Picasso.with(mContext)
-                       .load(imagesList.get(position).eventImage).placeholder(R.drawable.ico_user_placeholder)
+                       .load(imagesList.get(position).eventImage).placeholder(R.drawable.placeholder_chat_image)
                        .into(holder.circular_profile_image);
 
        }else {
