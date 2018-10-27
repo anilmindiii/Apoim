@@ -1,5 +1,6 @@
 package com.apoim.modal;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ import java.util.List;
  * Created by mindiii on 25/4/18.
  */
 
-public class EventDetailsInfo {
+public class EventDetailsInfo  implements Serializable{
     
     public String status;
     public String message;
@@ -17,7 +18,7 @@ public class EventDetailsInfo {
     public List<InvitedMember> invitedMember = new ArrayList<>();
     public List<CompanionMember> companionMember = new ArrayList<>();
     
-    public static class DetailBean {
+    public static class DetailBean implements Serializable{
         
         public String eventMemId;
         public String memberId;
@@ -54,18 +55,21 @@ public class EventDetailsInfo {
         public String businesslong;
         public String businessImage;
 
+        public String ownerName;
+        public String ownerImage;
+
         public List<EventImage> eventImage;
 
     }
 
-    public static class EventImage {
+    public static class EventImage implements Serializable{
 
         public String eventImage;
         public String eventImgId;
 
     }
 
-    public static class JoinedMemberBean {
+    public static class JoinedMemberBean  implements Serializable{
       
         public String eventMemId;
         public String memberId;
@@ -74,7 +78,7 @@ public class EventDetailsInfo {
         public String userImg;
     }
     
-    public static class InvitedMember {
+    public static class InvitedMember  implements Serializable {
       
         public String eventMemId;
         public String memberId;
@@ -83,7 +87,7 @@ public class EventDetailsInfo {
         public String userImg;
     } 
     
-    public static class CompanionMember {
+    public static class CompanionMember  implements Serializable{
       
         public String eventMemId;
         public String memberId;

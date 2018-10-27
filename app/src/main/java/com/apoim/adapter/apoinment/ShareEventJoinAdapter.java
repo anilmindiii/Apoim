@@ -59,8 +59,6 @@ public class ShareEventJoinAdapter extends RecyclerView.Adapter<ShareEventJoinAd
 
         holder.main_view.setEnabled(false);
 
-
-
         if(eventPrivacy.equals("1")){ // for public case
 
             if(bean.gender.equals("2")){

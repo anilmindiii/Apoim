@@ -31,15 +31,17 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
     private ArrayList<AllUserForEventInfo.DataBean.UserBean> friendList;
     private CreateEventActivity.FriedsIdsListner friedsIdsListner;
     private String privacy = ""; // 1 for public , 2 for private
+    private String eventOrganizer = ""; // 1 for public , 2 for private
 
     public InviteFrienAdapter(Context mContext,String privacy
             ,ArrayList<AllUserForEventInfo.DataBean.UserBean> friendList,String friendsIds,
-                              CreateEventActivity.FriedsIdsListner friedsIdsListner) {
+                              CreateEventActivity.FriedsIdsListner friedsIdsListner,String eventOrganizer) {
 
         this.mContext = mContext;
         this.friendList = friendList;
         this.friedsIdsListner = friedsIdsListner;
         this.privacy = privacy;
+        this.eventOrganizer = eventOrganizer;
     }
 
     @Override
@@ -52,89 +54,20 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
         AllUserForEventInfo.DataBean.UserBean bean = friendList.get(position);
 
-        if(bean.isSelected){
-            holder.item_check.setImageResource(R.drawable.check_item);
-        }else {
-            holder.item_check.setImageResource(R.drawable.uncheck_item);
-        }
+  /*      if(bean.userId.equals(eventOrganizer)){
+            holder.itemView.setVisibility(View.GONE);
+        }else */
+            holder.itemView.setVisibility(View.VISIBLE);
 
-        holder.ratingBar.setRating(Float.parseFloat(bean.total_rating));
-
-
-
-
-      /*
-          holder.main_view.setEnabled(false);
-       if(privacy.equals("1")){ // for public case
-
-            if(bean.gender.equals("2")){
-
-                if(bean.eventInvitation.equals("1")){
-                    holder.status.setText("Public");
-                    holder.item_check.setVisibility(View.VISIBLE);
-                    holder.status.setVisibility(View.VISIBLE);
-                    holder.main_view.setEnabled(true);
-                }
-                else if(bean.eventInvitation.equals("2")){
-                    holder.status.setText("Private");
-                    holder.item_check.setVisibility(View.GONE);
-                    holder.status.setVisibility(View.VISIBLE);
-
-                }else if(bean.eventInvitation.equals("3")) {
-                    holder.status.setText("Both (Public/Private)");
-                    holder.item_check.setVisibility(View.VISIBLE);
-                    holder.status.setVisibility(View.VISIBLE);
-                    holder.main_view.setEnabled(true);
-                }
-
-            }else if(bean.gender.equals("1")){
-                holder.item_check.setVisibility(View.VISIBLE);
-                holder.main_view.setEnabled(true);
-                holder.status.setVisibility(View.GONE);
+            if(bean.isSelected){
+                holder.item_check.setImageResource(R.drawable.check_item);
+            }else {
+                holder.item_check.setImageResource(R.drawable.uncheck_item);
             }
 
+            holder.ratingBar.setRating(Float.parseFloat(bean.total_rating));
 
-        }
-        else if(privacy.equals("2")){ // for case private
-
-            if(bean.gender.equals("2")){
-
-                if(bean.eventInvitation.equals("1")){
-                    holder.status.setText("Public");
-                    holder.item_check.setVisibility(View.GONE);
-                    holder.status.setVisibility(View.VISIBLE);
-                }
-                else if(bean.eventInvitation.equals("2")){
-                    holder.status.setText("Private");
-                    holder.item_check.setVisibility(View.VISIBLE);
-                    holder.status.setVisibility(View.VISIBLE);
-                    holder.main_view.setEnabled(true);
-
-                }else if(bean.eventInvitation.equals("3")) {
-                    holder.status.setText("Both (Public/Private)");
-                    holder.item_check.setVisibility(View.VISIBLE);
-                    holder.status.setVisibility(View.VISIBLE);
-                    holder.main_view.setEnabled(true);
-                }
-
-            }else  if(bean.gender.equals("1")){
-                holder.item_check.setVisibility(View.VISIBLE);
-                holder.main_view.setEnabled(true);
-                holder.status.setVisibility(View.GONE);
-            }
-
-        }else {
-            holder.item_check.setVisibility(View.VISIBLE);
-            holder.main_view.setEnabled(true);
-            holder.status.setVisibility(View.GONE);
-        }
-*/
-/*....................................................................................*/
-
-
-        holder.main_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            holder.main_view.setOnClickListener(view -> {
 
                 String friendIdFromList = friendList.get(position).userId; // here we are using userId for understanding given name friendIds only
                 if(friendList.get(position).isSelected)
@@ -161,13 +94,26 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
 
                 friedsIdsListner.getIds(friendsIds);
                 notifyDataSetChanged();
-            }
-        });
+            });
 
-        holder.tv_name.setText(bean.fullName);
-        RequestOptions options = new RequestOptions();
-        options.placeholder(R.drawable.ico_user_placeholder);
-        Glide.with(mContext).load(bean.profileImage).apply(options).into(holder.profile_image);
+            holder.tv_name.setText(bean.fullName);
+            RequestOptions options = new RequestOptions();
+            options.placeholder(R.drawable.ico_user_placeholder);
+            Glide.with(mContext).load(bean.profileImage).apply(options).into(holder.profile_image);
+
+
+            if(bean.memberStatus.equals("1") || bean.userId.equals(eventOrganizer)){
+                holder.already_invited.setVisibility(View.VISIBLE);
+                holder.main_view.setEnabled(false);
+            }else {
+                holder.already_invited.setVisibility(View.GONE);
+                holder.main_view.setEnabled(true);
+            }
+        //}
+
+
+
+
 
     }
 
@@ -178,8 +124,8 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView profile_image,item_check;
-        TextView tv_name;
-        RelativeLayout main_view;
+        TextView tv_name,already_invited;
+        LinearLayout main_view;
         RatingBar ratingBar;
 
         public ViewHolder(View itemView) {
@@ -190,6 +136,7 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
             item_check = itemView.findViewById(R.id.item_check);
             main_view = itemView.findViewById(R.id.main_view);
             ratingBar = itemView.findViewById(R.id.ratingBar);
+            already_invited = itemView.findViewById(R.id.already_invited);
         }
 
         @Override

@@ -68,7 +68,7 @@ public class Utils {
         else if(memberStatus.equals("5")){
             event_status.setText("Pending request");
         }
-        else if (memberStatus.equals("face_verification")){
+        else if (memberStatus.equals("6")){
             event_status.setText("Request canceled");
         }
     }

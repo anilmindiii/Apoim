@@ -56,6 +56,7 @@ public class Constant {
     public final static int AddBankAccRequestCode = 555;
     public final static int EventPayRequestCode = 444;
     public final static int EventPlaceRequestCode = 666;
+    public final static int EventCompanionCode = 126;
 
    public static boolean isSocial = false;
 
@@ -83,7 +84,7 @@ public class Constant {
     public static final String Confirmed = "3";
     public static final String Request_rejected = "4";
     public static final String Pending_request = "5";
-    public static final String Request_Canceled = "face_verification";
+    public static final String Request_Canceled = "6";
 
 
     public static final int PayForMap = 1;

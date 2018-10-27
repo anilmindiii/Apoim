@@ -18,10 +18,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -29,8 +33,11 @@ import com.apoim.R;
 import com.apoim.activity.CompanionListActivity;
 import com.apoim.activity.InvidedEventActivity;
 import com.apoim.activity.JoinedEventActivity;
+import com.apoim.activity.MatchGalleryActivity;
 import com.apoim.activity.business.BusinessDetailsActivity;
 import com.apoim.activity.payment_subscription.SubscriptionPayActivity;
+import com.apoim.activity.profile.EditProfileActivity;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.adapter.apoinment.EventDetailsMemberAdapter;
 import com.apoim.adapter.apoinment.ShareEventJoinAdapter;
 import com.apoim.adapter.newProfile.NewProfileAdapter;
@@ -40,6 +47,9 @@ import com.apoim.listener.GetNewImageClick;
 import com.apoim.listener.ShareListner;
 import com.apoim.modal.BussinessInfo;
 import com.apoim.modal.EventDetailsInfo;
+import com.apoim.modal.EventFilterData;
+import com.apoim.modal.GetOtherProfileInfo;
+import com.apoim.modal.ImageBean;
 import com.apoim.modal.MyFriendListInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
@@ -52,6 +62,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -61,12 +72,14 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static com.apoim.activity.event.CreateEventActivity.RattingIds;
+import static com.apoim.activity.event.CreateEventActivity.friendsIds;
 import static com.bumptech.glide.util.Preconditions.checkArgument;
 
 public class EventDetailsActivity extends AppCompatActivity implements View.OnClickListener {
     private EventDetailsMemberAdapter invitedMemberAdapter, joinedMemberAdapter, companionMemAdapter;
-    private RecyclerView rcv_invite_member, rcv_joined_member, rcv_companion;
-    private ImageView iv_back,iv_businessImg;
+    private RecyclerView rcv_invite_member, rcv_joined_member, rcv_companion, rcv_chat_member;
+    private ImageView iv_back, iv_businessImg;
     private String from;
     private TextView tv_invite_member_txt;
     private TextView tv_address;
@@ -74,7 +87,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView tv_start_date_time;
     private TextView tv_max_user;
     private TextView tv_paid_amount;
-    private TextView tv_share_event;
+    private TextView tv_share_event, tv_comp_name;
     private TextView tv_pay;
     private TextView tv_end_day;
     private TextView tv_end_date_time;
@@ -83,18 +96,18 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView tv_event_creater_name;
     private TextView tv_type_of_user;
     private TextView tv_privacy;
-    private TextView tv_joined_count;
-    private TextView tv_invite_count,tv_business_name;
-    private LinearLayout ly_accept,ly_reject;
+    private TextView tv_joined_count, tv_chat_count;
+    private TextView tv_invite_count, tv_business_name;
+    private LinearLayout ly_accept, ly_reject;
     private TextView tv_joined_member_txt;
     private TextView tv_payment_status;
-    private TextView tv_time_To,tv_time_From;
+    private TextView tv_time_To, tv_time_From;
     private CardView cv_accept_companion;
     private CardView cv_reject_companion;
     private TextView tv_comp_count;
-    private ImageView iv_profile,map_image,iv_event_img;
-    private LinearLayout ly_edit_delete, ly_all_bottom_view,ly_companion_view;
-    private RelativeLayout ly_companion,ly_accept_reject,ly_join_accept_reject;
+    private ImageView iv_profile, map_image, iv_event_img, compainion_img;
+    private LinearLayout ly_edit_delete, ly_all_bottom_view, ly_companion_view;
+    private RelativeLayout ly_companion, ly_accept_reject, ly_join_accept_reject;
     private InsLoadingView loading_view;
     private String eventId = "";
     private String id = "";
@@ -106,7 +119,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<MyFriendListInfo.ListBean> friendList;
     private String userGenderType = "";
     private ShareEventJoinAdapter adapter;
-    private ImageView iv_delete_myevent;
+    private ImageView iv_delete_myevent, iv_chat_group_img;
     private String userId = "", memberId = "", currencyCode = "", eventAmount = "", eventPrivacy = "", currentDate = "", eventMemId = "", eventOrgnizarId = "", ownerType;
     private ImageView iv_edit_profile;
     private EventDetailsInfo detailsInfo;
@@ -116,7 +129,10 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private boolean isEventPaymentDone = false;
     private NewProfileAdapter eventImageAdapter;
     private RecyclerView rcv_event_images;
-    private RelativeLayout ly_business_way,ly_address_image;
+    private RelativeLayout ly_business_way, ly_address_image, ly_comp_count, ly_joined_count, ly_invite_count, ly_chat_count;
+    private Session session;
+    private LinearLayout ly_main_invited_mem, ly_shared_event_btn, ly_shared_event_call_btn;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +144,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         invitedMemberList = new ArrayList<>();
         joinedMemberList = new ArrayList<>();
         companionMemberList = new ArrayList<>();
+        session = new Session(this);
 
         invitedMemberAdapter = new EventDetailsMemberAdapter(0, this, invitedMemberList);
         joinedMemberAdapter = new EventDetailsMemberAdapter(0, this, joinedMemberList);
@@ -135,6 +152,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
         rcv_invite_member.setAdapter(invitedMemberAdapter);
         rcv_joined_member.setAdapter(joinedMemberAdapter);
+        rcv_chat_member.setAdapter(joinedMemberAdapter);
         rcv_companion.setAdapter(companionMemAdapter);
 
         if (getIntent().getStringExtra("from") != null) {
@@ -152,10 +170,11 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 ly_edit_delete.setVisibility(View.VISIBLE);
                 tv_invite_member_txt.setVisibility(View.VISIBLE);
                 rcv_invite_member.setVisibility(View.VISIBLE);
-                tv_invite_count.setVisibility(View.VISIBLE);
+                ly_invite_count.setVisibility(View.VISIBLE);
                 joined_view_visible();
 
             } else if (from.equals("eventRequest")) {
+                ly_main_invited_mem.setVisibility(View.GONE);
                 ly_invited_member.setVisibility(View.GONE);
                 ly_edit_delete.setVisibility(View.GONE);
             }
@@ -173,10 +192,12 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         cv_reject_companion.setOnClickListener(this);
         iv_edit_profile.setOnClickListener(this);
         ly_companion.setOnClickListener(this);
+        iv_event_img.setOnClickListener(this);
 
     }
 
     private void joined_view_visible() {
+        rcv_chat_member.setVisibility(View.VISIBLE);
         rcv_joined_member.setVisibility(View.VISIBLE);
         tv_joined_member_txt.setVisibility(View.VISIBLE);
 
@@ -184,12 +205,22 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             if (detailsInfo.Detail.joinedMemberCount > 3) {
                 detailsInfo.Detail.joinedMemberCount = detailsInfo.Detail.joinedMemberCount - 3;
                 tv_joined_count.setText(detailsInfo.Detail.joinedMemberCount + "+");
-                tv_joined_count.setVisibility(View.VISIBLE);
+                ly_joined_count.setVisibility(View.VISIBLE);
+
+                iv_chat_group_img.setVisibility(View.VISIBLE);
+
             } else if (detailsInfo.Detail.joinedMemberCount == 0) {
+                rcv_chat_member.setVisibility(View.GONE);
+                rcv_joined_member.setVisibility(View.GONE);
                 tv_joined_count.setText(detailsInfo.Detail.joinedMemberCount + "");
-                tv_joined_count.setVisibility(View.VISIBLE);
+                ly_joined_count.setVisibility(View.VISIBLE);
+
+                tv_chat_count.setText(detailsInfo.Detail.joinedMemberCount + "");
+                ly_chat_count.setVisibility(View.VISIBLE);
             } else {
-                tv_joined_count.setVisibility(View.GONE);
+                ly_joined_count.setVisibility(View.GONE);
+                ly_chat_count.setVisibility(View.GONE);
+                iv_chat_group_img.setVisibility(View.VISIBLE);
             }
 
         }
@@ -223,11 +254,20 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         ly_address_image = findViewById(R.id.ly_address_image);
         ly_all_bottom_view = findViewById(R.id.ly_all_bottom_view);
         ly_companion_view = findViewById(R.id.ly_companion_view);
+        ly_main_invited_mem = findViewById(R.id.ly_main_invited_mem);
+        ly_shared_event_btn = findViewById(R.id.ly_shared_event_btn);
+        ly_shared_event_call_btn = findViewById(R.id.ly_shared_event_call_btn);
+        ly_comp_count = findViewById(R.id.ly_comp_count);
+        ly_joined_count = findViewById(R.id.ly_joined_count);
+        ly_invite_count = findViewById(R.id.ly_invite_count);
+        ly_chat_count = findViewById(R.id.ly_chat_count);
 
 
         iv_delete_myevent = findViewById(R.id.iv_delete_myevent);
+        compainion_img = findViewById(R.id.compainion_img);
 
         iv_edit_profile = findViewById(R.id.iv_edit_profile);
+        iv_chat_group_img = findViewById(R.id.iv_chat_group_img);
 
         tv_address = findViewById(R.id.tv_address);
         tv_day = findViewById(R.id.tv_day);
@@ -243,11 +283,15 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         tv_type_of_user = findViewById(R.id.tv_type_of_user);
         iv_profile = findViewById(R.id.iv_profile);
         tv_privacy = findViewById(R.id.tv_privacy);
+        tv_comp_name = findViewById(R.id.tv_comp_name);
+
         rcv_invite_member = findViewById(R.id.rcv_invite_member);
         rcv_joined_member = findViewById(R.id.rcv_joined_member);
         rcv_companion = findViewById(R.id.rcv_companion);
+        rcv_chat_member = findViewById(R.id.rcv_chat_member);
         iv_back = findViewById(R.id.iv_back);
         tv_joined_count = findViewById(R.id.tv_joined_count);
+        tv_chat_count = findViewById(R.id.tv_chat_count);
         tv_time_From = findViewById(R.id.tv_time_From);
         tv_time_To = findViewById(R.id.tv_time_To);
         tv_business_name = findViewById(R.id.tv_business_name);
@@ -259,11 +303,11 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
     public void setData(EventDetailsInfo.DetailBean detail) {
         tv_address.setText(detail.eventPlace);
-        openGoogleMap(detail,this,map_image);
-        day_time(tv_start_th, tv_day, tv_start_date_time, detail.eventStartDate,tv_time_From);
+        openGoogleMap(detail, this, map_image);
+        day_time(tv_start_th, tv_day, tv_start_date_time, detail.eventStartDate, tv_time_From);
 
         tv_paid_amount.setText(detail.currencySymbol + detail.eventAmount);
-        day_time(tv_end_th, tv_end_day, tv_end_date_time, detail.eventEndDate,tv_time_To);
+        day_time(tv_end_th, tv_end_day, tv_end_date_time, detail.eventEndDate, tv_time_To);
 
         if (detail.eventUserType.equals("Male")) {
             userGenderType = "1";
@@ -281,30 +325,32 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
         tv_gender.setText(detail.eventUserType);
         tv_event_name.setText(detail.eventName);
-        tv_event_creater_name.setText(detail.fullName);
-        tv_max_user.setText(detail.userLimit);
-        tv_privacy.setText(detail.privacy);
-        tv_payment_status.setText(detail.payment);
 
         RequestOptions options = new RequestOptions();
         options.placeholder(R.drawable.ico_user_placeholder);
 
+
+        tv_max_user.setText(detail.userLimit);
+        tv_privacy.setText(detail.privacy);
+        tv_payment_status.setText(detail.payment);
+
+
         if (detail.joinedMemberCount > 3) {
-            tv_joined_count.setVisibility(View.VISIBLE);
+            ly_joined_count.setVisibility(View.VISIBLE);
             detail.joinedMemberCount = detail.joinedMemberCount - 3;
             tv_joined_count.setText(detail.joinedMemberCount + "+");
         } else if (detail.joinedMemberCount == 0) {
             tv_joined_count.setText(detail.joinedMemberCount + "");
         } else {
-            tv_joined_count.setVisibility(View.GONE);
+            ly_joined_count.setVisibility(View.GONE);
         }
 
 
-        if(detail.businessId.equals("")){
+        if (detail.businessId.equals("")) {
             tv_business_name.setVisibility(View.GONE);
             ly_business_way.setVisibility(View.GONE);
             ly_address_image.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             tv_business_name.setVisibility(View.VISIBLE);
             ly_business_way.setVisibility(View.VISIBLE);
             ly_address_image.setVisibility(View.GONE);
@@ -326,15 +372,15 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
             if (detail.invitedMemberCount != null && !TextUtils.isEmpty(detail.invitedMemberCount)) {
                 if (Integer.parseInt(detail.invitedMemberCount) > 3) {
-                    tv_invite_count.setVisibility(View.VISIBLE);
+                    ly_invite_count.setVisibility(View.VISIBLE);
                     int count = Integer.parseInt(detail.invitedMemberCount) - 3;
                     detail.invitedMemberCount = count + "";
                     tv_invite_count.setText(detail.invitedMemberCount + "+");
                 } else if (Integer.parseInt(detail.invitedMemberCount) == 0) {
-                    tv_invite_count.setVisibility(View.VISIBLE);
+                    ly_invite_count.setVisibility(View.VISIBLE);
                     tv_invite_count.setText(detail.invitedMemberCount + "");
                 } else {
-                    tv_invite_count.setVisibility(View.GONE);
+                    ly_invite_count.setVisibility(View.GONE);
                 }
             }
 
@@ -349,7 +395,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 isExpaireDate = false;
             }
 
-
+            ly_companion_view.setVisibility(View.GONE);
             joined_view_visible();
 
         } else if (from.equals("eventRequest")) { // this is 1st tab ie request event part
@@ -362,7 +408,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 }
             }
 
-            tv_type_of_user.setText(detail.ownerType);
+
             switch (detail.memberStatus) {
                 case Constant.Confirmed:
                     tv_pay.setVisibility(View.GONE);
@@ -377,6 +423,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     tv_share_event.setVisibility(View.GONE);
                     tv_pay.setVisibility(View.GONE);
                     tv_joined_count.setVisibility(View.GONE);
+                    ly_chat_count.setVisibility(View.GONE);
                     // All Bottom view is hide here below the code for hiding view
                     ly_all_bottom_view.setVisibility(View.GONE);
                     ly_companion_view.setVisibility(View.GONE);
@@ -395,7 +442,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     tv_pay.setVisibility(View.VISIBLE);
                     tv_share_event.setVisibility(View.GONE);
                     ly_join_accept_reject.setVisibility(View.GONE);
-                    ly_all_bottom_view.setVisibility(View.VISIBLE);
+                    ly_all_bottom_view.setVisibility(View.GONE);
                     ly_companion_view.setVisibility(View.VISIBLE);
                     joined_view_visible();
                     break;
@@ -409,17 +456,28 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             if (detail.companionMemberCount != null && !TextUtils.isEmpty(detail.companionMemberCount)) {
 
                 if (Integer.parseInt(detail.companionMemberCount) > 3) {
-                    tv_comp_count.setVisibility(View.VISIBLE);
+                    ly_comp_count.setVisibility(View.VISIBLE);
                     int count = Integer.parseInt(detail.companionMemberCount) - 3;
                     detail.companionMemberCount = count + "";
                     tv_comp_count.setText(detail.companionMemberCount + "+");
+                    rcv_companion.setVisibility(View.VISIBLE);
                 } else if (Integer.parseInt(detail.companionMemberCount) == 0) {
                     tv_comp_count.setText(detail.companionMemberCount + "");
-                    tv_comp_count.setVisibility(View.GONE);
+                    ly_companion_view.setVisibility(View.GONE);
                 } else {
-                    tv_comp_count.setVisibility(View.GONE);
+                    ly_comp_count.setVisibility(View.GONE);
+                    rcv_companion.setVisibility(View.VISIBLE);
                 }
+
+                ly_accept_reject.setVisibility(View.GONE);
             }
+
+
+            tv_event_creater_name.setText(detail.fullName);
+            if (getApplicationContext() != null) {
+                Glide.with(getApplicationContext()).load(detail.profileImage).apply(options).into(iv_profile);
+            }
+            tv_type_of_user.setText(detail.ownerType);
 
 
 /*...................................................................................................................*/
@@ -427,10 +485,17 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
                 if (detail.memberStatus.equals(Constant.Joined_Payment_is_pending)) {
                     all_view_hide();
+                    ly_shared_event_btn.setVisibility(View.GONE);
+                    ly_shared_event_call_btn.setVisibility(View.VISIBLE);
                 } else if (detail.memberStatus.equals(Constant.Confirmed)) {
                     all_view_hide();
+                    ly_shared_event_btn.setVisibility(View.GONE);
+                    ly_shared_event_call_btn.setVisibility(View.VISIBLE);
+
                 } else if (detail.memberStatus.equals(Constant.Confirmed_payment)) {
                     all_view_hide();
+                    ly_shared_event_btn.setVisibility(View.GONE);
+                    ly_shared_event_call_btn.setVisibility(View.VISIBLE);
                 } else {
                     ly_accept_reject.setVisibility(View.VISIBLE);
                     ly_companion_view.setVisibility(View.VISIBLE);
@@ -441,6 +506,22 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
                 }
                 cv_companion_view.setVisibility(View.GONE);
+
+
+                tv_event_creater_name.setText(detail.ownerName);
+                if (getApplicationContext() != null) {
+                    Glide.with(getApplicationContext()).load(detail.ownerImage).apply(options).into(iv_profile);
+                }
+                tv_type_of_user.setText("Administrator");
+
+
+                tv_comp_name.setText(detail.fullName);
+                if (getApplicationContext() != null) {
+                    Glide.with(getApplicationContext()).load(detail.profileImage).apply(options).into(compainion_img);
+                }
+                ly_all_bottom_view.setVisibility(View.VISIBLE);
+
+
             } else if (detail.ownerType.equals("Administrator") && Integer.parseInt(detail.companionMemberCount) > 0) {
                 tv_share_event.setVisibility(View.GONE);
                 cv_companion_view.setVisibility(View.VISIBLE);
@@ -463,13 +544,10 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             }*/
         }
 
-        if (getApplicationContext() != null) {
-            Glide.with(getApplicationContext()).load(detail.profileImage).apply(options).into(iv_profile);
-        }
 
     }
 
-    private void openGoogleMap(EventDetailsInfo.DetailBean detail,Context context,ImageView iv_map_img) {
+    private void openGoogleMap(EventDetailsInfo.DetailBean detail, Context context, ImageView iv_map_img) {
         // val API_KEY = "AIzaSyBnFGTrGe8dJKMnrcinn1edleHCB_yZI5U"
         String API_KEY = "AIzaSyDI-QUWEEWFiV1W90w4PW2UWpIt04_DsmA";
         String url = "https://maps.googleapis.com/maps/api/staticmap?center=" + "&zoom=16&size=800x800&maptype=roadmap" +
@@ -479,12 +557,13 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void all_view_hide() {
-        ly_accept_reject.setVisibility(View.GONE);
+        //ly_accept_reject.setVisibility(View.GONE);
         tv_share_event.setVisibility(View.GONE);
         tv_pay.setVisibility(View.GONE);
+        cv_companion_view.setVisibility(View.GONE);
     }
 
-    private void day_time(TextView th, TextView day, TextView date_time, String eventdate,TextView time) {
+    private void day_time(TextView th, TextView day, TextView date_time, String eventdate, TextView time) {
         try {
             String timeLong = eventdate;
 
@@ -520,7 +599,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 return "th";
         }
     }
-
 
 
     private void eventJoinMenberDialog() {
@@ -727,7 +805,11 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                         eventImageAdapter = new NewProfileAdapter(detailsInfo.Detail.eventImage, EventDetailsActivity.this, new GetNewImageClick() {
                             @Override
                             public void imageClick(int position) {
-
+                                Intent intent = new Intent(EventDetailsActivity.this, MatchGalleryActivity.class);
+                                intent.putExtra("user_id", userId);
+                                intent.putExtra("image_index", position);
+                                intent.putExtra("eventImages", detailsInfo.Detail);
+                                startActivity(intent);
                             }
                         });
                         rcv_event_images.setAdapter(eventImageAdapter);
@@ -786,7 +868,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             case R.id.ly_accept:
                 if (isLimitOver) {
                     //if(invitedMemberList.size() !=0)
-                    joinEvent(eventId,"1"); // status 1 mean accept case
+                    joinEvent(eventId, "1"); // status 1 mean accept case
                 } else {
                     Utils.openAlertDialog(EventDetailsActivity.this, getString(R.string.limit_over_to_join_event));
                 }
@@ -794,7 +876,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 break;
 
             case R.id.ly_reject:
-                joinEvent(eventId,"2"); // status 2 mean reject case
+                joinEvent(eventId, "2"); // status 2 mean reject case
                 break;
 
             case R.id.iv_back:
@@ -803,8 +885,18 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
             case R.id.tv_share_event:
                 if (isLimitOver) {
-                    //if(invitedMemberList.size() !=0)
-                    eventJoinMenberDialog();
+                    //eventJoinMenberDialog();
+                    intent = new Intent(EventDetailsActivity.this, SelectCompanionActivity.class);
+                    intent.putExtra("eventId", eventId);
+                    intent.putExtra("eventUserType", detailsInfo.Detail.eventUserType);
+                    intent.putExtra("privacy", detailsInfo.Detail.privacy);
+                    intent.putExtra("eventOrganizer", detailsInfo.Detail.eventOrganizer);
+
+                    EventFilterData data = new EventFilterData();
+                    session.createFilterData(data);
+                    RattingIds = "";
+
+                    startActivityForResult(intent, Constant.EventCompanionCode);
                 } else {
                     Utils.openAlertDialog(EventDetailsActivity.this, getString(R.string.limit_over_to_join_event));
                 }
@@ -836,18 +928,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
             case R.id.tv_pay:
                 if (isLimitOver) {
-                    if (!TextUtils.isEmpty(eventId) && !TextUtils.isEmpty(memberId)){
-                        if(isEventPaymentDone == false){
-                            intent = new Intent(EventDetailsActivity.this, SubscriptionPayActivity.class);
-                            intent.putExtra("eventId",eventId);
-                            intent.putExtra("memberId",memberId);
-                            intent.putExtra("eventAmount",eventAmount);
-                            intent.putExtra("currencyCode",currencyCode);
-                            intent.putExtra("paymentType",3);// 3 for event pay
-                            startActivityForResult(intent, Constant.EventPayRequestCode);
-                        }
-                        //paymentTask(eventId, memberId, "event/eventPayment");
-                    }
+                    payDialog(eventAmount);
 
                 } else {
                     Utils.openAlertDialog(EventDetailsActivity.this, getString(R.string.limit_over_to_join_event));
@@ -889,6 +970,14 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 intent.putExtra("isLimitOver", isLimitOver);
                 startActivity(intent);
                 break;
+
+            case R.id.iv_event_img:
+                intent = new Intent(EventDetailsActivity.this, MatchGalleryActivity.class);
+                intent.putExtra("user_id", userId);
+                intent.putExtra("image_index", 0);
+                intent.putExtra("eventImages", detailsInfo.Detail);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -903,18 +992,68 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
-            if(requestCode == Constant.EventPayRequestCode){
-                isEventPaymentDone = data.getBooleanExtra("isEventPaymentDone",false);
-                if(isEventPaymentDone){
+        if (resultCode == RESULT_OK) {
+            if (requestCode == Constant.EventPayRequestCode) {
+                isEventPaymentDone = data.getBooleanExtra("isEventPaymentDone", false);
+                if (isEventPaymentDone) {
                     myEventRequestEvent(eventId, from);
-                }
-                else {
 
+                    if (dialog != null)
+                        dialog.dismiss();
                 }
 
             }
+
+
+            if (requestCode == Constant.EventCompanionCode) {
+                shareEvent(friendsIds);
+                friendsIds = "";
+
+            }
         }
+    }
+
+    private void payDialog(String amount) {
+        dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.event_pay_dialog);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+        TextView tv_paid_amount = dialog.findViewById(R.id.tv_paid_amount);
+        tv_paid_amount.setText("$" + amount);
+
+        ImageView cancel_button = dialog.findViewById(R.id.cancel_button);
+        Button btn_pay = dialog.findViewById(R.id.btn_pay);
+
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btn_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!TextUtils.isEmpty(eventId) && !TextUtils.isEmpty(memberId)) {
+                    if (isEventPaymentDone == false) {
+                        Intent intent = new Intent(EventDetailsActivity.this, SubscriptionPayActivity.class);
+                        intent.putExtra("eventId", eventId);
+                        intent.putExtra("memberId", memberId);
+                        intent.putExtra("eventAmount", eventAmount);
+                        intent.putExtra("currencyCode", currencyCode);
+                        intent.putExtra("paymentType", 3);// 3 for event pay
+                        startActivityForResult(intent, Constant.EventPayRequestCode);
+                    }
+                    //paymentTask(eventId, memberId, "event/eventPayment");
+                }
+            }
+        });
+
+
+        dialog.getWindow().setGravity(Gravity.CENTER);
+        dialog.show();
     }
 
     private void accptRejectReq(String eventId, String status, String eventMemId) {
@@ -938,7 +1077,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     String message = object.getString("message");
 
                     if (status.equals("success")) {
-                        ly_accept_reject.setVisibility(View.GONE);
+                        myEventRequestEvent(eventId, from);
                     } else {
                         Utils.openAlertDialog(EventDetailsActivity.this, message);
                     }
@@ -965,7 +1104,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
         service.callSimpleVolley("event/companionMemberStatus", param);
     }
-
 
 
     public void deleteAlertDialog(final String eventId) {
@@ -1100,13 +1238,13 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         service.callGetSimpleVolley("user/getFriendList?offset=0&limit=20&listType=friend&eventId=" + eventId + "");
     }
 
-    private void joinEvent(final String eventId,String reqStatus) {
+    private void joinEvent(final String eventId, String reqStatus) {
         ly_accept.setEnabled(false);
         Session session = new Session(this, this);
         loading_view.setVisibility(View.VISIBLE);
 
         Map<String, String> map = new HashMap<>();
-        map.put("reqStatus", reqStatus);
+        map.put("status", reqStatus);
         map.put("eventId", eventId);
         map.put("memberId", session.getUser().userDetail.userId);
 
@@ -1124,10 +1262,11 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     if (status.equals("success")) {
                         ly_join_accept_reject.setVisibility(View.GONE);
 
-                        if(reqStatus.equals("1")){
+                        if (reqStatus.equals("1")) {
                             joined_view_visible();
                             myEventRequestEvent(eventId, from);
-                        }else {
+
+                        } else {
                             finish();
                         }
 

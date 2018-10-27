@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -63,7 +64,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
@@ -93,6 +96,8 @@ public class ThiredFragment extends Fragment {
     private Bitmap bitmap;
     String latitude = null, longitude = null, name = null;
     private InviteFrienAdapter adapter;
+    private RelativeLayout ly_action_bar;
+
 
     public static ThiredFragment newInstance(String eventUserType, String privacy) {
         Bundle args = new Bundle();
@@ -119,7 +124,8 @@ public class ThiredFragment extends Fragment {
             bitmap = getBitmap(session.getcreateEventInfo().firstImage);
         }
 
-
+        ly_action_bar = view.findViewById(R.id.ly_action_bar);
+        ly_action_bar.setVisibility(View.GONE);
         tv_next_thired = view.findViewById(R.id.tv_next_thired);
         ed_search_friend = view.findViewById(R.id.ed_search_friend);
 
@@ -136,6 +142,7 @@ public class ThiredFragment extends Fragment {
         loadingView = view.findViewById(R.id.loadingView);
         ly_no_friend_found = view.findViewById(R.id.ly_no_friend_found);
 
+
         tv_select_background_three.setBackgroundResource(R.drawable.primary_circle_solid);
         tv_three.setTextColor(ContextCompat.getColor(mContext, R.color.white));
 
@@ -151,6 +158,7 @@ public class ThiredFragment extends Fragment {
 
         tv_next_thired.setOnClickListener(view1 -> {
             if (!TextUtils.isEmpty(friendsIds)) {
+                loadingView.setVisibility(View.VISIBLE);
                 tv_select_background_three.setBackgroundResource(R.drawable.primary_circle_solid);
                 iv_right_three.setVisibility(View.VISIBLE);
                 tv_three.setVisibility(View.GONE);
@@ -169,7 +177,7 @@ public class ThiredFragment extends Fragment {
             public void getIds(String ids) {
                 friendsIds = ids;
             }
-        });
+        },"");
 
 
         recycler_view.setAdapter(adapter);
@@ -332,6 +340,24 @@ public class ThiredFragment extends Fragment {
                             ly_no_friend_found.setVisibility(View.GONE);
                             recycler_view.setVisibility(View.VISIBLE);
                         }
+
+
+                        if(friendsIds != null){
+
+                            List<String> tempList = new ArrayList<String>(Arrays.asList(friendsIds.split(",")));
+                            for (int i = 0; i < friendList.size(); i++) {
+
+                                for (int j = 0; j < tempList.size(); j++) {
+                                    if (tempList.get(j).equals(friendList.get(i).userId + "")) {
+                                        friendList.get(i).isSelected = true;
+                                    }
+
+                                }
+
+                            }
+                        }
+
+
                         adapter.notifyDataSetChanged();
                     } else {
 
@@ -354,7 +380,8 @@ public class ThiredFragment extends Fragment {
     }
 
     private void registerBusiness(TextView button) {
-        loadingView.setVisibility(View.VISIBLE);
+
+
         button.setEnabled(false);
         EventDetailsInfo.DetailBean bean = session.getcreateEventInfo();
 
@@ -400,7 +427,6 @@ public class ThiredFragment extends Fragment {
         }, new Response.Listener() {
             @Override
             public void onResponse(Object response) {
-
                 try {
                     JSONObject jsonObject = new JSONObject(String.valueOf(response));
                     String status = jsonObject.getString("status");

@@ -19,6 +19,7 @@ import com.apoim.R;
 import com.apoim.adapter.imageGallery.GalleryRecyclerAdapter;
 import com.apoim.adapter.imageGallery.GalleryViewPagerAdapter;
 import com.apoim.listener.GetNewImageClick;
+import com.apoim.modal.EventDetailsInfo;
 import com.apoim.modal.GetOtherProfileInfo;
 import com.apoim.modal.ProfileImageModel;
 import com.apoim.volley.AppHelper;
@@ -41,6 +42,7 @@ public class MatchGalleryActivity extends AppCompatActivity implements View.OnCl
     //private RecyclerView galleryRecyclerView;
     private GalleryRecyclerAdapter recyclerAdapter;
     private GetOtherProfileInfo otherProfileInfo;
+    private EventDetailsInfo.DetailBean detailBean;
 
     // variable to track event time
     private long mLastClickTime = 0;
@@ -64,13 +66,21 @@ public class MatchGalleryActivity extends AppCompatActivity implements View.OnCl
             }
 
             otherProfileInfo = (GetOtherProfileInfo) getIntent().getSerializableExtra("otherProfileInfo");
+            detailBean = (EventDetailsInfo.DetailBean) getIntent().getSerializableExtra("eventImages");
         }
 
         init();
 
         // Setting Gallery Adapter
         galleryAdapters();
-        setUserData(otherProfileInfo);
+        if(otherProfileInfo != null){
+            setUserData(otherProfileInfo);
+        }else {
+            if(detailBean != null)
+            setUserDataEvent(detailBean);
+        }
+
+
         // Click Listeners
     }
 
@@ -122,6 +132,28 @@ public class MatchGalleryActivity extends AppCompatActivity implements View.OnCl
           /*  galleryRecyclerView.scrollToPosition(image_index);*/
         }
        
+    }
+
+
+    // Getting User Images and adding in list to display
+    private void setUserDataEvent(EventDetailsInfo.DetailBean getUser) {
+        if (getUser.eventImage.size() > 0) {
+            for (int i = 0; i <getUser.eventImage.size() ; i++) {
+                ProfileImageModel imageModal = new ProfileImageModel();
+                imageModal.imageId = getUser.eventImage.get(i).eventImgId;
+                imageModal.profileUrl = getUser.eventImage.get(i).eventImage;
+                /*imageModal.mediumUrl = getUser.userDetail.images.get(i).imageOriginal;*/
+                imagesList.add(imageModal);
+            }
+
+            imagesList.get(image_index).isSelected = true;
+
+            rl_match_gallery.setVisibility(View.VISIBLE);
+            pagerAdapter.notifyDataSetChanged();
+            gallery_view_pager.setCurrentItem(image_index, true);
+          /*  galleryRecyclerView.scrollToPosition(image_index);*/
+        }
+
     }
 
     @Override

@@ -37,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -50,7 +51,7 @@ public class NewUserListFragment extends Fragment {
     private Context mContext;
     private UserListAdapter userListAdapter1;
 
-    private ArrayList<UserListInfo.NearByUsersBean> userList1;
+    private ArrayList <UserListInfo.NearByUsersBean>userList1;
 
     private LinearLayout tv_no_record;
 
@@ -106,7 +107,7 @@ public class NewUserListFragment extends Fragment {
         loadingView = view.findViewById(R.id.loading_view);
         tv_no_record = view.findViewById(R.id.tv_no_record);
 
-        userList1 = new ArrayList<>();
+        userList1 = new ArrayList();
 
         session = new Session(mContext,getActivity());
         filterInfo = session.getFilterInfo();

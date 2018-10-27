@@ -28,6 +28,7 @@ public class AllUserForEventInfo {
             public String total_rating;
             public String profileImage;
             public boolean isSelected;
+            public String memberStatus;
 
         }
     }

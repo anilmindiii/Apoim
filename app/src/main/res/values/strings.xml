@@ -580,6 +580,7 @@
     <string name="select_date">Select Date</string>
     <string name="event_date_time"><![CDATA[Event date & Time]]></string>
     <string name="filter">Filter</string>
+    <string name="invite">Invite</string>
 
 
 </resources>

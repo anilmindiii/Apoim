@@ -123,7 +123,7 @@ public class UserListFragment extends Fragment {
             filterInfo = session.getFilterInfo();
         }
 
-        userListAdapter1 = new UserListAdapter(mContext, userList1, new GetUsetItemClick() {
+      /*  userListAdapter1 = new UserListAdapter(mContext, userList1, new GetUsetItemClick() {
             @Override
             public void userItemClick(String userId) {
                 Intent intent = new Intent(getActivity(), OtherProfileDetailsActivity.class);
@@ -146,7 +146,7 @@ public class UserListFragment extends Fragment {
                 intent.putExtra("userId",userId);
                 startActivity(intent);
             }
-        });
+        });*/
 
         recycler_1.setAdapter(userListAdapter1);
         recycler_2.setAdapter(userListAdapter2);
