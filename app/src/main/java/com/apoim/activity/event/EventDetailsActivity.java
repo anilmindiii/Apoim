@@ -1,12 +1,18 @@
 package com.apoim.activity.event;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -18,6 +24,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -57,11 +64,15 @@ import com.apoim.util.InsLoadingView;
 import com.apoim.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.captain_miao.optroundcardview.OptRoundCardView;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -105,7 +116,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private CardView cv_accept_companion;
     private CardView cv_reject_companion;
     private TextView tv_comp_count;
-    private ImageView iv_profile, map_image, iv_event_img, compainion_img;
+    private ImageView iv_profile, map_image, iv_event_img, compainion_img,iv_social_share;
     private LinearLayout ly_edit_delete, ly_all_bottom_view, ly_companion_view;
     private RelativeLayout ly_companion, ly_accept_reject, ly_join_accept_reject;
     private InsLoadingView loading_view;
@@ -193,6 +204,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         iv_edit_profile.setOnClickListener(this);
         ly_companion.setOnClickListener(this);
         iv_event_img.setOnClickListener(this);
+        iv_social_share.setOnClickListener(this);
 
     }
 
@@ -262,7 +274,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         ly_invite_count = findViewById(R.id.ly_invite_count);
         ly_chat_count = findViewById(R.id.ly_chat_count);
 
-
         iv_delete_myevent = findViewById(R.id.iv_delete_myevent);
         compainion_img = findViewById(R.id.compainion_img);
 
@@ -297,6 +308,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         tv_business_name = findViewById(R.id.tv_business_name);
         iv_businessImg = findViewById(R.id.iv_businessImg);
         iv_event_img = findViewById(R.id.iv_event_img);
+        iv_social_share = findViewById(R.id.iv_social_share);
 
         rcv_event_images = findViewById(R.id.rcv_event_images);
     }
@@ -563,6 +575,122 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         cv_companion_view.setVisibility(View.GONE);
     }
 
+    private void eventShareDialog() {
+        dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.event_share_dialog);
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+
+        ImageView cancel_button = dialog.findViewById(R.id.cancel_button);
+        ImageView event_image = dialog.findViewById(R.id.event_image);
+        TextView event_name = dialog.findViewById(R.id.event_name);
+        TextView tv_address = dialog.findViewById(R.id.tv_address);
+
+        TextView tv_day = dialog.findViewById(R.id.tv_day);
+        TextView tv_start_th = dialog.findViewById(R.id.tv_start_th);
+        TextView tv_start_date_time = dialog.findViewById(R.id.tv_start_date_time);
+        TextView tv_time_From = dialog.findViewById(R.id.tv_time_From);
+
+        TextView tv_end_day = dialog.findViewById(R.id.tv_end_day);
+        TextView tv_end_th = dialog.findViewById(R.id.tv_end_th);
+        TextView tv_end_date_time = dialog.findViewById(R.id.tv_end_date_time);
+        TextView tv_time_To = dialog.findViewById(R.id.tv_time_To);
+        LinearLayout ly_sharing_details = dialog.findViewById(R.id.ly_sharing_details);
+
+        Button btn_share = dialog.findViewById(R.id.btn_share);
+
+        Glide.with(getApplicationContext()).load(detailsInfo.Detail.eventImage.get(0).eventImage).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(event_image);
+        event_name.setText(detailsInfo.Detail.eventName);
+        tv_address.setText(detailsInfo.Detail.eventPlace);
+
+        day_time(tv_start_th, tv_day, tv_start_date_time, detailsInfo.Detail.eventStartDate, tv_time_From);
+        day_time(tv_end_th, tv_end_day, tv_end_date_time, detailsInfo.Detail.eventEndDate, tv_time_To);
+
+        cancel_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btn_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getPermissionForTakepicture(ly_sharing_details,detailsInfo.Detail.eventPlace);
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.getWindow().setGravity(Gravity.CENTER);
+        dialog.show();
+    }
+
+    public void getPermissionForTakepicture(LinearLayout scr_shot_view, String about_string){
+
+        if(Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                        new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        Constant.MY_PERMISSIONS_REQUEST_CEMERA_OR_GALLERY);
+            }
+            else {
+                screenShot(scr_shot_view,about_string);
+            }
+        }else {
+            screenShot(scr_shot_view,about_string);
+        }
+    }
+
+    /*.................................screenShot()...................................*/
+    private void screenShot(LinearLayout scr_shot_view, String text) {
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+        try {
+            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".png";
+            scr_shot_view.setDrawingCacheEnabled(true);
+            scr_shot_view.buildDrawingCache(true);
+            File imageFile = new File(mPath);
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            Bitmap bitmap = Bitmap.createBitmap(scr_shot_view.getDrawingCache());
+            bitmap.compress(Bitmap.CompressFormat.PNG, 60, outputStream);
+            scr_shot_view.destroyDrawingCache();
+            sharOnsocial(imageFile,text);
+            //onShareClick(imageFile,text);
+            //doShareLink(text,otherProfileInfo.UserDetail.profileUrl);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void sharOnsocial(File imageFile, String text) {
+        Uri uri;
+        Intent sharIntent = new Intent(Intent.ACTION_SEND);
+        String ext = imageFile.getName().substring(imageFile.getName().lastIndexOf(".") + 1);
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        String type = mime.getMimeTypeFromExtension(ext);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            sharIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            uri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider",imageFile);
+            sharIntent.setDataAndType(uri, type);
+        } else {
+            uri = Uri.fromFile(imageFile);
+            sharIntent.setDataAndType(uri, type);
+        }
+
+        sharIntent.setType("image/png");
+        sharIntent.setType("text/plain");
+        sharIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        sharIntent.putExtra(Intent.EXTRA_SUBJECT, "Apoim");
+        sharIntent.putExtra(Intent.EXTRA_TEXT, text+"\n"+"This URl will get soon");
+        startActivity(Intent.createChooser(sharIntent, "Share:"));
+    }
+
     private void day_time(TextView th, TextView day, TextView date_time, String eventdate, TextView time) {
         try {
             String timeLong = eventdate;
@@ -601,114 +729,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
 
-    private void eventJoinMenberDialog() {
-        Session session = new Session(this, EventDetailsActivity.this);
-        String myUserId = session.getUser().userDetail.userId;
-        final ArrayList<MyFriendListInfo.ListBean> listBeans = new ArrayList<>();
-
-        final Dialog add_interest_dialog = new Dialog(this);
-        add_interest_dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        add_interest_dialog.setContentView(R.layout.event_join_member_dialog_layout);
-        add_interest_dialog.setCancelable(false);
-        add_interest_dialog.setCanceledOnTouchOutside(false);
-
-        final RecyclerView recyclerView = add_interest_dialog.findViewById(R.id.recycler_view);
-        TextView tv_share_dialog_click = add_interest_dialog.findViewById(R.id.tv_share_dialog_click);
-        final TextView add_interest_title = add_interest_dialog.findViewById(R.id.add_interest_title);
-        final ImageView iv_cancel_dialog = add_interest_dialog.findViewById(R.id.iv_cancel_dialog);
-        InsLoadingView loading_view = add_interest_dialog.findViewById(R.id.loading_view);
-        final LinearLayout ly_no_friend_found = add_interest_dialog.findViewById(R.id.ly_no_friend_found);
-        EditText friend_search = add_interest_dialog.findViewById(R.id.friend_search);
-
-        friend_search.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                listBeans.clear();
-                String str = editable.toString();
-                for (MyFriendListInfo.ListBean bean : friendList) {
-                    if (bean.fullName.toLowerCase().contains(str.toLowerCase())) {
-                        listBeans.add(bean);
-
-                        ly_no_friend_found.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                    } else {
-                        ly_no_friend_found.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
-                    }
-                }
-
-                if (str.equalsIgnoreCase("")) {
-                    adapter = new ShareEventJoinAdapter(EventDetailsActivity.this, eventPrivacy, friendList, new ShareListner() {
-                        @Override
-                        public void getEventMemId(String memberId) {
-                            userId = memberId;
-                        }
-                    });
-                    listBeans.clear();
-                } else
-                    adapter = new ShareEventJoinAdapter(EventDetailsActivity.this, eventPrivacy, listBeans, new ShareListner() {
-                        @Override
-                        public void getEventMemId(String memberId) {
-                            userId = memberId;
-
-                        }
-                    });
-
-
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
-            }
-        });
-
-        adapter = new ShareEventJoinAdapter(EventDetailsActivity.this, eventPrivacy, friendList, new ShareListner() {
-            @Override
-            public void getEventMemId(String memberId) {
-                userId = memberId;
-            }
-        });
-
-        tv_share_dialog_click.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!TextUtils.isEmpty(userId)) {
-                    if (userId.contains(",")) {
-                        userId = removeLastChar(userId);
-                    }
-
-                    shareEvent(userId);
-                    add_interest_dialog.dismiss();
-                } else {
-                    Utils.openAlertDialog(EventDetailsActivity.this, getString(R.string.share_event_dined));
-                }
-
-            }
-        });
-
-
-        recyclerView.setAdapter(adapter);
-
-        showFriendList(userGenderType, loading_view, adapter, ly_no_friend_found, recyclerView);
-        iv_cancel_dialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                add_interest_dialog.dismiss();
-            }
-        });
-
-        add_interest_title.setText(R.string.share_event);
-        add_interest_dialog.getWindow().setGravity(Gravity.CENTER);
-        add_interest_dialog.show();
-    }
 
     private String removeLastChar(String str) {
         return str.substring(0, str.length() - 1);
@@ -977,6 +997,10 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 intent.putExtra("image_index", 0);
                 intent.putExtra("eventImages", detailsInfo.Detail);
                 startActivity(intent);
+                break;
+
+            case R.id.iv_social_share:
+                eventShareDialog();
                 break;
         }
     }

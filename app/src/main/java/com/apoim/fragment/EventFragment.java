@@ -271,8 +271,7 @@ public class EventFragment extends Fragment implements View.OnClickListener{
                     final JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("status");
                     try {
-                        String currentDateServer = jsonObject.getString("currentDate");
-                        currentDate = currentDateServer;
+                        currentDate = jsonObject.getString("currentDate");
                     }catch (Exception e){
 
                     }

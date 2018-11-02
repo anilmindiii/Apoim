@@ -40,7 +40,7 @@
                     android:src="@drawable/ico_back" />
 
                 <ImageView
-                    android:id="@+id/iv_share_event"
+                    android:id="@+id/iv_social_share"
                     android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_25sdp"
                     android:layout_alignParentRight="true"
@@ -774,7 +774,6 @@
                                     android:textColor="@color/colorBlack"
                                     android:textSize="@dimen/text_Medium_Size" />
 
-
                             </RelativeLayout>
 
                             <android.support.v7.widget.RecyclerView
@@ -830,7 +829,9 @@
                                     android:nestedScrollingEnabled="false"
                                     android:orientation="horizontal"
                                     android:scrollbars="none"
-                                    android:layout_margin="@dimen/_10sdp"
+                                    android:layout_marginTop="@dimen/_10sdp"
+                                    android:layout_marginBottom="@dimen/_10sdp"
+                                    android:layout_marginLeft="@dimen/_10sdp"
                                     app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
                                 <RelativeLayout

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.apoim.R;
 import com.apoim.activity.event.CreateEventActivity;
+import com.apoim.activity.event.CreateNewEventActivity;
 import com.apoim.activity.event.EventDetailsActivity;
 import com.apoim.helper.Constant;
 import com.apoim.listener.DeleteListner;
@@ -123,7 +124,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             });
 
             holder.ly_edit_event.setOnClickListener(view -> {
-                Intent intent = new Intent(mContext,CreateEventActivity.class);
+                Intent intent = new Intent(mContext,CreateNewEventActivity.class);
                 intent.putExtra(Constant.editEvent, Constant.editEvent);
                 intent.putExtra("eventId", bean.eventId);
                 mContext.startActivity(intent);

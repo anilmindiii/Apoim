@@ -955,16 +955,27 @@ public class OtherProfileDetailsActivity extends AppCompatActivity {
             tv_weight.setText(userDetail.weight);
         }else   tv_weight.setText(R.string.not_available);
 
-        if(userDetail.relationship.equals("1")){
-            tv_marrige_status.setText("Single");
-        }else if(userDetail.relationship.equals("2")){
-            tv_marrige_status.setText( "Married");
-        }else if(userDetail.relationship.equals("3")){
-            tv_marrige_status.setText("Divorced");
-        }else if(userDetail.relationship.equals("4")){
-            tv_marrige_status.setText("Widowed");
-        }else {
-            tv_marrige_status.setText(R.string.not_available);
+        switch (userDetail.relationship) {
+            case "1":
+                tv_marrige_status.setText("Single");
+
+                break;
+            case "2":
+                tv_marrige_status.setText("Married");
+
+                break;
+            case "3":
+                tv_marrige_status.setText("Divorced");
+
+                break;
+            case "4":
+                tv_marrige_status.setText("Widowed");
+
+                break;
+            default:
+                tv_marrige_status.setText(R.string.not_available);
+
+                break;
         }
 
         

@@ -54,8 +54,8 @@ public class CreateNewEventActivity extends AppCompatActivity {
             if (editEvent.equals(Constant.editEvent)) {
                 profile_action_bar.setText("Edit Event");
                // tv_invite_n_create_friend.setVisibility(View.GONE);
-               // tv_update_event.setVisibility(View.VISIBLE);
-                //myEventRequestEvent(eventId);
+                //tv_update_event.setVisibility(View.VISIBLE);
+                myEventRequestEvent(eventId);
             }
             isForUpdateEvent = true;
         }else {
