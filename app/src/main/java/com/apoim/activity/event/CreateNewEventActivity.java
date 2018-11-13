@@ -60,7 +60,7 @@ public class CreateNewEventActivity extends AppCompatActivity {
             isForUpdateEvent = true;
         }else {
             isForUpdateEvent = false;
-            session.createEventInfo(new EventDetailsInfo.DetailBean());
+            session.createEventInfo(new EventDetailsInfo());
         }
 
 
@@ -85,7 +85,7 @@ public class CreateNewEventActivity extends AppCompatActivity {
                         Gson gson = new Gson();
                         EventDetailsInfo detailsInfo = gson.fromJson(response, EventDetailsInfo.class);
 
-                        session.createEventInfo(detailsInfo.Detail);
+                        session.createEventInfo(detailsInfo);
 
                         /*rb_private.setClickable(false);
                         rb_public.setClickable(false);

@@ -74,7 +74,7 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
     private LinearLayout ly_is_buz_added;
     private EditText ed_event_name;
     private TextView tv_start_date_time, tv_end_date_time, tv_location;
-    private RelativeLayout ly_event_start_date_time, ly_event_end_date_time;
+    private RelativeLayout ly_event_start_date_time, ly_event_end_date_time, ly_event_img;
     private DatePickerDialog fromDate;
     private String latitude = "", longitude = "", businessId = "", payment = "", eventUserType = "", eventPlace = "", eventStartDate = "", eventEndDate = "", editEvent = "", eventId = "";
     private String yearsOfMonth = "", day, years = "", startSeelectedDate = "", nextDayDate = "", currencySymbol = "", currencyCode = "";
@@ -84,7 +84,7 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
     private Session session;
     private InsLoadingView loadingView;
     private Bitmap bitmap;
-    ImageView eventImage, camera_icon,event_place_image;
+    ImageView eventImage, camera_icon, event_place_image;
     String base64Image;
 
     public static FirstScreenFragment newInstance(String eventId) {
@@ -110,8 +110,10 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
 
         if (CreateNewEventActivity.isForUpdateEvent) {
             eventId = getArguments().getString(Constant.eventId);
-            if (eventId != null)
+            if (eventId != null) {
                 myEventRequestEvent(eventId);
+                ly_event_img.setVisibility(View.GONE);
+            }
         }
 
 
@@ -124,19 +126,31 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
                 tv_one.setVisibility(View.GONE);
                 iv_right_one.setVisibility(View.VISIBLE);
 
-                EventDetailsInfo.DetailBean bean = new EventDetailsInfo.DetailBean();
-                bean.eventName = ed_event_name.getText().toString().trim();
-                bean.eventStartDate = eventStartDate;
-                bean.eventEndDate = eventEndDate;
-                bean.eventLatitude = latitude;
-                bean.eventLongitude = longitude;
-                bean.eventPlace = eventPlace;
-                bean.firstImage = base64Image;
-                bean.businessId = businessId;
+                EventDetailsInfo bean = new EventDetailsInfo();
+                bean.Detail.eventName = ed_event_name.getText().toString().trim();
+                bean.Detail.eventStartDate = eventStartDate;
+                bean.Detail.eventEndDate = eventEndDate;
+                bean.Detail.eventLatitude = latitude;
+                bean.Detail.eventLongitude = longitude;
+                bean.Detail.eventPlace = eventPlace;
+                bean.Detail.firstImage = base64Image;
+                bean.Detail.businessId = businessId;
 
-                if (!CreateNewEventActivity.isForUpdateEvent) {
+                if (CreateNewEventActivity.isForUpdateEvent) {
+                    bean = session.getcreateEventInfo();
+                    bean.Detail.eventName = ed_event_name.getText().toString().trim();
+                    bean.Detail.eventStartDate = eventStartDate;
+                    bean.Detail.eventEndDate = eventEndDate;
+                    bean.Detail.eventLatitude = latitude;
+                    bean.Detail.eventLongitude = longitude;
+                    bean.Detail.eventPlace = eventPlace;
+                    bean.Detail.firstImage = base64Image;
+                    bean.Detail.businessId = businessId;
+                    session.createEventInfo(bean);
+                } else {
                     session.createEventInfo(bean);
                 }
+
                 addFragment(new SecandScreenFragment(), true, R.id.event_fragment_place);
             }
 
@@ -162,7 +176,8 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
         tv_location = view.findViewById(R.id.tv_location);
         ly_event_start_date_time = view.findViewById(R.id.ly_event_start_date_time);
         ly_event_end_date_time = view.findViewById(R.id.ly_event_end_date_time);
-        loadingView = view.findViewById(R.id.loadingView);
+        loadingView = getActivity().findViewById(R.id.loadingView);
+        ly_event_img = view.findViewById(R.id.ly_event_img);
 
         ly_event_start_date_time.setOnClickListener(this);
         ly_event_end_date_time.setOnClickListener(this);
@@ -196,10 +211,10 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
                 longitude = eventlogitude;
 
 
-                if(eventplaceImage != null){
+                if (eventplaceImage != null) {
                     Glide.with(mContext).load(eventplaceImage).apply(new RequestOptions().placeholder(R.drawable.map_event)).into(event_place_image);
 
-                }else {
+                } else {
                     event_place_image.setImageResource(R.drawable.map_event);
                 }
             }
@@ -224,7 +239,6 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
         byte[] b = baos.toByteArray();
         return Base64.encodeToString(b, Base64.DEFAULT);
     }
-
 
 
     public void getPermissionAndPicImage() {
@@ -538,23 +552,33 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
     private boolean isValid() {
         Validation v = new Validation();
 
-        if (bitmap == null) {
-            Utils.openAlertDialog(mContext, "Please select event image");
-            return false;
-        } else if (!v.isNull(ed_event_name)) {
+        if (eventId.equals("")) {
+            if (bitmap == null) {
+                Utils.openAlertDialog(mContext, "Please select event image");
+                return false;
+            } else if (checkFunctionValid(v)) return false;
+        } else {
+            if (checkFunctionValid(v)) return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkFunctionValid(Validation v) {
+        if (!v.isNull(ed_event_name)) {
             Utils.openAlertDialog(mContext, getString(R.string.enter_event_name));
-            return false;
+            return true;
         } else if (!v.isNull(tv_start_date_time)) {
             Utils.openAlertDialog(mContext, getString(R.string.start_event_date_time));
-            return false;
+            return true;
         } else if (!v.isNull(tv_end_date_time)) {
             Utils.openAlertDialog(mContext, getString(R.string.end_event_date_time));
-            return false;
+            return true;
         } else if (!v.isNull(tv_location)) {
             Utils.openAlertDialog(mContext, getString(R.string.event_location));
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private void myEventRequestEvent(final String eventId) {
@@ -571,32 +595,39 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
                     if (status.equals("success")) {
                         Gson gson = new Gson();
                         EventDetailsInfo detailsInfo = gson.fromJson(response, EventDetailsInfo.class);
-                        session.createEventInfo(detailsInfo.Detail);
+                        session.createEventInfo(detailsInfo);
 
-                        EventDetailsInfo.DetailBean bean = session.getcreateEventInfo();
+                        EventDetailsInfo bean = session.getcreateEventInfo();
 
-                        eventStartDate = formateDateFromstring("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd hh:mm a", bean.eventStartDate);
-                        eventEndDate = formateDateFromstring("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd hh:mm a", bean.eventEndDate);
+                        eventStartDate = formateDateFromstring("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd hh:mm a", bean.Detail.eventStartDate);
+                        eventEndDate = formateDateFromstring("yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd hh:mm a", bean.Detail.eventEndDate);
                         tv_start_date_time.setText(eventStartDate);
                         tv_end_date_time.setText(eventEndDate);
 
-                        years = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "yyyy", bean.eventStartDate);
-                        yearsOfMonth = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "MM", bean.eventStartDate);
-                        day = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "dd", bean.eventStartDate);
+                        years = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "yyyy", bean.Detail.eventStartDate);
+                        yearsOfMonth = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "MM", bean.Detail.eventStartDate);
+                        day = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "dd", bean.Detail.eventStartDate);
 
-                        hour = Integer.parseInt(formateDateFromstring("yyyy-MM-dd hh:mm:ss", "HH", bean.eventStartDate));
-                        min = Integer.parseInt(formateDateFromstring("yyyy-MM-dd hh:mm:ss", "mm", bean.eventStartDate));
-                        sec = Integer.parseInt(formateDateFromstring("yyyy-MM-dd hh:mm:ss", "ss", bean.eventStartDate));
+                        hour = Integer.parseInt(formateDateFromstring("yyyy-MM-dd hh:mm:ss", "HH", bean.Detail.eventStartDate));
+                        min = Integer.parseInt(formateDateFromstring("yyyy-MM-dd hh:mm:ss", "mm", bean.Detail.eventStartDate));
+                        sec = Integer.parseInt(formateDateFromstring("yyyy-MM-dd hh:mm:ss", "ss", bean.Detail.eventStartDate));
 
-                        startSeelectedDate = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "yyyy-MM-dd", bean.eventStartDate);
+                        startSeelectedDate = formateDateFromstring("yyyy-MM-dd hh:mm:ss", "yyyy-MM-dd", bean.Detail.eventStartDate);
 
-                        latitude = bean.eventLatitude;
-                        longitude = bean.eventLongitude;
-                        eventPlace = bean.eventPlace;
+                        latitude = bean.Detail.eventLatitude;
+                        longitude = bean.Detail.eventLongitude;
+                        eventPlace = bean.Detail.eventPlace;
 
                         tv_location.setText(eventPlace);
-                        ed_event_name.setText(bean.eventName);
-                        ed_event_name.setSelection(bean.eventName.length());
+                        ed_event_name.setText(bean.Detail.eventName);
+                        ed_event_name.setSelection(bean.Detail.eventName.length());
+
+                        if (bean.Detail.businessImage != null) {
+                            Glide.with(mContext).load(bean.Detail.businessImage).apply(new RequestOptions().placeholder(R.drawable.map_event)).into(event_place_image);
+
+                        } else {
+                            event_place_image.setImageResource(R.drawable.map_event);
+                        }
 
                         /*
                         }*/

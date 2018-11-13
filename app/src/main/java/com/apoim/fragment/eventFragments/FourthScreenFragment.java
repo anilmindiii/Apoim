@@ -112,9 +112,13 @@ public class FourthScreenFragment extends Fragment {
         imageBeans.add(0, null);
 
 
-        if((session.getcreateEventInfo().firstImage) != null){
-            bitmap = getBitmap(session.getcreateEventInfo().firstImage);
+        if((session.getcreateEventInfo().Detail.firstImage) != null){
+            bitmap = getBitmap(session.getcreateEventInfo().Detail.firstImage);
             imageBeans.add(1, new ImageBean(null, bitmap, imageId));
+        }else {
+            for(EventDetailsInfo.EventImage imgUrl: session.getcreateEventInfo().Detail.eventImage){
+                imageBeans.add(1, new ImageBean(imgUrl.eventImage, null, imgUrl.eventImgId));
+            }
         }
 
 

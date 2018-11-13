@@ -117,8 +117,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private CardView cv_reject_companion;
     private TextView tv_comp_count;
     private ImageView iv_profile, map_image, iv_event_img, compainion_img,iv_social_share;
-    private LinearLayout ly_edit_delete, ly_all_bottom_view, ly_companion_view;
-    private RelativeLayout ly_companion, ly_accept_reject, ly_join_accept_reject;
+    private LinearLayout  ly_all_bottom_view, ly_companion_view;
+    private RelativeLayout ly_edit_delete,ly_companion, ly_accept_reject, ly_join_accept_reject;
     private InsLoadingView loading_view;
     private String eventId = "";
     private String id = "";
@@ -130,9 +130,9 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<MyFriendListInfo.ListBean> friendList;
     private String userGenderType = "";
     private ShareEventJoinAdapter adapter;
-    private ImageView iv_delete_myevent, iv_chat_group_img;
+    private ImageView iv_chat_group_img;
     private String userId = "", memberId = "", currencyCode = "", eventAmount = "", eventPrivacy = "", currentDate = "", eventMemId = "", eventOrgnizarId = "", ownerType;
-    private ImageView iv_edit_profile;
+    private LinearLayout ly_edit_profile,ly_delete_myevent;
     private EventDetailsInfo detailsInfo;
     private LinearLayout cv_companion_view;
     private boolean isExpaireDate;
@@ -142,7 +142,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private RecyclerView rcv_event_images;
     private RelativeLayout ly_business_way, ly_address_image, ly_comp_count, ly_joined_count, ly_invite_count, ly_chat_count;
     private Session session;
-    private LinearLayout ly_main_invited_mem, ly_shared_event_btn, ly_shared_event_call_btn;
+    private LinearLayout ly_main_invited_mem, ly_shared_event_btn, ly_shared_event_call_btn,ly_photo_view;
     private Dialog dialog;
 
     @Override
@@ -197,11 +197,11 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         tv_share_event.setOnClickListener(this);
         ly_join_member.setOnClickListener(this);
         ly_invited_member.setOnClickListener(this);
-        iv_delete_myevent.setOnClickListener(this);
+        ly_delete_myevent.setOnClickListener(this);
         tv_pay.setOnClickListener(this);
         cv_accept_companion.setOnClickListener(this);
         cv_reject_companion.setOnClickListener(this);
-        iv_edit_profile.setOnClickListener(this);
+        ly_edit_profile.setOnClickListener(this);
         ly_companion.setOnClickListener(this);
         iv_event_img.setOnClickListener(this);
         iv_social_share.setOnClickListener(this);
@@ -273,11 +273,12 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         ly_joined_count = findViewById(R.id.ly_joined_count);
         ly_invite_count = findViewById(R.id.ly_invite_count);
         ly_chat_count = findViewById(R.id.ly_chat_count);
+        ly_photo_view = findViewById(R.id.ly_photo_view);
 
-        iv_delete_myevent = findViewById(R.id.iv_delete_myevent);
+        ly_delete_myevent = findViewById(R.id.ly_delete_myevent);
         compainion_img = findViewById(R.id.compainion_img);
 
-        iv_edit_profile = findViewById(R.id.iv_edit_profile);
+        ly_edit_profile = findViewById(R.id.ly_edit_profile);
         iv_chat_group_img = findViewById(R.id.iv_chat_group_img);
 
         tv_address = findViewById(R.id.tv_address);
@@ -328,6 +329,10 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         } else if (detail.eventUserType.equals("Both")) {
             userGenderType = "3";
         }
+
+        if(detail.groupChat.equals("1")){
+            ly_photo_view.setVisibility(View.VISIBLE);
+        }else  ly_photo_view.setVisibility(View.GONE);
 
         currencyCode = detail.currencyCode;
         eventAmount = detail.eventAmount;
@@ -397,17 +402,22 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             }
 
 
-            if (isExpaireDate(currentDate, detail.eventEndDate)) {
-                iv_delete_myevent.setVisibility(View.VISIBLE);
-                iv_edit_profile.setVisibility(View.GONE);
+            if (isExpaireDate(currentDate, detail.eventEndDate) || detail.joinedMemberCount != 0) {
+                ly_delete_myevent.setVisibility(View.VISIBLE);
+                ly_edit_profile.setVisibility(View.GONE);
                 isExpaireDate = true;
             } else {
-                iv_delete_myevent.setVisibility(View.VISIBLE);
-                iv_edit_profile.setVisibility(View.VISIBLE);
+                ly_delete_myevent.setVisibility(View.VISIBLE);
+                ly_edit_profile.setVisibility(View.VISIBLE);
                 isExpaireDate = false;
             }
 
             ly_companion_view.setVisibility(View.GONE);
+            tv_event_creater_name.setText(detail.fullName);
+            if (getApplicationContext() != null) {
+                Glide.with(getApplicationContext()).load(detail.profileImage).apply(options).into(iv_profile);
+            }
+            tv_type_of_user.setText("Administrator");
             joined_view_visible();
 
         } else if (from.equals("eventRequest")) { // this is 1st tab ie request event part
@@ -564,7 +574,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         String API_KEY = "AIzaSyDI-QUWEEWFiV1W90w4PW2UWpIt04_DsmA";
         String url = "https://maps.googleapis.com/maps/api/staticmap?center=" + "&zoom=16&size=800x800&maptype=roadmap" +
                 "&markers=color:red%7Clabel:S%7C" + detail.eventLatitude + "," + detail.eventLongitude + "&key=" + API_KEY;
-        Glide.with(context).load(url).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image))
+        Glide.with(getApplicationContext()).load(url).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image))
                 .into(iv_map_img);
     }
 
@@ -942,7 +952,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
 
-            case R.id.iv_delete_myevent:
+            case R.id.ly_delete_myevent:
                 deleteAlertDialog(eventId);
                 break;
 
@@ -973,8 +983,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
 
-            case R.id.iv_edit_profile:
-                iv_edit_profile.setEnabled(false);
+            case R.id.ly_edit_profile:
+                ly_edit_profile.setEnabled(false);
                 intent = new Intent(this, CreateEventActivity.class);
                 intent.putExtra(Constant.editEvent, Constant.editEvent);
                 intent.putExtra("eventId", eventId);
@@ -1009,7 +1019,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     protected void onResume() {
         super.onResume();
         myEventRequestEvent(eventId, from);
-        iv_edit_profile.setEnabled(true);
+        ly_edit_profile.setEnabled(true);
         ly_companion.setEnabled(true);
     }
 

@@ -48,6 +48,7 @@ public class EventDetailsInfo  implements Serializable{
         public String groupChat ;
         public String firstImage;
         public String businessId;
+        public String memberIds;
 
         public String businessName;
         public String businessAddress;

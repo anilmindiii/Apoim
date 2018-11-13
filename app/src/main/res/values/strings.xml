@@ -581,6 +581,10 @@
     <string name="event_date_time"><![CDATA[Event date & Time]]></string>
     <string name="filter">Filter</string>
     <string name="invite">Invite</string>
+    <string name="max_user_limit_to_join_event">Max. user limit to join event</string>
+    <string name="group_chat">Group Chat</string>
+    <string name="who_can_join_event">Who can join event</string>
+    <string name="update_event">Update Event</string>
 
 
 </resources>

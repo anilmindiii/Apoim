@@ -74,7 +74,7 @@
                 android:layout_marginRight="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/_210sdp"
                 android:background="@drawable/shadow"
-                android:paddingBottom="@dimen/_10sdp">
+               >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -609,7 +609,7 @@
                                     android:ellipsize="end"
                                     android:fontFamily="@font/nunito_bold"
                                     android:maxLines="1"
-                                    android:text="Anil chourasiya"
+                                    android:text=""
                                     android:textColor="@color/colorBlack"
                                     android:textSize="@dimen/text_Medium_Size" />
 
@@ -799,7 +799,6 @@
                                 android:layout_height="0.5dp"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"
-                                android:layout_marginTop="@dimen/_10sdp"
                                 android:background="@color/colorGray" />
 
 
@@ -865,12 +864,8 @@
                                         android:textColor="@color/colorWhite"
                                         android:textSize="@dimen/text_Medium_Size" />
 
-
-
-
                                 </RelativeLayout>
 
-                                
                                 <ImageView
                                     android:id="@+id/iv_chat_group_img"
                                     android:layout_width="@dimen/_45sdp"
@@ -1068,7 +1063,7 @@
                                 <RelativeLayout
                                     android:id="@+id/ly_join_member"
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_50sdp" />
+                                    android:layout_height="@dimen/_40sdp" />
 
 
                             </RelativeLayout>
@@ -1092,7 +1087,6 @@
                             android:layout_height="0.5dp"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
                             android:background="@color/colorGray" />
 
                         <TextView
@@ -1338,6 +1332,7 @@
                         android:gravity="center"
                         android:text="Invite Companion Member"
                         android:textAllCaps="false"
+                        android:layout_marginBottom="@dimen/_10sdp"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/text_Large_Size"
                         android:visibility="gone" />
@@ -1355,39 +1350,132 @@
                         android:textAllCaps="false"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/text_Large_Size"
+                        android:layout_marginBottom="@dimen/_10sdp"
                         android:visibility="gone" />
 
+                    <RelativeLayout
+                        android:id="@+id/ly_edit_delete"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="right"
+                        android:visibility="gone">
+
+                        <com.github.captain_miao.optroundcardview.OptRoundCardView
+                            android:id="@+id/top_card_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="right"
+                            android:elevation="10dp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            app:optRoundCardBottomEdges="false"
+                            app:optRoundCardCornerRadius="5dp"
+                            app:optRoundCardElevation="10dp"
+                            app:optRoundCardLeftBottomCorner="false"
+                            app:optRoundCardRightTopCorner="false">
+
+
+                            <LinearLayout
+                                android:id="@+id/ly_edit_delete1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:elevation="@dimen/_10sdp"
+                                android:gravity="center"
+                                android:layout_marginLeft="@dimen/_12sdp"
+                                android:layout_marginRight="@dimen/_12sdp"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:id="@+id/ly_edit_profile"                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_18sdp"
+                                        android:layout_height="@dimen/_18sdp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/edit"
+                                        android:tint="@color/colorGray" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerInParent="true"
+                                        android:layout_marginLeft="@dimen/_5sdp"
+                                        android:fontFamily="@font/nunito_regular"
+                                        android:gravity="center"
+                                        android:maxLines="1"
+                                        android:text="Edit"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_Small_Size" />
+
+
+                                    <View
+                                        android:layout_width="0.8dp"
+                                        android:layout_height="@dimen/_20sdp"
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="@dimen/_10sdp"
+                                        android:layout_marginRight="@dimen/_10sdp"
+                                        android:background="@color/very_very_light_gray" />
+
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:id="@+id/ly_delete_myevent"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+
+                                        android:layout_width="@dimen/_18sdp"
+                                        android:layout_height="@dimen/_18sdp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ico_event_delete" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_centerInParent="true"
+                                        android:layout_marginLeft="@dimen/_5sdp"
+                                        android:layout_marginRight="@dimen/_5sdp"
+                                        android:fontFamily="@font/nunito_regular"
+                                        android:gravity="center"
+                                        android:maxLines="1"
+                                        android:text="Delete"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_Small_Size" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+
+                        </com.github.captain_miao.optroundcardview.OptRoundCardView>
+
+
+
+
+                    </RelativeLayout>
+
 
                 </LinearLayout>
 
 
-                <LinearLayout
-                    android:id="@+id/ly_edit_delete"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:layout_marginRight="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:gravity="right"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
 
-                    <ImageView
-                        android:id="@+id/iv_edit_profile"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ico_event_edit" />
 
-                    <ImageView
-                        android:id="@+id/iv_delete_myevent"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:src="@drawable/ico_event_delete" />
 
-                </LinearLayout>
 
             </RelativeLayout>
 

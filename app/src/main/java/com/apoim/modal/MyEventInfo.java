@@ -28,6 +28,7 @@ public class MyEventInfo {
         public String currencySymbol;
         public String status;
         public String eventImage;
+        public String joinMemCount;
 
 
     }

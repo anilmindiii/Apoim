@@ -83,7 +83,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             Date date1 = getDateFromString(currentDate);
             Date date2 = getDateFromString(bean.eventEndDate);
 
-            if (date1.after(date2)) {
+            if (date1.after(date2) || !bean.joinMemCount.equals("0")) {
                 //Do Something else
                 holder.ly_edit_event.setVisibility(View.GONE);
                 //holder.event_status.setVisibility(View.VISIBLE);

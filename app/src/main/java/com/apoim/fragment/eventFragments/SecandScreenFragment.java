@@ -2,7 +2,6 @@ package com.apoim.fragment.eventFragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -108,9 +107,9 @@ public class SecandScreenFragment extends Fragment {
 
         if (CreateNewEventActivity.isForUpdateEvent) {
             // for update event
-            EventDetailsInfo.DetailBean bean = session.getcreateEventInfo();
+            EventDetailsInfo bean = session.getcreateEventInfo();
 
-            rb_private.setClickable(false);
+   /*         rb_private.setClickable(false);
             rb_public.setClickable(false);
             rb_paid.setClickable(false);
             rb_free.setClickable(false);
@@ -119,52 +118,54 @@ public class SecandScreenFragment extends Fragment {
             rb_male.setClickable(false);
             rb_female.setClickable(false);
             rb_both.setClickable(false);
-            rb_all.setClickable(false);
+            rb_all.setClickable(false);*/
 
 
-            if (bean.privacy.equals("Public")) {
+            if (bean.Detail.privacy.equals("Public")) {
                 rb_public.setChecked(true);
                 privacy = "1";
-            } else if (bean.privacy.equals("Private")) {
-
+            } else if (bean.Detail.privacy.equals("Private")) {
                 rb_private.setChecked(true);
                 privacy = "2";
             }
 
-            if (bean.eventUserType.equals("Male")) {
+
+            if (bean.Detail.eventUserType.equals("Male")) {
                 rb_male.setChecked(true);
                 eventUserType = "1";
-            } else if (bean.eventUserType.equals("Female")) {
+            } else if (bean.Detail.eventUserType.equals("Female")) {
                 rb_female.setChecked(true);
                 eventUserType = "2";
-            } else if (bean.eventUserType.equals("Both")) {
-                rb_both.setChecked(true);
-                eventUserType = "3";
-            } else if(bean.eventUserType.equals("")){
+            } else if (bean.Detail.eventUserType.equals("Both")) {
+               /* rb_both.setChecked(true);
+                eventUserType = "3";*/
+
+                rb_all.setChecked(true);
+                eventUserType = "";
+            } else if(bean.Detail.eventUserType.equals("")){
                 rb_all.setChecked(true);
                 eventUserType = "";
             }
 
-            if (bean.payment.equals("Paid")) {
+
+            if (bean.Detail.payment.equals("Paid")) {
                 payment = "1";
                 rb_paid.setChecked(true);
                 ly_paid_view.setVisibility(View.VISIBLE);
                 ly_currency.setEnabled(false);
                 ed_amount.setEnabled(false);
                 ed_user_limite.setEnabled(false);
-
-            } else if (bean.payment.equals("Free")) {
+            } else if (bean.Detail.payment.equals("Free")) {
                 payment = "2";
                 rb_free.setChecked(true);
             }
 
 
-            ed_user_limite.setText(bean.userLimit);
-
-            ed_amount.setText(bean.eventAmount);
+            ed_user_limite.setText(bean.Detail.userLimit);
+            ed_amount.setText(bean.Detail.eventAmount);
 
             for (CurrencyInfo info : currencyList) {
-                if (info.code.equals(bean.currencyCode)) {
+                if (info.code.equals(bean.Detail.currencyCode)) {
                     tv_currency_name.setText(info.name_plural);
                 }
             }
@@ -177,15 +178,17 @@ public class SecandScreenFragment extends Fragment {
                 iv_right_two.setVisibility(View.VISIBLE);
                 tv_two.setVisibility(View.GONE);
 
-                EventDetailsInfo.DetailBean info = session.getcreateEventInfo();
-                info.userLimit = ed_user_limite.getText().toString().trim();
-                info.privacy = privacy;
-                info.eventUserType = eventUserType;
-                info.payment = payment;
-                info.currencyCode = currencyCode;
-                info.currencySymbol = currencySymbol;
-                info.eventAmount = ed_amount.getText().toString().trim();
-                info.groupChat = groupChat;
+                EventDetailsInfo info = session.getcreateEventInfo();
+                info.Detail.userLimit = ed_user_limite.getText().toString().trim();
+                info.Detail.privacy = privacy;
+                info.Detail.eventUserType = eventUserType;
+                info.Detail.payment = payment;
+                info.Detail.currencyCode = currencyCode;
+                info.Detail.currencySymbol = currencySymbol;
+                info.Detail.eventAmount = ed_amount.getText().toString().trim();
+                info.Detail.groupChat = groupChat;
+                info.Detail.currencySymbol = currencySymbol;
+                info.Detail.currencyCode = currencyCode;
 
                 session.createEventInfo(info);
                 EventFilterData data = new EventFilterData();

@@ -185,7 +185,7 @@ public class Session {
     }
 
     /*...........................................................................................*/
-    public void createEventInfo(EventDetailsInfo.DetailBean detailBean) {
+    public void createEventInfo(EventDetailsInfo detailBean) {
         Gson gson = new Gson();
         String json = gson.toJson(detailBean);
         editor.putString(CREATeEVENtINFO, json);
@@ -193,10 +193,10 @@ public class Session {
     }
 
 
-    public EventDetailsInfo.DetailBean  getcreateEventInfo() {
+    public EventDetailsInfo  getcreateEventInfo() {
         Gson gson = new Gson();
         String string = sharedPreferences.getString(CREATeEVENtINFO, "");
-        return gson.fromJson(string, EventDetailsInfo.DetailBean.class);
+        return gson.fromJson(string, EventDetailsInfo.class);
     }
 
 

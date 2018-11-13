@@ -21,6 +21,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/ly_event_img"
                 android:layout_width="@dimen/_90sdp"
                 android:layout_height="@dimen/_90sdp"
                 android:layout_gravity="center">

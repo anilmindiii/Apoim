@@ -34,9 +34,8 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.apoim.R;
-import com.apoim.activity.business.BusinessSubscriptionActivity;
-import com.apoim.activity.business.RegisterBusinessActivity;
 import com.apoim.activity.event.CreateEventActivity;
+import com.apoim.activity.event.CreateNewEventActivity;
 import com.apoim.activity.event.FilterEventActivity;
 import com.apoim.adapter.apoinment.InviteFrienAdapter;
 import com.apoim.app.Apoim;
@@ -44,10 +43,7 @@ import com.apoim.helper.Constant;
 import com.apoim.modal.AllUserForEventInfo;
 import com.apoim.modal.EventDetailsInfo;
 import com.apoim.modal.EventFilterData;
-import com.apoim.modal.ImageBean;
-import com.apoim.modal.MyFriendListInfo;
 import com.apoim.multipleFileUpload.MultiPartRequest;
-import com.apoim.multipleFileUpload.StringParser;
 import com.apoim.multipleFileUpload.Template;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
@@ -85,7 +81,7 @@ public class ThiredFragment extends Fragment {
 
     private TextView tv_select_background_two, tv_two;
     private ImageView iv_right_two;
-    private String eventId = "", imageId = "";
+    private String eventId = "", imageId = "",updatedIds = "";
     private String eventUserType = "";
     private String privacy = "";
     private ArrayList<AllUserForEventInfo.DataBean.UserBean> friendList;
@@ -120,13 +116,20 @@ public class ThiredFragment extends Fragment {
         }
 
         session = new Session(mContext);
-        if (getBitmap(session.getcreateEventInfo().firstImage) != null) {
-            bitmap = getBitmap(session.getcreateEventInfo().firstImage);
+        tv_next_thired = view.findViewById(R.id.tv_next_thired);
+
+        if (CreateNewEventActivity.isForUpdateEvent) {
+            friendsIds = session.getcreateEventInfo().Detail.memberIds;
+            tv_next_thired.setText(R.string.update_event);
+        }
+
+        if (session.getcreateEventInfo().Detail.firstImage != null) {
+            bitmap = getBitmap(session.getcreateEventInfo().Detail.firstImage);
         }
 
         ly_action_bar = view.findViewById(R.id.ly_action_bar);
         ly_action_bar.setVisibility(View.GONE);
-        tv_next_thired = view.findViewById(R.id.tv_next_thired);
+
         ed_search_friend = view.findViewById(R.id.ed_search_friend);
 
         iv_filter = getActivity().findViewById(R.id.iv_filter);
@@ -163,7 +166,11 @@ public class ThiredFragment extends Fragment {
                 iv_right_three.setVisibility(View.VISIBLE);
                 tv_three.setVisibility(View.GONE);
 
-                registerBusiness(tv_next_thired);
+                if (CreateNewEventActivity.isForUpdateEvent){
+                    updateEvent(tv_next_thired);
+                }else  registerBusiness(tv_next_thired);
+
+
 
             } else {
                 Utils.openAlertDialog(mContext, getString(R.string.event_invitaion));
@@ -343,20 +350,22 @@ public class ThiredFragment extends Fragment {
 
 
                         if(friendsIds != null){
-
-                            List<String> tempList = new ArrayList<String>(Arrays.asList(friendsIds.split(",")));
+                            List<String> tempList = new ArrayList<>(Arrays.asList(friendsIds.split(",")));
                             for (int i = 0; i < friendList.size(); i++) {
-
                                 for (int j = 0; j < tempList.size(); j++) {
                                     if (tempList.get(j).equals(friendList.get(i).userId + "")) {
                                         friendList.get(i).isSelected = true;
+                                        updatedIds = friendList.get(i).userId +","+updatedIds;
+
                                     }
-
                                 }
-
                             }
-                        }
+                            if (CreateNewEventActivity.isForUpdateEvent) {
+                                friendsIds = updatedIds;
+                                friendsIds = friendsIds.replaceAll(",$", "");
+                            }
 
+                        }
 
                         adapter.notifyDataSetChanged();
                     } else {
@@ -380,37 +389,34 @@ public class ThiredFragment extends Fragment {
     }
 
     private void registerBusiness(TextView button) {
-
-
         button.setEnabled(false);
-        EventDetailsInfo.DetailBean bean = session.getcreateEventInfo();
-
+        EventDetailsInfo bean = session.getcreateEventInfo();
 
         Map<String, String> map = new HashMap<>();
-        map.put("eventName", bean.eventName);
-        map.put("eventStartDate", bean.eventStartDate);
-        map.put("eventEndDate", bean.eventEndDate);
-        map.put("eventPlace", bean.eventPlace);
-        map.put("eventLatitude", bean.eventLatitude);
-        map.put("eventLongitude", bean.eventLongitude);
-        map.put("privacy", bean.privacy);
-        map.put("payment", bean.payment);
-        map.put("userLimit", bean.userLimit);
-        map.put("businessId", bean.businessId);
+        map.put("eventName", bean.Detail.eventName);
+        map.put("eventStartDate", bean.Detail.eventStartDate);
+        map.put("eventEndDate", bean.Detail.eventEndDate);
+        map.put("eventPlace", bean.Detail.eventPlace);
+        map.put("eventLatitude", bean.Detail.eventLatitude);
+        map.put("eventLongitude", bean.Detail.eventLongitude);
+        map.put("privacy", bean.Detail.privacy);
+        map.put("payment", bean.Detail.payment);
+        map.put("userLimit", bean.Detail.userLimit);
+        map.put("businessId", bean.Detail.businessId);
 
-        if(bean.eventUserType.equals("")){
+        if(bean.Detail.eventUserType.equals("")){
             map.put("eventUserType", "4");
         }else {
-            map.put("eventUserType", bean.eventUserType);
+            map.put("eventUserType", bean.Detail.eventUserType);
         }
 
         map.put("inviteFriendId", friendsIds);
-        map.put("eventAmount", bean.eventAmount);
-        map.put("currencySymbol", bean.currencySymbol);
-        map.put("currencyCode", bean.currencyCode);
-        map.put("groupChat", bean.groupChat);
+        map.put("eventAmount", bean.Detail.eventAmount);
+        map.put("currencySymbol", bean.Detail.currencySymbol);
+        map.put("currencyCode", bean.Detail.currencyCode);
+        map.put("groupChat", bean.Detail.groupChat);
 
-
+        Log.d("eventDats", map+"");
         ArrayList<File> fileList = new ArrayList<>();
         if (bitmap != null) {
             fileList = new ArrayList<>();
@@ -431,21 +437,22 @@ public class ThiredFragment extends Fragment {
                     JSONObject jsonObject = new JSONObject(String.valueOf(response));
                     String status = jsonObject.getString("status");
                     String message = jsonObject.getString("message");
-                    JSONObject object = jsonObject.getJSONObject("data");
-
-                    eventId = object.getString("eventId");
-
-                    JSONObject imageObj = object.getJSONObject("event");
-                    imageId = imageObj.getString("eventImgId");
-
-                    iv_filter.setVisibility(View.GONE);
                     loadingView.setVisibility(View.GONE);
 
-                    EventFilterData data = new EventFilterData();
-                    session.createFilterData(data);
-                    RattingIds = "";
-
                     if (status.equals("success")) {
+                        JSONObject object = jsonObject.getJSONObject("data");
+                        Log.d("eventResponse", response+"");
+                        eventId = object.getString("eventId");
+
+                        JSONObject imageObj = object.getJSONObject("event");
+                        imageId = imageObj.getString("eventImgId");
+
+                        iv_filter.setVisibility(View.GONE);
+                        loadingView.setVisibility(View.GONE);
+
+                        EventFilterData data = new EventFilterData();
+                        session.createFilterData(data);
+                        RattingIds = "";
                         successDialog(mContext,"Event created successfully");
                     } else {
                         Utils.openAlertDialog(mContext, message);
@@ -470,6 +477,75 @@ public class ThiredFragment extends Fragment {
                 Template.VolleyRetryPolicy.RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         Apoim.getInstance().addToRequestQueue(mMultiPartRequest, "UPLOAD");
+    }
+
+    private void updateEvent(TextView button) {
+        button.setEnabled(false);
+        loadingView.setVisibility(View.VISIBLE);
+        EventDetailsInfo bean = session.getcreateEventInfo();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("eventId", bean.Detail.eventId);
+        map.put("eventName", bean.Detail.eventName);
+        map.put("eventStartDate", bean.Detail.eventStartDate);
+        map.put("eventEndDate", bean.Detail.eventEndDate);
+        map.put("eventPlace", bean.Detail.eventPlace);
+        map.put("eventLatitude", bean.Detail.eventLatitude);
+        map.put("eventLongitude", bean.Detail.eventLongitude);
+        map.put("privacy", bean.Detail.privacy);
+        map.put("payment", bean.Detail.payment);
+        map.put("userLimit", bean.Detail.userLimit);
+        map.put("businessId", bean.Detail.businessId);
+
+        if(bean.Detail.eventUserType.equals("")){
+            map.put("eventUserType", "4");
+        }else {
+            map.put("eventUserType", bean.Detail.eventUserType);
+        }
+
+        map.put("inviteFriendId", friendsIds);
+        map.put("eventAmount", bean.Detail.eventAmount);
+        map.put("currencySymbol", bean.Detail.currencySymbol);
+        map.put("currencyCode", bean.Detail.currencyCode);
+        map.put("groupChat", bean.Detail.groupChat);
+
+        WebService service = new WebService(mContext, Apoim.TAG, new WebService.LoginRegistrationListener() {
+            @Override
+            public void onResponse(String response) {
+                loadingView.setVisibility(View.GONE);
+                button.setEnabled(true);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+
+                    if (status.equals("success")) {
+                        successDialog(mContext,message);
+                        EventFilterData data = new EventFilterData();
+                        session.createFilterData(data);
+                        RattingIds = "";
+                        friendsIds = "";
+
+                    } else if (status.equals("fail")) {
+                        Utils.openAlertDialog(mContext, message);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    button.setEnabled(true);
+                    loadingView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+                button.setEnabled(true);
+                loadingView.setVisibility(View.GONE);
+            }
+        });
+        service.callSimpleVolley("event/updateEvent", map);
+
+
+
     }
 
     public File bitmapToFile(Bitmap bmp) {
@@ -507,7 +583,9 @@ public class ThiredFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                addFragment(FourthScreenFragment.newInstance(eventId, imageId), true, R.id.event_fragment_place);
+                if (CreateNewEventActivity.isForUpdateEvent) {
+                    addFragment(FourthScreenFragment.newInstance(session.getcreateEventInfo().Detail.eventId, session.getcreateEventInfo().Detail.eventImage.get(0).eventImgId), true, R.id.event_fragment_place);
+                }else addFragment(FourthScreenFragment.newInstance(eventId, imageId), true, R.id.event_fragment_place);
             }
         });
         AlertDialog alert = builder.create();

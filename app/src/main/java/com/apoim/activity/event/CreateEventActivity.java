@@ -454,7 +454,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
                         updateEventDialog(CreateEventActivity.this, message);
 
                     } else if (status.equals("fail")) {
-
+                        updateEventDialog(CreateEventActivity.this, message);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

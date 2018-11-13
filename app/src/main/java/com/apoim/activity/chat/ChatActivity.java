@@ -1407,15 +1407,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     tv_show_typing.setText("online");
                     tv_show_typing.setVisibility(View.VISIBLE);
                 } else{
-                    //tv_show_typing.setVisibility(View.GONE);
-                    SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
-                    try {
-                        String date = sd.format(new Date(lastseenTimestamp));
-                        tv_show_typing.setText(date);
-
-                    } catch (Exception e) {
-
-                    }
+                    tv_show_typing.setText(getLastSeen(lastseenTimestamp));
                 }
 
             }
@@ -1446,14 +1438,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         isOtherUserOnline = false;
                         if(onlineInfo.timestamp != null){
                             lastseenTimestamp  = (long) onlineInfo.timestamp;
-                            SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
-                            try {
-                                String date = sd.format(new Date((Long) onlineInfo.timestamp));
-                                tv_show_typing.setText(date);
-
-                            } catch (Exception e) {
-
-                            }
+                            tv_show_typing.setText(getLastSeen(onlineInfo.timestamp));
                         }
                     }
                 }
@@ -1466,6 +1451,35 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
+    private String getLastSeen(Object timeStamp) {
+        String banner_date = "";
+        SimpleDateFormat sim = new SimpleDateFormat(" d MMMM yyyy", Locale.US);
+        SimpleDateFormat sd = new SimpleDateFormat("hh:mm a");
+        String time = sd.format(new Date((Long) timeStamp));
+        try {
+            String date_str = sim.format(new Date((Long) timeStamp)).trim();
+            String currentDate = sim.format(Calendar.getInstance().getTime()).trim();
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, -1);
+            String yesterdayDate = sim.format(calendar.getTime()).trim();
+
+            if (date_str.equals(currentDate)) {
+                banner_date = "Today at "+time;
+            } else if (date_str.equals(yesterdayDate)) {
+                banner_date = "Yesterday at "+time;
+            } else {
+                banner_date = date_str.trim()+"at "+time;
+            }
+
+            return banner_date;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return banner_date;
+        }
+    }
+
+
 
     @Override
     protected void onStop() {
