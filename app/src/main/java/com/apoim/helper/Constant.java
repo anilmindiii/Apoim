@@ -44,6 +44,7 @@ public class Constant {
     //FireBase....................................................
     public static final String ARG_USERS = "users";
     public static final String ARG_CHAT_ROOMS = "chat_rooms";
+    public static final String ARG_GROUP_CHAT_ROOMS = "group_chat_rooms";
     public static final String ARG_HISTORY = "chat_history";
     public static final String BlockUsers = "block_users";
     public static final String blockedBy = "blockedBy";

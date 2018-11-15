@@ -35,8 +35,6 @@
                 android:scaleType="centerCrop" />
 
 
-
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_110sdp"

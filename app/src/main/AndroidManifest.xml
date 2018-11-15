@@ -194,11 +194,11 @@
         </provider>
 
         <activity
-            android:name=".activity.JoinedEventActivity"
+            android:name=".activity.event.JoinedEventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.InvidedEventActivity"
+            android:name=".activity.event.InvidedEventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -278,6 +278,7 @@
             android:name="com.quickblox.messages.QB_ENVIRONMENT"
             android:value="DEVELOPMENT" />
 
+        <!--
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -289,6 +290,8 @@
                 <category android:name="com.apoim.groupchatwebrtc" />
             </intent-filter>
         </receiver>
+        -->
+
 
         <!--
         <service
@@ -381,11 +384,14 @@
             android:name=".activity.event.FilterEventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".activity.event.SelectCompanionActivity"
+        <activity
+            android:name=".activity.event.SelectCompanionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".activity.chat.GroupChatHistortActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

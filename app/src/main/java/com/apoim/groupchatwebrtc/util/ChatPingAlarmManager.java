@@ -39,8 +39,7 @@ public class ChatPingAlarmManager {
                 if (pingManager != null) {
                     pingManager.pingServer(new QBEntityCallback<Void>() {
                         @Override
-                        public void onSuccess(Void result, Bundle params) {
-                        }
+                        public void onSuccess(Void result, Bundle params) {}
 
                         @Override
                         public void onError(QBResponseException responseException) {
@@ -69,8 +68,7 @@ public class ChatPingAlarmManager {
         ChatPingAlarmManager.enabled = enabled;
     }
 
-    private ChatPingAlarmManager() {
-    }
+    private ChatPingAlarmManager() {}
 
     public void addPingListener(PingFailedListener pingFailedListener) {
         this.pingFailedListener = pingFailedListener;

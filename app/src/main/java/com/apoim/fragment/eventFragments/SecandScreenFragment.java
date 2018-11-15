@@ -154,7 +154,7 @@ public class SecandScreenFragment extends Fragment {
                 ly_paid_view.setVisibility(View.VISIBLE);
                 ly_currency.setEnabled(false);
                 ed_amount.setEnabled(false);
-                ed_user_limite.setEnabled(false);
+               // ed_user_limite.setEnabled(false);
             } else if (bean.Detail.payment.equals("Free")) {
                 payment = "2";
                 rb_free.setChecked(true);
@@ -169,6 +169,17 @@ public class SecandScreenFragment extends Fragment {
                     tv_currency_name.setText(info.name_plural);
                 }
             }
+
+
+            if(bean.Detail.groupChat.equals("0")){
+                groupChat = "0";
+                iv_groupchat_toggle.setImageResource(R.drawable.ico_set_toggle_off);
+            }
+            else {
+                groupChat = "1";
+                iv_groupchat_toggle.setImageResource(R.drawable.ico_set_toggle_on);
+            }
+
         }
 
         tv_next_secand.setOnClickListener(view1 -> {

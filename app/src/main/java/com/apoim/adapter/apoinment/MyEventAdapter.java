@@ -92,8 +92,6 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
                 //holder.event_status.setVisibility(View.GONE);
             }
         }
-
-
     }
 
     public void getData(String currentDate) {

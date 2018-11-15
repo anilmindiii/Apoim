@@ -28,7 +28,7 @@
                     android:layout_height="@dimen/_240sdp"
                     android:background="@color/black"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ico_user_placeholder" />
+                    android:src="@drawable/placeholder_chat_image" />
 
                 <ImageButton
                     android:id="@+id/iv_back"
@@ -74,7 +74,7 @@
                 android:layout_marginRight="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/_210sdp"
                 android:background="@drawable/shadow"
-               >
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -655,6 +655,7 @@
                         android:layout_height="@dimen/_35sdp"
                         android:layout_alignParentBottom="true"
                         android:background="@color/white"
+                        android:layout_marginBottom="@dimen/_5sdp"
                         android:visibility="gone">
 
                         <View
@@ -1391,7 +1392,7 @@
 
 
                                 <LinearLayout
-                                    android:id="@+id/ly_edit_profile"                                    android:layout_width="wrap_content"
+                                    android:id="@+id/ly_edit_event"                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
 

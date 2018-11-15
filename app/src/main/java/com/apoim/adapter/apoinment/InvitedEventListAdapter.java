@@ -14,10 +14,8 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
-import com.apoim.activity.InvidedEventActivity;
 import com.apoim.app.Apoim;
 import com.apoim.modal.InvitedListInfo;
-import com.apoim.modal.MyFriendListInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.util.InsLoadingView;
 import com.apoim.util.Utils;

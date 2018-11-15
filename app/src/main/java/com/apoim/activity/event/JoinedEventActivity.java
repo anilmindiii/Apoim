@@ -1,4 +1,4 @@
-package com.apoim.activity;
+package com.apoim.activity.event;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

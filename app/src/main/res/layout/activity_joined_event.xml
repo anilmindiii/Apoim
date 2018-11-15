@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.apoim.activity.JoinedEventActivity">
+    tools:context="com.apoim.activity.event.JoinedEventActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

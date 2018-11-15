@@ -16,47 +16,32 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.apoim.R;
 import com.apoim.activity.CompanionListActivity;
-import com.apoim.activity.InvidedEventActivity;
-import com.apoim.activity.JoinedEventActivity;
 import com.apoim.activity.MatchGalleryActivity;
-import com.apoim.activity.business.BusinessDetailsActivity;
+import com.apoim.activity.chat.GroupChatHistortActivity;
 import com.apoim.activity.payment_subscription.SubscriptionPayActivity;
-import com.apoim.activity.profile.EditProfileActivity;
-import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.adapter.apoinment.EventDetailsMemberAdapter;
 import com.apoim.adapter.apoinment.ShareEventJoinAdapter;
 import com.apoim.adapter.newProfile.NewProfileAdapter;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
 import com.apoim.listener.GetNewImageClick;
-import com.apoim.listener.ShareListner;
-import com.apoim.modal.BussinessInfo;
 import com.apoim.modal.EventDetailsInfo;
 import com.apoim.modal.EventFilterData;
-import com.apoim.modal.GetOtherProfileInfo;
-import com.apoim.modal.ImageBean;
 import com.apoim.modal.MyFriendListInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
@@ -64,7 +49,6 @@ import com.apoim.util.InsLoadingView;
 import com.apoim.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.github.captain_miao.optroundcardview.OptRoundCardView;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -73,7 +57,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -132,7 +115,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private ShareEventJoinAdapter adapter;
     private ImageView iv_chat_group_img;
     private String userId = "", memberId = "", currencyCode = "", eventAmount = "", eventPrivacy = "", currentDate = "", eventMemId = "", eventOrgnizarId = "", ownerType;
-    private LinearLayout ly_edit_profile,ly_delete_myevent;
+    private LinearLayout ly_edit_event,ly_delete_myevent;
     private EventDetailsInfo detailsInfo;
     private LinearLayout cv_companion_view;
     private boolean isExpaireDate;
@@ -140,15 +123,15 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private boolean isEventPaymentDone = false;
     private NewProfileAdapter eventImageAdapter;
     private RecyclerView rcv_event_images;
-    private RelativeLayout ly_business_way, ly_address_image, ly_comp_count, ly_joined_count, ly_invite_count, ly_chat_count;
+    private RelativeLayout bottom_sheet, ly_business_way, ly_address_image, ly_comp_count, ly_joined_count, ly_invite_count, ly_chat_count;
     private Session session;
-    private LinearLayout ly_main_invited_mem, ly_shared_event_btn, ly_shared_event_call_btn,ly_photo_view;
+    private LinearLayout ly_main_invited_mem, ly_shared_event_btn, ly_shared_event_call_btn,ly_chat_view;
     private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.test_for_layout);
+        setContentView(R.layout.new_event_details_layout);
         init();
 
         friendList = new ArrayList<>();
@@ -201,10 +184,11 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         tv_pay.setOnClickListener(this);
         cv_accept_companion.setOnClickListener(this);
         cv_reject_companion.setOnClickListener(this);
-        ly_edit_profile.setOnClickListener(this);
+        ly_edit_event.setOnClickListener(this);
         ly_companion.setOnClickListener(this);
         iv_event_img.setOnClickListener(this);
         iv_social_share.setOnClickListener(this);
+        iv_chat_group_img.setOnClickListener(this);
 
     }
 
@@ -273,12 +257,13 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         ly_joined_count = findViewById(R.id.ly_joined_count);
         ly_invite_count = findViewById(R.id.ly_invite_count);
         ly_chat_count = findViewById(R.id.ly_chat_count);
-        ly_photo_view = findViewById(R.id.ly_photo_view);
+        ly_chat_view = findViewById(R.id.ly_chat_view);
+        bottom_sheet = findViewById(R.id.bottom_sheet);
 
         ly_delete_myevent = findViewById(R.id.ly_delete_myevent);
         compainion_img = findViewById(R.id.compainion_img);
 
-        ly_edit_profile = findViewById(R.id.ly_edit_profile);
+        ly_edit_event = findViewById(R.id.ly_edit_event);
         iv_chat_group_img = findViewById(R.id.iv_chat_group_img);
 
         tv_address = findViewById(R.id.tv_address);
@@ -331,8 +316,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         }
 
         if(detail.groupChat.equals("1")){
-            ly_photo_view.setVisibility(View.VISIBLE);
-        }else  ly_photo_view.setVisibility(View.GONE);
+            ly_chat_view.setVisibility(View.VISIBLE);
+        }else  ly_chat_view.setVisibility(View.GONE);
 
         currencyCode = detail.currencyCode;
         eventAmount = detail.eventAmount;
@@ -346,11 +331,9 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         RequestOptions options = new RequestOptions();
         options.placeholder(R.drawable.ico_user_placeholder);
 
-
         tv_max_user.setText(detail.userLimit);
         tv_privacy.setText(detail.privacy);
         tv_payment_status.setText(detail.payment);
-
 
         if (detail.joinedMemberCount > 3) {
             ly_joined_count.setVisibility(View.VISIBLE);
@@ -404,11 +387,11 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
             if (isExpaireDate(currentDate, detail.eventEndDate) || detail.joinedMemberCount != 0) {
                 ly_delete_myevent.setVisibility(View.VISIBLE);
-                ly_edit_profile.setVisibility(View.GONE);
+                ly_edit_event.setVisibility(View.GONE);
                 isExpaireDate = true;
             } else {
                 ly_delete_myevent.setVisibility(View.VISIBLE);
-                ly_edit_profile.setVisibility(View.VISIBLE);
+                ly_edit_event.setVisibility(View.VISIBLE);
                 isExpaireDate = false;
             }
 
@@ -798,6 +781,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     String status = jsonObject.getString("status");
 
                     if (status.equals("success")) {
+                        bottom_sheet.setVisibility(View.VISIBLE);
                         Gson gson = new Gson();
                         detailsInfo = gson.fromJson(response, EventDetailsInfo.class);
 
@@ -983,9 +967,9 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
 
-            case R.id.ly_edit_profile:
-                ly_edit_profile.setEnabled(false);
-                intent = new Intent(this, CreateEventActivity.class);
+            case R.id.ly_edit_event:
+                ly_edit_event.setEnabled(false);
+                intent = new Intent(this,CreateNewEventActivity.class);
                 intent.putExtra(Constant.editEvent, Constant.editEvent);
                 intent.putExtra("eventId", eventId);
                 startActivity(intent);
@@ -1012,6 +996,15 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             case R.id.iv_social_share:
                 eventShareDialog();
                 break;
+
+            case R.id.iv_chat_group_img:
+                intent = new Intent(EventDetailsActivity.this, GroupChatHistortActivity.class);
+                intent.putExtra("eventId", eventId);
+                intent.putExtra("from", from);
+                intent.putExtra("eventName", detailsInfo.Detail.eventName);
+                intent.putExtra("eventImage", detailsInfo.Detail.eventImage.get(0).eventImage);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -1019,7 +1012,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     protected void onResume() {
         super.onResume();
         myEventRequestEvent(eventId, from);
-        ly_edit_profile.setEnabled(true);
+        ly_edit_event.setEnabled(true);
         ly_companion.setEnabled(true);
     }
 

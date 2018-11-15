@@ -580,8 +580,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             } else {
                 chat.banner_date = getDateBanner(chat.timestamp);
-
-
                 chat.imageUrl = map.get(key).imageUrl;
 
                 map.put(key, chat);
