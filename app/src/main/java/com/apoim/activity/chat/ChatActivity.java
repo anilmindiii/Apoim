@@ -207,7 +207,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                 }*/
             }
-        });
+        },true);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recycler_view.setLayoutManager(linearLayoutManager);

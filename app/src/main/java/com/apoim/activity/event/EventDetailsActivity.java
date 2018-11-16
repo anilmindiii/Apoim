@@ -99,9 +99,9 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private CardView cv_accept_companion;
     private CardView cv_reject_companion;
     private TextView tv_comp_count;
-    private ImageView iv_profile, map_image, iv_event_img, compainion_img,iv_social_share;
-    private LinearLayout  ly_all_bottom_view, ly_companion_view;
-    private RelativeLayout ly_edit_delete,ly_companion, ly_accept_reject, ly_join_accept_reject;
+    private ImageView iv_profile, map_image, iv_event_img, compainion_img, iv_social_share;
+    private LinearLayout ly_all_bottom_view, ly_companion_view;
+    private RelativeLayout ly_edit_delete, ly_companion, ly_accept_reject, ly_join_accept_reject;
     private InsLoadingView loading_view;
     private String eventId = "";
     private String id = "";
@@ -115,7 +115,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private ShareEventJoinAdapter adapter;
     private ImageView iv_chat_group_img;
     private String userId = "", memberId = "", currencyCode = "", eventAmount = "", eventPrivacy = "", currentDate = "", eventMemId = "", eventOrgnizarId = "", ownerType;
-    private LinearLayout ly_edit_event,ly_delete_myevent;
+    private LinearLayout ly_edit_event, ly_delete_myevent;
     private EventDetailsInfo detailsInfo;
     private LinearLayout cv_companion_view;
     private boolean isExpaireDate;
@@ -125,7 +125,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private RecyclerView rcv_event_images;
     private RelativeLayout bottom_sheet, ly_business_way, ly_address_image, ly_comp_count, ly_joined_count, ly_invite_count, ly_chat_count;
     private Session session;
-    private LinearLayout ly_main_invited_mem, ly_shared_event_btn, ly_shared_event_call_btn,ly_chat_view;
+    private LinearLayout ly_main_invited_mem, ly_shared_event_btn, ly_shared_event_call_btn, ly_chat_view;
     private Dialog dialog;
 
     @Override
@@ -315,9 +315,9 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             userGenderType = "3";
         }
 
-        if(detail.groupChat.equals("1")){
+        if (detail.groupChat.equals("1")) {
             ly_chat_view.setVisibility(View.VISIBLE);
-        }else  ly_chat_view.setVisibility(View.GONE);
+        } else ly_chat_view.setVisibility(View.GONE);
 
         currencyCode = detail.currencyCode;
         eventAmount = detail.eventAmount;
@@ -611,7 +611,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         btn_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getPermissionForTakepicture(ly_sharing_details,detailsInfo.Detail.eventPlace);
+                getPermissionForTakepicture(ly_sharing_details, detailsInfo.Detail.eventPlace);
                 dialog.dismiss();
             }
         });
@@ -621,19 +621,18 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         dialog.show();
     }
 
-    public void getPermissionForTakepicture(LinearLayout scr_shot_view, String about_string){
+    public void getPermissionForTakepicture(LinearLayout scr_shot_view, String about_string) {
 
-        if(Build.VERSION.SDK_INT >= 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(
                         new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         Constant.MY_PERMISSIONS_REQUEST_CEMERA_OR_GALLERY);
+            } else {
+                screenShot(scr_shot_view, about_string);
             }
-            else {
-                screenShot(scr_shot_view,about_string);
-            }
-        }else {
-            screenShot(scr_shot_view,about_string);
+        } else {
+            screenShot(scr_shot_view, about_string);
         }
     }
 
@@ -651,7 +650,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             Bitmap bitmap = Bitmap.createBitmap(scr_shot_view.getDrawingCache());
             bitmap.compress(Bitmap.CompressFormat.PNG, 60, outputStream);
             scr_shot_view.destroyDrawingCache();
-            sharOnsocial(imageFile,text);
+            sharOnsocial(imageFile, text);
             //onShareClick(imageFile,text);
             //doShareLink(text,otherProfileInfo.UserDetail.profileUrl);
         } catch (FileNotFoundException e) {
@@ -669,7 +668,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             sharIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            uri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider",imageFile);
+            uri = FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", imageFile);
             sharIntent.setDataAndType(uri, type);
         } else {
             uri = Uri.fromFile(imageFile);
@@ -680,7 +679,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         sharIntent.setType("text/plain");
         sharIntent.putExtra(Intent.EXTRA_STREAM, uri);
         sharIntent.putExtra(Intent.EXTRA_SUBJECT, "Apoim");
-        sharIntent.putExtra(Intent.EXTRA_TEXT, text+"\n"+"This URl will get soon");
+        sharIntent.putExtra(Intent.EXTRA_TEXT, text + "\n" + "This URl will get soon");
         startActivity(Intent.createChooser(sharIntent, "Share:"));
     }
 
@@ -720,7 +719,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 return "th";
         }
     }
-
 
 
     private String removeLastChar(String str) {
@@ -969,7 +967,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
             case R.id.ly_edit_event:
                 ly_edit_event.setEnabled(false);
-                intent = new Intent(this,CreateNewEventActivity.class);
+                intent = new Intent(this, CreateNewEventActivity.class);
                 intent.putExtra(Constant.editEvent, Constant.editEvent);
                 intent.putExtra("eventId", eventId);
                 startActivity(intent);
@@ -1002,7 +1000,30 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 intent.putExtra("eventId", eventId);
                 intent.putExtra("from", from);
                 intent.putExtra("eventName", detailsInfo.Detail.eventName);
+                intent.putExtra("eventType", from);
                 intent.putExtra("eventImage", detailsInfo.Detail.eventImage.get(0).eventImage);
+
+                if (detailsInfo.Detail.ownerType != null){
+                    if (detailsInfo.Detail.ownerType.equals("Shared Event")) {
+                        intent.putExtra("eventOrganizerId", "will get soon");
+                        intent.putExtra("eventOrganizerName", detailsInfo.Detail.ownerName);
+                        intent.putExtra("eventOrganizerProfileImage", detailsInfo.Detail.ownerImage);
+                    } else {
+                        intent.putExtra("eventOrganizerId", detailsInfo.Detail.eventOrganizer);
+                        intent.putExtra("eventOrganizerName", detailsInfo.Detail.fullName);
+                        intent.putExtra("eventOrganizerProfileImage", detailsInfo.Detail.profileImage);
+                    }
+                }else {
+                    intent.putExtra("eventOrganizerId", detailsInfo.Detail.eventOrganizer);
+                    intent.putExtra("eventOrganizerName", detailsInfo.Detail.fullName);
+                    intent.putExtra("eventOrganizerProfileImage", detailsInfo.Detail.profileImage);
+                }
+
+
+
+
+
+
                 startActivity(intent);
                 break;
         }

@@ -1,84 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_5sdp"
     android:layout_marginBottom="@dimen/_10sdp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="@dimen/_5sdp"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_days_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/bg_google_plus_btn"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:padding="@dimen/_5sdp"
-        android:minWidth="@dimen/_100sdp"
+        android:layout_gravity="center"
         android:layout_margin="@dimen/_15sdp"
-        android:textColor="@color/colorWhite"
-        android:fontFamily="@font/josefinsans_regular"
+        android:background="@drawable/bg_google_plus_btn"
         android:backgroundTint="@color/grey"
+        android:fontFamily="@font/josefinsans_regular"
+        android:gravity="center"
+        android:minWidth="@dimen/_100sdp"
+        android:padding="@dimen/_5sdp"
+        android:textColor="@color/colorWhite"
         android:textSize="@dimen/text_Medium_Size"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/_35sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
         android:orientation="horizontal">
 
+        <LinearLayout
+            android:id="@+id/ly_msg_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingRight="@dimen/_14sdp"
+            android:paddingLeft="@dimen/_14sdp"
+            android:background="@drawable/rounded_primary_left_chat_border">
+
+
+            <TextView
+                android:id="@+id/other_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingTop="@dimen/_5sdp"
+                android:fontFamily="@font/nunito_semibold"
+                android:gravity="center|left"
+                android:text="Anil Chourasiya "
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_Medium_Size" />
 
             <TextView
                 android:id="@+id/other_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"
-                android:layout_gravity="center"
-                android:text="Hello Anil Chourasiya"
-                android:gravity="center|left"
-                android:padding="@dimen/_7sdp"
-                android:layout_marginRight="@dimen/_35sdp"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:textSize="@dimen/_12sdp"
+                android:layout_gravity="left"
                 android:fontFamily="@font/nunito_regular"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:background="@drawable/rounded_primary_left_chat_border"/>
+                android:gravity="center|left"
+                android:paddingTop="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_10sdp"
+                android:text="Hello "
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12sdp" />
 
 
-        <RelativeLayout
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/ly_other_image_view"
             android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_200sdp"
-            android:layout_marginRight="@dimen/_35sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
 
 
-            <com.github.siyamed.shapeimageview.RoundedImageView
-                android:id="@+id/iv_other_side_img"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ico_user_placeholder"
-                app:siRadius="@dimen/_5sdp"
-                app:siBorderWidth="1dp"
-                app:siBorderColor="@color/white"
-                app:siSquare="true" />
-
-            <ProgressBar
-                android:id="@+id/other_progress"
+            <TextView
+                android:id="@+id/other_name_"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"/>
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="left"
+                android:paddingTop="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:fontFamily="@font/nunito_regular"
+                android:gravity="center|left"
+                android:text="Anil Chourasiya"
+                android:maxLines="1"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_Medium_Size"
+                />
 
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:layout_marginTop="@dimen/_3sdp">
+
+
+                <com.github.siyamed.shapeimageview.RoundedImageView
+                    android:id="@+id/iv_other_side_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ico_user_placeholder"
+                    app:siBorderColor="@color/white"
+                    app:siBorderWidth="1dp"
+                    app:siRadius="@dimen/_5sdp"
+                    app:siSquare="true" />
+
+                <ProgressBar
+                    android:id="@+id/other_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+
+
+            </RelativeLayout>
 
 
 
+
+
+        </LinearLayout>
 
 
     </RelativeLayout>
@@ -87,12 +132,12 @@
         android:id="@+id/other_date_time_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="25/12/2017 800 pm"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_50sdp"
         android:layout_marginTop="@dimen/_2sdp"
         android:fontFamily="@font/nunito_regular"
-        android:layout_marginRight="@dimen/_50sdp"
-        android:layout_marginLeft="@dimen/_5sdp"/>
+        android:text="25/12/2017 800 pm"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_10sdp" />
 
 </LinearLayout>

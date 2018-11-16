@@ -1,12 +1,12 @@
 package com.apoim.activity.chat;
 
 import android.Manifest;
-import android.app.ActivityManager;
-import android.content.ComponentName;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -20,29 +20,30 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.apoim.ImagePickerPackge.ImagePicker;
 import com.apoim.R;
-import com.apoim.adapter.apoinment.JoinedEventAdapter;
 import com.apoim.adapter.chat.ChattingAdapter;
 import com.apoim.adapter.newEvent.JoinedMemberChatAdapter;
 import com.apoim.app.Apoim;
 import com.apoim.helper.Constant;
 import com.apoim.listener.GetDateStatus;
 import com.apoim.modal.Chat;
+import com.apoim.modal.GroupChatDeleteMuteInfo;
 import com.apoim.modal.JoinedEventInfo;
+import com.apoim.modal.OnlineInfo;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
-import com.apoim.util.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.common.util.Strings;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
@@ -51,6 +52,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -69,7 +71,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -82,7 +83,8 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
     private ArrayList<JoinedEventInfo.ListBean> joinedList;
     private JoinedMemberChatAdapter adapter;
     private ChattingAdapter chattingAdapter;
-    String from = "", eventId = "", myUid = "", myName = "", myProfileImage = "";
+    String from = "", eventId = "", myEmail = "", myUid = "", myName = "", myProfileImage = "", eventType = "", eventName = "";
+    String eventOrganizerId = "", eventOrganizerName = "", eventOrganizerProfileImage = "";
     private ArrayList<Chat> chatList;
     private Session session;
     private FirebaseDatabase firebaseDatabase;
@@ -93,6 +95,8 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
     private EditText ed_message;
     private TextView tv_days_status, tv_mem_count, title_name;
     private boolean isChatTab;
+    private RelativeLayout ly_popup_menu, ly_delete_chat;
+    private Long deleteTimestamp;
 
 
     @Override
@@ -114,6 +118,8 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         tv_mem_count = findViewById(R.id.tv_mem_count);
         title_name = findViewById(R.id.title_name);
         header_image = findViewById(R.id.header_image);
+        ly_popup_menu = findViewById(R.id.ly_popup_menu);
+        ly_delete_chat = findViewById(R.id.ly_delete_chat);
 
 
         joinedList = new ArrayList<>();
@@ -126,14 +132,21 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         if (getIntent().getExtras() != null) {
             eventId = getIntent().getStringExtra("eventId");
             from = getIntent().getStringExtra("from");
-            String eventName = getIntent().getStringExtra("eventName");
+            eventName = getIntent().getStringExtra("eventName");
             String eventImage = getIntent().getStringExtra("eventImage");
+
+            eventOrganizerId = getIntent().getStringExtra("eventOrganizerId");
+            eventOrganizerName = getIntent().getStringExtra("eventOrganizerName");
+            eventOrganizerProfileImage = getIntent().getStringExtra("eventOrganizerProfileImage");
+
+            eventType = getIntent().getStringExtra("eventType");
             title_name.setText(eventName);
             Glide.with(this).load(eventImage).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(header_image);
         }
 
         myUid = session.getUser().userDetail.userId;
         myName = session.getUser().userDetail.fullName;
+        myEmail = session.getUser().userDetail.email;
         if (session.getUser().userDetail.profileImage.size() > 0) {
             myProfileImage = session.getUser().userDetail.profileImage.get(0).image;
         }
@@ -143,7 +156,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
             public void currentDateStatus(Object timestamp) {
 
             }
-        });
+        }, false);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recycler_view.setLayoutManager(linearLayoutManager);
@@ -153,7 +166,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                //ly_popup_menu.setVisibility(View.GONE);
+                ly_popup_menu.setVisibility(View.GONE);
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (isChatTab)
@@ -180,6 +193,10 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         iv_back.setOnClickListener(this);
         send_msg_button.setOnClickListener(this);
         camera_btn.setOnClickListener(this);
+        iv_popup_menu.setOnClickListener(this);
+        ly_delete_chat.setOnClickListener(this);
+
+        getDeleteTimeStamp();
 
         joinedEventList();
         getChat();
@@ -204,6 +221,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
             case R.id.btn_chat: {
                 isChatTab = true;
+                recycler_view.scrollToPosition((chatList.size() - 1));
                 recycler_view.setAdapter(chattingAdapter);
                 bottom_box.setVisibility(View.VISIBLE);
                 btn_chat.setBackground(ContextCompat.getDrawable(this, R.drawable.rounded_pink));
@@ -219,8 +237,18 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                 break;
             }
 
-            case R.id.iv_popup_menu: {
+            case R.id.ly_delete_chat: {
+                ly_popup_menu.setVisibility(View.GONE);
+                deleteChatDialog();
+                break;
+            }
 
+            case R.id.iv_popup_menu: {
+                if (ly_popup_menu.getVisibility() == View.VISIBLE) {
+                    ly_popup_menu.setVisibility(View.GONE);
+                } else {
+                    ly_popup_menu.setVisibility(View.VISIBLE);
+                }
                 break;
             }
 
@@ -230,24 +258,51 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
             }
 
             case R.id.send_msg_button: {
-                /*ly_popup_menu.setVisibility(View.GONE);
-                if (blockedId.equals(myUid)) {
-                    ed_message.setText("");
-                    Utils.openAlertDialog(this, "You block " + otherUserInfo.name + ". Can't send any message.");
-                } else if (blockedId.equals(otherUID)) {
-                    ed_message.setText("");
-                    Utils.openAlertDialog(this, "You are blocked by " + otherUserInfo.name + ". Can't send any message.");
-                } else if (blockedId.equals("Both")) {
-                    ed_message.setText("");
-                    Utils.openAlertDialog(this, "You block " + otherUserInfo.name + ". Can't send any message.");
-                } else {
-                    sendMessage();
-                }*/
-
+                ly_popup_menu.setVisibility(View.GONE);
                 sendMessage();
                 break;
             }
         }
+    }
+
+
+    private void deleteChatDialog() {
+        final Dialog _dialog = new Dialog(GroupChatHistortActivity.this);
+        _dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        _dialog.setContentView(R.layout.unfriend_dialog_layout);
+        _dialog.setCancelable(false);
+        _dialog.setCanceledOnTouchOutside(false);
+
+        TextView tv_name = _dialog.findViewById(R.id.tv_name);
+        TextView tv_yes = _dialog.findViewById(R.id.tv_yes);
+        TextView tv_dialog_txt = _dialog.findViewById(R.id.tv_dialog_txt);
+        ImageView iv_closeDialog = _dialog.findViewById(R.id.iv_closeDialog);
+
+        tv_dialog_txt.setText("Are you sure want to delete\n conversation");
+        tv_name.setText(eventName +"?" );
+        tv_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                GroupChatDeleteMuteInfo info = new GroupChatDeleteMuteInfo();
+                info.lastDeleted = ServerValue.TIMESTAMP;
+                info.email = myEmail;
+                firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS_DELETE).child(eventId).child(myUid).setValue(info);
+
+                map.clear();
+                chatList.clear();
+                chattingAdapter.notifyDataSetChanged();
+                _dialog.dismiss();
+            }
+        });
+
+        iv_closeDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                _dialog.dismiss();
+            }
+        });
+        _dialog.show();
     }
 
     private void joinedEventList() {
@@ -265,12 +320,43 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                     if (status.equals("success")) {
                         Gson gson = new Gson();
                         JoinedEventInfo joinedEventInfo = gson.fromJson(response, JoinedEventInfo.class);
+
+
+                        for (int i = 0; i < joinedEventInfo.List.size(); i++) {
+                            if (joinedEventInfo.List.get(i).companionMemberStatus != null) {
+                                if (joinedEventInfo.List.get(i).companionMemberStatus.equals("3") ||
+                                        joinedEventInfo.List.get(i).companionMemberStatus.equals("1")) {
+                                    JoinedEventInfo.ListBean infoComp = new JoinedEventInfo.ListBean();
+                                    infoComp.memberId = joinedEventInfo.List.get(i).memberId;
+                                    infoComp.memberName = joinedEventInfo.List.get(i).companionName;
+                                    infoComp.memberImage = joinedEventInfo.List.get(i).companionImage;
+                                    joinedEventInfo.List.add(infoComp);
+                                }
+                            }
+                        }
+
+
+                        if (eventType.equals("eventRequest")) {
+                            JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
+                            info.memberId = eventOrganizerId;
+                            info.memberName = eventOrganizerName + " " + "(Admin)";
+                            info.memberImage = eventOrganizerProfileImage;
+                            //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
+                            joinedEventInfo.List.add(0, info);
+                        } else {
+                            // my data added here
+                            JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
+                            info.memberName = myName + " " + "(You)";
+                            info.memberImage = session.getUser().userDetail.profileImage.get(session.getUser().userDetail.profileImage.size() - 1).image;
+                            //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
+                            joinedEventInfo.List.add(0, info);
+                        }
+
                         joinedList.addAll(joinedEventInfo.List);
                         adapter.notifyDataSetChanged();
+                        tv_mem_count.setText(joinedList.size() + " " + "Members");
 
-                        if (joinedList.size() == 1) {
-                            tv_mem_count.setText(joinedList.size() + " " + "Member");
-                        } else tv_mem_count.setText(joinedList.size() + " " + "Members");
+
                     }
 
                 } catch (JSONException e) {
@@ -286,6 +372,26 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
             }
         });
         service.callGetSimpleVolley("event/getEventMemberList?offset=" + 0 + "&limit=1000&memberType=" + "joined" + "&eventId=" + eventId + "");
+    }
+
+    private void getDeleteTimeStamp() {
+        firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS_DELETE)
+                .child(eventId).child(myUid).child("lastDeleted")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue(Object.class) != null) {
+                            Long info = dataSnapshot.getValue(Long.class);
+                            deleteTimestamp =  info;
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void getChat() {
@@ -309,17 +415,14 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
                     @Override
                     public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
                     }
 
                     @Override
                     public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
                     }
                 });
 
@@ -332,12 +435,22 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                 if (chat.deleteby.equals(myUid)) {
                     return;
                 } else {
-                    chat.banner_date = getDateBanner(chat.timestamp);
 
-                    map.put(key, chat);
-                    chatList.clear();
-                    Collection<Chat> values = map.values();
-                    chatList.addAll(values);
+                    if (deleteTimestamp == null) {
+                        chat.banner_date = getDateBanner(chat.timestamp);
+                        map.put(key, chat);
+                        chatList.clear();
+                        Collection<Chat> values = map.values();
+                        chatList.addAll(values);
+
+                    } else if (Long.parseLong(String.valueOf(chat.timestamp)) > deleteTimestamp) {
+                        chat.banner_date = getDateBanner(chat.timestamp);
+                        map.put(key, chat);
+                        chatList.clear();
+                        Collection<Chat> values = map.values();
+                        chatList.addAll(values);
+                    }
+
 
                     // chattingAdapter.notifyDataSetChanged();
                 }
@@ -352,15 +465,27 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
             if (chat.deleteby.equals(myUid)) {
                 return;
             } else {
-                chat.banner_date = getDateBanner(chat.timestamp);
-                chat.imageUrl = map.get(key).imageUrl;
 
-                map.put(key, chat);
-                chatList.clear();
-                Collection<Chat> values = map.values();
-                chatList.addAll(values);
-                //recycler_view.scrollToPosition(map.size() - 1);
-                // chattingAdapter.notifyDataSetChanged();
+                if (deleteTimestamp == null) {
+                    chat.banner_date = getDateBanner(chat.timestamp);
+                    chat.imageUrl = map.get(key).imageUrl;
+
+                    map.put(key, chat);
+                    chatList.clear();
+                    Collection<Chat> values = map.values();
+                    chatList.addAll(values);
+
+                } else if (Long.parseLong(String.valueOf(chat.timestamp)) > deleteTimestamp) {
+                    chat.banner_date = getDateBanner(chat.timestamp);
+                    chat.imageUrl = map.get(key).imageUrl;
+
+                    map.put(key, chat);
+                    chatList.clear();
+                    Collection<Chat> values = map.values();
+                    chatList.addAll(values);
+                    //recycler_view.scrollToPosition(map.size() - 1);
+                    // chattingAdapter.notifyDataSetChanged();
+                }
             }
         }
         shortList();
@@ -496,6 +621,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         return Uri.parse(path);
     }
 
+
     private void sendMessage() {
 
         String pushkey = firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).push().getKey();
@@ -508,28 +634,6 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         } else if (msg.equals("")) {
             return;
         }
-
-        /*Chat otherChat = new Chat();
-        otherChat.deleteby = "";
-        otherChat.firebaseId = firebase_id;
-        otherChat.firebaseToken = firebaseToken;
-
-        if (image_FirebaseURL != null) {
-            otherChat.imageUrl = image_FirebaseURL.toString();
-            otherChat.message = "";
-            otherChat.image = 1;
-        } else {
-            otherChat.imageUrl = "";
-            otherChat.message = msg;
-            otherChat.image = 0;
-        }
-
-        otherChat.name = title_name.getText().toString();
-        otherChat.profilePic = otherprofilePic;
-        otherChat.timestamp = ServerValue.TIMESTAMP;
-        otherChat.uid = otherUID;
-        otherChat.lastMsg = myUid;
-        otherChat.unreadCount = 0;*/
 
 
         Chat myChat = new Chat();
@@ -565,7 +669,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS).child(eventId).child(pushkey).setValue(myChat);
         firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS).child(eventId).child(pushkey).setValue(myChat);
 
-        /*if (isNotification) {
+     /*   if (isNotification) {
             if (image_FirebaseURL != null) {
                 if (firebaseToken != null && otherUserInfo != null) {
                     sendPushNotificationToReceiver(myName, "Image", myName, myUid, firebaseToken);

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -50,13 +51,14 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     ArrayList<Chat> chatList;
     String myUid;
     GetDateStatus getDateStatus;
-    String isDateChange = "";
+    boolean ishideName;
 
-    public ChattingAdapter(Context context, ArrayList<Chat> chatList, String myId, GetDateStatus getDateStatus) {
+    public ChattingAdapter(Context context, ArrayList<Chat> chatList, String myId, GetDateStatus getDateStatus,boolean ishideName) {
         this.context = context;
         this.chatList = chatList;
         this.myUid = myId;
         this.getDateStatus = getDateStatus;
+        this.ishideName = ishideName;
     }
 
     @Override
@@ -195,6 +197,11 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 tv_days_status.setVisibility(View.GONE);
             }
+
+            if(!ishideName){
+                iv_msg_tick.setVisibility(View.GONE);
+            }
+
         }
 
         public void full_screen_photo_dialog(String image_url) {
@@ -221,19 +228,22 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public class OtherViewHolder extends RecyclerView.ViewHolder {
         TextView other_message, other_date_time_;
-        RelativeLayout ly_other_image_view;
+        LinearLayout ly_other_image_view,ly_msg_view;
         ImageView iv_other_side_img;
-        TextView tv_days_status;
+        TextView tv_days_status,other_name,other_name_;
         ProgressBar other_progress;
 
         public OtherViewHolder(View itemView) {
             super(itemView);
             other_message = itemView.findViewById(R.id.other_message);
             ly_other_image_view = itemView.findViewById(R.id.ly_other_image_view);
+            ly_msg_view = itemView.findViewById(R.id.ly_msg_view);
             iv_other_side_img = itemView.findViewById(R.id.iv_other_side_img);
             other_date_time_ = itemView.findViewById(R.id.other_date_time_);
             tv_days_status = itemView.findViewById(R.id.tv_days_status);
             other_progress = itemView.findViewById(R.id.other_progress);
+            other_name = itemView.findViewById(R.id.other_name);
+            other_name_ = itemView.findViewById(R.id.other_name_);
         }
 
         public void otherBindData(final Chat chat, int tempPos) {
@@ -242,6 +252,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 ly_other_image_view.setVisibility(View.VISIBLE);
                 other_message.setVisibility(View.GONE);
+                ly_msg_view.setVisibility(View.GONE);
 
                 other_progress.setVisibility(View.VISIBLE);
                 Glide.with(context).load(chat.imageUrl).listener(new RequestListener<Drawable>() {
@@ -260,6 +271,7 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 ly_other_image_view.setVisibility(View.GONE);
                 other_message.setVisibility(View.VISIBLE);
+                ly_msg_view.setVisibility(View.VISIBLE);
                 other_message.setText(chat.message);
             }
 
@@ -281,22 +293,24 @@ public class ChattingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             getDateStatus.currentDateStatus(chat.timestamp);
 
-            /*SimpleDateFormat sd1 = new  SimpleDateFormat("dd MMMM yyyy");
-            try {
-                String date1 = sd1.format(new Date((Long) chat.timestamp));
-                isTodaysDate(date1,tv_days_status);
-
-            }catch (Exception e){
-
-            }*/
-
-
             if (!chat.banner_date.equals(chatList.get(tempPos).banner_date)) {
                 tv_days_status.setText(chat.banner_date);
                 tv_days_status.setVisibility(View.VISIBLE);
             } else {
                 tv_days_status.setVisibility(View.GONE);
             }
+
+            if(ishideName){
+                other_name.setVisibility(View.GONE);
+                other_name_.setVisibility(View.GONE);
+            }else {
+                other_name.setVisibility(View.VISIBLE);
+                other_name_.setVisibility(View.VISIBLE);
+                other_name.setText(chat.name+"");
+                other_name_.setText(chat.name+"");
+            }
+
+
         }
 
         public void full_screen_photo_dialog(String image_url) {

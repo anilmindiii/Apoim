@@ -252,6 +252,26 @@
     </LinearLayout>
 
 
+    <TextView
+        android:id="@+id/tv_days_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_google_plus_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_100sdp"
+        android:gravity="center"
+        android:minWidth="@dimen/_100sdp"
+        android:padding="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/josefinsans_regular"
+        android:backgroundTint="@color/grey"
+        android:maxLines="1"
+        android:textSize="@dimen/text_Small_Size"
+        android:visibility="gone" />
+
+
+
     <RelativeLayout
         android:id="@+id/ly_popup_menu"
         android:layout_width="wrap_content"
@@ -285,25 +305,27 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/btn_audio_call"
+                    android:id="@+id/ly_delete_chat"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_35sdp">
 
                     <ImageView
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
-                        android:src="@drawable/ico_audio_call"
+                        android:src="@drawable/ico_delete_chat"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/_10sdp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/audio_call"
+                        android:text="Clear Chat"
                         android:textSize="@dimen/_14sdp"
                         android:textColor="@color/colorBlack"
                         android:fontFamily="@font/nunito_regular"
-                        android:layout_centerInParent="true"/>
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -328,11 +350,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/video_call"
+                        android:text="Mute"
                         android:textSize="@dimen/_14sdp"
                         android:textColor="@color/colorBlack"
                         android:fontFamily="@font/nunito_regular"
-                        android:layout_centerInParent="true"/>
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="@dimen/_45sdp"/>
                 </RelativeLayout>
 
 
@@ -355,24 +379,5 @@
         android:clickable="false"
         android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/tv_days_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_google_plus_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_100sdp"
-        android:gravity="center"
-        android:minWidth="@dimen/_100sdp"
-        android:padding="@dimen/_5sdp"
-        android:layout_marginRight="@dimen/_5sdp"
-        android:textColor="@color/colorWhite"
-        android:fontFamily="@font/josefinsans_regular"
-        android:backgroundTint="@color/grey"
-        android:maxLines="1"
-        android:textSize="@dimen/text_Small_Size"
-        android:visibility="gone"
-
-        />
 
 </RelativeLayout>
