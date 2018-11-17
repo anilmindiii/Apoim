@@ -156,8 +156,8 @@ public class OtherProfileDetailsActivity extends AppCompatActivity {
         });
 
 
-        if(getIntent().getStringExtra("userId") != null){
-            userId = getIntent().getStringExtra("userId");
+        if(getIntent().getStringExtra(Constant.userId) != null){
+            userId = getIntent().getStringExtra(Constant.userId);
         }
 
         tv_more_info.setOnClickListener(new View.OnClickListener() {

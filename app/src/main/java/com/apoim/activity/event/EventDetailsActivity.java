@@ -1005,7 +1005,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
                 if (detailsInfo.Detail.ownerType != null){
                     if (detailsInfo.Detail.ownerType.equals("Shared Event")) {
-                        intent.putExtra("eventOrganizerId", "will get soon");
+                        intent.putExtra("eventOrganizerId", detailsInfo.Detail.eventOrganizer);
                         intent.putExtra("eventOrganizerName", detailsInfo.Detail.ownerName);
                         intent.putExtra("eventOrganizerProfileImage", detailsInfo.Detail.ownerImage);
                     } else {

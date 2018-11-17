@@ -50,6 +50,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
@@ -93,10 +94,12 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
     private String holdKeyForImage = "";
     private Uri image_FirebaseURL;
     private EditText ed_message;
-    private TextView tv_days_status, tv_mem_count, title_name;
-    private boolean isChatTab;
-    private RelativeLayout ly_popup_menu, ly_delete_chat;
+    private TextView tv_days_status, tv_mem_count, title_name, tv_mute;
+    private boolean isChatTab, isNotification = true;
+    private RelativeLayout ly_popup_menu, ly_delete_chat, ly_btn_mute;
     private Long deleteTimestamp;
+    private String mute = "";
+    Map<String, Object> onlineMapList;
 
 
     @Override
@@ -120,10 +123,12 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         header_image = findViewById(R.id.header_image);
         ly_popup_menu = findViewById(R.id.ly_popup_menu);
         ly_delete_chat = findViewById(R.id.ly_delete_chat);
-
+        ly_btn_mute = findViewById(R.id.ly_btn_mute);
+        tv_mute = findViewById(R.id.tv_mute);
 
         joinedList = new ArrayList<>();
-        adapter = new JoinedMemberChatAdapter(joinedList, this);
+        onlineMapList = new HashMap<>();
+
         session = new Session(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
         map = new HashMap<>();
@@ -150,6 +155,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         if (session.getUser().userDetail.profileImage.size() > 0) {
             myProfileImage = session.getUser().userDetail.profileImage.get(0).image;
         }
+        adapter = new JoinedMemberChatAdapter(joinedList, this, myUid);
         chatList = new ArrayList<>();
         chattingAdapter = new ChattingAdapter(this, chatList, myUid, new GetDateStatus() {
             @Override
@@ -195,9 +201,10 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         camera_btn.setOnClickListener(this);
         iv_popup_menu.setOnClickListener(this);
         ly_delete_chat.setOnClickListener(this);
+        ly_btn_mute.setOnClickListener(this);
+
 
         getDeleteTimeStamp();
-
         joinedEventList();
         getChat();
     }
@@ -209,6 +216,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
             case R.id.btn_group_member: {
                 isChatTab = false;
+                tv_days_status.setVisibility(View.GONE);
                 recycler_view.setAdapter(adapter);
                 bottom_box.setVisibility(View.GONE);
                 btn_chat.setBackground(ContextCompat.getDrawable(this, R.color.white));
@@ -257,6 +265,11 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                 break;
             }
 
+            case R.id.ly_btn_mute: {
+                muteChat();
+                break;
+            }
+
             case R.id.send_msg_button: {
                 ly_popup_menu.setVisibility(View.GONE);
                 sendMessage();
@@ -264,7 +277,6 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
             }
         }
     }
-
 
     private void deleteChatDialog() {
         final Dialog _dialog = new Dialog(GroupChatHistortActivity.this);
@@ -279,7 +291,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         ImageView iv_closeDialog = _dialog.findViewById(R.id.iv_closeDialog);
 
         tv_dialog_txt.setText("Are you sure want to delete\n conversation");
-        tv_name.setText(eventName +"?" );
+        tv_name.setText(eventName + "?");
         tv_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -287,6 +299,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                 GroupChatDeleteMuteInfo info = new GroupChatDeleteMuteInfo();
                 info.lastDeleted = ServerValue.TIMESTAMP;
                 info.email = myEmail;
+                info.mute = mute;
                 firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS_DELETE).child(eventId).child(myUid).setValue(info);
 
                 map.clear();
@@ -303,6 +316,20 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
             }
         });
         _dialog.show();
+    }
+
+    private void muteChat() {
+        GroupChatDeleteMuteInfo info = new GroupChatDeleteMuteInfo();
+        info.lastDeleted = deleteTimestamp;
+        info.email = myEmail;
+
+        if (mute.equals("1")) {
+            info.mute = "0";
+        } else info.mute = "1";
+
+
+        firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS_DELETE).child(eventId).child(myUid).setValue(info);
+
     }
 
     private void joinedEventList() {
@@ -323,13 +350,21 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
 
                         for (int i = 0; i < joinedEventInfo.List.size(); i++) {
+                            if(joinedEventInfo.List.get(i).memberUserId != null){
+                                joinedEventInfo.List.get(i).commanUserIdForProfile = joinedEventInfo.List.get(i).memberUserId;
+
+                            }
+
                             if (joinedEventInfo.List.get(i).companionMemberStatus != null) {
                                 if (joinedEventInfo.List.get(i).companionMemberStatus.equals("3") ||
                                         joinedEventInfo.List.get(i).companionMemberStatus.equals("1")) {
                                     JoinedEventInfo.ListBean infoComp = new JoinedEventInfo.ListBean();
-                                    infoComp.memberId = joinedEventInfo.List.get(i).memberId;
+
+                                    infoComp.companionUserId = joinedEventInfo.List.get(i).companionUserId;
                                     infoComp.memberName = joinedEventInfo.List.get(i).companionName;
                                     infoComp.memberImage = joinedEventInfo.List.get(i).companionImage;
+                                    infoComp.commanUserIdForProfile = joinedEventInfo.List.get(i).companionUserId;
+
                                     joinedEventInfo.List.add(infoComp);
                                 }
                             }
@@ -338,14 +373,19 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
                         if (eventType.equals("eventRequest")) {
                             JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
+                            info.commanUserIdForProfile = eventOrganizerId;
                             info.memberId = eventOrganizerId;
+                            info.memberUserId = eventOrganizerId;
                             info.memberName = eventOrganizerName + " " + "(Admin)";
                             info.memberImage = eventOrganizerProfileImage;
+
                             //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
                             joinedEventInfo.List.add(0, info);
                         } else {
                             // my data added here
                             JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
+                            //info.commanUserIdForProfile = myUid;
+                            info.memberUserId = myUid;
                             info.memberName = myName + " " + "(You)";
                             info.memberImage = session.getUser().userDetail.profileImage.get(session.getUser().userDetail.profileImage.size() - 1).image;
                             //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
@@ -356,7 +396,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                         adapter.notifyDataSetChanged();
                         tv_mem_count.setText(joinedList.size() + " " + "Members");
 
-
+                        addOnlineStatus();
                     }
 
                 } catch (JSONException e) {
@@ -376,13 +416,21 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
     private void getDeleteTimeStamp() {
         firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS_DELETE)
-                .child(eventId).child(myUid).child("lastDeleted")
+                .child(eventId).child(myUid)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getValue(Object.class) != null) {
-                            Long info = dataSnapshot.getValue(Long.class);
-                            deleteTimestamp =  info;
+                            GroupChatDeleteMuteInfo info = dataSnapshot.getValue(GroupChatDeleteMuteInfo.class);
+                            deleteTimestamp = (Long) info.lastDeleted;
+                            if (info.mute != null) {
+                                mute = info.mute;
+                                if (info.mute.equals("1")) {
+                                    tv_mute.setText("Unmute");
+                                } else {
+                                    tv_mute.setText("Mute");
+                                }
+                            }
                         }
 
                     }
@@ -621,7 +669,6 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         return Uri.parse(path);
     }
 
-
     private void sendMessage() {
 
         String pushkey = firebaseDatabase.getReference().child(Constant.ARG_CHAT_ROOMS).push().getKey();
@@ -657,25 +704,17 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         myChat.timestamp = ServerValue.TIMESTAMP;
         myChat.uid = myUid;
         myChat.lastMsg = myUid;
-        /*myChat.unreadCount = 0;
-
-        if (isOtherUserOnline) {
-            myChat.isMsgReadTick = 1;
-        } else {
-            myChat.isMsgReadTick = 0;
-        }*/
-
 
         firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS).child(eventId).child(pushkey).setValue(myChat);
         firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS).child(eventId).child(pushkey).setValue(myChat);
 
      /*   if (isNotification) {
             if (image_FirebaseURL != null) {
-                if (firebaseToken != null && otherUserInfo != null) {
+                if (firebaseToken != null && myChat != null) {
                     sendPushNotificationToReceiver(myName, "Image", myName, myUid, firebaseToken);
                 }
             } else {
-                if (firebaseToken != null && otherUserInfo != null)
+                if (firebaseToken != null && myChat != null)
                     sendPushNotificationToReceiver(myName, msg, myName, myUid, firebaseToken);
             }
         }*/
@@ -683,6 +722,60 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         ed_message.setText("");
         image_FirebaseURL = null;
         loading_view.setVisibility(View.GONE);
+    }
+
+    private void addOnlineStatus() {
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child(Constant.online).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                OnlineInfo onlineStatus = dataSnapshot.getValue(OnlineInfo.class);
+                onlineMapList.put(dataSnapshot.getKey(), onlineStatus);
+                runTimeStatus(dataSnapshot, onlineStatus);
+
+            }
+
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                OnlineInfo onlineStatus = dataSnapshot.getValue(OnlineInfo.class);
+                onlineMapList.put(dataSnapshot.getKey(), onlineStatus);
+                runTimeStatus(dataSnapshot, onlineStatus);
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                OnlineInfo onlineStatus = dataSnapshot.getValue(OnlineInfo.class);
+                onlineMapList.put(dataSnapshot.getKey(), onlineStatus);
+                runTimeStatus(dataSnapshot, onlineStatus);
+
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+
+
+            private void runTimeStatus(@NonNull DataSnapshot dataSnapshot, OnlineInfo onlineStatus) {
+
+                for (int k = 0; k < joinedList.size(); k++) {
+                    if (dataSnapshot.getKey().equals(joinedList.get(k).commanUserIdForProfile)) {
+                        joinedList.get(k).status = onlineStatus.lastOnline;
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+
     }
 
 

@@ -325,8 +325,6 @@ public class NewUserListFragment extends Fragment {
 
             private void runTimeStatus(@NonNull DataSnapshot dataSnapshot, OnlineInfo onlineStatus) {
                 userListAdapter1.onlineFilter(false);
-
-
                 for(int k=0;k<userList1.size();k++){
                     if(dataSnapshot.getKey().equals(userList1.get(k).userId)){
                         userList1.get(k).status = onlineStatus.lastOnline;

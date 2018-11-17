@@ -389,9 +389,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
-
-        <activity android:name=".activity.chat.GroupChatHistortActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.chat.GroupChatHistortActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.event.GroupMemberInfoActivity"></activity>
     </application>
 
 </manifest>

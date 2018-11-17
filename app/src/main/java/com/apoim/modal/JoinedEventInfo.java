@@ -27,6 +27,11 @@ public class JoinedEventInfo {
         public String companionMemberStatus;
         public String companionImage;
         public String workName;
+        public String memberUserId;
+        public String companionUserId;
+        public String commanUserIdForProfile;
+        public String status;
+
 
     }
 }
