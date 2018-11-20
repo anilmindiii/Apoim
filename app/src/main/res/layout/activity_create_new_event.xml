@@ -35,6 +35,21 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/_10sdp"/>
 
+        <TextView
+            android:id="@+id/event_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:fontFamily="@font/nunito_regular"
+            android:gravity="center"
+            android:text="@string/profile_skip"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/_16ssp"
+            android:visibility="gone"/>
+
         <ImageView
             android:id="@+id/iv_filter"
             android:layout_width="@dimen/_35sdp"

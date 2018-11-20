@@ -25,9 +25,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.apoim.R;
-import com.apoim.activity.event.CreateEventActivity;
 import com.apoim.activity.event.CreateNewEventActivity;
 import com.apoim.activity.payment_subscription.PaymentActivity;
 import com.apoim.helper.Constant;
@@ -40,16 +38,14 @@ import com.apoim.session.Session;
 import com.apoim.util.Utils;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.OnItemClickListener;
-
 import java.util.ArrayList;
-
 import static android.app.Activity.RESULT_OK;
 import static com.apoim.activity.event.CreateEventActivity.RattingIds;
 import static com.apoim.activity.event.CreateEventActivity.friendsIds;
 
 /**
  * Created by mindiii on 14/9/18.
- */
+ **/
 
 public class SecandScreenFragment extends Fragment {
 
@@ -121,6 +117,8 @@ public class SecandScreenFragment extends Fragment {
             rb_all.setClickable(false);*/
 
 
+            currencySymbol = bean.Detail.currencySymbol;
+            currencyCode = bean.Detail.currencyCode;
             if (bean.Detail.privacy.equals("Public")) {
                 rb_public.setChecked(true);
                 privacy = "1";
@@ -152,8 +150,6 @@ public class SecandScreenFragment extends Fragment {
                 payment = "1";
                 rb_paid.setChecked(true);
                 ly_paid_view.setVisibility(View.VISIBLE);
-                ly_currency.setEnabled(false);
-                ed_amount.setEnabled(false);
                // ed_user_limite.setEnabled(false);
             } else if (bean.Detail.payment.equals("Free")) {
                 payment = "2";
@@ -198,8 +194,7 @@ public class SecandScreenFragment extends Fragment {
                 info.Detail.currencySymbol = currencySymbol;
                 info.Detail.eventAmount = ed_amount.getText().toString().trim();
                 info.Detail.groupChat = groupChat;
-                info.Detail.currencySymbol = currencySymbol;
-                info.Detail.currencyCode = currencyCode;
+
 
                 session.createEventInfo(info);
                 EventFilterData data = new EventFilterData();

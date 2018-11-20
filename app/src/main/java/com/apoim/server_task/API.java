@@ -5,6 +5,9 @@ package com.apoim.server_task;
  **/
 
 public class API {
-   public static String BASE_URL = "https://dev.apoim.com/service/";  //Development
-   //public static String BASE_URL = "https://apoim.com/service/"; // Live server
+   //public static String BASE_URL = "https://dev.apoim.com/service/";  //Development
+    /*release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }*/public static String BASE_URL = "https://apoim.com/service/"; // Live server
 }

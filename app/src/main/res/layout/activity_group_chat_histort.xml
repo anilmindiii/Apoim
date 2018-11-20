@@ -29,6 +29,7 @@
                 android:layout_marginLeft="@dimen/_40sdp"/>
 
             <LinearLayout
+                android:id="@+id/ly_info_btn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@+id/header_image"
@@ -50,20 +51,6 @@
                     android:fontFamily="@font/josefinsans_semibold"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_18ssp" />
-
-                <TextView
-                    android:id="@+id/tv_mem_count"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:gravity="center|left"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:maxLines="1"
-                    android:text="20 Members"
-                    android:fontFamily="@font/nunito_light"
-                    android:textColor="@color/colorBlack"
-                    android:layout_alignParentBottom="true"
-                    android:textSize="@dimen/text_very_Small_Size" />
 
             </LinearLayout>
 
@@ -87,75 +74,8 @@
 
         </RelativeLayout>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_37sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:elevation="2dp"
-            app:cardElevation="2dp"
-            app:cardCornerRadius="@dimen/_18sdp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:weightSum="2">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_pink"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
-
-                    <Button
-                        android:id="@+id/btn_group_member"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/group_members"
-                        android:gravity="center"
-                        android:fontFamily="@font/nunito_regular"
-                        android:textSize="@dimen/text_Small_Size"
-                        android:textColor="@color/colorPrimary"
-                        android:layout_gravity="center"
-                        android:background="@null"
-                        android:textAllCaps="false"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center">
-
-
-                    <Button
-                        android:id="@+id/btn_chat"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/chat"
-                        android:gravity="center"
-                        android:fontFamily="@font/nunito_regular"
-                        android:textSize="@dimen/text_Small_Size"
-                        android:textColor="@color/colorBlack"
-                        android:layout_gravity="center"
-                        android:background="@null"
-                        android:textAllCaps="false"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/main_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -167,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:layout_above="@+id/shadow_view"
+                android:layout_above="@+id/bottom_box"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 app:stackFromEnd="true" />
 
@@ -179,8 +99,7 @@
                 android:elevation="3dp"
                 android:layout_margin="@dimen/_5sdp"
                 android:foreground="?attr/selectableItemBackground"
-                android:layout_alignParentBottom="true"
-                android:visibility="gone">
+                android:layout_alignParentBottom="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -235,7 +154,7 @@
 
             </android.support.v7.widget.CardView>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -246,7 +165,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_google_plus_btn"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/_100sdp"
+        android:layout_marginTop="@dimen/_50sdp"
         android:gravity="center"
         android:minWidth="@dimen/_100sdp"
         android:padding="@dimen/_5sdp"
@@ -276,7 +195,7 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="@dimen/_110sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_height="@dimen/_110sdp"
             android:elevation="@dimen/_3sdp"
             app:cardElevation="@dimen/_3sdp"
             app:cardCornerRadius="@dimen/_3sdp"
@@ -296,8 +215,6 @@
                     android:id="@+id/ly_delete_chat"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_35sdp">
-
-
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -328,6 +245,30 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mute"
+                        android:textSize="@dimen/_14sdp"
+                        android:textColor="@color/colorBlack"
+                        android:fontFamily="@font/nunito_regular"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="@dimen/_10sdp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/colorLightGray"
+                        android:layout_alignParentBottom="true"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/ly_btn_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Info"
                         android:textSize="@dimen/_14sdp"
                         android:textColor="@color/colorBlack"
                         android:fontFamily="@font/nunito_regular"

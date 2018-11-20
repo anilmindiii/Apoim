@@ -225,6 +225,7 @@ public class SelectCompanionActivity extends AppCompatActivity {
 
 
                     if (status.equals("success")) {
+                        friendList.clear();
                         Gson gson = new Gson();
                         AllUserForEventInfo allUserList = gson.fromJson(response, AllUserForEventInfo.class);
                         friendList.addAll(allUserList.data.user);

@@ -38,10 +38,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GroupMemberInfoActivity extends AppCompatActivity {
+public class GroupMemberInfoActivity extends AppCompatActivity implements View.OnClickListener{
     private InsLoadingView loading_view;
     private ArrayList<JoinedEventInfo.ListBean> joinedList;
-    Map<String, Object> onlineMapList;
+    private Map<String, Object> onlineMapList;
     private RecyclerView recycler_view;
     private JoinedMemberChatAdapter adapter;
     private Session session;
@@ -49,19 +49,13 @@ public class GroupMemberInfoActivity extends AppCompatActivity {
     String eventOrganizerId = "", eventOrganizerName = "", eventOrganizerProfileImage = "";
     TextView title_name,tv_mem_count;
     ImageView header_image;
+    private ImageView iv_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_member_info);
-
-        loading_view = findViewById(R.id.loading_view);
-        recycler_view = findViewById(R.id.recycler_view);
-        title_name = findViewById(R.id.title_name);
-        header_image = findViewById(R.id.header_image);
-        tv_mem_count = findViewById(R.id.tv_mem_count);
-
-
+        init();
         if (getIntent().getExtras() != null) {
             eventId = getIntent().getStringExtra("eventId");
             from = getIntent().getStringExtra("from");
@@ -86,17 +80,24 @@ public class GroupMemberInfoActivity extends AppCompatActivity {
             myProfileImage = session.getUser().userDetail.profileImage.get(0).image;
         }
 
-
+        joinedList = new ArrayList<>();
         adapter = new JoinedMemberChatAdapter(joinedList, this, myUid);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recycler_view.setLayoutManager(linearLayoutManager);
         recycler_view.setAdapter(adapter);
 
-
-        joinedList = new ArrayList<>();
         onlineMapList = new HashMap<>();
-
+        iv_back.setOnClickListener(this);
         joinedEventList();
+    }
+
+    private void init() {
+        loading_view = findViewById(R.id.loading_view);
+        recycler_view = findViewById(R.id.recycler_view);
+        title_name = findViewById(R.id.title_name);
+        header_image = findViewById(R.id.header_image);
+        tv_mem_count = findViewById(R.id.tv_mem_count);
+        iv_back = findViewById(R.id.iv_back);
     }
 
 
@@ -152,7 +153,7 @@ public class GroupMemberInfoActivity extends AppCompatActivity {
                         } else {
                             // my data added here
                             JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
-                            //info.commanUserIdForProfile = myUid;
+                            info.commanUserIdForProfile = myUid;
                             info.memberUserId = myUid;
                             info.memberName = myName + " " + "(You)";
                             info.memberImage = session.getUser().userDetail.profileImage.get(session.getUser().userDetail.profileImage.size() - 1).image;
@@ -234,5 +235,14 @@ public class GroupMemberInfoActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.iv_back:
+                onBackPressed();
+                break;
+        }
     }
 }

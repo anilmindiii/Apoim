@@ -87,7 +87,7 @@
             android:layout_marginTop="@dimen/_30sdp"
             android:background="@drawable/bg_login_btn"
             android:fontFamily="@font/josefinsans_semibold"
-            android:text="Skip"
+            android:text="@string/continue_button"
             android:textAllCaps="false"
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"

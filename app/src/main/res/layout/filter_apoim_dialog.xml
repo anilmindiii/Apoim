@@ -9,7 +9,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_280sdp"
+        android:layout_height="@dimen/_330sdp"
         android:layout_margin="@dimen/_5sdp"
         android:elevation="@dimen/_4sdp"
         app:cardElevation="@dimen/_4sdp"
@@ -40,6 +40,39 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/ly_all_apoim"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_marginLeft="@dimen/_15sdp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/all_apoiment"
+                        android:fontFamily="@font/nunito_regular"
+                        android:textSize="@dimen/text_Medium_Size"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/colorBlack"/>
+
+                    <ImageView
+                        android:id="@+id/iv_all_apoim"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:src="@drawable/check_btn"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/colorGray"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_15sdp"/>
+
+                <RelativeLayout
                     android:id="@+id/ly_receive_apoim"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
@@ -59,7 +92,7 @@
                         android:id="@+id/iv_received_apoim"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/check_btn"
+                        android:src="@drawable/uncheck_btn"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"/>
 

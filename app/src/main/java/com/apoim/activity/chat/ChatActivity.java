@@ -612,7 +612,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void sendPushNotificationToReceiver(String title, String message, String username, String uid, String firebaseToken) {
-
         FcmNotificationBuilder.initialize()
                 .title(title)
                 .message(message)

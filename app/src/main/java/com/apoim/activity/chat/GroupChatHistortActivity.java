@@ -23,21 +23,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.apoim.ImagePickerPackge.ImagePicker;
 import com.apoim.R;
+import com.apoim.activity.event.GroupMemberInfoActivity;
 import com.apoim.adapter.chat.ChattingAdapter;
 import com.apoim.adapter.newEvent.JoinedMemberChatAdapter;
 import com.apoim.app.Apoim;
+import com.apoim.fcm.FcmNotificationBuilder;
 import com.apoim.helper.Constant;
 import com.apoim.listener.GetDateStatus;
 import com.apoim.modal.Chat;
 import com.apoim.modal.GroupChatDeleteMuteInfo;
 import com.apoim.modal.JoinedEventInfo;
 import com.apoim.modal.OnlineInfo;
+import com.apoim.modal.UserInfoFCM;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
@@ -60,12 +64,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -76,13 +82,9 @@ import java.util.Locale;
 import java.util.Map;
 
 public class GroupChatHistortActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button btn_chat, btn_group_member;
-    private CardView bottom_box;
     private ImageView iv_back, iv_popup_menu, send_msg_button, camera_btn, header_image;
     private RecyclerView recycler_view;
     private InsLoadingView loading_view;
-    private ArrayList<JoinedEventInfo.ListBean> joinedList;
-    private JoinedMemberChatAdapter adapter;
     private ChattingAdapter chattingAdapter;
     String from = "", eventId = "", myEmail = "", myUid = "", myName = "", myProfileImage = "", eventType = "", eventName = "";
     String eventOrganizerId = "", eventOrganizerName = "", eventOrganizerProfileImage = "";
@@ -94,58 +96,40 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
     private String holdKeyForImage = "";
     private Uri image_FirebaseURL;
     private EditText ed_message;
-    private TextView tv_days_status, tv_mem_count, title_name, tv_mute;
-    private boolean isChatTab, isNotification = true;
-    private RelativeLayout ly_popup_menu, ly_delete_chat, ly_btn_mute;
+    private TextView tv_days_status, title_name, tv_mute;
+    private boolean isNotification = true;
+    private RelativeLayout ly_popup_menu, ly_delete_chat, ly_btn_mute, ly_btn_info;
     private Long deleteTimestamp;
-    private String mute = "";
-    Map<String, Object> onlineMapList;
+    private String mute = "", eventImage = "";
+    private LinearLayout ly_info_btn;
+    private ArrayList<JoinedEventInfo.ListBean> joinedList;
+    private Map<String, String> tokenList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_chat_histort);
-
-        iv_back = findViewById(R.id.iv_back);
-        bottom_box = findViewById(R.id.bottom_box);
-        iv_popup_menu = findViewById(R.id.iv_popup_menu);
-        recycler_view = findViewById(R.id.recycler_view);
-        loading_view = findViewById(R.id.loading_view);
-        btn_chat = findViewById(R.id.btn_chat);
-        btn_group_member = findViewById(R.id.btn_group_member);
-        send_msg_button = findViewById(R.id.send_msg_button);
-        ed_message = findViewById(R.id.ed_message);
-        camera_btn = findViewById(R.id.camera_btn);
-        tv_days_status = findViewById(R.id.tv_days_status);
-        tv_mem_count = findViewById(R.id.tv_mem_count);
-        title_name = findViewById(R.id.title_name);
-        header_image = findViewById(R.id.header_image);
-        ly_popup_menu = findViewById(R.id.ly_popup_menu);
-        ly_delete_chat = findViewById(R.id.ly_delete_chat);
-        ly_btn_mute = findViewById(R.id.ly_btn_mute);
-        tv_mute = findViewById(R.id.tv_mute);
-
-        joinedList = new ArrayList<>();
-        onlineMapList = new HashMap<>();
-
+        init();
         session = new Session(this);
         firebaseDatabase = FirebaseDatabase.getInstance();
+        joinedList = new ArrayList<>();
         map = new HashMap<>();
         keyList = new ArrayList<>();
+        tokenList = new HashMap<>();
 
         if (getIntent().getExtras() != null) {
             eventId = getIntent().getStringExtra("eventId");
             from = getIntent().getStringExtra("from");
             eventName = getIntent().getStringExtra("eventName");
-            String eventImage = getIntent().getStringExtra("eventImage");
-
+            eventImage = getIntent().getStringExtra("eventImage");
             eventOrganizerId = getIntent().getStringExtra("eventOrganizerId");
             eventOrganizerName = getIntent().getStringExtra("eventOrganizerName");
             eventOrganizerProfileImage = getIntent().getStringExtra("eventOrganizerProfileImage");
 
             eventType = getIntent().getStringExtra("eventType");
             title_name.setText(eventName);
+
             Glide.with(this).load(eventImage).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(header_image);
         }
 
@@ -155,7 +139,6 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         if (session.getUser().userDetail.profileImage.size() > 0) {
             myProfileImage = session.getUser().userDetail.profileImage.get(0).image;
         }
-        adapter = new JoinedMemberChatAdapter(joinedList, this, myUid);
         chatList = new ArrayList<>();
         chattingAdapter = new ChattingAdapter(this, chatList, myUid, new GetDateStatus() {
             @Override
@@ -166,7 +149,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recycler_view.setLayoutManager(linearLayoutManager);
-        recycler_view.setAdapter(adapter);
+        recycler_view.setAdapter(chattingAdapter);
 
         recycler_view.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -175,8 +158,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                 ly_popup_menu.setVisibility(View.GONE);
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (isChatTab)
-                        tv_days_status.setVisibility(View.GONE);
+                    tv_days_status.setVisibility(View.GONE);
                 }
             }
 
@@ -187,58 +169,50 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                 if (linearLayoutManager.findFirstVisibleItemPosition() != -1) {
                     if (chatList.size() > 0)
                         tv_days_status.setText(chatList.get(linearLayoutManager.findFirstVisibleItemPosition()).banner_date + "");
-                    if (isChatTab)
-                        tv_days_status.setVisibility(View.VISIBLE);
+                    tv_days_status.setVisibility(View.VISIBLE);
                 }
             }
         });
 
+        getDeleteTimeStamp();
+        getChat();
 
-        btn_chat.setOnClickListener(this);
-        btn_group_member.setOnClickListener(this);
+        // joinedEventList();
+    }
+
+    private void init() {
+        iv_back = findViewById(R.id.iv_back);
+        iv_popup_menu = findViewById(R.id.iv_popup_menu);
+        recycler_view = findViewById(R.id.recycler_view);
+        loading_view = findViewById(R.id.loading_view);
+        send_msg_button = findViewById(R.id.send_msg_button);
+        ed_message = findViewById(R.id.ed_message);
+        camera_btn = findViewById(R.id.camera_btn);
+        tv_days_status = findViewById(R.id.tv_days_status);
+        title_name = findViewById(R.id.title_name);
+        header_image = findViewById(R.id.header_image);
+        ly_popup_menu = findViewById(R.id.ly_popup_menu);
+        ly_delete_chat = findViewById(R.id.ly_delete_chat);
+        ly_btn_mute = findViewById(R.id.ly_btn_mute);
+        ly_btn_info = findViewById(R.id.ly_btn_info);
+        tv_mute = findViewById(R.id.tv_mute);
+        ly_info_btn = findViewById(R.id.ly_info_btn);
+
+
         iv_back.setOnClickListener(this);
         send_msg_button.setOnClickListener(this);
         camera_btn.setOnClickListener(this);
         iv_popup_menu.setOnClickListener(this);
         ly_delete_chat.setOnClickListener(this);
+        ly_btn_info.setOnClickListener(this);
         ly_btn_mute.setOnClickListener(this);
-
-
-        getDeleteTimeStamp();
-        joinedEventList();
-        getChat();
+        ly_info_btn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
-
-            case R.id.btn_group_member: {
-                isChatTab = false;
-                tv_days_status.setVisibility(View.GONE);
-                recycler_view.setAdapter(adapter);
-                bottom_box.setVisibility(View.GONE);
-                btn_chat.setBackground(ContextCompat.getDrawable(this, R.color.white));
-                btn_chat.setTextColor(ContextCompat.getColor(this, R.color.colorBlack));
-
-                btn_group_member.setBackground(ContextCompat.getDrawable(this, R.drawable.rounded_pink));
-                btn_group_member.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-                break;
-            }
-
-            case R.id.btn_chat: {
-                isChatTab = true;
-                recycler_view.scrollToPosition((chatList.size() - 1));
-                recycler_view.setAdapter(chattingAdapter);
-                bottom_box.setVisibility(View.VISIBLE);
-                btn_chat.setBackground(ContextCompat.getDrawable(this, R.drawable.rounded_pink));
-                btn_chat.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
-
-                btn_group_member.setBackground(ContextCompat.getDrawable(this, R.color.white));
-                btn_group_member.setTextColor(ContextCompat.getColor(this, R.color.colorBlack));
-                break;
-            }
 
             case R.id.iv_back: {
                 onBackPressed();
@@ -273,6 +247,29 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
             case R.id.send_msg_button: {
                 ly_popup_menu.setVisibility(View.GONE);
                 sendMessage();
+                break;
+            }
+
+            case R.id.ly_btn_info: {
+                ly_info_btn.callOnClick();
+                ly_popup_menu.setVisibility(View.GONE);
+                break;
+            }
+
+            case R.id.ly_info_btn: {
+                Intent intent = new Intent(GroupChatHistortActivity.this, GroupMemberInfoActivity.class);
+
+                intent.putExtra("eventId", eventId);
+                intent.putExtra("from", from);
+                intent.putExtra("eventName", eventName);
+                intent.putExtra("eventType", from);
+                intent.putExtra("eventImage", eventImage);
+
+                intent.putExtra("eventOrganizerId", eventOrganizerId);
+                intent.putExtra("eventOrganizerName", eventOrganizerName);
+                intent.putExtra("eventOrganizerProfileImage", eventOrganizerProfileImage);
+
+                startActivity(intent);
                 break;
             }
         }
@@ -330,88 +327,6 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
         firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS_DELETE).child(eventId).child(myUid).setValue(info);
 
-    }
-
-    private void joinedEventList() {
-        loading_view.setVisibility(View.VISIBLE);
-
-        WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
-            @Override
-            public void onResponse(String response) {
-                loading_view.setVisibility(View.GONE);
-
-                try {
-                    final JSONObject jsonObject = new JSONObject(response);
-                    String status = jsonObject.getString("status");
-
-                    if (status.equals("success")) {
-                        Gson gson = new Gson();
-                        JoinedEventInfo joinedEventInfo = gson.fromJson(response, JoinedEventInfo.class);
-
-
-                        for (int i = 0; i < joinedEventInfo.List.size(); i++) {
-                            if(joinedEventInfo.List.get(i).memberUserId != null){
-                                joinedEventInfo.List.get(i).commanUserIdForProfile = joinedEventInfo.List.get(i).memberUserId;
-
-                            }
-
-                            if (joinedEventInfo.List.get(i).companionMemberStatus != null) {
-                                if (joinedEventInfo.List.get(i).companionMemberStatus.equals("3") ||
-                                        joinedEventInfo.List.get(i).companionMemberStatus.equals("1")) {
-                                    JoinedEventInfo.ListBean infoComp = new JoinedEventInfo.ListBean();
-
-                                    infoComp.companionUserId = joinedEventInfo.List.get(i).companionUserId;
-                                    infoComp.memberName = joinedEventInfo.List.get(i).companionName;
-                                    infoComp.memberImage = joinedEventInfo.List.get(i).companionImage;
-                                    infoComp.commanUserIdForProfile = joinedEventInfo.List.get(i).companionUserId;
-
-                                    joinedEventInfo.List.add(infoComp);
-                                }
-                            }
-                        }
-
-
-                        if (eventType.equals("eventRequest")) {
-                            JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
-                            info.commanUserIdForProfile = eventOrganizerId;
-                            info.memberId = eventOrganizerId;
-                            info.memberUserId = eventOrganizerId;
-                            info.memberName = eventOrganizerName + " " + "(Admin)";
-                            info.memberImage = eventOrganizerProfileImage;
-
-                            //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
-                            joinedEventInfo.List.add(0, info);
-                        } else {
-                            // my data added here
-                            JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
-                            //info.commanUserIdForProfile = myUid;
-                            info.memberUserId = myUid;
-                            info.memberName = myName + " " + "(You)";
-                            info.memberImage = session.getUser().userDetail.profileImage.get(session.getUser().userDetail.profileImage.size() - 1).image;
-                            //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
-                            joinedEventInfo.List.add(0, info);
-                        }
-
-                        joinedList.addAll(joinedEventInfo.List);
-                        adapter.notifyDataSetChanged();
-                        tv_mem_count.setText(joinedList.size() + " " + "Members");
-
-                        addOnlineStatus();
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    loading_view.setVisibility(View.GONE);
-
-                }
-            }
-
-            @Override
-            public void ErrorListener(VolleyError error) {
-                loading_view.setVisibility(View.GONE);
-            }
-        });
-        service.callGetSimpleVolley("event/getEventMemberList?offset=" + 0 + "&limit=1000&memberType=" + "joined" + "&eventId=" + eventId + "");
     }
 
     private void getDeleteTimeStamp() {
@@ -724,56 +639,112 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         loading_view.setVisibility(View.GONE);
     }
 
-    private void addOnlineStatus() {
-        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child(Constant.online).addChildEventListener(new ChildEventListener() {
+    private void sendPushNotificationToReceiver(String title, String message, String username, String uid, String firebaseToken) {
+        FcmNotificationBuilder.initialize()
+                .title(title)
+                .message(message)
+                .username(username)
+                .uid(uid)
+                .firebaseToken(firebaseToken)
+                .receiverFirebaseTokenGroup(new JSONArray(Arrays.asList(eventId))).send();
+    }
+
+
+    private void joinedEventList() {
+        loading_view.setVisibility(View.VISIBLE);
+
+        WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                OnlineInfo onlineStatus = dataSnapshot.getValue(OnlineInfo.class);
-                onlineMapList.put(dataSnapshot.getKey(), onlineStatus);
-                runTimeStatus(dataSnapshot, onlineStatus);
+            public void onResponse(String response) {
+                loading_view.setVisibility(View.GONE);
 
-            }
+                try {
+                    final JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
 
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                OnlineInfo onlineStatus = dataSnapshot.getValue(OnlineInfo.class);
-                onlineMapList.put(dataSnapshot.getKey(), onlineStatus);
-                runTimeStatus(dataSnapshot, onlineStatus);
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                OnlineInfo onlineStatus = dataSnapshot.getValue(OnlineInfo.class);
-                onlineMapList.put(dataSnapshot.getKey(), onlineStatus);
-                runTimeStatus(dataSnapshot, onlineStatus);
+                    if (status.equals("success")) {
+                        Gson gson = new Gson();
+                        JoinedEventInfo joinedEventInfo = gson.fromJson(response, JoinedEventInfo.class);
 
 
-            }
+                        for (int i = 0; i < joinedEventInfo.List.size(); i++) {
+                            if (joinedEventInfo.List.get(i).memberUserId != null) {
+                                joinedEventInfo.List.get(i).commanUserIdForProfile = joinedEventInfo.List.get(i).memberUserId;
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-            }
+                            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
+                            if (joinedEventInfo.List.get(i).companionMemberStatus != null) {
+                                if (joinedEventInfo.List.get(i).companionMemberStatus.equals("3") ||
+                                        joinedEventInfo.List.get(i).companionMemberStatus.equals("1")) {
+                                    JoinedEventInfo.ListBean infoComp = new JoinedEventInfo.ListBean();
+
+                                    infoComp.companionUserId = joinedEventInfo.List.get(i).companionUserId;
+                                    infoComp.memberName = joinedEventInfo.List.get(i).companionName;
+                                    infoComp.memberImage = joinedEventInfo.List.get(i).companionImage;
+                                    infoComp.commanUserIdForProfile = joinedEventInfo.List.get(i).companionUserId;
+
+                                    joinedEventInfo.List.add(infoComp);
+                                }
+                            }
+                        }
 
 
-            private void runTimeStatus(@NonNull DataSnapshot dataSnapshot, OnlineInfo onlineStatus) {
+                        if (eventType.equals("eventRequest")) {
+                            JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
+                            info.commanUserIdForProfile = eventOrganizerId;
+                            info.memberId = eventOrganizerId;
+                            info.memberUserId = eventOrganizerId;
+                            info.memberName = eventOrganizerName + " " + "(Admin)";
+                            info.memberImage = eventOrganizerProfileImage;
 
-                for (int k = 0; k < joinedList.size(); k++) {
-                    if (dataSnapshot.getKey().equals(joinedList.get(k).commanUserIdForProfile)) {
-                        joinedList.get(k).status = onlineStatus.lastOnline;
+                            //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
+                            joinedEventInfo.List.add(0, info);
+                        } else {
+                            // my data added here
+                            JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
+                            info.commanUserIdForProfile = myUid;
+                            info.memberUserId = myUid;
+                            info.memberName = myName + " " + "(You)";
+                            info.memberImage = session.getUser().userDetail.profileImage.get(session.getUser().userDetail.profileImage.size() - 1).image;
+                            //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
+                            joinedEventInfo.List.add(0, info);
+                        }
+
+                        joinedList.addAll(joinedEventInfo.List);
+                        getFirebaseToken();
                     }
-                }
 
-                adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    loading_view.setVisibility(View.GONE);
+
+                }
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+                loading_view.setVisibility(View.GONE);
             }
         });
+        service.callGetSimpleVolley("event/getEventMemberList?offset=" + 0 + "&limit=1000&memberType=" + "joined" + "&eventId=" + eventId + "");
+    }
+
+    private void getFirebaseToken() {
+        for (JoinedEventInfo.ListBean bean : joinedList) {
+            firebaseDatabase.getReference().child(Constant.ARG_USERS).child(bean.commanUserIdForProfile).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    UserInfoFCM infoFCM = dataSnapshot.getValue(UserInfoFCM.class);
+                    tokenList.put(dataSnapshot.getKey(), infoFCM.firebaseToken);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
 
 
     }

@@ -392,7 +392,10 @@
         <activity
             android:name=".activity.chat.GroupChatHistortActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.event.GroupMemberInfoActivity"></activity>
+
+        <activity android:name=".activity.event.GroupMemberInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>

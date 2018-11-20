@@ -19,7 +19,7 @@
                 android:id="@+id/tv_filter_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/recevied_appointment"
+                android:text="@string/all_apoiment"
                 android:gravity="center"
                 android:fontFamily="@font/nunito_regular"
                 android:textSize="@dimen/text_Medium_Size"

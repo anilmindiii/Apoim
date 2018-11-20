@@ -58,7 +58,7 @@ public class AppoinmentFragment extends Fragment {
     AppointmentListInfo listInfo;
     private EndlessRecyclerViewScrollListener scrollListener;
     private int startCount = 0;
-    String type = "received";
+    String type = "all";
     ImageView iv_filter;
     int id;
     private TextView tv_filter_title;
@@ -190,6 +190,7 @@ public class AppoinmentFragment extends Fragment {
         ImageView iv_received_apoim = dialog.findViewById(R.id.iv_received_apoim);
         ImageView iv_sent_apoim = dialog.findViewById(R.id.iv_sent_apoim);
         ImageView iv_finished_apoim = dialog.findViewById(R.id.iv_finished_apoim);
+        ImageView iv_all_apoim = dialog.findViewById(R.id.iv_all_apoim);
 
         ImageView iv_close_button = dialog.findViewById(R.id.iv_close_button);
         TextView tv_apply_button = dialog.findViewById(R.id.tv_apply_button);
@@ -197,20 +198,31 @@ public class AppoinmentFragment extends Fragment {
         RelativeLayout ly_receive_apoim = dialog.findViewById(R.id.ly_receive_apoim);
         RelativeLayout ly_sent_apoim = dialog.findViewById(R.id.ly_sent_apoim);
         RelativeLayout ly_finished_apoim = dialog.findViewById(R.id.ly_finished_apoim);
+        RelativeLayout ly_all_apoim = dialog.findViewById(R.id.ly_all_apoim);
 
         if (type.equals("received")) {
-            receivedSeleced(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);
+            receivedSeleced(iv_received_apoim, iv_sent_apoim, iv_finished_apoim,iv_all_apoim);
         } else if (type.equals("sent")) {
-            sentSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);
+            sentSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim,iv_all_apoim);
         } else if (type.equals("finished")) {
-            finishedSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);
+            finishedSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim,iv_all_apoim);
+        }else if(type.equals("all")){
+            allSeleced(iv_received_apoim, iv_sent_apoim, iv_finished_apoim,iv_all_apoim);
         }
+
+        ly_all_apoim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                id = R.id.ly_all_apoim;
+                allSeleced(iv_received_apoim, iv_sent_apoim, iv_finished_apoim,iv_all_apoim);
+            }
+        });
 
         ly_receive_apoim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 id = R.id.ly_receive_apoim;
-                receivedSeleced(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);
+                receivedSeleced(iv_received_apoim, iv_sent_apoim, iv_finished_apoim,iv_all_apoim);
             }
         });
 
@@ -218,7 +230,7 @@ public class AppoinmentFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 id = R.id.ly_sent_apoim;
-                sentSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);
+                sentSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim,iv_all_apoim);
             }
         });
 
@@ -226,7 +238,7 @@ public class AppoinmentFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 id = R.id.ly_finished_apoim;
-                finishedSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim);
+                finishedSelected(iv_received_apoim, iv_sent_apoim, iv_finished_apoim,iv_all_apoim);
             }
         });
 
@@ -258,11 +270,18 @@ public class AppoinmentFragment extends Fragment {
                     getAppointmentList();
                 } else if (id == R.id.ly_finished_apoim) {
                     type = "finished";
-                    getAppointmentList();
                     apomList.clear();
                     apoinmentAdapter.notifyDataSetChanged();
                     startCount = 0;
                     tv_filter_title.setText(R.string.finished_appointment);
+                    getAppointmentList();
+                }else if(id == R.id.ly_all_apoim){
+                    type = "all";
+                    apomList.clear();
+                    apoinmentAdapter.notifyDataSetChanged();
+                    startCount = 0;
+                    tv_filter_title.setText(R.string.all_apoiment);
+                    getAppointmentList();
                 }
                 dialog.dismiss();
             }
@@ -270,23 +289,39 @@ public class AppoinmentFragment extends Fragment {
 
     }
 
-    private void finishedSelected(ImageView iv_received_apoim, ImageView iv_sent_apoim, ImageView iv_finished_apoim) {
+
+    private void allSeleced(ImageView iv_received_apoim, ImageView iv_sent_apoim, ImageView iv_finished_apoim,ImageView iv_all_apoim) {
+        iv_all_apoim.setImageResource(R.drawable.check_btn);
         iv_received_apoim.setImageResource(R.drawable.uncheck_btn);
         iv_sent_apoim.setImageResource(R.drawable.uncheck_btn);
+        iv_finished_apoim.setImageResource(R.drawable.uncheck_btn);
+
+    }
+
+
+
+    private void receivedSeleced(ImageView iv_received_apoim, ImageView iv_sent_apoim, ImageView iv_finished_apoim,ImageView iv_all_apoim) {
+        iv_sent_apoim.setImageResource(R.drawable.uncheck_btn);
+        iv_received_apoim.setImageResource(R.drawable.check_btn);
+        iv_finished_apoim.setImageResource(R.drawable.uncheck_btn);
+        iv_all_apoim.setImageResource(R.drawable.uncheck_btn);
+    }
+
+    private void sentSelected(ImageView iv_received_apoim, ImageView iv_sent_apoim, ImageView iv_finished_apoim,ImageView iv_all_apoim) {
+        iv_received_apoim.setImageResource(R.drawable.uncheck_btn);
+        iv_finished_apoim.setImageResource(R.drawable.uncheck_btn);
+        iv_all_apoim.setImageResource(R.drawable.uncheck_btn);
+        iv_sent_apoim.setImageResource(R.drawable.check_btn);
+    }
+
+    private void finishedSelected(ImageView iv_received_apoim, ImageView iv_sent_apoim, ImageView iv_finished_apoim,ImageView iv_all_apoim) {
+        iv_received_apoim.setImageResource(R.drawable.uncheck_btn);
+        iv_sent_apoim.setImageResource(R.drawable.uncheck_btn);
+        iv_all_apoim.setImageResource(R.drawable.uncheck_btn);
         iv_finished_apoim.setImageResource(R.drawable.check_btn);
     }
 
-    private void sentSelected(ImageView iv_received_apoim, ImageView iv_sent_apoim, ImageView iv_finished_apoim) {
-        iv_received_apoim.setImageResource(R.drawable.uncheck_btn);
-        iv_sent_apoim.setImageResource(R.drawable.check_btn);
-        iv_finished_apoim.setImageResource(R.drawable.uncheck_btn);
-    }
 
-    private void receivedSeleced(ImageView iv_received_apoim, ImageView iv_sent_apoim, ImageView iv_finished_apoim) {
-        iv_received_apoim.setImageResource(R.drawable.check_btn);
-        iv_sent_apoim.setImageResource(R.drawable.uncheck_btn);
-        iv_finished_apoim.setImageResource(R.drawable.uncheck_btn);
-    }
 
     private void getAppointmentList() {
         loading_view.setVisibility(View.VISIBLE);

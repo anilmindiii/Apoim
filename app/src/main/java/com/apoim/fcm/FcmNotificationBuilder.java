@@ -2,6 +2,7 @@ package com.apoim.fcm;
 
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,6 +47,8 @@ public class FcmNotificationBuilder {
     private String mUid;
     private String mFirebaseToken;
     private String mReceiverFirebaseToken;
+    private JSONArray mReceiverFirebaseTokenGroup;
+
 
     private FcmNotificationBuilder() {
 
@@ -82,6 +85,11 @@ public class FcmNotificationBuilder {
 
     public FcmNotificationBuilder receiverFirebaseToken(String receiverFirebaseToken) {
         mReceiverFirebaseToken = receiverFirebaseToken;
+        return this;
+    }
+
+    public FcmNotificationBuilder receiverFirebaseTokenGroup(JSONArray receiverFirebaseToken) {
+        mReceiverFirebaseTokenGroup = receiverFirebaseToken;
         return this;
     }
 

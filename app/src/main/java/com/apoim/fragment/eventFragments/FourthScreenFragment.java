@@ -1,6 +1,7 @@
 package com.apoim.fragment.eventFragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -69,7 +70,7 @@ public class FourthScreenFragment extends Fragment {
     private EventImgeUploadAdapter adapter;
     private String eventId = "";
     private String imageId = "";
-    private TextView tv_skip;
+    private TextView tv_skip,event_skip;
 
     public static FourthScreenFragment newInstance(String eventId,String imageId) {
 
@@ -82,6 +83,7 @@ public class FourthScreenFragment extends Fragment {
         return fragment;
     }
 
+    @SuppressLint("WrongViewCast")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,6 +100,10 @@ public class FourthScreenFragment extends Fragment {
         iv_back = getActivity().findViewById(R.id.iv_back);
         iv_back.setVisibility(View.GONE);
         tv_four = getActivity().findViewById(R.id.tv_four);
+
+        event_skip = getActivity().findViewById(R.id.event_skip);
+        event_skip.setVisibility(View.VISIBLE);
+
         tv_select_background_three = getActivity().findViewById(R.id.tv_select_background_three);
         tv_three = getActivity().findViewById(R.id.tv_three);
         iv_right_three = getActivity().findViewById(R.id.iv_right_three);
@@ -130,6 +136,13 @@ public class FourthScreenFragment extends Fragment {
         event_horizontal_recycler.setAdapter(adapter);
 
         tv_skip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
+
+        event_skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().finish();

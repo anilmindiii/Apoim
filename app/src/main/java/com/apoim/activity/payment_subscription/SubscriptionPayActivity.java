@@ -215,6 +215,7 @@ public class SubscriptionPayActivity extends AppCompatActivity implements View.O
     }
 
     public void gettingStripeToken() {
+        tv_pay.setEnabled(false);
         loading_view.setVisibility(View.VISIBLE);
         String cardNumber = editTxtCardNumber.getText().toString().replace("-", "");
         int cardExpMonth = Integer.parseInt(tv_month.getText().toString().trim());
@@ -229,7 +230,9 @@ public class SubscriptionPayActivity extends AppCompatActivity implements View.O
         Stripe stripe = new Stripe(this, "pk_test_QCwLHJXgVrZfIuGYFYRNY2eJ");
 
         stripe.createToken(card, new TokenCallback() {
-                    public void onSuccess(Token token) { // Send token to your server
+                    public void onSuccess(Token token) {
+                        tv_pay.setEnabled(true);
+                        // Send token to your server
                         Log.v("stripeTokenID", token.getId() + "");
                         if (payfor == 3) {
                             EventpaymentTask(eventId, memberId, "event/eventPayment",token.getId());
@@ -239,10 +242,14 @@ public class SubscriptionPayActivity extends AppCompatActivity implements View.O
                             paymentTask(payfor,token.getId());
 
                         }
+
+
                     }
 
                     public void onError(Exception error) {
                         // Show localized error message
+                        tv_pay.setEnabled(true);
+                        loading_view.setVisibility(View.GONE);
                         Utils.openAlertDialog(SubscriptionPayActivity.this,error.getLocalizedMessage()+"");
                     }
                 }
