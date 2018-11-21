@@ -43,6 +43,7 @@ import com.apoim.listener.GetNewImageClick;
 import com.apoim.modal.EventDetailsInfo;
 import com.apoim.modal.EventFilterData;
 import com.apoim.modal.MyFriendListInfo;
+import com.apoim.modal.PayLoadEvent;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
 import com.apoim.util.InsLoadingView;
@@ -127,6 +128,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private Session session;
     private LinearLayout ly_main_invited_mem, ly_shared_event_btn, ly_shared_event_call_btn, ly_chat_view;
     private Dialog dialog;
+    private boolean fromNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +158,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             id = getIntent().getStringExtra("id");
             ownerType = getIntent().getStringExtra("ownerType");
 
+            fromNotification = getIntent().getBooleanExtra("fromNotification",false);
+
             if (from.equals("myEvent")) {
                 tv_pay.setVisibility(View.GONE);
                 tv_share_event.setVisibility(View.GONE);
@@ -172,7 +176,53 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 ly_invited_member.setVisibility(View.GONE);
                 ly_edit_delete.setVisibility(View.GONE);
             }
+
+            if(fromNotification){
+               String payLoadEvent = getIntent().getStringExtra("payLoadEvent");
+               PayLoadEvent PayLoad = new Gson().fromJson(payLoadEvent,PayLoadEvent.class);
+
+
+                eventId = PayLoad.eventId;
+                ownerType = PayLoad.ownerType;
+
+                if(ownerType.equals("Shared Event")){
+                    id = PayLoad.compId;
+                }else {
+                    id = PayLoad.eventMemId;
+                }
+
+                Intent intent = new Intent(EventDetailsActivity.this, GroupChatHistortActivity.class);
+                intent.putExtra("eventId", PayLoad.eventId);
+                intent.putExtra("from", PayLoad.ownerType);
+                intent.putExtra("eventName",PayLoad.eventName);
+                intent.putExtra("eventType", PayLoad.eventType);
+                intent.putExtra("eventImage", PayLoad.eventImage);
+
+                if (ownerType != null){
+                    if (ownerType.equals("Shared Event")) {
+                        intent.putExtra("eventOrganizerId", PayLoad.eventOrganizerId);
+                        intent.putExtra("eventOrganizerName", PayLoad.eventOrganizerName);
+                        intent.putExtra("eventOrganizerProfileImage", PayLoad.eventOrganizerProfileImage);
+                        intent.putExtra("compId", PayLoad.compId);
+                    } else {
+                        intent.putExtra("eventOrganizerId", PayLoad.eventOrganizerId);
+                        intent.putExtra("eventOrganizerName", PayLoad.eventOrganizerName);
+                        intent.putExtra("eventOrganizerProfileImage", PayLoad.eventOrganizerProfileImage);
+                        intent.putExtra("eventMemId", PayLoad.eventMemId);
+                    }
+                }else {
+                    intent.putExtra("eventOrganizerId",PayLoad.eventOrganizerId);
+                    intent.putExtra("eventOrganizerName", PayLoad.eventOrganizerName);
+                    intent.putExtra("eventOrganizerProfileImage", PayLoad.eventOrganizerProfileImage);
+                    intent.putExtra("eventMemId",PayLoad.eventMemId);
+                }
+
+                startActivity(intent);
+
+            }
         }
+
+
 
         ly_reject.setOnClickListener(this);
         ly_accept.setOnClickListener(this);
@@ -777,6 +827,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 try {
                     final JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
 
                     if (status.equals("success")) {
                         bottom_sheet.setVisibility(View.VISIBLE);
@@ -827,9 +878,17 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                         rcv_event_images.setAdapter(eventImageAdapter);
                         eventImageAdapter.notifyDataSetChanged();
 
-                    } else {
 
-                        noEventDialog(EventDetailsActivity.this);
+
+                    } else {
+                        if(message.equals("Sorry, this event is no longer exist")){
+                            ownerType = "Shared Event";
+                            myEventRequestEvent(eventId, from);
+                        }else {
+                            noEventDialog(EventDetailsActivity.this);
+                        }
+
+
                     }
 
                 } catch (JSONException e) {
@@ -998,7 +1057,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             case R.id.iv_chat_group_img:
                 intent = new Intent(EventDetailsActivity.this, GroupChatHistortActivity.class);
                 intent.putExtra("eventId", eventId);
-                intent.putExtra("from", from);
+                intent.putExtra("from", ownerType);
                 intent.putExtra("eventName", detailsInfo.Detail.eventName);
                 intent.putExtra("eventType", from);
                 intent.putExtra("eventImage", detailsInfo.Detail.eventImage.get(0).eventImage);
@@ -1008,15 +1067,18 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                         intent.putExtra("eventOrganizerId", detailsInfo.Detail.eventOrganizer);
                         intent.putExtra("eventOrganizerName", detailsInfo.Detail.ownerName);
                         intent.putExtra("eventOrganizerProfileImage", detailsInfo.Detail.ownerImage);
+                        intent.putExtra("compId", detailsInfo.Detail.eventMemId);
                     } else {
                         intent.putExtra("eventOrganizerId", detailsInfo.Detail.eventOrganizer);
                         intent.putExtra("eventOrganizerName", detailsInfo.Detail.fullName);
                         intent.putExtra("eventOrganizerProfileImage", detailsInfo.Detail.profileImage);
+                        intent.putExtra("eventMemId", detailsInfo.Detail.eventMemId);
                     }
                 }else {
                     intent.putExtra("eventOrganizerId", detailsInfo.Detail.eventOrganizer);
                     intent.putExtra("eventOrganizerName", detailsInfo.Detail.fullName);
                     intent.putExtra("eventOrganizerProfileImage", detailsInfo.Detail.profileImage);
+                    intent.putExtra("eventMemId", detailsInfo.Detail.eventMemId);
                 }
 
 

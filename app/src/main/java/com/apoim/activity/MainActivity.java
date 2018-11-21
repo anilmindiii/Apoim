@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     TabLayout.Tab tabAt;
     String eventMemId = "";
     String compId = "";
-    String opponentChatId = "";
+    String opponentChatId = "",payLoadEvent = "";
     ImageView iv_unread_msg_tab;
     Map<String, Integer> isMsgFoundMap;
 
@@ -191,6 +191,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             eventMemId = getIntent().getStringExtra("eventMemId");
             compId = getIntent().getStringExtra("compId");
             opponentChatId = getIntent().getStringExtra("opponentChatId");
+            payLoadEvent = getIntent().getStringExtra("payLoadEvent");
 
         }
 
@@ -200,21 +201,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Intent intent = new Intent(MainActivity.this, OtherProfileDetailsActivity.class);// other user profile
                 intent.putExtra("userId", reference_id);
                 startActivity(intent);
-            }
-            else if (type.equals("create_appointment") || type.equals("delete_appointment") ) {
+            } else if (type.equals("create_appointment") || type.equals("delete_appointment")) {
                 ly_map_tab.callOnClick();// appoinment listing
-            }
-            else if (type.equals("confirmed_appointment") || type.equals("finish_appointment")
-                    || type.equals("review_appointment")  || type.equals("apply_counter")
+            } else if (type.equals("confirmed_appointment") || type.equals("finish_appointment")
+                    || type.equals("review_appointment") || type.equals("apply_counter")
                     || type.equals("appointment_payment") || type.equals("update_counter")) {
                 Intent intent = new Intent(this, AppointmentDirectionActivity.class); // appointment details
                 intent.putExtra(Constant.appointment_details, reference_id);
                 startActivity(intent);
-            }
-            else if (type.equals("create_event") || type.equals("companion_payment") ||
+            } else if (type.equals("create_event") || type.equals("companion_payment") ||
                     type.equals("join_event") || type.equals("event_payment") ||
                     type.equals("share_event") || type.equals("companion_accept") ||
-                    type.equals("companion_reject")) {
+                    type.equals("companion_reject") || type.equals("group_chat")) {
 
                 Intent intent = new Intent(this, EventDetailsActivity.class); // event details
                 intent.putExtra("eventId", reference_id);
@@ -224,17 +222,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     intent.putExtra("from", "eventRequest"); // event request details
                 }
 
-                if (eventMemId.equals("")) {
-                    intent.putExtra("id", compId);
-                    intent.putExtra("ownerType", "Shared Event");
-                } else if (compId.equals("")) {
-                    intent.putExtra("id", eventMemId);
-                    intent.putExtra("ownerType", "Administrator");
+                if (eventMemId != null)
+                    if (eventMemId.equals("")) {
+                        intent.putExtra("id", compId);
+                        intent.putExtra("ownerType", "Shared Event");
+                    } else if (compId.equals("")) {
+                        intent.putExtra("id", eventMemId);
+                        intent.putExtra("ownerType", "Administrator");
+                    }
+
+                if (type.equals("group_chat")) {
+                    intent.putExtra("fromNotification",true);
+                    intent.putExtra("payLoadEvent",payLoadEvent);
                 }
 
                 startActivity(intent);
-            }
-            else if (type.equals("chat")) {
+            } else if (type.equals("chat")) {
                 Intent intent = new Intent(this, ChatActivity.class); // appointment details
                 if (opponentChatId != null) {
                     intent.putExtra("otherUID", opponentChatId);
@@ -246,8 +249,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 addFragment(new MyProfileFragment().newInstance(type), false, R.id.fragment_place);
             }
 
-        }
-        else if (getIntent().getData() != null) {
+        } else if (getIntent().getData() != null) {
             Map<String, String> map = Utils.getQueryString(getIntent().getData().toString());
             if (map.containsKey("id")) {
                 Intent intent = new Intent(this, OtherProfileDetailsActivity.class);
@@ -334,18 +336,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             if (type.equals("friend_request") || type.equals("accept_request") || type.equals("add_like") || type.equals("add_favorite")) {
                 addFragment(new ListorMapFragment(), false, R.id.fragment_place);
                 type = "";
-            }
-
-            else if (type.equals("confirmed_appointment") || type.equals("finish_appointment")
-                        || type.equals("review_appointment")  || type.equals("apply_counter")
-                        || type.equals("appointment_payment") || type.equals("update_counter")){
+            } else if (type.equals("confirmed_appointment") || type.equals("finish_appointment")
+                    || type.equals("review_appointment") || type.equals("apply_counter")
+                    || type.equals("appointment_payment") || type.equals("update_counter")) {
 
                 ly_map_tab.callOnClick();
                 type = "";
 
             } else if (type.equals("create_event") || type.equals("companion_payment") ||
                     type.equals("join_event") || type.equals("event_payment") ||
-                    type.equals("share_event") || type.equals("companion_accept") || type.equals("companion_reject")) {
+                    type.equals("share_event") || type.equals("companion_accept") || type.equals("companion_reject")
+                    || type.equals("group_chat")) {
 
                 ly_event_tab.callOnClick();
                 type = "";
@@ -386,7 +387,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (dataSnapshot.getValue(Chat.class) != null) {
                     int unreadCount = dataSnapshot.getValue(Chat.class).unreadCount;
 
-                    if (unreadCount > 0 ) {
+                    if (unreadCount > 0) {
                         isMsgFoundMap.put(dataSnapshot.getKey(), unreadCount);
                         iv_unread_msg_tab.setVisibility(View.VISIBLE);
                         /*if (isMsgFoundMap.containsValue(myUserId)) {
@@ -395,7 +396,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         } else iv_unread_msg_tab.setVisibility(View.GONE);*/
 
 
-                    }else iv_unread_msg_tab.setVisibility(View.GONE);
+                    } else iv_unread_msg_tab.setVisibility(View.GONE);
                 }
             }
 
@@ -428,7 +429,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             iv_unread_msg_tab.setVisibility(View.VISIBLE);
                             return;
                         } else iv_unread_msg_tab.setVisibility(View.GONE);*/
-                    }else iv_unread_msg_tab.setVisibility(View.GONE);
+                    } else iv_unread_msg_tab.setVisibility(View.GONE);
 
                 }
             }

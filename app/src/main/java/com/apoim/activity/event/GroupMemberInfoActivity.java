@@ -45,7 +45,7 @@ public class GroupMemberInfoActivity extends AppCompatActivity implements View.O
     private RecyclerView recycler_view;
     private JoinedMemberChatAdapter adapter;
     private Session session;
-    String from = "", eventId = "", myEmail = "", myUid = "", myName = "", myProfileImage = "", eventType = "", eventName = "";
+    String  eventId = "", myEmail = "", myUid = "", myName = "", myProfileImage = "", eventType = "", eventName = "";
     String eventOrganizerId = "", eventOrganizerName = "", eventOrganizerProfileImage = "";
     TextView title_name,tv_mem_count;
     ImageView header_image;
@@ -58,7 +58,6 @@ public class GroupMemberInfoActivity extends AppCompatActivity implements View.O
         init();
         if (getIntent().getExtras() != null) {
             eventId = getIntent().getStringExtra("eventId");
-            from = getIntent().getStringExtra("from");
             eventName = getIntent().getStringExtra("eventName");
             String eventImage = getIntent().getStringExtra("eventImage");
 

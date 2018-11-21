@@ -41,6 +41,7 @@ import com.apoim.modal.Chat;
 import com.apoim.modal.GroupChatDeleteMuteInfo;
 import com.apoim.modal.JoinedEventInfo;
 import com.apoim.modal.OnlineInfo;
+import com.apoim.modal.PayLoadEvent;
 import com.apoim.modal.UserInfoFCM;
 import com.apoim.server_task.WebService;
 import com.apoim.session.Session;
@@ -86,7 +87,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
     private RecyclerView recycler_view;
     private InsLoadingView loading_view;
     private ChattingAdapter chattingAdapter;
-    String from = "", eventId = "", myEmail = "", myUid = "", myName = "", myProfileImage = "", eventType = "", eventName = "";
+    String  eventId = "", myEmail = "", myUid = "", myName = "", myProfileImage = "", eventType = "", eventName = "";
     String eventOrganizerId = "", eventOrganizerName = "", eventOrganizerProfileImage = "";
     private ArrayList<Chat> chatList;
     private Session session;
@@ -100,10 +101,11 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
     private boolean isNotification = true;
     private RelativeLayout ly_popup_menu, ly_delete_chat, ly_btn_mute, ly_btn_info;
     private Long deleteTimestamp;
-    private String mute = "", eventImage = "";
+    private String mute = "", eventImage = "", eventMemId = "", compId = "", from = "";
     private LinearLayout ly_info_btn;
     private ArrayList<JoinedEventInfo.ListBean> joinedList;
     private Map<String, String> tokenList;
+    private ArrayList<String> tokenArrayList;
 
 
     @Override
@@ -116,16 +118,19 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         joinedList = new ArrayList<>();
         map = new HashMap<>();
         keyList = new ArrayList<>();
+        tokenArrayList = new ArrayList<>();
         tokenList = new HashMap<>();
 
         if (getIntent().getExtras() != null) {
             eventId = getIntent().getStringExtra("eventId");
-            from = getIntent().getStringExtra("from");
             eventName = getIntent().getStringExtra("eventName");
             eventImage = getIntent().getStringExtra("eventImage");
             eventOrganizerId = getIntent().getStringExtra("eventOrganizerId");
             eventOrganizerName = getIntent().getStringExtra("eventOrganizerName");
             eventOrganizerProfileImage = getIntent().getStringExtra("eventOrganizerProfileImage");
+            eventMemId = getIntent().getStringExtra("eventMemId");
+            compId = getIntent().getStringExtra("compId");
+            from = getIntent().getStringExtra("from");
 
             eventType = getIntent().getStringExtra("eventType");
             title_name.setText(eventName);
@@ -176,8 +181,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
         getDeleteTimeStamp();
         getChat();
-
-        // joinedEventList();
+        joinedEventList();
     }
 
     private void init() {
@@ -260,13 +264,15 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                 Intent intent = new Intent(GroupChatHistortActivity.this, GroupMemberInfoActivity.class);
 
                 intent.putExtra("eventId", eventId);
-                intent.putExtra("from", from);
                 intent.putExtra("eventName", eventName);
-                intent.putExtra("eventType", from);
+                intent.putExtra("eventType", eventType);
                 intent.putExtra("eventImage", eventImage);
 
                 intent.putExtra("eventOrganizerId", eventOrganizerId);
                 intent.putExtra("eventOrganizerName", eventOrganizerName);
+                intent.putExtra("eventOrganizerProfileImage", eventOrganizerProfileImage);
+
+                intent.putExtra("eventOrganizerProfileImage", eventOrganizerProfileImage);
                 intent.putExtra("eventOrganizerProfileImage", eventOrganizerProfileImage);
 
                 startActivity(intent);
@@ -623,31 +629,59 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS).child(eventId).child(pushkey).setValue(myChat);
         firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS).child(eventId).child(pushkey).setValue(myChat);
 
-     /*   if (isNotification) {
+        if (isNotification) {
             if (image_FirebaseURL != null) {
                 if (firebaseToken != null && myChat != null) {
-                    sendPushNotificationToReceiver(myName, "Image", myName, myUid, firebaseToken);
+                    sendPushNotificationToReceiver( "Image", myUid, firebaseToken);
                 }
             } else {
                 if (firebaseToken != null && myChat != null)
-                    sendPushNotificationToReceiver(myName, msg, myName, myUid, firebaseToken);
+                    sendPushNotificationToReceiver( msg, myUid, firebaseToken);
             }
-        }*/
+        }
 
         ed_message.setText("");
         image_FirebaseURL = null;
         loading_view.setVisibility(View.GONE);
     }
 
-    private void sendPushNotificationToReceiver(String title, String message, String username, String uid, String firebaseToken) {
+    private void sendPushNotificationToReceiver(String message, String uid, String firebaseToken) {
+        tokenArrayList.clear();
+        for(Map.Entry entry:tokenList.entrySet()){
+            tokenArrayList.add(entry.getValue().toString());
+        }
+
+        PayLoadEvent payLoadEvent = new PayLoadEvent();
+        payLoadEvent.eventId = eventId;
+        payLoadEvent.eventName = eventName;
+        payLoadEvent.eventImage = eventImage;
+        payLoadEvent.eventOrganizerId = eventOrganizerId;
+        payLoadEvent.eventOrganizerName = eventOrganizerName;
+        payLoadEvent.eventOrganizerProfileImage = eventOrganizerProfileImage;
+        payLoadEvent.eventType = eventType;
+        payLoadEvent.ownerType = from;
+
+        if(eventMemId == null){
+            eventMemId = "";
+        }
+
+        payLoadEvent.eventMemId = eventMemId;
+        payLoadEvent.compId = compId;
+
+        Gson gson = new Gson();
+        String payLoad = gson.toJson(payLoadEvent,PayLoadEvent.class);
+
         FcmNotificationBuilder.initialize()
-                .title(title)
+                .title(eventName)
                 .message(message)
-                .username(username)
+                .username(myName)
                 .uid(uid)
                 .firebaseToken(firebaseToken)
-                .receiverFirebaseTokenGroup(new JSONArray(Arrays.asList(eventId))).send();
+                .eventPayLoad(payLoad)
+                .isGroupChatModule(true)
+                .receiverFirebaseTokenGroup(new JSONArray(tokenArrayList)).send();
     }
+
 
 
     private void joinedEventList() {
@@ -670,7 +704,6 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                         for (int i = 0; i < joinedEventInfo.List.size(); i++) {
                             if (joinedEventInfo.List.get(i).memberUserId != null) {
                                 joinedEventInfo.List.get(i).commanUserIdForProfile = joinedEventInfo.List.get(i).memberUserId;
-
                             }
 
                             if (joinedEventInfo.List.get(i).companionMemberStatus != null) {
@@ -731,6 +764,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
     private void getFirebaseToken() {
         for (JoinedEventInfo.ListBean bean : joinedList) {
+
             firebaseDatabase.getReference().child(Constant.ARG_USERS).child(bean.commanUserIdForProfile).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

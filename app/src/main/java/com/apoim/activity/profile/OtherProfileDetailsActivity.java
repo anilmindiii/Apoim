@@ -139,18 +139,21 @@ public class OtherProfileDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(otherProfileInfo.UserDetail.isAppointment != null){
-                    if(otherProfileInfo.UserDetail.isAppointment.equals("0")){
-                        Intent intent = new Intent(OtherProfileDetailsActivity.this,CreateAppointMentActivity.class);
-                        intent.putExtra("profileDetails",otherProfileInfo.UserDetail);
-                        intent.putExtra("userId",userId);
-                        startActivityForResult(intent,190);
+                    Intent intent = new Intent(OtherProfileDetailsActivity.this,CreateAppointMentActivity.class);
+                    intent.putExtra("profileDetails",otherProfileInfo.UserDetail);
+                    intent.putExtra("userId",userId);
+                    startActivityForResult(intent,190);
+
+
+                   /* if(otherProfileInfo.UserDetail.isAppointment.equals("0")){
+
                     }
                     else if(otherProfileInfo.UserDetail.isAppointment.equals("1")){
                         Utils.openAlertDialog(OtherProfileDetailsActivity.this, "You already sent appointment request to "+otherProfileInfo.UserDetail.fullName);
                     }
                     else  if(otherProfileInfo.UserDetail.isAppointment.equals("2")){
                         Utils.openAlertDialog(OtherProfileDetailsActivity.this, "You already have an appointment with "+otherProfileInfo.UserDetail.fullName);
-                    }
+                    }*/
                 }
             }
         });
@@ -447,12 +450,12 @@ public class OtherProfileDetailsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
-            if(requestCode == 190){
+            /*if(requestCode == 190){
                 if(data.getStringExtra("status").equals("AppointmentRequestSent")){
                     otherProfileInfo.UserDetail.isAppointment = "1";
                 }
 
-            }
+            }*/
         }
     }
 

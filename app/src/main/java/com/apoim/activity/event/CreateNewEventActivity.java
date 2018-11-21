@@ -29,13 +29,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CreateNewEventActivity extends AppCompatActivity {
-    ImageView iv_back;
+    private ImageView iv_back;
     public static boolean isForUpdateEvent;
     private InsLoadingView loadingView;
     private Session session;
     private String eventId = null;
     private Bitmap bitmap;
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +65,6 @@ public class CreateNewEventActivity extends AppCompatActivity {
 
 
         addFragment(FirstScreenFragment.newInstance(eventId), false, R.id.event_fragment_place);
-
-
         iv_back.setOnClickListener(view -> onBackPressed());
     }
 

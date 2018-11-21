@@ -159,7 +159,7 @@
                                 android:ellipsize="end"
                                 android:fontFamily="@font/nunito_regular"
                                 android:gravity="top"
-                                android:maxLines="1"
+                                android:maxLines="2"
                                 android:text="502 mindiii system pvt limited piplihana, Indore "
                                 android:textColor="@color/colorGray"
                                 android:textSize="@dimen/Small_Size" />

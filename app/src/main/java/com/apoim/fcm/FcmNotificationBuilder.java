@@ -2,6 +2,8 @@ package com.apoim.fcm;
 
 import android.util.Log;
 
+import com.apoim.modal.PayLoadEvent;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,6 +50,8 @@ public class FcmNotificationBuilder {
     private String mFirebaseToken;
     private String mReceiverFirebaseToken;
     private JSONArray mReceiverFirebaseTokenGroup;
+    String payLoadEvent;
+    private boolean isGroupChat;
 
 
     private FcmNotificationBuilder() {
@@ -93,6 +97,16 @@ public class FcmNotificationBuilder {
         return this;
     }
 
+    public FcmNotificationBuilder eventPayLoad(String payLoadEvent) {
+        this.payLoadEvent = payLoadEvent;
+        return this;
+    }
+
+    public FcmNotificationBuilder isGroupChatModule(Boolean isGroupChat) {
+        this.isGroupChat = isGroupChat;
+        return this;
+    }
+
     public void send() {
         RequestBody requestBody = null;
         try {
@@ -123,41 +137,73 @@ public class FcmNotificationBuilder {
     }
 
     private JSONObject getValidJsonBody() throws JSONException {
-        JSONObject jsonObjectBody = new JSONObject();
         JSONObject data = new JSONObject();
-        //JSONObject notificationDict = new JSONObject();
+        Map<String,Object> params = new HashMap<>();;
 
-        data.put(KEY_TITLE, mUsername);
-        data.put(KEY_TEXT, mMessage);
-        data.put(KEY_USERNAME, mUsername);
-        data.put(KEY_UID, mUid);
-        data.put(KEY_FCM_TOKEN, mFirebaseToken);
-        data.put("type", "chat");
-        data.put("ChatTitle", mTitle);
-        data.put("opponentChatId", mUid);
-        data.put("sound", "default");
+        if(isGroupChat){
+            data.put(KEY_TITLE, mUsername);
+            data.put(KEY_TEXT, mMessage);
+            data.put(KEY_USERNAME, mUsername);
+            data.put(KEY_UID, mUid);
+            data.put(KEY_FCM_TOKEN, mFirebaseToken);
+            data.put("type", "group_chat");
+            data.put("ChatTitle", mTitle);
+            data.put("opponentChatId", mUid);
+            data.put("sound", "default");
 
-        //data.put("priority","high");
-        data.put("body",mMessage);
-        data.put("icon","new");
-        data.put("title",mTitle);
-        data.put("click_action","ChatActivity");
-        data.put("other_key", true);
-        data.put("badge", "1");
-        data.put("content_available", true);
-        data.put("sound", "default");
+            data.put("priority","high");
+            data.put("body",mUsername+": "+mMessage);
+            data.put("icon","new");
+            data.put("title",mTitle);
+            data.put("click_action","ChatActivity");
+            data.put("other_key", true);
+            data.put("badge", "1");
+            data.put("content_available", true);
+            data.put("sound", "default");
+            data.put("payLoadEvent", payLoadEvent);
 
-        Map<String,Object> params = new HashMap<>();
-        params.put("to", mReceiverFirebaseToken);
-        params.put("title", mTitle);
-        params.put("sound", "default");
-        params.put("data", data);
-        params.put("notification", data);
+            params.put("registration_ids", mReceiverFirebaseTokenGroup);
+            params.put("title", mTitle);
+            params.put("sound", "default");
+            params.put("data", data);
+            params.put("notification", data);
+
+        }else {
+            data.put(KEY_TITLE, mUsername);
+            data.put(KEY_TEXT, mMessage);
+            data.put(KEY_USERNAME, mUsername);
+            data.put(KEY_UID, mUid);
+            data.put(KEY_FCM_TOKEN, mFirebaseToken);
+            data.put("type", "chat");
+            data.put("ChatTitle", mTitle);
+            data.put("opponentChatId", mUid);
+            data.put("sound", "default");
+
+            data.put("priority","high");
+            data.put("body",mMessage);
+            data.put("icon","new");
+            data.put("title",mTitle);
+            data.put("click_action","ChatActivity");
+            data.put("other_key", true);
+            data.put("badge", "1");
+            data.put("content_available", true);
+            data.put("sound", "default");
+
+            params.put("to", mReceiverFirebaseToken);
+            params.put("title", mTitle);
+            params.put("sound", "default");
+            params.put("data", data);
+            params.put("notification", data);
+        }
+
+
+        return new JSONObject(params);
+
 
       /*  jsonObjectBody.put(KEY_DATA, jsonObjectData);
         jsonObjectBody.put(KEY_NOTIFICATION, jsonObjectData);
         jsonObjectBody.put(KEY_TO, mReceiverFirebaseToken);
 */
-        return new JSONObject(params);
+
     }
 }
