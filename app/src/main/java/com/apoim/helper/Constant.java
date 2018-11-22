@@ -14,6 +14,7 @@ public class Constant {
     public static final  String online = "online";
     public static final  String offline = "offline";
     public static String IsGetNotificationValue = "";
+    public static String IsGetNotificationGroup = "";
     public static String fcm_password = "12345678";
     public static String Notication_on = "1";
     public static String Notication_off = "0";

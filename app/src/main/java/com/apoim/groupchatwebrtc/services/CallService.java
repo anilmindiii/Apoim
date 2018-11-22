@@ -145,14 +145,15 @@ public class CallService extends Service {
     private void initQBRTCClient() {
         rtcClient = QBRTCClient.getInstance(getApplicationContext());
         // Add signalling manager
-        chatService.getVideoChatWebRTCSignalingManager().addSignalingManagerListener(new QBVideoChatSignalingManagerListener() {
-            @Override
-            public void signalingCreated(QBSignaling qbSignaling, boolean createdLocally) {
-                if (!createdLocally) {
-                    rtcClient.addSignaling((QBWebRTCSignaling) qbSignaling);
+        if (chatService != null)
+            chatService.getVideoChatWebRTCSignalingManager().addSignalingManagerListener(new QBVideoChatSignalingManagerListener() {
+                @Override
+                public void signalingCreated(QBSignaling qbSignaling, boolean createdLocally) {
+                    if (!createdLocally) {
+                        rtcClient.addSignaling((QBWebRTCSignaling) qbSignaling);
+                    }
                 }
-            }
-        });
+            });
 
         // Configure
         QBRTCConfig.setDebugEnabled(true);

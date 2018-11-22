@@ -129,6 +129,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private LinearLayout ly_main_invited_mem, ly_shared_event_btn, ly_shared_event_call_btn, ly_chat_view;
     private Dialog dialog;
     private boolean fromNotification;
+    private boolean isDataLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -830,6 +831,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     String message = jsonObject.getString("message");
 
                     if (status.equals("success")) {
+                        isDataLoaded  = true;
+
                         bottom_sheet.setVisibility(View.VISIBLE);
                         Gson gson = new Gson();
                         detailsInfo = gson.fromJson(response, EventDetailsInfo.class);
@@ -882,8 +885,16 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
                     } else {
                         if(message.equals("Sorry, this event is no longer exist")){
-                            ownerType = "Shared Event";
+                            if(!isDataLoaded){
+                                ownerType = "Shared Event";
+                                isDataLoaded = true;
+                            }else {
+                                ownerType = "Administrator";
+                            }
                             myEventRequestEvent(eventId, from);
+
+
+
                         }else {
                             noEventDialog(EventDetailsActivity.this);
                         }

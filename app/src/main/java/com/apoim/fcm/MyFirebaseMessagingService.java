@@ -22,8 +22,8 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 
 /**
- * Created by abc on 1/24/2018.
- */
+ * Created by Anil on 1/24/2018.
+ **/
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     String userId, reqId;
@@ -149,6 +149,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Gson gson = new Gson();
         PayLoadEvent payLoad = gson.fromJson(payLoadEvent, PayLoadEvent.class);
+
+        if(Constant.IsGetNotificationGroup.equals(payLoad.eventId)){
+           return;
+        }
 
 
         Intent intent = new Intent(this, MainActivity.class);

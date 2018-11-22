@@ -87,8 +87,8 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
     private RecyclerView recycler_view;
     private InsLoadingView loading_view;
     private ChattingAdapter chattingAdapter;
-    String  eventId = "", myEmail = "", myUid = "", myName = "", myProfileImage = "", eventType = "", eventName = "";
-    String eventOrganizerId = "", eventOrganizerName = "", eventOrganizerProfileImage = "";
+    private String eventId = "", myEmail = "", myUid = "", myName = "", myProfileImage = "", eventType = "", eventName = "";
+    private String eventOrganizerId = "", eventOrganizerName = "", eventOrganizerProfileImage = "";
     private ArrayList<Chat> chatList;
     private Session session;
     private FirebaseDatabase firebaseDatabase;
@@ -136,6 +136,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
             title_name.setText(eventName);
 
             Glide.with(this).load(eventImage).apply(new RequestOptions().placeholder(R.drawable.placeholder_chat_image)).into(header_image);
+            Constant.IsGetNotificationGroup = eventId;
         }
 
         myUid = session.getUser().userDetail.userId;
@@ -632,11 +633,11 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         if (isNotification) {
             if (image_FirebaseURL != null) {
                 if (firebaseToken != null && myChat != null) {
-                    sendPushNotificationToReceiver( "Image", myUid, firebaseToken);
+                    sendPushNotificationToReceiver("Image", myUid, firebaseToken);
                 }
             } else {
                 if (firebaseToken != null && myChat != null)
-                    sendPushNotificationToReceiver( msg, myUid, firebaseToken);
+                    sendPushNotificationToReceiver(msg, myUid, firebaseToken);
             }
         }
 
@@ -647,7 +648,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
     private void sendPushNotificationToReceiver(String message, String uid, String firebaseToken) {
         tokenArrayList.clear();
-        for(Map.Entry entry:tokenList.entrySet()){
+        for (Map.Entry entry : tokenList.entrySet()) {
             tokenArrayList.add(entry.getValue().toString());
         }
 
@@ -661,7 +662,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         payLoadEvent.eventType = eventType;
         payLoadEvent.ownerType = from;
 
-        if(eventMemId == null){
+        if (eventMemId == null) {
             eventMemId = "";
         }
 
@@ -669,7 +670,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         payLoadEvent.compId = compId;
 
         Gson gson = new Gson();
-        String payLoad = gson.toJson(payLoadEvent,PayLoadEvent.class);
+        String payLoad = gson.toJson(payLoadEvent, PayLoadEvent.class);
 
         FcmNotificationBuilder.initialize()
                 .title(eventName)
@@ -681,7 +682,6 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                 .isGroupChatModule(true)
                 .receiverFirebaseTokenGroup(new JSONArray(tokenArrayList)).send();
     }
-
 
 
     private void joinedEventList() {
@@ -745,6 +745,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
                         joinedList.addAll(joinedEventInfo.List);
                         getFirebaseToken();
+                        //muteUser();
                     }
 
                 } catch (JSONException e) {
@@ -769,7 +770,64 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     UserInfoFCM infoFCM = dataSnapshot.getValue(UserInfoFCM.class);
-                    tokenList.put(dataSnapshot.getKey(), infoFCM.firebaseToken);
+
+                    if (!infoFCM.uid.equals(myUid)) {
+
+
+                        if (infoFCM.isNotification.equals("1")) {
+                            tokenList.put(dataSnapshot.getKey(), infoFCM.firebaseToken);
+                            firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS_DELETE).child(eventId).child(dataSnapshot.getKey()).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    GroupChatDeleteMuteInfo info = dataSnapshot.getValue(GroupChatDeleteMuteInfo.class);
+
+                                    if (info != null)
+                                        if (info.mute != null) {
+                                            if (info.mute.equals("1")) {
+                                                tokenList.remove(dataSnapshot.getKey());
+                                            } else {
+                                                //tokenList.put(dataSnapshot.getKey(), infoFCM.firebaseToken);
+
+                                                firebaseDatabase.getReference().child(Constant.ARG_USERS).child(bean.commanUserIdForProfile).child("isNotification").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        String status = dataSnapshot.getValue(String.class);
+                                                        if(status != null){
+                                                            if(status.equals("1")){
+                                                                tokenList.put(bean.commanUserIdForProfile, infoFCM.firebaseToken);
+                                                            }else {
+                                                                tokenList.remove(bean.commanUserIdForProfile);
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+
+
+
+
+                                            }
+
+                                        } else
+                                            tokenList.put(dataSnapshot.getKey(), infoFCM.firebaseToken);
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+
+                        } else {
+                            tokenList.remove(dataSnapshot.getKey());
+                        }
+                    }
                 }
 
                 @Override
@@ -777,11 +835,65 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
                 }
             });
-
         }
-
-
     }
 
+    private void muteUser() {
+        firebaseDatabase.getReference().child(Constant.ARG_GROUP_CHAT_ROOMS_DELETE).child(eventId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                GroupChatDeleteMuteInfo info = dataSnapshot.getValue(GroupChatDeleteMuteInfo.class);
+                if (info.mute != null) {
+                    if (info.mute.equals("1")) {
+                        tokenList.remove(dataSnapshot.getKey());
+                    } else {
 
+                    }
+
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                GroupChatDeleteMuteInfo info = dataSnapshot.getValue(GroupChatDeleteMuteInfo.class);
+                if (info.mute != null) {
+                    if (info.mute.equals("1")) {
+                        tokenList.remove(dataSnapshot.getKey());
+                    } else {
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                GroupChatDeleteMuteInfo info = dataSnapshot.getValue(GroupChatDeleteMuteInfo.class);
+                if (info.mute != null) {
+                    if (info.mute.equals("1")) {
+                        tokenList.remove(dataSnapshot.getKey());
+                    } else {
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Constant.IsGetNotificationGroup = "";
+    }
 }
