@@ -61,7 +61,7 @@ public class FourthScreenFragment extends Fragment {
     private Context mContext;
 
     private TextView tv_select_background_three, tv_three;
-    private ImageView iv_right_three,iv_back;
+    private ImageView iv_right_three,iv_back,iv_filter;
     private InsLoadingView loadingView;
     private Session session;
     private RecyclerView event_horizontal_recycler;
@@ -101,6 +101,8 @@ public class FourthScreenFragment extends Fragment {
         iv_back.setVisibility(View.GONE);
         tv_four = getActivity().findViewById(R.id.tv_four);
 
+        iv_filter = getActivity().findViewById(R.id.iv_filter);
+        iv_filter.setVisibility(View.GONE);
         event_skip = getActivity().findViewById(R.id.event_skip);
         event_skip.setVisibility(View.VISIBLE);
 

@@ -115,6 +115,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
         // Gmail Integration
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                //.requestIdToken(String.valueOf(R.string.server_client_id))
                 .requestEmail()
                 .build();
         signInClient = GoogleSignIn.getClient(this, gso);

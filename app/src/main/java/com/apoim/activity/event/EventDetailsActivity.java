@@ -129,7 +129,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private LinearLayout ly_main_invited_mem, ly_shared_event_btn, ly_shared_event_call_btn, ly_chat_view;
     private Dialog dialog;
     private boolean fromNotification;
-    private boolean isDataLoaded;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +171,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 rcv_invite_member.setVisibility(View.VISIBLE);
                 ly_invite_count.setVisibility(View.VISIBLE);
                 joined_view_visible();
+                iv_chat_group_img.setVisibility(View.VISIBLE);
 
             } else if (from.equals("eventRequest")) {
                 ly_main_invited_mem.setVisibility(View.GONE);
@@ -178,19 +179,12 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 ly_edit_delete.setVisibility(View.GONE);
             }
 
+
             if(fromNotification){
                String payLoadEvent = getIntent().getStringExtra("payLoadEvent");
                PayLoadEvent PayLoad = new Gson().fromJson(payLoadEvent,PayLoadEvent.class);
 
-
                 eventId = PayLoad.eventId;
-                ownerType = PayLoad.ownerType;
-
-                if(ownerType.equals("Shared Event")){
-                    id = PayLoad.compId;
-                }else {
-                    id = PayLoad.eventMemId;
-                }
 
                 Intent intent = new Intent(EventDetailsActivity.this, GroupChatHistortActivity.class);
                 intent.putExtra("eventId", PayLoad.eventId);
@@ -225,22 +219,19 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
 
 
-        ly_reject.setOnClickListener(this);
-        ly_accept.setOnClickListener(this);
-        iv_back.setOnClickListener(this);
-        tv_share_event.setOnClickListener(this);
-        ly_join_member.setOnClickListener(this);
-        ly_invited_member.setOnClickListener(this);
-        ly_delete_myevent.setOnClickListener(this);
-        tv_pay.setOnClickListener(this);
-        cv_accept_companion.setOnClickListener(this);
-        cv_reject_companion.setOnClickListener(this);
-        ly_edit_event.setOnClickListener(this);
-        ly_companion.setOnClickListener(this);
-        iv_event_img.setOnClickListener(this);
-        iv_social_share.setOnClickListener(this);
-        iv_chat_group_img.setOnClickListener(this);
+    }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(fromNotification){
+            checkEventUserStatus(eventId);
+        }else {
+            myEventRequestEvent(eventId, from);
+        }
+        ly_edit_event.setEnabled(true);
+        ly_companion.setEnabled(true);
     }
 
     private void joined_view_visible() {
@@ -267,9 +258,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             } else {
                 ly_joined_count.setVisibility(View.GONE);
                 ly_chat_count.setVisibility(View.GONE);
-                iv_chat_group_img.setVisibility(View.VISIBLE);
-            }
 
+            }
         }
     }
 
@@ -287,6 +277,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         cv_accept_companion = findViewById(R.id.cv_accept_companion);
         tv_comp_count = findViewById(R.id.tv_comp_count);
         map_image = findViewById(R.id.map_image);
+
+
 
         cv_companion_view = findViewById(R.id.cv_companion_view);
         ly_companion = findViewById(R.id.ly_companion);
@@ -348,6 +340,22 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         iv_social_share = findViewById(R.id.iv_social_share);
 
         rcv_event_images = findViewById(R.id.rcv_event_images);
+
+        ly_reject.setOnClickListener(this);
+        ly_accept.setOnClickListener(this);
+        iv_back.setOnClickListener(this);
+        tv_share_event.setOnClickListener(this);
+        ly_join_member.setOnClickListener(this);
+        ly_invited_member.setOnClickListener(this);
+        ly_delete_myevent.setOnClickListener(this);
+        tv_pay.setOnClickListener(this);
+        cv_accept_companion.setOnClickListener(this);
+        cv_reject_companion.setOnClickListener(this);
+        ly_edit_event.setOnClickListener(this);
+        ly_companion.setOnClickListener(this);
+        iv_event_img.setOnClickListener(this);
+        iv_social_share.setOnClickListener(this);
+        iv_chat_group_img.setOnClickListener(this);
     }
 
     public void setData(EventDetailsInfo.DetailBean detail) {
@@ -437,14 +445,23 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
 
             if (isExpaireDate(currentDate, detail.eventEndDate) || detail.joinedMemberCount != 0) {
-                ly_delete_myevent.setVisibility(View.VISIBLE);
-                ly_edit_event.setVisibility(View.GONE);
+                ly_edit_delete.setVisibility(View.GONE);
                 isExpaireDate = true;
             } else {
                 ly_delete_myevent.setVisibility(View.VISIBLE);
                 ly_edit_event.setVisibility(View.VISIBLE);
+                ly_edit_delete.setVisibility(View.VISIBLE);
                 isExpaireDate = false;
             }
+
+
+            if (isExpaireDate(currentDate, detail.eventEndDate)) {
+                ly_edit_delete.setVisibility(View.VISIBLE);
+                ly_edit_delete.setVisibility(View.VISIBLE);
+                ly_edit_event.setVisibility(View.GONE);
+                isExpaireDate = true;
+            }
+
 
             ly_companion_view.setVisibility(View.GONE);
             tv_event_creater_name.setText(detail.fullName);
@@ -453,6 +470,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
             }
             tv_type_of_user.setText("Administrator");
             joined_view_visible();
+            iv_chat_group_img.setVisibility(View.VISIBLE);
 
         } else if (from.equals("eventRequest")) { // this is 1st tab ie request event part
 
@@ -473,6 +491,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     ly_all_bottom_view.setVisibility(View.VISIBLE);
                     ly_companion_view.setVisibility(View.VISIBLE);
                     joined_view_visible();
+                    iv_chat_group_img.setVisibility(View.VISIBLE);
                     break;
                 case Constant.Pending_request:
                     ly_join_accept_reject.setVisibility(View.VISIBLE);
@@ -493,6 +512,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     ly_companion_view.setVisibility(View.VISIBLE);
 
                     joined_view_visible();
+                    iv_chat_group_img.setVisibility(View.VISIBLE);
                     break;
                 case Constant.Joined_Payment_is_pending:
                     tv_pay.setVisibility(View.VISIBLE);
@@ -815,6 +835,56 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    private void checkEventUserStatus(final String eventId) {
+        loading_view.setVisibility(View.VISIBLE);
+
+        WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
+            @Override
+            public void onResponse(String response) {
+                loading_view.setVisibility(View.GONE);
+
+                try {
+                    final JSONObject jsonObject = new JSONObject(response);
+                    String status = jsonObject.getString("status");
+                    String message = jsonObject.getString("message");
+
+                    if (status.equals("success")) {
+
+                        JSONObject object = jsonObject.getJSONObject("detail");
+                        String eventMemId = object.getString("eventMemId");
+                        String compId = object.getString("compId");
+
+                        if(compId.equals("")){
+                            ownerType = "Administrator";
+                            id = eventMemId;
+                        }else {
+                            ownerType = "Shared Event";
+                            id = compId;
+                        }
+                        fromNotification = false;
+
+                    } else {
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    loading_view.setVisibility(View.GONE);
+
+                }
+            }
+
+            @Override
+            public void ErrorListener(VolleyError error) {
+                loading_view.setVisibility(View.GONE);
+            }
+        });
+
+        service.callGetSimpleVolley("event/getEventIdsDetail?eventId=" + eventId);
+
+        //https://dev.apoim.com/service/event/getEventDetail?eventId=57&detailType=eventRequest&compId=56&eventMemId
+    }
+
     private void myEventRequestEvent(final String eventId, final String eventType) {
         loading_view.setVisibility(View.VISIBLE);
 
@@ -831,7 +901,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     String message = jsonObject.getString("message");
 
                     if (status.equals("success")) {
-                        isDataLoaded  = true;
 
                         bottom_sheet.setVisibility(View.VISIBLE);
                         Gson gson = new Gson();
@@ -884,22 +953,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
 
                     } else {
-                        if(message.equals("Sorry, this event is no longer exist")){
-                            if(!isDataLoaded){
-                                ownerType = "Shared Event";
-                                isDataLoaded = true;
-                            }else {
-                                ownerType = "Administrator";
-                            }
-                            myEventRequestEvent(eventId, from);
-
-
-
-                        }else {
-                            noEventDialog(EventDetailsActivity.this);
-                        }
-
-
+                        noEventDialog(EventDetailsActivity.this);
                     }
 
                 } catch (JSONException e) {
@@ -1102,13 +1156,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        myEventRequestEvent(eventId, from);
-        ly_edit_event.setEnabled(true);
-        ly_companion.setEnabled(true);
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

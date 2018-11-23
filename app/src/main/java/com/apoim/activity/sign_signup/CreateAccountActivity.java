@@ -376,6 +376,9 @@ public class CreateAccountActivity extends BaseActivity implements View.OnClickL
         map.put("purpose", purpose);
         map.put("dateWith", dateWith);
         map.put("password", account_password.getText().toString().trim());
+        if(eventInvitation.equals("")){
+            eventInvitation = "3"; // 3 is for both
+        }
         map.put("eventInvitation", eventInvitation);
 
 

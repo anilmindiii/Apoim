@@ -21,7 +21,7 @@
         android:minWidth="@dimen/_100sdp"
         android:padding="@dimen/_5sdp"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/text_Medium_Size"
+        android:textSize="@dimen/text_Small_Size"
         android:visibility="gone" />
 
 

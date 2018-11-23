@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.apoim.listener.DeleteListner;
 import com.apoim.modal.MyEventInfo;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.captain_miao.optroundcardview.OptRoundCardView;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -85,12 +87,23 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
 
             if (date1.after(date2) || !bean.joinMemCount.equals("0")) {
                 //Do Something else
-                holder.ly_edit_event.setVisibility(View.GONE);
-                //holder.event_status.setVisibility(View.VISIBLE);
+                holder.top_card_view.setVisibility(View.GONE);
+               // holder.ly_edit_event.setVisibility(View.GONE);
+
             } else {
-                holder.ly_edit_event.setVisibility(View.VISIBLE);
-                //holder.event_status.setVisibility(View.GONE);
+                //holder.ly_edit_event.setVisibility(View.VISIBLE);
+                holder.top_card_view.setVisibility(View.VISIBLE);
+
             }
+
+            if (date1.after(date2)) {
+                //Do Something else
+                holder.top_card_view.setVisibility(View.VISIBLE);
+                holder.ly_delete_myevent.setVisibility(View.VISIBLE);
+                holder.ly_edit_event.setVisibility(View.GONE);
+
+            }
+
         }
     }
 
@@ -165,6 +178,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
                 tv_privacy, tv_start_date_time, tv_day, tv_th, event_status, tv_time;
 
         LinearLayout ly_edit_event, ly_delete_myevent;
+        OptRoundCardView top_card_view;
         ImageView event_img;
 
         public ViewHolder(View itemView) {
@@ -183,6 +197,7 @@ public class MyEventAdapter extends RecyclerView.Adapter<MyEventAdapter.ViewHold
             ly_edit_event = itemView.findViewById(R.id.ly_edit_event);
             event_status = itemView.findViewById(R.id.event_status);
             event_img = itemView.findViewById(R.id.event_img);
+            top_card_view = itemView.findViewById(R.id.top_card_view);
         }
 
         @Override
