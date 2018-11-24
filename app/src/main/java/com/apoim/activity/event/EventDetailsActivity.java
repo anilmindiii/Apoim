@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -185,7 +186,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                PayLoadEvent PayLoad = new Gson().fromJson(payLoadEvent,PayLoadEvent.class);
 
                 eventId = PayLoad.eventId;
-
                 Intent intent = new Intent(EventDetailsActivity.this, GroupChatHistortActivity.class);
                 intent.putExtra("eventId", PayLoad.eventId);
                 intent.putExtra("from", PayLoad.ownerType);
@@ -368,10 +368,13 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
         if (detail.eventUserType.equals("Male")) {
             userGenderType = "1";
+            tv_gender.setTextColor(ContextCompat.getColor(this,R.color.colorPrimary));
         } else if (detail.eventUserType.equals("Female")) {
+            tv_gender.setTextColor(ContextCompat.getColor(this,R.color.colorPurple));
             userGenderType = "2";
         } else if (detail.eventUserType.equals("Both")) {
             userGenderType = "3";
+            tv_gender.setTextColor(ContextCompat.getColor(this,R.color.colorPrimary));
         }
 
         if (detail.groupChat.equals("1")) {

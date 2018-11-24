@@ -52,6 +52,19 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/_18ssp" />
 
+                <TextView
+                    android:id="@+id/tv_mem_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center|left"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:maxLines="1"
+                    android:fontFamily="@font/nunito_light"
+                    android:textColor="@color/colorBlack"
+                    android:layout_alignParentBottom="true"
+                    android:textSize="@dimen/text_very_Small_Size" />
+
             </LinearLayout>
 
             <ImageView

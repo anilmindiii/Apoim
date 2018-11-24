@@ -225,8 +225,18 @@ public class FirstScreenFragment extends Fragment implements View.OnClickListene
                 bitmap = ImagePicker.getImageFromResult(mContext, requestCode, resultCode, data);
 
                 if (bitmap != null) {
-                    eventImage.setImageBitmap(bitmap);
-                    base64Image = setBitmap(bitmap);
+
+                    int imgHeight = bitmap.getHeight();
+                    int imgWidght = bitmap.getWidth();
+
+                    if(imgHeight < 278 && imgWidght < 370){
+                        bitmap = null;
+                        Utils.openAlertDialog(mContext,"This image is not allowed to upload,\nplease select another image");
+                    }else {
+                        eventImage.setImageBitmap(bitmap);
+                        base64Image = setBitmap(bitmap);
+                    }
+
                 }
             }
         }

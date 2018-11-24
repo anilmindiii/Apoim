@@ -130,7 +130,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationBuilder.setSmallIcon(R.drawable.app_icon);
             notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
         } else {
-            notificationBuilder.setSmallIcon(R.drawable.app_icon);
+            notificationBuilder.setSmallIcon(R.drawable.apoim_notify_icon);
         }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -194,7 +194,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationBuilder.setSmallIcon(R.drawable.app_icon);
             notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
         } else {
-            notificationBuilder.setSmallIcon(R.drawable.app_icon);
+            notificationBuilder.setSmallIcon(R.drawable.apoim_notify_icon);
         }
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

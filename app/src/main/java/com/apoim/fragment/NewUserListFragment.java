@@ -132,6 +132,23 @@ public class NewUserListFragment extends Fragment {
 
         loadingView.setVisibility(View.VISIBLE);
         addUserFirebaseDatabase();
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        session = new Session(mContext,getActivity());
+        filterInfo = session.getFilterInfo();
+
+
+        if(filterInfo == null){
+            filterInfo = new FilterInfo();
+        }else {
+            filterInfo = session.getFilterInfo();
+        }
+
         getUsersList();
     }
 
@@ -200,6 +217,8 @@ public class NewUserListFragment extends Fragment {
                     //String message = object.getString("message");
 
                     if(status.equals("success")){
+                        userList1.clear();
+
                         tv_no_record.setVisibility(View.GONE);
                         UserListInfo.NearByUsersBean userListInfo = null;
                         JSONArray array = object.getJSONArray("nearByUsers");

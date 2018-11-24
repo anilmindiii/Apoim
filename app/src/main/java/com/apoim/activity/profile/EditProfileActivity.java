@@ -182,6 +182,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     private LinearLayout ly_basic_info, ly_more_info;
     private TextView tv_basic_info, tv_more_info;
+    private String fromBasicInfo = " from basic info";
+    private String fromMoreInfo = " from more info";
+    private boolean isBasicInfoTabSelected = true;
 
     /*...........user personal profile ........*/
     private RelativeLayout rl_select_height, rl_select_weight, rl_select_relationship, rl_select_I_speak;
@@ -837,6 +840,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 tv_more_info.setTextColor(ContextCompat.getColor(this, R.color.colorGray));
                 basic_info_border.setVisibility(View.VISIBLE);
                 more_info_border.setVisibility(View.GONE);
+
+                isBasicInfoTabSelected = true;
                 break;
 
             case R.id.tv_more_info:
@@ -847,6 +852,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 basic_info_border.setVisibility(View.GONE);
                 more_info_border.setVisibility(View.VISIBLE);
 
+                isBasicInfoTabSelected = false;
                 break;
                 /*..........other profile......*/
             case R.id.rl_select_height:
@@ -878,42 +884,85 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     public boolean isValidData() {
         Validation v = new Validation();
 
-       /* if(productImages.size() < 1){
-            Utils.openAlertDialog(EditProfileActivity.this, "Atleast one image should be select");
-            return false;
-        }*/
         if (!v.isNullValue(profile_name.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_name_null));
+            if (isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_name_null));
+            } else {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_name_null) + fromBasicInfo);
+            }
             return false;
         } else if (!v.isLength3Minimum(profile_name.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, "Name should contain at least 3 characters");
+            if (isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getString(R.string.atleast3char));
+            } else {
+                Utils.openAlertDialog(EditProfileActivity.this, getString(R.string.atleast3char) + fromBasicInfo);
+            }
+
             return false;
         } else if (!v.isLength25Max(profile_name.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, "Name can not more than 25 characters");
+            if (isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getString(R.string.not_more_then_25_char_msg));
+            } else {
+                Utils.openAlertDialog(EditProfileActivity.this, getString(R.string.not_more_then_25_char_msg) + fromBasicInfo);
+            }
+
             return false;
         } else if (!v.isNullValue(profile_birthday.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_birthday_null));
+            if (isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_birthday_null));
+            } else {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_birthday_null) + fromBasicInfo);
+            }
+
             return false;
         } else if (!v.isNullValue(tv_user_relationship.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_relation_null));
+            if (isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_relation_null));
+            } else {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_relation_null) + fromBasicInfo);
+            }
+
             return false;
         } else if (!v.isNullValue(tv_user_height.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_height_null));
+            if (isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_height_null));
+            } else {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_height_null) + fromBasicInfo);
+            }
+
             return false;
         } else if (!v.isNullValue(tv_user_weight.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_weight_null));
+            if (isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_weight_null));
+            } else {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_weight_null) + fromBasicInfo);
+            }
+
             return false;
         } else if (!v.isNullValue(profile_select_education.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_education_null));
+            if (!isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_education_null));
+            } else Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_education_null)+ fromMoreInfo);
+
+
             return false;
         } else if (!v.isNullValue(profile_select_work.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_work_null));
+            if (!isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_work_null));
+            } else Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_profile_work_null)+ fromMoreInfo);
+
             return false;
         } else if (!v.isNullValue(tv_user_I_speak.getText().toString().trim())) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_I_speak_null));
+            if (!isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_I_speak_null));
+            } else Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_I_speak_null)+ fromMoreInfo);
+
             return false;
         } else if (interestInfoList.size() == 0) {
-            Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_interest_null));
+            if (!isBasicInfoTabSelected) {
+                Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_interest_null));
+            } else Utils.openAlertDialog(EditProfileActivity.this, getResources().getString(R.string.alert_interest_null)+ fromMoreInfo);
+
             return false;
         } else
             return true;
@@ -973,7 +1022,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void selectEducationTask(String isPopupOpen) {
-        if (isPopupOpen.equals("yes")){
+        if (isPopupOpen.equals("yes")) {
             rl_select_education.setEnabled(false);
             loading_view.setVisibility(View.VISIBLE);
         }
@@ -1072,7 +1121,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void selectWorkTask(String isOpenDialog) {
-        if (isOpenDialog.equals("yes")){
+        if (isOpenDialog.equals("yes")) {
             rl_select_work.setEnabled(false);
             loading_view.setVisibility(View.VISIBLE);
         }
@@ -1717,7 +1766,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                         imageBean.image = image;
                         imageBean.userImgId = userImgId;
 
-                        signInInfo.userDetail.profileImage.add(0,imageBean);
+                        signInInfo.userDetail.profileImage.add(0, imageBean);
                         session.createSession(signInInfo);
 
                         addUserFirebaseDatabase();

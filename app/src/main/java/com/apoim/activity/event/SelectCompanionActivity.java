@@ -84,6 +84,12 @@ public class SelectCompanionActivity extends AppCompatActivity {
             }
         }
 
+        TextView profile_action_bar = findViewById(R.id.profile_action_bar);
+        profile_action_bar.setText("Invite Companion Member");
+
+
+
+
 
         session = new Session(this);
         tv_invite = findViewById(R.id.tv_next_thired);

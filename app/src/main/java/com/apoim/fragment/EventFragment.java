@@ -58,6 +58,17 @@ public class EventFragment extends Fragment implements View.OnClickListener{
     private int startCount = 0;
     private int eventType;
     private ImageView create_event;
+    private boolean whichTabSelected;
+
+    public static EventFragment newInstance(boolean whichTabSelected) {
+
+        Bundle args = new Bundle();
+
+        EventFragment fragment = new EventFragment();
+        fragment.setArguments(args);
+        args.putBoolean("whichTabSelected",whichTabSelected);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,8 +80,14 @@ public class EventFragment extends Fragment implements View.OnClickListener{
         recycler_view = view.findViewById(R.id.recycler_view);
         loading_view = view.findViewById(R.id.loading_view);
         ly_no_record_found = view.findViewById(R.id.ly_no_record_found);
-        session = new Session(mContext);
 
+        create_event.setOnClickListener(this);
+        btn_my_even.setOnClickListener(this);
+        btn_even_request.setOnClickListener(this);
+
+        whichTabSelected = getArguments().getBoolean("whichTabSelected");
+
+        session = new Session(mContext);
         eventList = new ArrayList<>();
         myEventList = new ArrayList<>();
 
@@ -91,14 +108,22 @@ public class EventFragment extends Fragment implements View.OnClickListener{
                 loadNextDataFromApi();
             }
         };
-        eventType = 2;
-        recycler_view.addOnScrollListener(scrollListener);
-        recycler_view.setAdapter(eventRequestAdapter);
-        create_event.setVisibility(View.GONE);
 
-        create_event.setOnClickListener(this);
-        btn_my_even.setOnClickListener(this);
-        btn_even_request.setOnClickListener(this);
+
+
+        if(whichTabSelected){
+            btn_my_even.callOnClick();
+        }
+        else {
+            eventType = 2;
+            recycler_view.addOnScrollListener(scrollListener);
+            recycler_view.setAdapter(eventRequestAdapter);
+            create_event.setVisibility(View.GONE);
+
+
+        }
+
+
         return view;
     }
 

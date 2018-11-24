@@ -1,5 +1,6 @@
 package com.apoim.adapter.apoinment;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static com.apoim.activity.event.CreateEventActivity.friendsIds;
 
@@ -50,6 +53,9 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
         return new ViewHolder(view);
     }
 
+
+
+
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         AllUserForEventInfo.DataBean.UserBean bean = friendList.get(position);
@@ -57,7 +63,18 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
   /*      if(bean.userId.equals(eventOrganizer)){
             holder.itemView.setVisibility(View.GONE);
         }else */
-            holder.itemView.setVisibility(View.VISIBLE);
+
+
+        Collections.sort(friendList, new Comparator<AllUserForEventInfo.DataBean.UserBean>(){
+            public int compare(AllUserForEventInfo.DataBean.UserBean s1, AllUserForEventInfo.DataBean.UserBean s2) {
+                return s1.fullName.compareToIgnoreCase(s2.fullName);
+            }
+        });
+
+
+
+
+        holder.itemView.setVisibility(View.VISIBLE);
 
             if(bean.isSelected){
                 holder.item_check.setImageResource(R.drawable.check_item);

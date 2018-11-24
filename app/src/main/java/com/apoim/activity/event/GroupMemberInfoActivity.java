@@ -119,7 +119,10 @@ public class GroupMemberInfoActivity extends AppCompatActivity implements View.O
 
                         for (int i = 0; i < joinedEventInfo.List.size(); i++) {
                             if(joinedEventInfo.List.get(i).memberUserId != null){
-                                joinedEventInfo.List.get(i).commanUserIdForProfile = joinedEventInfo.List.get(i).memberUserId;
+                                if (joinedEventInfo.List.get(i).memberStatus.equals("3") ||
+                                        joinedEventInfo.List.get(i).memberStatus.equals("1")){
+                                    joinedEventInfo.List.get(i).commanUserIdForProfile = joinedEventInfo.List.get(i).memberUserId;
+                                }
 
                             }
 
@@ -139,7 +142,28 @@ public class GroupMemberInfoActivity extends AppCompatActivity implements View.O
                         }
 
 
-                        if (eventType.equals("eventRequest")) {
+                        if(eventOrganizerId.equals(myUid)){
+                            JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
+                            info.commanUserIdForProfile = myUid;
+                            info.memberUserId = myUid;
+                            info.memberName = myName + " " + "(You)";
+                            info.memberImage = session.getUser().userDetail.profileImage.get(session.getUser().userDetail.profileImage.size() - 1).image;
+                            //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
+                            joinedEventInfo.List.add(0, info);
+                        }else {
+                            JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
+                            info.commanUserIdForProfile = eventOrganizerId;
+                            info.memberId = eventOrganizerId;
+                            info.memberUserId = eventOrganizerId;
+                            info.memberName = eventOrganizerName + " " + "(Admin)";
+                            info.memberImage = eventOrganizerProfileImage;
+
+                            //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
+                            joinedEventInfo.List.add(0, info);
+                        }
+
+
+                       /* if (eventType.equals("eventRequest")) {
                             JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
                             info.commanUserIdForProfile = eventOrganizerId;
                             info.memberId = eventOrganizerId;
@@ -158,7 +182,7 @@ public class GroupMemberInfoActivity extends AppCompatActivity implements View.O
                             info.memberImage = session.getUser().userDetail.profileImage.get(session.getUser().userDetail.profileImage.size() - 1).image;
                             //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
                             joinedEventInfo.List.add(0, info);
-                        }
+                        }*/
 
                         joinedList.addAll(joinedEventInfo.List);
                         adapter.notifyDataSetChanged();

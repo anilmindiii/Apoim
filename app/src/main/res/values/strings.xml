@@ -153,11 +153,11 @@
     <string name="profile_select_work_dialog_heading">Select your work</string>
     <string name="profile_select_education_dialog_heading">Select your education</string>
 
-    <string name="alert_profile_name_null">Please enter name.</string>
-    <string name="alert_profile_birthday_null">Please select birthday.</string>
-    <string name="alert_profile_work_null">Please select work.</string>
-    <string name="alert_profile_education_null">Please select education.</string>
-    <string name="all_details_are_filled">All details are filled.</string>
+    <string name="alert_profile_name_null">Please enter name</string>
+    <string name="alert_profile_birthday_null">Please select birthday</string>
+    <string name="alert_profile_work_null">Please select work</string>
+    <string name="alert_profile_education_null">Please select education</string>
+    <string name="all_details_are_filled">All details are fille.</string>
     <string name="alert_business_image">Please select business image.</string>
 
     <string name="heading_select_education_dialog">Add Education</string>
@@ -182,12 +182,12 @@
     <string name="add_hint">Add</string>
     <string name="user_profile_done_button">Done</string>
 
-    <string name="alert_about_you_null">Please enter about you.</string>
-    <string name="alert_height_null">Please select height.</string>
-    <string name="alert_weight_null">Please enter weight.</string>
-    <string name="alert_relation_null">Please select relationship.</string>
-    <string name="alert_I_speak_null">Please select language.</string>
-    <string name="alert_interest_null">Please add atleast one interest.</string>
+    <string name="alert_about_you_null">Please enter about you</string>
+    <string name="alert_height_null">Please select height</string>
+    <string name="alert_weight_null">Please enter weight</string>
+    <string name="alert_relation_null">Please select relationship</string>
+    <string name="alert_I_speak_null">Please select language</string>
+    <string name="alert_interest_null">Please add atleast one interest</string>
 
     <string name="heading_select_height_dialog">Select Height</string>
     <string name="heading_select_weight_dialog">Enter Weight</string>
@@ -588,6 +588,8 @@
     <string name="update_event">Update Event</string>
     <string name="group_members">Group Members</string>
     <string name="all_apoiment">All Appointment</string>
+    <string name="atleast3char">Name should contain at least 3 characters</string>
+    <string name="not_more_then_25_char_msg">Name can not more than 25 characters</string>
 
 
 </resources>

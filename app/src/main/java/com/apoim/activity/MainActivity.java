@@ -39,12 +39,14 @@ import com.apoim.groupchatwebrtc.utils.SharedPrefsHelper;
 import com.apoim.groupchatwebrtc.utils.WebRtcSessionManager;
 import com.apoim.helper.Constant;
 import com.apoim.modal.Chat;
+import com.apoim.modal.PayLoadEvent;
 import com.apoim.session.Session;
 import com.apoim.util.Utils;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.users.model.QBUser;
@@ -79,6 +81,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private WebRtcSessionManager webRtcSessionManager;
     protected QBResRequestExecutor requestExecutor;
     private QbUsersDbManager dbManager;
+    private boolean isMyEvent;
 
 
     public static void start(Context context, boolean isRunForCall) {
@@ -218,6 +221,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 intent.putExtra("eventId", reference_id);
                 if (myUserId.equals(createrId)) {
                     intent.putExtra("from", "myEvent");// for my event details
+                    isMyEvent = true;
                 } else {
                     intent.putExtra("from", "eventRequest"); // event request details
                 }
@@ -234,6 +238,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (type.equals("group_chat")) {
                     intent.putExtra("fromNotification",true);
                     intent.putExtra("payLoadEvent",payLoadEvent);
+                    if(new Gson().fromJson(payLoadEvent, PayLoadEvent.class).eventOrganizerId.equals(myUserId)){
+                        isMyEvent = true;
+                        intent.putExtra("from", "myEvent");// for my event details
+                    }
                 }
 
                 startActivity(intent);
@@ -494,7 +502,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 ly_chat_tab.setEnabled(true);
                 ly_profile_tab.setEnabled(true);
                 current_fragment_Name = "EventFragment";
-                addFragment(new EventFragment(), false, R.id.fragment_place);
+                addFragment(EventFragment.newInstance(isMyEvent), false, R.id.fragment_place);
+
 
                 tabAt = tabLayout.getTabAt(1);
                 tabAt.select();

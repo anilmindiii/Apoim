@@ -97,7 +97,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
     private String holdKeyForImage = "";
     private Uri image_FirebaseURL;
     private EditText ed_message;
-    private TextView tv_days_status, title_name, tv_mute;
+    private TextView tv_days_status, title_name, tv_mute,tv_mem_count;
     private boolean isNotification = true;
     private RelativeLayout ly_popup_menu, ly_delete_chat, ly_btn_mute, ly_btn_info;
     private Long deleteTimestamp;
@@ -202,7 +202,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         ly_btn_info = findViewById(R.id.ly_btn_info);
         tv_mute = findViewById(R.id.tv_mute);
         ly_info_btn = findViewById(R.id.ly_info_btn);
-
+        tv_mem_count = findViewById(R.id.tv_mem_count);
 
         iv_back.setOnClickListener(this);
         send_msg_button.setOnClickListener(this);
@@ -683,6 +683,11 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                 .receiverFirebaseTokenGroup(new JSONArray(tokenArrayList)).send();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Constant.IsGetNotificationGroup = eventId;
+    }
 
     private void joinedEventList() {
         loading_view.setVisibility(View.VISIBLE);
@@ -744,6 +749,8 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                         }
 
                         joinedList.addAll(joinedEventInfo.List);
+
+                        tv_mem_count.setText(joinedList.size() + " " + "Members");
                         getFirebaseToken();
                         //muteUser();
                     }

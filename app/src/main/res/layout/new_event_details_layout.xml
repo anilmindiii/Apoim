@@ -289,7 +289,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_margin="@dimen/_10sdp"
-                        android:background="@color/colorGray" />
+                        android:background="@color/chatGray" />
 
 
                     <LinearLayout
@@ -465,7 +465,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:layout_margin="@dimen/_10sdp"
-                        android:background="@color/colorGray" />
+                        android:background="@color/chatGray" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -567,7 +567,7 @@
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:background="@color/colorGray" />
+                        android:background="@color/chatGray" />
 
 
                     <LinearLayout
@@ -755,7 +755,7 @@
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"
                                 android:layout_marginTop="@dimen/_10sdp"
-                                android:background="@color/colorGray" />
+                                android:background="@color/chatGray" />
 
 
                             <RelativeLayout
@@ -785,6 +785,7 @@
                                 android:nestedScrollingEnabled="false"
                                 android:orientation="horizontal"
                                 android:scrollbars="none"
+                                android:overScrollMode="never"
                                 app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
                         </LinearLayout>
@@ -800,7 +801,7 @@
                                 android:layout_height="0.5dp"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"
-                                android:background="@color/colorGray" />
+                                android:background="@color/chatGray" />
 
 
                             <TextView
@@ -829,6 +830,7 @@
                                     android:nestedScrollingEnabled="false"
                                     android:orientation="horizontal"
                                     android:scrollbars="none"
+                                    android:overScrollMode="never"
                                     android:layout_marginTop="@dimen/_10sdp"
                                     android:layout_marginBottom="@dimen/_10sdp"
                                     android:layout_marginLeft="@dimen/_10sdp"
@@ -892,7 +894,7 @@
                                 android:layout_height="0.5dp"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"
-                                android:background="@color/colorGray" />
+                                android:background="@color/chatGray" />
 
                             <TextView
                                 android:id="@+id/tv_invite_member_txt"
@@ -986,7 +988,7 @@
                                 android:layout_height="0.5dp"
                                 android:layout_marginLeft="@dimen/_10sdp"
                                 android:layout_marginRight="@dimen/_10sdp"
-                                android:background="@color/colorGray" />
+                                android:background="@color/chatGray" />
 
 
                             <TextView
@@ -1088,7 +1090,7 @@
                             android:layout_height="0.5dp"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_marginRight="@dimen/_10sdp"
-                            android:background="@color/colorGray" />
+                            android:background="@color/chatGray" />
 
                         <TextView
                             android:id="@+id/text"

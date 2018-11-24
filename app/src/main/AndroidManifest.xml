@@ -126,11 +126,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <!--
-            <meta-data
+
+        <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/logo" />
-        -->
+            android:resource="@drawable/apoim_notify_icon" />
 
         <activity
             android:name=".activity.profile.OtherProfileDetailsActivity"
@@ -393,8 +392,9 @@
             android:name=".activity.chat.GroupChatHistortActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <activity android:name=".activity.event.GroupMemberInfoActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.event.GroupMemberInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
     </application>
 
