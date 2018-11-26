@@ -97,7 +97,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
     private String holdKeyForImage = "";
     private Uri image_FirebaseURL;
     private EditText ed_message;
-    private TextView tv_days_status, title_name, tv_mute,tv_mem_count;
+    private TextView tv_days_status, title_name, tv_mute, tv_mem_count;
     private boolean isNotification = true;
     private RelativeLayout ly_popup_menu, ly_delete_chat, ly_btn_mute, ly_btn_info;
     private Long deleteTimestamp;
@@ -106,6 +106,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
     private ArrayList<JoinedEventInfo.ListBean> joinedList;
     private Map<String, String> tokenList;
     private ArrayList<String> tokenArrayList;
+    private ArrayList<JoinedEventInfo.ListBean> beanList;
 
 
     @Override
@@ -120,6 +121,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
         keyList = new ArrayList<>();
         tokenArrayList = new ArrayList<>();
         tokenList = new HashMap<>();
+        beanList = new ArrayList<>();
 
         if (getIntent().getExtras() != null) {
             eventId = getIntent().getStringExtra("eventId");
@@ -691,7 +693,6 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
     private void joinedEventList() {
         loading_view.setVisibility(View.VISIBLE);
-
         WebService service = new WebService(this, Apoim.TAG, new WebService.LoginRegistrationListener() {
             @Override
             public void onResponse(String response) {
@@ -706,24 +707,43 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                         JoinedEventInfo joinedEventInfo = gson.fromJson(response, JoinedEventInfo.class);
 
 
-                        for (int i = 0; i < joinedEventInfo.List.size(); i++) {
+                        for(int i=0;i<joinedEventInfo.List.size();i++){
+
                             if (joinedEventInfo.List.get(i).memberUserId != null) {
-                                joinedEventInfo.List.get(i).commanUserIdForProfile = joinedEventInfo.List.get(i).memberUserId;
+
+                                if (joinedEventInfo.List.get(i).memberStatus.equals("3") || joinedEventInfo.List.get(i).memberStatus.equals("1")){
+                                    beanList.add(joinedEventInfo.List.get(i));
+                                }
+
                             }
 
-                            if (joinedEventInfo.List.get(i).companionMemberStatus != null) {
-                                if (joinedEventInfo.List.get(i).companionMemberStatus.equals("3") ||
-                                        joinedEventInfo.List.get(i).companionMemberStatus.equals("1")) {
-                                    JoinedEventInfo.ListBean infoComp = new JoinedEventInfo.ListBean();
+                        }
 
-                                    infoComp.companionUserId = joinedEventInfo.List.get(i).companionUserId;
-                                    infoComp.memberName = joinedEventInfo.List.get(i).companionName;
-                                    infoComp.memberImage = joinedEventInfo.List.get(i).companionImage;
-                                    infoComp.commanUserIdForProfile = joinedEventInfo.List.get(i).companionUserId;
 
-                                    joinedEventInfo.List.add(infoComp);
+                        for (int i = 0; i < beanList.size(); i++) {
+                            if (beanList.get(i).memberUserId != null) {
+                                if (beanList.get(i).memberStatus.equals("3") ||
+                                        beanList.get(i).memberStatus.equals("1")){
+                                    beanList.get(i).commanUserIdForProfile = beanList.get(i).memberUserId;
                                 }
                             }
+
+
+                            if (beanList.size() > 0)
+
+                                if (beanList.get(i).companionMemberStatus != null) {
+                                    if (beanList.get(i).companionMemberStatus.equals("3") ||
+                                            beanList.get(i).companionMemberStatus.equals("1")) {
+                                        JoinedEventInfo.ListBean infoComp = new JoinedEventInfo.ListBean();
+
+                                        infoComp.companionUserId = beanList.get(i).companionUserId;
+                                        infoComp.memberName = beanList.get(i).companionName;
+                                        infoComp.memberImage = beanList.get(i).companionImage;
+                                        infoComp.commanUserIdForProfile = beanList.get(i).companionUserId;
+
+                                        beanList.add(infoComp);
+                                    }
+                                }
                         }
 
 
@@ -736,7 +756,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                             info.memberImage = eventOrganizerProfileImage;
 
                             //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
-                            joinedEventInfo.List.add(0, info);
+                            beanList.add(0, info);
                         } else {
                             // my data added here
                             JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
@@ -745,12 +765,12 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                             info.memberName = myName + " " + "(You)";
                             info.memberImage = session.getUser().userDetail.profileImage.get(session.getUser().userDetail.profileImage.size() - 1).image;
                             //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
-                            joinedEventInfo.List.add(0, info);
+                            beanList.add(0, info);
                         }
 
-                        joinedList.addAll(joinedEventInfo.List);
+                        joinedList.addAll(beanList);
 
-                        tv_mem_count.setText(joinedList.size() + " " + "Members");
+                        tv_mem_count.setText(beanList.size() + " " + "Members");
                         getFirebaseToken();
                         //muteUser();
                     }
@@ -799,10 +819,10 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                         String status = dataSnapshot.getValue(String.class);
-                                                        if(status != null){
-                                                            if(status.equals("1")){
+                                                        if (status != null) {
+                                                            if (status.equals("1")) {
                                                                 tokenList.put(bean.commanUserIdForProfile, infoFCM.firebaseToken);
-                                                            }else {
+                                                            } else {
                                                                 tokenList.remove(bean.commanUserIdForProfile);
                                                             }
                                                         }
@@ -813,9 +833,6 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
 
                                                     }
                                                 });
-
-
-
 
 
                                             }

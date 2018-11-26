@@ -61,6 +61,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -366,6 +368,14 @@ public class ThiredFragment extends Fragment {
                             }
 
                         }
+
+
+
+                        Collections.sort(friendList, new Comparator<AllUserForEventInfo.DataBean.UserBean>(){
+                            public int compare(AllUserForEventInfo.DataBean.UserBean s1, AllUserForEventInfo.DataBean.UserBean s2) {
+                                return s1.fullName.compareToIgnoreCase(s2.fullName);
+                            }
+                        });
 
                         adapter.notifyDataSetChanged();
                     } else {

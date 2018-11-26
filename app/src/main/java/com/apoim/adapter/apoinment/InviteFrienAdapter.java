@@ -64,16 +64,6 @@ public class InviteFrienAdapter extends RecyclerView.Adapter<InviteFrienAdapter.
             holder.itemView.setVisibility(View.GONE);
         }else */
 
-
-        Collections.sort(friendList, new Comparator<AllUserForEventInfo.DataBean.UserBean>(){
-            public int compare(AllUserForEventInfo.DataBean.UserBean s1, AllUserForEventInfo.DataBean.UserBean s2) {
-                return s1.fullName.compareToIgnoreCase(s2.fullName);
-            }
-        });
-
-
-
-
         holder.itemView.setVisibility(View.VISIBLE);
 
             if(bean.isSelected){

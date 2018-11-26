@@ -38,24 +38,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GroupMemberInfoActivity extends AppCompatActivity implements View.OnClickListener{
+public class GroupMemberInfoActivity extends AppCompatActivity implements View.OnClickListener {
     private InsLoadingView loading_view;
     private ArrayList<JoinedEventInfo.ListBean> joinedList;
     private Map<String, Object> onlineMapList;
     private RecyclerView recycler_view;
     private JoinedMemberChatAdapter adapter;
     private Session session;
-    String  eventId = "", myEmail = "", myUid = "", myName = "", myProfileImage = "", eventType = "", eventName = "";
+    String eventId = "", myEmail = "", myUid = "", myName = "", myProfileImage = "", eventType = "", eventName = "";
     String eventOrganizerId = "", eventOrganizerName = "", eventOrganizerProfileImage = "";
-    TextView title_name,tv_mem_count;
+    TextView title_name, tv_mem_count;
     ImageView header_image;
     private ImageView iv_back;
+    private ArrayList<JoinedEventInfo.ListBean> beanList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_member_info);
         init();
+        beanList = new ArrayList<>();
+
         if (getIntent().getExtras() != null) {
             eventId = getIntent().getStringExtra("eventId");
             eventName = getIntent().getStringExtra("eventName");
@@ -118,39 +121,54 @@ public class GroupMemberInfoActivity extends AppCompatActivity implements View.O
 
 
                         for (int i = 0; i < joinedEventInfo.List.size(); i++) {
-                            if(joinedEventInfo.List.get(i).memberUserId != null){
-                                if (joinedEventInfo.List.get(i).memberStatus.equals("3") ||
-                                        joinedEventInfo.List.get(i).memberStatus.equals("1")){
-                                    joinedEventInfo.List.get(i).commanUserIdForProfile = joinedEventInfo.List.get(i).memberUserId;
+
+                            if (joinedEventInfo.List.get(i).memberUserId != null) {
+
+                                if (joinedEventInfo.List.get(i).memberStatus.equals("3") || joinedEventInfo.List.get(i).memberStatus.equals("1")) {
+                                    beanList.add(joinedEventInfo.List.get(i));
                                 }
 
                             }
 
-                            if (joinedEventInfo.List.get(i).companionMemberStatus != null) {
-                                if (joinedEventInfo.List.get(i).companionMemberStatus.equals("3") ||
-                                        joinedEventInfo.List.get(i).companionMemberStatus.equals("1")) {
-                                    JoinedEventInfo.ListBean infoComp = new JoinedEventInfo.ListBean();
-
-                                    infoComp.companionUserId = joinedEventInfo.List.get(i).companionUserId;
-                                    infoComp.memberName = joinedEventInfo.List.get(i).companionName;
-                                    infoComp.memberImage = joinedEventInfo.List.get(i).companionImage;
-                                    infoComp.commanUserIdForProfile = joinedEventInfo.List.get(i).companionUserId;
-
-                                    joinedEventInfo.List.add(infoComp);
-                                }
-                            }
                         }
 
 
-                        if(eventOrganizerId.equals(myUid)){
+                        for (int i = 0; i < beanList.size(); i++) {
+                            if (beanList.get(i).memberUserId != null) {
+                                if (beanList.get(i).memberStatus.equals("3") ||
+                                        beanList.get(i).memberStatus.equals("1")) {
+                                    beanList.get(i).commanUserIdForProfile = beanList.get(i).memberUserId;
+                                }
+
+                            }
+
+                            if (beanList.get(i).companionMemberStatus != null) {
+                                if (beanList.get(i).companionMemberStatus.equals("3") ||
+                                        beanList.get(i).companionMemberStatus.equals("1")) {
+                                    JoinedEventInfo.ListBean infoComp = new JoinedEventInfo.ListBean();
+
+                                    infoComp.companionUserId = beanList.get(i).companionUserId;
+                                    infoComp.memberName = beanList.get(i).companionName;
+                                    infoComp.memberImage = beanList.get(i).companionImage;
+                                    infoComp.commanUserIdForProfile = beanList.get(i).companionUserId;
+
+                                    beanList.add(infoComp);
+                                }
+                            }
+
+
+                        }
+
+
+                        if (eventOrganizerId.equals(myUid)) {
                             JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
                             info.commanUserIdForProfile = myUid;
                             info.memberUserId = myUid;
                             info.memberName = myName + " " + "(You)";
                             info.memberImage = session.getUser().userDetail.profileImage.get(session.getUser().userDetail.profileImage.size() - 1).image;
                             //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
-                            joinedEventInfo.List.add(0, info);
-                        }else {
+                            beanList.add(0, info);
+                        } else {
                             JoinedEventInfo.ListBean info = new JoinedEventInfo.ListBean();
                             info.commanUserIdForProfile = eventOrganizerId;
                             info.memberId = eventOrganizerId;
@@ -159,7 +177,7 @@ public class GroupMemberInfoActivity extends AppCompatActivity implements View.O
                             info.memberImage = eventOrganizerProfileImage;
 
                             //joinedEventInfo.List.get(0). = session.getUser().userDetail.r;
-                            joinedEventInfo.List.add(0, info);
+                            beanList.add(0, info);
                         }
 
 
@@ -184,9 +202,9 @@ public class GroupMemberInfoActivity extends AppCompatActivity implements View.O
                             joinedEventInfo.List.add(0, info);
                         }*/
 
-                        joinedList.addAll(joinedEventInfo.List);
+                        joinedList.addAll(beanList);
                         adapter.notifyDataSetChanged();
-                        tv_mem_count.setText(joinedList.size() + " " + "Members");
+                        tv_mem_count.setText(beanList.size() + " " + "Members");
 
                         addOnlineStatus();
                     }
@@ -262,7 +280,7 @@ public class GroupMemberInfoActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.iv_back:
                 onBackPressed();
                 break;

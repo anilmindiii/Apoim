@@ -35,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -249,17 +251,19 @@ public class SelectCompanionActivity extends AppCompatActivity {
 
                             List<String> tempList = new ArrayList<String>(Arrays.asList(friendsIds.split(",")));
                             for (int i = 0; i < friendList.size(); i++) {
-
                                 for (int j = 0; j < tempList.size(); j++) {
                                     if (tempList.get(j).equals(friendList.get(i).userId + "")) {
                                         friendList.get(i).isSelected = true;
                                     }
-
                                 }
-
                             }
                         }
 
+                        Collections.sort(friendList, new Comparator<AllUserForEventInfo.DataBean.UserBean>(){
+                            public int compare(AllUserForEventInfo.DataBean.UserBean s1, AllUserForEventInfo.DataBean.UserBean s2) {
+                                return s1.fullName.compareToIgnoreCase(s2.fullName);
+                            }
+                        });
 
 
                         adapter.notifyDataSetChanged();

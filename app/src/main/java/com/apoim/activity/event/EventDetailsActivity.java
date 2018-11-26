@@ -1111,11 +1111,13 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 break;
 
             case R.id.iv_event_img:
-                intent = new Intent(EventDetailsActivity.this, MatchGalleryActivity.class);
-                intent.putExtra("user_id", userId);
-                intent.putExtra("image_index", 0);
-                intent.putExtra("eventImages", detailsInfo.Detail);
-                startActivity(intent);
+                if(detailsInfo != null){
+                    intent = new Intent(EventDetailsActivity.this, MatchGalleryActivity.class);
+                    intent.putExtra("user_id", userId);
+                    intent.putExtra("image_index", 0);
+                    intent.putExtra("eventImages", detailsInfo.Detail);
+                    startActivity(intent);
+                }
                 break;
 
             case R.id.iv_social_share:
