@@ -359,8 +359,9 @@ public class SubscriptionPayActivity extends AppCompatActivity implements View.O
                     String message = object.getString("message");
 
                     if (status.equals("success")) {
-                        Utils.openAlertDialog(SubscriptionPayActivity.this, message);
-                    } else {
+                        completePaymentDialod(SubscriptionPayActivity.this, message);
+                    }
+                    else {
                         if (message.equals("Payment is already done")) {
                             successWork("Payment done successfully");
                         } else {

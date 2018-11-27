@@ -33,8 +33,10 @@ import com.android.volley.VolleyError;
 import com.apoim.R;
 import com.apoim.activity.CompanionListActivity;
 import com.apoim.activity.MatchGalleryActivity;
+import com.apoim.activity.chat.ChatActivity;
 import com.apoim.activity.chat.GroupChatHistortActivity;
 import com.apoim.activity.payment_subscription.SubscriptionPayActivity;
+import com.apoim.activity.profile.OtherProfileDetailsActivity;
 import com.apoim.adapter.apoinment.EventDetailsMemberAdapter;
 import com.apoim.adapter.apoinment.ShareEventJoinAdapter;
 import com.apoim.adapter.newProfile.NewProfileAdapter;
@@ -73,7 +75,7 @@ import static com.apoim.activity.event.CreateEventActivity.friendsIds;
 import static com.bumptech.glide.util.Preconditions.checkArgument;
 
 public class EventDetailsActivity extends AppCompatActivity implements View.OnClickListener {
-    private EventDetailsMemberAdapter invitedMemberAdapter, joinedMemberAdapter, companionMemAdapter;
+    private EventDetailsMemberAdapter invitedMemberAdapter, joinedMemberAdapter, companionMemAdapter,chatMemAdapter;
     private RecyclerView rcv_invite_member, rcv_joined_member, rcv_companion, rcv_chat_member;
     private ImageView iv_back, iv_businessImg;
     private String from;
@@ -109,13 +111,14 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
     private String id = "";
     private ArrayList<String> invitedMemberList;
     private ArrayList<String> joinedMemberList;
+    private ArrayList<String> chatMemberList;
     private ArrayList<String> companionMemberList;
     private RelativeLayout ly_invited_member, ly_joined, ly_join_member;
     private TextView tv_start_th, tv_end_th;
     private ArrayList<MyFriendListInfo.ListBean> friendList;
     private String userGenderType = "";
     private ShareEventJoinAdapter adapter;
-    private ImageView iv_chat_group_img;
+    private ImageView iv_chat_group_img,iv_parsonal_chat,iv_parsonal_chat1;
     private String userId = "", memberId = "", currencyCode = "", eventAmount = "", eventPrivacy = "", currentDate = "", eventMemId = "", eventOrgnizarId = "", ownerType;
     private LinearLayout ly_edit_event, ly_delete_myevent;
     private EventDetailsInfo detailsInfo;
@@ -141,6 +144,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         friendList = new ArrayList<>();
         invitedMemberList = new ArrayList<>();
         joinedMemberList = new ArrayList<>();
+        chatMemberList = new ArrayList<>();
         companionMemberList = new ArrayList<>();
         session = new Session(this);
 
@@ -148,9 +152,12 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         joinedMemberAdapter = new EventDetailsMemberAdapter(0, this, joinedMemberList);
         companionMemAdapter = new EventDetailsMemberAdapter(1, this, companionMemberList);
 
+        chatMemAdapter = new EventDetailsMemberAdapter(0, this, chatMemberList);
+
+
         rcv_invite_member.setAdapter(invitedMemberAdapter);
         rcv_joined_member.setAdapter(joinedMemberAdapter);
-        rcv_chat_member.setAdapter(joinedMemberAdapter);
+        rcv_chat_member.setAdapter(chatMemAdapter);
         rcv_companion.setAdapter(companionMemAdapter);
 
         if (getIntent().getStringExtra("from") != null) {
@@ -338,6 +345,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         iv_businessImg = findViewById(R.id.iv_businessImg);
         iv_event_img = findViewById(R.id.iv_event_img);
         iv_social_share = findViewById(R.id.iv_social_share);
+        iv_parsonal_chat = findViewById(R.id.iv_parsonal_chat);
+        iv_parsonal_chat1 = findViewById(R.id.iv_parsonal_chat1);
 
         rcv_event_images = findViewById(R.id.rcv_event_images);
 
@@ -356,6 +365,8 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
         iv_event_img.setOnClickListener(this);
         iv_social_share.setOnClickListener(this);
         iv_chat_group_img.setOnClickListener(this);
+        iv_parsonal_chat.setOnClickListener(this);
+        iv_parsonal_chat1.setOnClickListener(this);
     }
 
     public void setData(EventDetailsInfo.DetailBean detail) {
@@ -898,6 +909,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 invitedMemberList.clear();
                 joinedMemberList.clear();
                 companionMemberList.clear();
+                chatMemberList.clear();
                 try {
                     final JSONObject jsonObject = new JSONObject(response);
                     String status = jsonObject.getString("status");
@@ -927,6 +939,20 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
 
                         for (EventDetailsInfo.JoinedMemberBean list : detailsInfo.joinedMember) {
                             joinedMemberList.add(list.userImg);
+
+                            if(chatMemberList.size() < 3){
+                                chatMemberList.add(list.userImg);
+                            }
+
+                        }
+
+                        for (EventDetailsInfo.JoinedMemberBean list : detailsInfo.joinedMember) {
+                            if(!list.companionMemId.equals("")){
+                                if(chatMemberList.size() < 3){
+                                    chatMemberList.add(list.compImg);
+                                }
+                            }
+
                         }
 
                         for (EventDetailsInfo.CompanionMember list : detailsInfo.companionMember) {
@@ -936,6 +962,7 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                         invitedMemberAdapter.notifyDataSetChanged();
                         joinedMemberAdapter.notifyDataSetChanged();
                         companionMemAdapter.notifyDataSetChanged();
+                        chatMemAdapter.notifyDataSetChanged();
 
                         currentDate = detailsInfo.currentDate;
                         setData(detailsInfo.Detail);
@@ -1124,6 +1151,17 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                 eventShareDialog();
                 break;
 
+            case R.id.iv_parsonal_chat:
+            case R.id.iv_parsonal_chat1:
+                if(detailsInfo.Detail.memberId != null){
+                    intent = new Intent(EventDetailsActivity.this, ChatActivity.class);
+                    intent.putExtra("otherUID", detailsInfo.Detail.memberId);
+                    intent.putExtra("quickBloxId","");
+                    startActivity(intent);
+                }
+
+                break;
+
             case R.id.iv_chat_group_img:
                 intent = new Intent(EventDetailsActivity.this, GroupChatHistortActivity.class);
                 intent.putExtra("eventId", eventId);
@@ -1150,12 +1188,6 @@ public class EventDetailsActivity extends AppCompatActivity implements View.OnCl
                     intent.putExtra("eventOrganizerProfileImage", detailsInfo.Detail.profileImage);
                     intent.putExtra("eventMemId", detailsInfo.Detail.eventMemId);
                 }
-
-
-
-
-
-
                 startActivity(intent);
                 break;
         }

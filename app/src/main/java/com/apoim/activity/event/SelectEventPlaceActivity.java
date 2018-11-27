@@ -131,7 +131,7 @@ public class SelectEventPlaceActivity extends AppCompatActivity implements OnMap
                 eventplaceImage = bean.businessImage;
 
                 Picasso.with(SelectEventPlaceActivity.this).load(bean
-                        .businessImage).into(iv_buz_image);
+                        .businessImage).placeholder(R.drawable.placeholder_chat_image).into(iv_buz_image);
 
                 eventAddress = bean.businessAddress;
                 appointLatitude = bean.businesslat;

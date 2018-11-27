@@ -77,6 +77,10 @@ public class EventDetailsInfo  implements Serializable{
         public String eventId;
         public String fullName;
         public String userImg;
+
+        public String compName;
+        public String companionMemId;
+        public String compImg;
     }
     
     public static class InvitedMember  implements Serializable {

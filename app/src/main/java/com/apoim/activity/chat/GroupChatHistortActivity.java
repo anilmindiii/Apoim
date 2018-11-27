@@ -707,11 +707,11 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                         JoinedEventInfo joinedEventInfo = gson.fromJson(response, JoinedEventInfo.class);
 
 
-                        for(int i=0;i<joinedEventInfo.List.size();i++){
+                        for (int i = 0; i < joinedEventInfo.List.size(); i++) {
 
                             if (joinedEventInfo.List.get(i).memberUserId != null) {
 
-                                if (joinedEventInfo.List.get(i).memberStatus.equals("3") || joinedEventInfo.List.get(i).memberStatus.equals("1")){
+                                if (joinedEventInfo.List.get(i).memberStatus.equals("3") || joinedEventInfo.List.get(i).memberStatus.equals("1")) {
                                     beanList.add(joinedEventInfo.List.get(i));
                                 }
 
@@ -723,7 +723,7 @@ public class GroupChatHistortActivity extends AppCompatActivity implements View.
                         for (int i = 0; i < beanList.size(); i++) {
                             if (beanList.get(i).memberUserId != null) {
                                 if (beanList.get(i).memberStatus.equals("3") ||
-                                        beanList.get(i).memberStatus.equals("1")){
+                                        beanList.get(i).memberStatus.equals("1")) {
                                     beanList.get(i).commanUserIdForProfile = beanList.get(i).memberUserId;
                                 }
                             }

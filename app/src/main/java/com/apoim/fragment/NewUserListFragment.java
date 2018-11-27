@@ -273,14 +273,13 @@ public class NewUserListFragment extends Fragment {
                             tv_no_record.setVisibility(View.VISIBLE);
                         }
 
-                        userListAdapter1.notifyDataSetChanged();
-
 
                     }else {
+                        userList1.clear();
                         tv_no_record.setVisibility(View.VISIBLE);
                     }
 
-
+                    userListAdapter1.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
